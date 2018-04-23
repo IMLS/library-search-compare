@@ -62,6 +62,8 @@ search.addWidget(
   instantsearch.widgets.refinementList({
     container: '#state-refinement',
     attributeName: 'state',
+    limit: 5,
+    showMore: true,
     templates: {
       header: 'State'
     }
