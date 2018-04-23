@@ -14,6 +14,16 @@ json.each do |el|
   end
 end
 
+json.delete_if { |h| h["hours"] == -3 }
+
+p json.length
+
+json.each do |el|
+  if el["total_circulation"] == -1
+    p el["fscs_id"]
+  end
+end
+
 locale_to_s = [ {[11,12,13] => "City"}, {[21,22,23] => "Suburban"}, {[31,32,33] => "Town"}, {[41,42,43] => "Rural"} ]
 
 json.each do |el|
