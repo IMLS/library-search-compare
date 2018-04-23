@@ -1,0 +1,77 @@
+<!doctype html>
+<head>
+  <meta charset="UTF-8">
+
+  <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans+Condensed:400,400i,700|IBM+Plex+Serif" rel="stylesheet">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/instantsearch.js@2.3/dist/instantsearch.min.css">
+  <!-- Always use `2.x` versions in production rather than `2` to mitigate any side effects on your website,
+  Find the latest version on InstantSearch.js website: https://community.algolia.com/instantsearch.js/v2/guides/usage.html -->
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="css/style.css">
+
+</head>
+<body>
+  <header>
+    <img src="img/temp-logo.gif" alt="Here is a temporary logo">
+    <!--RW: we could put some simple navigation here later if needed.
+      <nav></nav>
+    -->
+  </header>
+  <main class="container-fluid full-height">
+    <div class="row">
+      <div id="left-column" class="col-md-2">
+        <input id="search-input" placeholder="Search for library data">
+        <div id="clear-all" class="btn orange"></div>
+        <div id="total-circulation-refinement" class="facet"></div>
+        <div id="total-revenue-refinement" class="facet"></div>
+        <div id="total-staff-refinement" class="facet"></div>
+        <div id="service-area-population-refinement" class="facet"></div>
+        <div id="state-refinement" class="facet"></div>
+        <div id="locale-refinement" class="facet"></div>
+      </div>
+      <div id="right-column" class="col-md-10">
+        <div class="row">
+          <div class="col-md-3">
+            <div id="count"></div>
+          </div>
+          <div class="col-md-9 text-right">
+            <button class="btn btn-default btn-sm" type="button">Compare libraries</button>
+            <button class="btn btn-default btn-sm" type="button">Share These Results</button>
+          </div>
+        </div>
+        <div id="hits"></div>
+        <div id="pagination"></div>
+      </div>
+    </div><!--end row-->
+  </main>
+  <script src="https://cdn.jsdelivr.net/npm/instantsearch.js@2.3/dist/instantsearch.min.js"></script>
+  <script type="type/html" id="hit-template">
+    <div class="hit">
+      <div class="hit-content">
+        <h3 class="hit-name"><a href="details.html?fscs_id={{fscs_id}}">{{{_highlightResult.library_name.value}}}</a></h3>
+        <div class="hit-county">County - {{{_highlightResult.county.value}}}, Population - {{{_highlightResult.county_population.value}}}</div>
+        <div class="hit-fscs-id">fscs id: {{{fscs_id}}}</div>
+        <div class="hit-cluster-service">Service Cluster: {{{cluster_service}}}</div>
+        <div class="hit-cluster-staff">Staff Cluster: {{{cluster_staff}}}</div>
+        <div class="hit-cluster-finance">Finance Cluster: {{{cluster_finance}}}</div>
+        <div class="hit-cluster-collection">Collection Cluster: {{{cluster_collection}}}</div>
+        <div class="hit-locale"><span class="locale">Locale: {{{locale_string}}} ({{{locale}}})</span></div>
+        <div class="hit-total-staff">Total staff: {{{total_staff}}}</div>
+        <div class="hit-total-circulation">Total Circulation: {{total_circulation}}</div>
+        <div class="hit-total-revenue">Total Revenue: {{total_revenue}}</div>
+        <div class="hit-total-staff">Total Staff: {{total_staff}}</div>
+        <div class="hit-service-area-population">Service Area Population: {{service_area_population}}</div>
+        <div>
+          <h4>See Similar Libraries</h4>
+          <a href="details.html?fscs_id={{fscs_id}}" class="btn btn-primary btn-sm">Collection</a>
+          <a href="details.html?fscs_id={{fscs_id}}" class="btn btn-primary btn-sm">Finance</a>
+          <a href="details.html?fscs_id={{fscs_id}}" class="btn btn-primary btn-sm">Service</a>
+          <a href="details.html?fscs_id={{fscs_id}}" class="btn btn-primary btn-sm">Staff</a>
+        </div>
+      </div>
+    </div>
+  </script>
+  <script src="js/app.js"></script>
+</body>
+
