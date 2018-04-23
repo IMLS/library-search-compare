@@ -24,8 +24,7 @@ Workflow:
   git subtree push --prefix apps origin gh-pages
   ```
   - View at 
-    TODO:  put gh-pages url here
-
+    [https://imls.github.io/library-search-compare/v04](https://imls.github.io/library-search-compare/v04/)
 ## Creating json file for Algolia:
 
 
