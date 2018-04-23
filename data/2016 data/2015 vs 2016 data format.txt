@@ -1,0 +1,149 @@
+2015 data file via Socrata API:
+
+[{"address_change":"7","administrative_structure":"SO","audio_downloads":"0","audio_materials":"167","bea_region":"8","benefits":"-9.00","bookmobiles":"0","branch_libraries":"0","capital_expenditures":"0.00","central_libraries":"1","computer_uses":"1682","computers":"5","county":"KENAI PENINSULA","county_population":"58059","ebooks":"0","electronic_circulation":"0","electronic_expenditures":"0.00","end_date":"2015-06-30T00:00:00.000","federal_capital_revenue":"0.00","federal_revenue":"0.00","fscs_definition":"Y","fscs_id":"AK0001","hours":"1370","interlibrary_relationship":"NO","kids_circulation":"2169","kids_program_audience":"251","kids_programs":"21","legal_basis":"NP","librarian_staff":"0.68","library_id":"AK0001-002","library_name":"ANCHOR POINT PUBLIC LIBRARY","loans_from":"31","loans_to":"0","local_capital_revenue":"0.00","local_databases":"0","local_revenue":"0.00","locale":"43","location":{"type":"Point","coordinates":[-151.831591,59.779667]},"location_address":"34020 NORTH FORK ROAD ANCHOR POINT","location_city":"AK","location_zip":"99556","lsabound":"N","mailing_address":"P.O. BOX 129","mailing_city":"ANCHOR POINT","mailing_zip":"99556","mls_librarian_staff":"0","name_change":"0","other_capital_revenue":"0.00","other_collection_expenditures":"500.00","other_expenditures":"-9.00","other_revenue":"15510.00","other_staff":"0","phone":"907-235-5692","print_expenditures":"1605.00","print_materials":"17068","print_serials":"5","program_audience":"262","references":"510","reporting_status":"1","salaries":"-9.00","service_area_population":"2054","start_date":"2014-07-01T00:00:00.000","state":"AK","state_capital_revenue":"0.00","state_databases":"49","state_revenue":"14722.00","structure_change":"0","total_capital_revenue":"0.00","total_circulation":"13257","total_collection_expenditures":"2105.00","total_databases":"49","total_expenditures":"17457.00","total_programs":"27","total_revenue":"30232.00","total_staff":"0.68","total_staff_expenditures":"-9.00","unduplicated_population":"2032","users":"1477","video_downloads":"0","video_materials":"4533","visits":"5903","wifi_sessions":"402","ya_program_audience":"0","ya_programs":"0","year":"2016"},{"address_change":"0","administrative_structure":"MO","audio_downloads":"10424","audio_materials":"39639","bea_region":"8","benefits":"3020654.00","bookmobiles":"0","branch_libraries":"4","capital_expenditures":"352039.00","central_libraries":"1","computer_uses":"145844","computers":"162","county":"ANCHORAGE","county_population":"298695","ebooks":"13177","electronic_circulation":"141704","electronic_expenditures":"218177.00","end_date":"2014-12-31T00:00:00.000","federal_capital_revenue":"0.00","federal_revenue":"151076.00","fscs_definition":"Y","fscs_id":"AK0002","hours":"10608","interlibrary_relationship":"NO","kids_circulation":"475424","kids_program_audience":"36587","kids_programs":"879","legal_basis":"CO","librarian_staff":"25.7","library_id":"AK0002-011","library_name":"ANCHORAGE PUBLIC LIBRARY","loans_from":"3145","loans_to":"4820","local_capital_revenue":"0.00","local_databases":"13","local_revenue":"10675965.00","locale":"11","location":{"type":"Point","coordinates":[-149.876735,61.187512]},"location_address":"3600 DENALI STREET","location_city":"ANCHORAGE","location_state":"AK","location_zip":"99503","lsabound":"N","mailing_address":"3600 DENALI STREET","mailing_city":"ANCHORAGE","mailing_zip":"99503","mls_librarian_staff":"18.7","name_change":"0","other_capital_revenue":"0.00","other_collection_expenditures":"25168.00","other_expenditures":"3670738.00","other_revenue":"92794.00","other_staff":"52.3","phone":"907-343-2892","print_expenditures":"593039.00","print_materials":"501597","print_serials":"697","program_audience":"59190","references":"84193","reporting_status":"1","salaries":"3248695.00","service_area_population":"298908","start_date":"2014-01-01T00:00:00.000","state":"AK","state_capital_revenue":"102900.00","state_databases":"49","state_revenue":"54676.00","structure_change":"0","total_capital_revenue":"102900.00","total_circulation":"1640012","total_collection_expenditures":"836384.00","total_databases":"62","total_expenditures":"10776471.00","total_programs":"1787","total_revenue":"10974511.00","total_staff":"78","total_staff_expenditures":"6269349.00","unduplicated_population":"295759","users":"117939","video_downloads":"0","video_materials":"50263","visits":"913304","wifi_sessions":"86863","ya_program_audience":"6829","ya_programs":"482","year":"2016"} ...]
+
+
+2016 data file:
+
+{
+  "meta" : {
+    "view" : {
+      "id" : "grpq-tgei",
+      "name" : "Public Libraries Survey 2016: Library Systems (Administrative Entities)",
+      "attribution" : "IMLS",
+      "attributionLink" : "https://www.imls.gov/research-evaluation/data-collection/public-libraries-survey",
+      "averageRating" : 0,
+      "category" : "Public Libraries Survey",
+      "createdAt" : 1523997201,
+      "description" : "Find key information on library systems around the United States.\n\nThese data include imputed values for libraries that did not submit information in the FY 2016 data collection. Imputation is a procedure for estimating a value for a specific data item where the response is missing.\n\nDownload PLS data files to see imputation flag variables or learn more on the imputation methods used in FY 2016 at https://www.imls.gov/research-evaluation/data-collection/public-libraries-survey/explore-pls-data/pls-data",
+      "displayType" : "table",
+      "downloadCount" : 0,
+      "hideFromCatalog" : false,
+      "hideFromDataJson" : false,
+      "licenseId" : "USGOV_WORKS",
+      "locale" : "en_US",
+      "newBackend" : false,
+      "numberOfComments" : 0,
+      "oid" : 28509182,
+      "provenance" : "official",
+      "publicationAppendEnabled" : false,
+      "publicationGroup" : 15047429,
+      "publicationStage" : "unpublished",
+      "rowsUpdatedAt" : 1523997229,
+      "rowsUpdatedBy" : "xhhh-dddv",
+      "tableId" : 15047429,
+      "totalTimesRated" : 0,
+      "viewCount" : 0,
+      "viewLastModified" : 1523997465,
+      "viewType" : "tabular",
+      "columns" : [ {
+        "id" : -1,
+        "name" : "sid",
+        "dataTypeName" : "meta_data",
+        "fieldName" : ":sid",
+        "position" : 0,
+        "renderTypeName" : "meta_data",
+        "format" : { },
+        "flags" : [ "hidden" ]
+      }, {
+        "id" : -1,
+        "name" : "id",
+        "dataTypeName" : "meta_data",
+        "fieldName" : ":id",
+        "position" : 0,
+        "renderTypeName" : "meta_data",
+        "format" : { },
+        "flags" : [ "hidden" ]
+      }, {
+        "id" : -1,
+        "name" : "position",
+        "dataTypeName" : "meta_data",
+        "fieldName" : ":position",
+        "position" : 0,
+        "renderTypeName" : "meta_data",
+        "format" : { },
+        "flags" : [ "hidden" ]
+      }, {
+        "id" : -1,
+        "name" : "created_at",
+        "dataTypeName" : "meta_data",
+        "fieldName" : ":created_at",
+        "position" : 0,
+        "renderTypeName" : "meta_data",
+        "format" : { },
+        "flags" : [ "hidden" ]
+      }, {
+        "id" : -1,
+        "name" : "created_meta",
+        "dataTypeName" : "meta_data",
+        "fieldName" : ":created_meta",
+        "position" : 0,
+        "renderTypeName" : "meta_data",
+        "format" : { },
+        "flags" : [ "hidden" ]
+      }, {
+        "id" : -1,
+        "name" : "updated_at",
+        "dataTypeName" : "meta_data",
+        "fieldName" : ":updated_at",
+        "position" : 0,
+        "renderTypeName" : "meta_data",
+        "format" : { },
+        "flags" : [ "hidden" ]
+      }, {
+        "id" : -1,
+        "name" : "updated_meta",
+        "dataTypeName" : "meta_data",
+        "fieldName" : ":updated_meta",
+        "position" : 0,
+        "renderTypeName" : "meta_data",
+        "format" : { },
+        "flags" : [ "hidden" ]
+      }, {
+        "id" : -1,
+        "name" : "meta",
+        "dataTypeName" : "meta_data",
+        "fieldName" : ":meta",
+        "position" : 0,
+        "renderTypeName" : "meta_data",
+        "format" : { },
+        "flags" : [ "hidden" ]
+      }, {
+        "id" : 354992207,
+        "name" : "STATE",
+        "dataTypeName" : "text",
+        "fieldName" : "state",
+        "position" : 1,
+        "renderTypeName" : "text",
+        "tableColumnId" : 63791839,
+        "width" : 160,
+        "format" : { }
+      }, {
+        "id" : 354992208,
+        "name" : "FSCS ID",
+        "dataTypeName" : "text",
+        "fieldName" : "fscs_id",
+        "position" : 2,
+        "renderTypeName" : "text",
+        "tableColumnId" : 63791840,
+        "width" : 184,
+        "format" : { }
+      }, {
+        "id" : 354992209,
+        "name" : "LIBRARY ID",
+        "dataTypeName" : "text",
+        "fieldName" : "library_id",
+        "position" : 3,
+        "renderTypeName" : "text",
+        "tableColumnId" : 63791841,
+        "width" : 220,
+        "format" : { }
+      },
+      ...
+        "data" : [ [ 1, "523420EE-8E93-494F-BB39-0DC088FBC62C", 1, 1523997208, "982573", 1523997208, "982573", null, "AK", "AK0001", "AK0001-002", "ANCHOR POINT PUBLIC LIBRARY", "34020 NORTH FORK ROAD", "ANCHOR POINT", "99556", "43", "7", "2043", "2025", "1", "0", "0", "0", "0", "0.67", "0.67", "0.00", "13784.00", "0.00", "14668.00", "28452.00", "-9.00", "-9.00", "-9.00", "2419.00", "500.00", "0.00", "2919.00", "-9.00", "21634.00", "0.00", "0.00", "0.00", "0.00", "0.00", "0.00", "17453", "0", "97", "0", "3915", "0", "0", "42", "42", "11", "1404", "6679", "500", "1503", "13214", "3705", "0", "13195", "0", "0", "13195", "0", "10", "10", "4", "2", "625", "595", "7", "7", "1435", "1053", "2017", "2015-07-01T00:00:00", "2016-06-30T00:00:00", "1", "8", "0", "0", "0", "NO", "P.O. BOX 129", "ANCHOR POINT", "99556", "9072355692", "KENAI PENINSULA", "58506", "NP", "SO", "Y", "N", "2", "122", "3110", "8", "3009", "200", "-1", "M", "PointAddress", "E", "CI1", "100", [ null, "59.779667", "-151.831591", null, false ] ]
+      , [ 2, "8460CA5F-FB2B-43DD-8478-859E7F6C3D4C", 2, 1523997208, "982573", 1523997208, "982573", null, "AK", "AK0002", "AK0002-011", "ANCHORAGE PUBLIC LIBRARY", "3600 DENALI STREET", "ANCHORAGE", "99503", "11", "1", "299037", "296338", "1", "4", "0", "18.7", "25.7", "52.5", "78.2", "11861783.00", "51592.00", "192990.00", "209834.00", "12316199.00", "4198468.00", "2630020.00", "6828488.00", "564411.00", "290209.00", "31891.00", "886511.00", "4472393.00", "12187392.00", "0.00", "15000000.00", "0.00", "0.00", "15000000.00", "5000000.00", "367652", "13694", "37639", "47992", "66509", "0", "14", "42", "56", "727", "10608", "860751", "67785", "100065", "1831505", "531712", "137015", "1688900", "214404", "351419", "2040319", "2971", "2619", "1898", "971", "426", "55767", "39438", "4955", "162", "130431", "22549", "2017", "2015-01-01T00:00:00", "2015-12-31T00:00:00", "1", "8", "0", "0", "0", "NO", "3600 DENALI STREET", "ANCHORAGE", "99503", "9073432892", "ANCHORAGE", "298192", "CO", "MO", "Y", "N", "2", "20", "3000", "19", "3002", "200", "11260", "0", "PointAddress", "E", "MA1", "100", [ null, "61.187512", "-149.876735", null, false ] ]
+...
+ ]
+}
+
+

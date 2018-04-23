@@ -1,0 +1,217 @@
+<!doctype html>
+<head>
+  <meta charset="UTF-8">
+
+  <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans+Condensed:400,400i,700|IBM+Plex+Serif" rel="stylesheet">
+
+  <script src="https://cdn.jsdelivr.net/algoliasearch/3.25.1/algoliasearch.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+<body>
+  <header>
+    <img src="img/temp-logo.gif" alt="Here is a temporary logo">
+    <!--RW: we could put some simple navigation here later if needed.
+      <nav></nav>
+    -->
+  </header>
+  <main>
+    <div class="container-fluid">
+      <div class="row secondary-nav">
+        <div class="col-md-12 text-right">
+          <a href="index.html" class="btn btn-default btn-sm">Go to Search Page</a>
+          <button class="btn btn-default btn-sm" type="button" onclick="window.history.back();">Back to Search Results</button>
+          <button class="btn btn-default btn-sm" type="button">Share This Page</button>
+        </div>
+      </div><!--end .secondary-nav-->
+      <div class="row lib-details">
+        <div class="col-md-8 col-md-offset-2">
+          <h2><span id="name"></span> Details:</h2>
+        </div>
+        <div class="col-md-3 col-md-offset-2">
+          <div id="address"></div>
+          <div id="city"></div>
+        </div>
+        <div class="col-md-5">
+          <div id="county"></div>
+          <div id="fscs-id"></div>
+          <div id="clusters"></div>
+        </div>
+      </div><!--end details row-->
+      <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+          <h2>See Similar Libraries Based On:</h2>
+        </div>
+      </div>
+      <div id="similar-libraries-wrapper">
+        <div class="row" id="similar-links">
+          <div class="col-md-2 col-md-offset-2 text-center">
+            <figure>
+              <img src="img/service.png" alt="Service">
+              <figcaption>
+                <h4>Service</h4>
+                <p>View Service Cluster</p>
+                <a href="#" class="similar-link" id="service-link" data-type="cluster_service">Service</a>
+              </figcaption>
+            </figure>
+          </div>
+          <div class="col-md-2 text-center">
+            <figure>
+              <img src="img/staff.png" alt="Staff">
+              <figcaption>
+                <h4>Staff</h4>
+                <p>View Staff Cluster</p>
+                <a href="#" class="similar-link" id="staff-link" data-type="cluster_staff">Staff</a>
+              </figcaption>
+            </figure>
+          </div>
+          <div class="col-md-2 text-center">
+            <figure>
+              <img src="img/finance.png" alt="Finance">
+              <figcaption>
+                <h4>Finance</h4>
+                <p>View Finance Cluster</p>
+                <a href="#" class="similar-link" id="finance-link" data-type="cluster_finance">Finance</a>
+              </figcaption>
+            </figure>          
+          </div>
+          <div class="col-md-2 text-center">
+            <figure>
+              <img src="img/collection.png" alt="Collection">
+              <figcaption>
+                <h4>Collection</h4>
+                <p>View Collection Cluster</p>
+                <a href="#" class="similar-link" id="collection-link" data-type="cluster_collection">Collection</a>
+              </figcaption>
+            </figure>          
+          </div>
+        </div><!--end #similar-links-->
+        <div class="row">
+          <div class="col-md-8 col-md-offset-2" id="similar-libraries"></div>
+        </div>
+      </div><!--end #similar-libraries-wrapper-->
+      <div class="row">
+        <div class="col-md-12 detail-stripe">
+          <h2>[Library Name] Compared to Other Libraries in this Group (example):</h2>
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>&nbsp;</th>
+                <th>var1</th>
+                <th>var2</th>
+                <th>var3</th>
+                <th>var4</th>
+                <th>var5</th>
+                <th>var6</th>
+                <th>var7</th>
+                <th>var8</th>
+                <th>var9</th>
+                <th>var10</th>
+                <th>var11</th>
+                <th>var12</th>
+                <th>var13</th>
+                <th>var14</th>
+                <th>var15</th>
+                <th>var16</th>
+                <th>var17</th>
+                <th>var18</th>
+                <th>var19</th>
+                <th>var20</th>
+                <th>var21</th>
+                <th>var22</th>
+                <th>var23</th>
+                <th>var24</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th>Library Name</th>
+                <td>100</td>
+                <td>30</td>
+                <td>300</td>
+                <td>59</td>
+                <td>100</td>
+                <td>30</td>
+                <td>300</td>
+                <td>59</td>
+                <td>100</td>
+                <td>30</td>
+                <td>300</td>
+                <td>59</td>
+                <td>100</td>
+                <td>30</td>
+                <td>300</td>
+                <td>59</td>
+                <td>100</td>
+                <td>30</td>
+                <td>300</td>
+                <td>59</td>
+                <td>100</td>
+                <td>30</td>
+                <td>300</td>
+                <td>59</td>
+              </tr>
+              <tr>
+                <th>Mean</th>
+                <td>105</td>
+                <td>57</td>
+                <td>200</td>
+                <td>35</td>
+                <td>105</td>
+                <td>57</td>
+                <td>200</td>
+                <td>35</td>
+                <td>105</td>
+                <td>57</td>
+                <td>200</td>
+                <td>35</td>
+                <td>105</td>
+                <td>57</td>
+                <td>200</td>
+                <td>35</td>
+                <td>105</td>
+                <td>57</td>
+                <td>200</td>
+                <td>35</td>
+                <td>105</td>
+                <td>57</td>
+                <td>200</td>
+                <td>35</td>
+              </tr>
+              <tr>
+                <th>% Rank</th>
+                <td>46%</td>
+                <td>22%</td>
+                <td>80%</td>
+                <td>99%</td>
+                <td>46%</td>
+                <td>22%</td>
+                <td>80%</td>
+                <td>99%</td>
+                <td>46%</td>
+                <td>22%</td>
+                <td>80%</td>
+                <td>99%</td>
+                <td>46%</td>
+                <td>22%</td>
+                <td>80%</td>
+                <td>99%</td>
+                <td>46%</td>
+                <td>22%</td>
+                <td>80%</td>
+                <td>99%</td>
+                <td>46%</td>
+                <td>22%</td>
+                <td>80%</td>
+                <td>99%</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <h2>Full json:</h2>
+      <pre id="json"></pre>
+    </div><!--end container-->
+  </main>
+  <script src="js/details.js"></script>
+</body>
