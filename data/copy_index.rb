@@ -8,5 +8,5 @@ index = Algolia::Index.new('imls')
 #puts index.methods - Object.methods
 
 client = index.client
-p client.copy_index('imls', 'imls_v02')
+p client.copy_index('imls_v02', 'imls_v04')
 p client.list_indexes
