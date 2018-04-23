@@ -6,7 +6,7 @@
 // but in the AMD modules of the page
 
 var client = algoliasearch('CDUMM9WVUG', '3cc392a5d139bd9131e42a5abb75d4ee');
-var index = client.initIndex('imls_v02');
+var index = client.initIndex('imls_v04');
 //var fields = ["print_materials", "ebooks", "audio_materials", "video_materials", "total_databases", "print_serials"]
 var clusters = [
   { name: "service", fields: [

@@ -2,7 +2,7 @@ var search = instantsearch({
   // Replace with your own values
   appId: 'CDUMM9WVUG',
   apiKey: '3cc392a5d139bd9131e42a5abb75d4ee', // search only API key, no ADMIN key
-  indexName: 'imls_v02',
+  indexName: 'imls_v04',
   urlSync: true,
   searchParameters: {
     hitsPerPage: 50
