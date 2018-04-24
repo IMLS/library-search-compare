@@ -138,7 +138,15 @@ function getSimilarLibraries(el) {
       var clusterName = cluster_type.split("_")[1];
       var field_names = _.map(_.find(clusters, {"name": clusterName}).fields, "field");
       var display_names = _.map(_.find(clusters, {"name": clusterName}).fields, "name");
+
+      if (content.nbPages > 1) {
+        // console.log( content.nbPages );
+        // console.log(fscs_id);
+      }
       var baseLibrary = _.find(content.hits, {"fscs_id": fscs_id} );
+
+c = content;
+h = content.hits;
 
       createCalculationsTable(baseLibrary, content, field_names, display_names);
       calculateMean(content, field_names);
@@ -213,8 +221,10 @@ function calculateMean( content, field_names ) {
       total = 0;
       for ( var h in content.hits ) {
         res = content.hits[h];
-        values.push( res[f] );
-        total = total + res[f];
+        if ( res[f] !== "M") {
+          values.push( res[f] );
+          total = total + res[f];
+        }
       }
       var mean = (total/values.length).toLocaleFixed(1);
       // display mean
@@ -231,23 +241,29 @@ function displayMean( f, mean ) {
 // calculate percentile rank
 function calculatePercentileRank( content, field_names ) {
   field_names.forEach(function(f) {
-    if ( f !== "fscs_id" ) {
-      var values = [];
-      for ( var h in content.hits ) {
-        res = content.hits[h];
-        values.push( res[f] );
+    if ( base_values[f] == "M") {
+      var percentile_rank = "M";
+      displayPercentileRank ( f, percentile_rank );
+    } else {
+      if ( f !== "fscs_id" ) {
+        var values = [];
+        for ( var h in content.hits ) {
+          res = content.hits[h];
+          values.push( res[f] );
+        }
+        values = _.sortBy( values );
+        var position = _.sortedIndex( values, base_values[f] );
+        var matches = _.filter( values, function(n) { return n == base_values[f] });
+        var percentile_rank = Math.round((( position + (0.5 *  matches.length))/values.length) * 100);
+        // display percentile rank
+        displayPercentileRank( f, percentile_rank );
       }
-      values = _.sortBy( values );
-      var position = _.sortedIndex( values, base_values[f] );
-      var matches = _.filter( values, function(n) { return n == base_values[f] });
-      var percentile_rank = Math.round((( position + (0.5 *  matches.length))/values.length) * 100);
-      // display percentile rank
-      displayPercentileRank( f, percentile_rank );
     }
   });
 }
 
 function displayPercentileRank( f, percentile_rank ) {
+  console.log( percentile_rank );
   switch ( true ) {
     case (percentile_rank < 25):
       quartileRank = "Bottom";
@@ -262,7 +278,7 @@ function displayPercentileRank( f, percentile_rank ) {
       quartileRank = "Top";
       break;
     default:
-      quartileRank = "unknown";
+      quartileRank = "NA";
       break;
   }
   document.getElementById("percentile-" + f).innerHTML = quartileRank;
