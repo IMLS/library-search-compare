@@ -14,16 +14,28 @@ json.each do |el|
   end
 end
 
+
+# Remove all records that have hours as -3
 json.delete_if { |h| h["hours"] == -3 }
 
-p json.length
-
+# Convert -1 to 'M'
 json.each do |el|
-  if el["total_circulation"] == -1
+  el.each do |k, v|
+    if v == -1
+      p el["fscs_id"] + " " + k + " " + v.to_s
+      el[k] = "M"
+    end
+  end
+end
+
+# Check if any entries are missing an fscs_id  
+json.each do |el|
+  if el["fscs_id"].length != 6
     p el["fscs_id"]
   end
 end
 
+# Convert locale code to strings 
 locale_to_s = [ {[11,12,13] => "City"}, {[21,22,23] => "Suburban"}, {[31,32,33] => "Town"}, {[41,42,43] => "Rural"} ]
 
 json.each do |el|
