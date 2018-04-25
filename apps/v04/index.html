@@ -2,7 +2,7 @@
 <head>
   <meta charset="UTF-8">
 
-  <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans+Condensed:400,400i,700|IBM+Plex+Serif" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Sanchez:400,400i" rel="stylesheet">
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/instantsearch.js@2.7.2/dist/instantsearch.min.css">
   <!-- Always use `2.x` versions in production rather than `2` to mitigate any side effects on your website,
@@ -12,11 +12,18 @@
 
 </head>
 <body>
-  <header>
-    <img src="img/temp-logo.gif" alt="Here is a temporary logo">
-    <!--RW: we could put some simple navigation here later if needed.
-      <nav></nav>
-    -->
+  <header class="container-fluid">
+    <div class="row">
+      <div class="col-sm-4">
+        <h1>Search &amp; Compare</h1>
+      </div>
+      <div class="col-sm-8 text-right">
+        <!--RW: we could put some simple navigation here later if needed.
+          <nav></nav>
+        -->
+        <small>Help IMPLS improve this beta website by <a href="#">sending feedback here</a>. All data from IMPLS FY2016 Public Libraries Survey (<a href="#">details</a>).</small>
+      </div>
+    </div>
   </header>
   <main class="container-fluid full-height">
     <div class="row">
@@ -34,12 +41,12 @@
         <div class="row">
           <div class="col-md-9">
             <div id="search-intro">Enter a keyword in the search box to the left to search for libraries. From there, you can refine your search based on the parameters below the search box.  By clicking on a library name, you can view similar libraries based on Service, Staff, Finance and Collection data.</div>
-            <div id="count"></div>
           </div>
           <div class="col-md-3 text-right">
             <button class="btn btn-default btn-sm" type="button">Share These Results</button>
           </div>
         </div>
+        <div id="count" class="text-right"></div>
         <div id="hits"></div>
         <div id="pagination"></div>
       </div>
