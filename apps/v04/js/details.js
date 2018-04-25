@@ -80,7 +80,7 @@ index.search({
   }
 
   // display details  
-  for (var h in content.hits) {
+  for ( var h in content.hits ) {
     res = content.hits[h];
     document.getElementById("name").innerHTML = res.library_name;
     document.getElementById("address").innerHTML = res.mailing_address;
@@ -95,6 +95,14 @@ index.search({
     var libraryNames = document.querySelectorAll('.library-name');
     libraryNames.forEach(function( el ) {
       el.innerHTML = res.library_name;
+    });
+
+    _.forEach ( clusters, function( cluster ) {
+      _.forEach( cluster.fields, function ( field ) {
+        if ( field.field !== "fscs_id" ) {
+          document.getElementById( field.field ).innerHTML = "<strong>" + field.name + ":</strong> " + res[ field.field ].toLocaleFixed(0);
+        }
+      });
     });
 
     // var clusters = ' Clusters: <a href="#" id=service" data-type="service", data-value="' + res.cluster_service + '">Service: ' + res.cluster_service + '</a> Staff: ' + res.cluster_staff + ' Finance: ' + res.cluster_finance + ' Collection: ' + res.cluster_collection;
