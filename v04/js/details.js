@@ -100,7 +100,12 @@ index.search({
     _.forEach ( clusters, function( cluster ) {
       _.forEach( cluster.fields, function ( field ) {
         if ( field.field !== "fscs_id" ) {
-          document.getElementById( field.field ).innerHTML = "<strong>" + field.name + ":</strong> " + res[ field.field ].toLocaleFixed(0);
+          console.log( cluster.name );
+          if ( cluster.name !== "staff" ) {
+            document.getElementById( field.field ).innerHTML = "<strong>" + field.name + ":</strong> " + res[ field.field ].toLocaleFixed(0);
+          } else {
+            document.getElementById( field.field ).innerHTML = "<strong>" + field.name + ":</strong> " + res[ field.field ];
+          }
         }
       });
     });
