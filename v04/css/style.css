@@ -1,13 +1,13 @@
 /* GENERAL */
 * {
-  font-family: 'IBM Plex Sans Condensed', sans-serif;
+  font-family: 'Sanchez', serif;
   box-sizing: border-box;
 }
 html {
   overflow-y: scroll;
   background: #FFF;
 }
-html, body, .container-fluid {
+html, body, main.container-fluid {
   height: 100%;
 }
 main, #no-results, footer {
@@ -17,7 +17,7 @@ main {
   min-height: 360px;
 }
 #left-column {
-  background-color: #ebeded;
+  background-color: #e0e0e0;
   padding-top: 30px;
 }
 #right-column {
@@ -25,21 +25,21 @@ main {
 }
 
 .secondary-nav {
-  background-color: #c1c8c8;
-  border-bottom: 1px solid #6F7D7D;
+  background-color: #5F6062;
+  border-bottom: 1px solid #393a3b;
 }
 .secondary-nav > div {
   padding: 5px 20px;
 }
 
 .lib-details {
-  background-color: #ebeded;
+  background-color: #e0e0e0;
   border-bottom: 1px solid #c1c8c8;
   padding-bottom: 30px;
 }
 
 .detail-stripe {
-  background-color: #ebeded;
+  background-color: #e0e0e0;
   border-bottom: 1px solid #c1c8c8;
   border-top: 1px solid #c1c8c8;
   padding-bottom: 20px;
@@ -54,7 +54,7 @@ main {
 
 header {
   width: 100%;
-  background-color: #4F6E5E;
+  background-color: #34715B;
   color: #fff;
   height: 41px;
   min-height: 41px;
@@ -62,8 +62,22 @@ header {
   padding: 5px 20px;
 }
 
+header a {
+  color: #e0e0e0;
+}
+header a:hover, header a:focus {
+  color: #e0e0e0;
+}
+/*header small {
+  line-height: 30px;
+}*/
+
 h1, h2, h3, h4, h5, h6, h3 a {
-  font-family: 'IBM Plex Serif', serif;
+  font-family: 'Sanchez', serif;
+}
+h1 {
+  font-size: 28px;
+  margin: 0;
 }
 
 .container-fluid.full-height {
@@ -89,7 +103,7 @@ h1, h2, h3, h4, h5, h6, h3 a {
 }
 
 figure {
-  background: #4F6E5E;
+  background: #34715B;
   position: relative;
   float: left;
   overflow: hidden;
@@ -101,7 +115,7 @@ figure {
   height: auto;
   text-align: center;
   cursor: pointer;
-  border: 1px solid #ebeded;
+  border: 1px solid #e0e0e0;
 }
 figure img {
   backface-visibility: hidden;
@@ -191,7 +205,7 @@ header img {
   margin-left: 26%;
   padding: 10px 0 6px;
   border: none;
-  border-bottom: 5px solid #ebeded;
+  border-bottom: 5px solid #e0e0e0;
 }
 #search-input input, #search-input input:focus {
   transition: border-color .3s ease-in;
@@ -226,12 +240,12 @@ header img {
 #hits {
   margin: 4px 0;
   padding: 10px 0;
-  border-top: 2px solid #ebeded;
+  border-top: 2px solid #e0e0e0;
 }
 .hit {
   font-size: 0;
   padding: 15px 0;
-  border-bottom: 1px solid #ebeded;
+  border-bottom: 1px solid #e0e0e0;
 }
 .hit-name {
   margin: 0;
@@ -274,7 +288,7 @@ header img {
 
 .hit-content em {
   font-style: normal;
-  color: #D8700F;
+  color: #E36F1E;
   /*border-bottom: dotted 1px rgba(244, 107, 91, 0.5); RW: Not sure about this; removing for now*/
 }
 
@@ -317,24 +331,24 @@ header img {
   padding: 8px 12px;
   text-decoration: none;
   color: #000;
-  border: 1px solid #ebeded;
+  border: 1px solid #e0e0e0;
 }
 #pagination a:hover {
-  background: #ebeded;
+  background: #e0e0e0;
 }
 #pagination li:first-child a {
   border-top-left-radius: 4px;
   border-bottom-left-radius: 4px;
 }
 #pagination li:last-child a {
-  border-right: 1px solid #ebeded;
+  border-right: 1px solid #e0e0e0;
   border-top-right-radius: 4px;
   border-bottom-right-radius: 4px;
 }
 #pagination li.ais-pagination--item__active a {
   color: white;
-  border-color: #4F6E5E;
-  background: #4F6E5E;
+  border-color: #34715B;
+  background: #34715B;
 }
 #pagination li.ais-pagination--item__active a:hover {
   cursor: default;
@@ -407,7 +421,7 @@ header img {
   margin: 0 0 6px;
   padding: 0 0 6px;
   text-transform: uppercase;
-  border-bottom: 2px solid #ebeded;
+  border-bottom: 2px solid #e0e0e0;
 }
 .facet ul {
   margin: 0;
@@ -426,7 +440,7 @@ header img {
 }
 
 .facet .ais-header {
-  font-family: 'IBM Plex Serif', serif;
+  font-family: 'Sanchez', serif;
   font-size: 18px;
   margin-top: 10px;
   margin-bottom: 10px;
@@ -488,13 +502,13 @@ header img {
 .ais-menu--item__active .ais-menu--link,
 .ais-hierarchical-menu--list .facet-item.active:hover,
 .ais-hierarchical-menu--list .facet-item.active {
-  color: #D8700F;
+  color: #003A63;
 }
 .ais-refinement-list--item__active .ais-refinement-list--label:hover,
 .ais-menu--item__active .ais-menu--link:hover,
 .ais-hierarchical-menu--list .facet-item.active:hover {
   text-decoration: line-through;
-  color: #D8700F;
+  color: #003A63;
 }
 .ais-refinement-list--count,
 .ais-hierarchical-menu--count,
@@ -578,7 +592,7 @@ a.clear-all:hover {
 }
 
 .ais-range-slider--handle {
-  border-color: #D8700F;
+  border-color: #E36F1E;
 }
 
 .ais-body.ais-range-slider--body {
@@ -731,12 +745,13 @@ footer a:hover {
 }
 
 .btn.orange > div {
-	background-color: #D8700F;
+	background-color: #003A63;
   width: 100%;
 }
 
 .btn.orange:hover > div {
-	background-color: #F6C76F;
+	background-color: #9CC5CA;
+  color: #1c1f1f;
 }
 
 .ais-range-slider--tooltip {
@@ -744,7 +759,7 @@ footer a:hover {
 }
 
 .ais-range-slider .rheostat-horizontal .rheostat-progress {
-  background-color: #4F6E5E;
+  background-color: #34715B;
 }
 .ais-range-slider .rheostat-horizontal .rheostat-handle {
   margin-left: -5px;
@@ -770,13 +785,13 @@ label.ais-refinement-list--label span.ais-refinement-list--count {
   min-width: 10px;
   padding: 3px 7px;
   font-size: 12px;
-  font-weight: 700;
+  /*font-weight: 700; This is hard to read with Sanchez font*/
   line-height: 1;
   color: #fff;
   text-align: center;
   white-space: nowrap;
   vertical-align: middle;
-  background-color: #4F6E5E;
+  background-color: #34715B;
   border-radius: 10px;
 }
 
@@ -792,6 +807,45 @@ tr#comparison-headers th, tr#comparison-data td, tr#comparison-mean td, tr#compa
   text-align: right;
 }
 
-tr.base-library {
+.table-striped>tbody>tr.base-library {
   font-weight: bold;
+  background-color: #34715B;
+  color: #fff;
+}
+.table-striped>tbody>tr.base-library a,
+.table-striped>tbody>tr.base-library a:hover,
+.table-striped>tbody>tr.base-library a:focus,
+.table-striped>tbody>tr.base-library a:active {
+  color: #fff;
+}
+
+.media {
+  width: 95%;
+  border: 1px solid #5F6062;
+  background-color: #e0e0e0;
+  height: 140px;
+}
+.media-left {
+  background-color: #34715B;
+  height: 140px;
+}
+.media-object {
+  width: 50px;
+}
+.media-body {
+  padding: 0 5px;
+}
+.media-body p {
+  font-size: 12px;
+}
+.media-body a {
+  color: #003A63;
+}
+
+/* Overwrite some stuff */
+.ais-show-more__inactive:before {
+  content: '';
+}
+.ais-show-more__active:before {
+  content: '';
 }
