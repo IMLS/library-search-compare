@@ -86,9 +86,9 @@ index.search({
     document.getElementById("address").innerHTML = res.mailing_address;
     var city = res.mailing_city + ', ' + res.state
     document.getElementById("city").innerHTML = city;
-    var county = 'County: ' + res.county + ' Population: ' + res.county_population;
-    document.getElementById("county").innerHTML = county;
-    var fscs_id = 'fscs_id: ' + res.fscs_id;
+    // var county = 'County: ' + res.county + ' Population: ' + res.county_population;
+    // document.getElementById("county").innerHTML = county;
+    var fscs_id = res.fscs_id;
     document.getElementById("fscs-id").innerHTML = fscs_id;
 
     // display library name
@@ -140,7 +140,7 @@ function getSimilarLibraries(el) {
       var display_names = _.map(_.find(clusters, {"name": clusterName}).fields, "name");
 
       if (content.nbPages > 1) {
-        // console.log( content.nbPages );
+         console.log( content.nbPages );
         // console.log(fscs_id);
       }
       var baseLibrary = _.find(content.hits, {"fscs_id": fscs_id} );
@@ -263,7 +263,6 @@ function calculatePercentileRank( content, field_names ) {
 }
 
 function displayPercentileRank( f, percentile_rank ) {
-  console.log( percentile_rank );
   switch ( true ) {
     case (percentile_rank < 25):
       quartileRank = "Bottom";
@@ -327,7 +326,6 @@ function displaySimilarLibraries( baseLibrary, content, cluster_type, field_name
         select: 1,
         render: function( data, cell, row) {
           if ( data === baseLibrary["fscs_id"]) {
-            console.log(row);
             row.className = "base-library";
           }
           return data;
