@@ -152,9 +152,6 @@ index.search({
       if (similar_param !== null ) {
         var el_id = similar_param + '-link';
         var click_el = document.getElementById( el_id );
-        console.log( similar_param );
-        console.log( simulateClick );
-        console.log( click_el );
         simulateClick( click_el );
       }
 
@@ -164,12 +161,11 @@ index.search({
 
 // Get and display cluster data
 function getSimilarLibraries(el) {
-  console.log( el );
   var cluster_type = el.target.getAttribute("data-type");
   var cluster_value = el.target.getAttribute("data-cluster");
   index.search({ 
       filters: cluster_type + ' = ' + cluster_value,
-      hitsPerPage: 1000
+      hitsPerPage: 2000
     }, function searchDone(err, content) {
     if (err) {
       console.error(err);
@@ -218,13 +214,14 @@ function createCalculationsTable(baseLibrary, content, field_names, display_name
   var elements = document.getElementById("comparison-data").getElementsByTagName("td");
   removeElements( elements );
   field_names.forEach(function(f) {
+
     if ( f !== "fscs_id" ) {
       var td = document.createElement("td");
       var td_text = document.createTextNode(baseLibrary[f].toLocaleString("en-US"));
       td.appendChild(td_text);
       document.getElementById("comparison-data").appendChild(td);
       // add to base_values object
-      base_values[f] = res[f];
+      base_values[f] = baseLibrary[f];
     }
   });
 
