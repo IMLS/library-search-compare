@@ -147,3 +147,19 @@ search.addWidget(
 
 // start the search UI
 search.start();
+
+var share_btn = document.querySelector('#share-btn');
+share_btn.onclick = function( evt ) {
+  sharePage( evt );
+}
+
+function sharePage( evt ) {
+  var page_url = window.location.href;
+  var dummy = document.createElement( 'input' );
+  document.body.appendChild( dummy );
+  dummy.value = page_url;
+  dummy.select();
+  document.execCommand( "copy" );
+  document.body.removeChild( dummy );
+}
+
