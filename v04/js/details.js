@@ -54,6 +54,22 @@ Number.prototype.toLocaleFixed = function(n) {
     });
 };
 
+/**
+ * Simulate a click event.
+ * @public
+ * @param {Element} elem  the element to simulate a click on
+ */
+var simulateClick = function (elem) {
+	// Create our event (with options)
+	var evt = new MouseEvent('click', {
+		bubbles: true,
+		cancelable: true,
+		view: window
+	});
+	// If cancelled, don't dispatch our event
+	var canceled = !elem.dispatchEvent(evt);
+};
+
 // parse url params
 function getParameterByName(name, url) {
     if (!url) url = window.location.href;
@@ -65,10 +81,11 @@ function getParameterByName(name, url) {
     return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
 
-var fscs_id = getParameterByName('fscs_id');
+var fscs_id_param = getParameterByName('fscs_id');
+var similar_param = getParameterByName('similar');
 
 // only query string
-var query = 'fscs_id ' + fscs_id;
+var query = 'fscs_id ' + fscs_id_param;
 index.search({ 
     query: query,
     exactOnSingleWordQuery: 'attribute', 
@@ -77,59 +94,67 @@ index.search({
   if (err) {
     console.error(err);
     return;
-  }
+  } else {
 
-  // display details  
-  for ( var h in content.hits ) {
-    res = content.hits[h];
-    document.getElementById("name").innerHTML = res.library_name;
-    document.getElementById("address").innerHTML = res.mailing_address;
-    var city = res.mailing_city + ', ' + res.state
-    document.getElementById("city").innerHTML = city;
-    // var county = 'County: ' + res.county + ' Population: ' + res.county_population;
-    // document.getElementById("county").innerHTML = county;
-    var fscs_id = res.fscs_id;
-    document.getElementById("fscs-id").innerHTML = fscs_id;
+    // display details  
+    for ( var h in content.hits ) {
+      res = content.hits[h];
+      document.getElementById("name").innerHTML = res.library_name;
+      document.getElementById("address").innerHTML = res.mailing_address;
+      var city = res.mailing_city + ', ' + res.state
+      document.getElementById("city").innerHTML = city;
+      // var county = 'County: ' + res.county + ' Population: ' + res.county_population;
+      // document.getElementById("county").innerHTML = county;
+      var fscs_id = res.fscs_id;
+      document.getElementById("fscs-id").innerHTML = fscs_id;
 
-    // display library name
-    var libraryNames = document.querySelectorAll('.library-name');
-    libraryNames.forEach(function( el ) {
-      el.innerHTML = res.library_name;
-    });
-
-    _.forEach ( clusters, function( cluster ) {
-      _.forEach( cluster.fields, function ( field ) {
-        if ( field.field !== "fscs_id" ) {
-          if ( cluster.name !== "staff" ) {
-            document.getElementById( field.field ).innerHTML = "<strong>" + field.name + ":</strong> " + (typeof res[ field.field ] == "number" ? res[ field.field ].toLocaleFixed(0) : res[ field.field ]);
-          } else {
-            document.getElementById( field.field ).innerHTML = "<strong>" + field.name + ":</strong> " + res[ field.field ];
-          }
-        }
+      // display library name
+      var libraryNames = document.querySelectorAll('.library-name');
+      libraryNames.forEach(function( el ) {
+        el.innerHTML = res.library_name;
       });
-    });
 
-    // var clusters = ' Clusters: <a href="#" id=service" data-type="service", data-value="' + res.cluster_service + '">Service: ' + res.cluster_service + '</a> Staff: ' + res.cluster_staff + ' Finance: ' + res.cluster_finance + ' Collection: ' + res.cluster_collection;
-    // document.getElementById("clusters").innerHTML = clusters;
+      _.forEach ( clusters, function( cluster ) {
+        _.forEach( cluster.fields, function ( field ) {
+          if ( field.field !== "fscs_id" ) {
+            if ( cluster.name !== "staff" ) {
+              document.getElementById( field.field ).innerHTML = "<strong>" + field.name + ":</strong> " + (typeof res[ field.field ] == "number" ? res[ field.field ].toLocaleFixed(0) : res[ field.field ]);
+            } else {
+              document.getElementById( field.field ).innerHTML = "<strong>" + field.name + ":</strong> " + res[ field.field ];
+            }
+          }
+        });
+      });
 
-    var service = document.querySelector('#service-link');
-    service.setAttribute("data-cluster",res.cluster_service);
+      // var clusters = ' Clusters: <a href="#" id=service" data-type="service", data-value="' + res.cluster_service + '">Service: ' + res.cluster_service + '</a> Staff: ' + res.cluster_staff + ' Finance: ' + res.cluster_finance + ' Collection: ' + res.cluster_collection;
+      // document.getElementById("clusters").innerHTML = clusters;
 
-    var staff = document.querySelector('#staff-link');
-    staff.setAttribute("data-cluster",res.cluster_staff);
+      var service = document.querySelector('#service-link');
+      service.setAttribute("data-cluster",res.cluster_service);
 
-    var finance = document.querySelector('#finance-link');
-    finance.setAttribute("data-cluster",res.cluster_finance);
+      var staff = document.querySelector('#staff-link');
+      staff.setAttribute("data-cluster",res.cluster_staff);
 
-    var collection = document.querySelector('#collection-link');
-    collection.setAttribute("data-cluster",res.cluster_collection);
+      var finance = document.querySelector('#finance-link');
+      finance.setAttribute("data-cluster",res.cluster_finance);
 
-    document.getElementById("json").innerHTML = JSON.stringify(content.hits[0], undefined, 2);
+      var collection = document.querySelector('#collection-link');
+      collection.setAttribute("data-cluster",res.cluster_collection);
 
-    // Event handler for similar libraries buttons
-    var similar_links = document.querySelector('#similar-links');
-    similar_links.onclick = function(el) {
-      getSimilarLibraries(el, fscs_id);
+      document.getElementById("json").innerHTML = JSON.stringify(content.hits[0], undefined, 2);
+
+      // Event handler for similar libraries buttons
+      var similar_links = document.querySelector('#similar-links');
+      similar_links.onclick = function(el) {
+        getSimilarLibraries( el );
+      }
+
+      if (similar_param !== null ) {
+        var el_id = similar_param + '-link';
+        var click_el = document.getElementById( el_id );
+        simulateClick( click_el );
+      }
+
     }
   }
 });
@@ -140,7 +165,7 @@ function getSimilarLibraries(el) {
   var cluster_value = el.target.getAttribute("data-cluster");
   index.search({ 
       filters: cluster_type + ' = ' + cluster_value,
-      hitsPerPage: 1000
+      hitsPerPage: 2000
     }, function searchDone(err, content) {
     if (err) {
       console.error(err);
@@ -155,10 +180,7 @@ function getSimilarLibraries(el) {
          console.log( content.nbPages );
         // console.log(fscs_id);
       }
-      var baseLibrary = _.find(content.hits, {"fscs_id": fscs_id} );
-
-c = content;
-h = content.hits;
+      var baseLibrary = _.find(content.hits, {"fscs_id": fscs_id_param} );
 
       createCalculationsTable(baseLibrary, content, field_names, display_names);
       calculateMean(content, field_names);
@@ -192,13 +214,14 @@ function createCalculationsTable(baseLibrary, content, field_names, display_name
   var elements = document.getElementById("comparison-data").getElementsByTagName("td");
   removeElements( elements );
   field_names.forEach(function(f) {
+
     if ( f !== "fscs_id" ) {
       var td = document.createElement("td");
       var td_text = document.createTextNode(baseLibrary[f].toLocaleString("en-US"));
       td.appendChild(td_text);
       document.getElementById("comparison-data").appendChild(td);
       // add to base_values object
-      base_values[f] = res[f];
+      base_values[f] = baseLibrary[f];
     }
   });
 
