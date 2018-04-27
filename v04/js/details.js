@@ -84,6 +84,22 @@ function getParameterByName(name, url) {
 var fscs_id_param = getParameterByName('fscs_id');
 var similar_param = getParameterByName('similar');
 
+// Event handler for share this page button
+var share_btn = document.querySelector('#share-btn');
+share_btn.onclick = function( evt ) {
+  sharePage( evt );
+}
+
+function sharePage( evt ) {
+  var page_url = window.location.href;
+  var dummy = document.createElement( 'input' );
+  document.body.appendChild( dummy );
+  dummy.value = page_url;
+  dummy.select();
+  document.execCommand( "copy" );
+  document.body.removeChild( dummy );
+}
+
 // only query string
 var query = 'fscs_id ' + fscs_id_param;
 index.search({ 
@@ -141,13 +157,14 @@ index.search({
       var collection = document.querySelector('#collection-link');
       collection.setAttribute("data-cluster",res.cluster_collection);
 
-      document.getElementById("json").innerHTML = JSON.stringify(content.hits[0], undefined, 2);
+      // document.getElementById("json").innerHTML = JSON.stringify(content.hits[0], undefined, 2);
 
       // Event handler for similar libraries buttons
       var similar_links = document.querySelector('#similar-links');
       similar_links.onclick = function(el) {
         getSimilarLibraries( el );
       }
+
 
       if (similar_param !== null ) {
         var el_id = similar_param + '-link';
