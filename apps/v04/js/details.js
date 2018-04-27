@@ -118,9 +118,9 @@ index.search({
         _.forEach( cluster.fields, function ( field ) {
           if ( field.field !== "fscs_id" ) {
             if ( cluster.name !== "staff" ) {
-              document.getElementById( field.field ).innerHTML = "<strong>" + field.name + ":</strong> " + (typeof res[ field.field ] == "number" ? res[ field.field ].toLocaleFixed(0) : res[ field.field ]);
+              document.getElementById( field.field ).innerHTML = "<strong>" + field.name + ":</strong> <span>" + (typeof res[ field.field ] == "number" ? res[ field.field ].toLocaleFixed(0) : res[ field.field ]) + "</span>";
             } else {
-              document.getElementById( field.field ).innerHTML = "<strong>" + field.name + ":</strong> " + res[ field.field ];
+              document.getElementById( field.field ).innerHTML = "<strong>" + field.name + ":</strong> <span>" + res[ field.field ] + "</span>";
             }
           }
         });

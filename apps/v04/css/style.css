@@ -72,6 +72,9 @@ main {
 .box > div:last-child {
   border-bottom: 0;
 }
+.box div span {
+  float: right;
+}
 
 .clear:after {
   content: '';
@@ -327,11 +330,10 @@ header img {
 #hits {
   margin: 4px 0;
   padding: 10px 0;
-  border-top: 2px solid #e0e0e0;
+  border-top: 2px solid #5F6062;
 }
 .hit {
-  font-size: 0;
-  padding: 15px 0;
+  padding: 15px 0 0;
   border-bottom: 1px solid #e0e0e0;
 }
 .hit-name {
@@ -399,6 +401,16 @@ header img {
   color: #868686;
   margin: 1px 0 10px 0;
   font-size: 14px;
+}
+
+.hit .similar-results {
+  padding: 10px 3%;
+  border-bottom: 1px solid #5F6062;
+  margin-top: 10px;
+}
+.hit .similar-results > div {
+  display: inline-block;
+  margin-left: 15px;
 }
 
 /* PAGINATION */
