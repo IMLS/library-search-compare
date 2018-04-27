@@ -15,13 +15,13 @@
   <header class="container-fluid">
     <div class="row">
       <div class="col-sm-4">
-        <h1>Search &amp; Compare</h1>
+        <h1>Library Search &amp; Compare</h1>
       </div>
       <div class="col-sm-8 text-right">
         <!--RW: we could put some simple navigation here later if needed.
           <nav></nav>
         -->
-        <small>Help IMLS improve this beta website by <a href="#">sending feedback here</a>. All data from IMLS FY2016 Public Libraries Survey (<a href="https://www.imls.gov/research-evaluation/data-collection/public-libraries-survey/explore-pls-data/pls-data" target="_blank">details</a>).</small>
+        <small>Help IMLS improve this beta website by <a href="https://goo.gl/forms/S5tKMCTz3oqZPIR42" target="_blank">sending feedback here</a>. All data from IMLS FY2016 Public Libraries Survey (<a href="https://www.imls.gov/research-evaluation/data-collection/public-libraries-survey/explore-pls-data/pls-data" target="_blank">details</a>).</small>
       </div>
     </div>
   </header>
@@ -32,6 +32,10 @@
           <a href="index.html" class="btn btn-default btn-sm">Go to Search Page</a>
           <!-- <button class="btn btn-default btn-sm" type="button" onclick="window.history.back();">Back to Search Results</button> -->
           <button id="share-btn" class="btn btn-default btn-sm" type="button">Share This Page</button>
+          <div id="shareDiv" class="closed">
+            <p>This page has been copied to your clipboard. Paste somewhere to share!</p>
+            <input type="text" id="shareMe">
+          </div>
         </div>
       </div><!--end .secondary-nav-->
       <div class="row lib-title">

@@ -15,13 +15,13 @@
   <header class="container-fluid">
     <div class="row">
       <div class="col-sm-4">
-        <h1>Search &amp; Compare</h1>
+        <h1>Library Search &amp; Compare</h1>
       </div>
       <div class="col-sm-8">
         <!--RW: we could put some simple navigation here later if needed.
           <nav></nav>
         -->
-        <small>Help IMLS improve this beta website by <a href="#">sending feedback here</a>. All data from IMLS FY2016 Public Libraries Survey (<a href="https://www.imls.gov/research-evaluation/data-collection/public-libraries-survey/explore-pls-data/pls-data" target="_blank">details</a>).</small>
+        <small>Help IMLS improve this beta website by <a href="https://goo.gl/forms/S5tKMCTz3oqZPIR42" target="_blank">sending feedback here</a>. All data from IMLS FY2016 Public Libraries Survey (<a href="https://www.imls.gov/research-evaluation/data-collection/public-libraries-survey/explore-pls-data/pls-data" target="_blank">details</a>).</small>
       </div>
     </div>
   </header>
@@ -44,6 +44,10 @@
           </div>
           <div class="col-md-3 text-right">
             <button id="share-btn" class="btn btn-default btn-sm" type="button">Share These Results</button>
+            <div id="shareDiv" class="closed">
+              <p>This page has been copied to your clipboard. Paste somewhere to share!</p>
+              <input type="text" id="shareMe">
+            </div>
           </div>
         </div>
         <div id="count" class="text-right"></div>
