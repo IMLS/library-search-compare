@@ -16,7 +16,7 @@ var clusters = [
     {field: "references", name: "References"},
     {field: "users", name: "Users"},
     {field: "total_circulation", name: "Circulation"},
-    {field: "loans_to", name: "Loans"},
+    {field: "loans_to", name: "Interlibrary Loans to"},
     {field: "total_programs", name: "Programs"},
     {field: "computers", name: "Computers"}
   ]},
@@ -119,6 +119,17 @@ index.search({
       document.getElementById("address").innerHTML = res.mailing_address;
       var city = res.mailing_city + ', ' + res.state
       document.getElementById("city").innerHTML = city;
+      var serviceAreaPopulation = 'Service Area Population: ' + res.service_area_population.toLocaleFixed(0);
+      document.getElementById("service-area-population").innerHTML = serviceAreaPopulation;
+      var locale = 'Locale: ' + res.locale_string;
+      document.getElementById("locale").innerHTML = locale;
+
+      var centralLibraries = 'Central Libraries: ' + res.central_libraries;
+      document.getElementById("central-libraries").innerHTML = centralLibraries;
+      var branchLibraries = 'Branch Libraries: ' + res.branch_libraries;
+      document.getElementById("branch-libraries").innerHTML = branchLibraries;
+      var bookmobiles = 'Bookmobiles: ' + res.bookmobiles;
+      document.getElementById("bookmobiles").innerHTML = bookmobiles;
       // var county = 'County: ' + res.county + ' Population: ' + res.county_population;
       // document.getElementById("county").innerHTML = county;
       var fscs_id = res.fscs_id;
