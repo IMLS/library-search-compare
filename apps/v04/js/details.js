@@ -16,7 +16,7 @@ var clusters = [
     {field: "references", name: "References"},
     {field: "users", name: "Users"},
     {field: "total_circulation", name: "Circulation"},
-    {field: "loans_to", name: "Interlibrary Loans to"},
+    {field: "loans_to", name: "Interlibrary Loans To"},
     {field: "total_programs", name: "Programs"},
     {field: "computers", name: "Computers"}
   ]},
