@@ -979,7 +979,7 @@ tr#comparison-headers th, tr#comparison-data td, tr#comparison-mean td, tr#compa
     z-index: 9999;
 }
 .closed {
-    top:-100%;
+    top:-1000%;
     -webkit-transition: all 500ms cubic-bezier(0.680, 0, 0.265, 1);
     -webkit-transition: all 500ms cubic-bezier(0.680, -0.550, 0.265, 1.550);
     -moz-transition: all 500ms cubic-bezier(0.680, -0.550, 0.265, 1.550);
