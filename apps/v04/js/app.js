@@ -155,11 +155,25 @@ share_btn.onclick = function( evt ) {
 
 function sharePage( evt ) {
   var page_url = window.location.href;
-  var dummy = document.createElement( 'input' );
-  document.body.appendChild( dummy );
-  dummy.value = page_url;
-  dummy.select();
+  var myLink = document.getElementById( 'shareMe' );
+  var myDiv = document.getElementById( 'shareDiv' );
+  var closed = myDiv.className.indexOf( 'closed' ) !== -1;
+  if( closed ) {
+    myDiv.className = myDiv.className.replace( 'closed', 'open' );
+  }
+  myLink.value = page_url;
+  myLink.select();
   document.execCommand( "copy" );
-  document.body.removeChild( dummy );
+  hideIt();
 }
 
+function hideIt() {
+  setTimeout( function(){
+    var myDiv = document.getElementById( 'shareDiv' );
+    var open = myDiv.className.indexOf( 'open' ) !== -1;
+    if( open ) {
+      myDiv.className = myDiv.className.replace( 'open', 'closed' );
+    }
+  }, 5000 );
+  return false;
+}

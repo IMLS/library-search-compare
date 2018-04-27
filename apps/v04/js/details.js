@@ -90,7 +90,7 @@ share_btn.onclick = function( evt ) {
   sharePage( evt );
 }
 
-function sharePage( evt ) {
+/*function sharePage( evt ) {
   var page_url = window.location.href;
   var dummy = document.createElement( 'input' );
   document.body.appendChild( dummy );
@@ -98,6 +98,30 @@ function sharePage( evt ) {
   dummy.select();
   document.execCommand( "copy" );
   document.body.removeChild( dummy );
+}*/
+function sharePage( evt ) {
+  var page_url = window.location.href;
+  var myLink = document.getElementById( 'shareMe' );
+  var myDiv = document.getElementById( 'shareDiv' );
+  var closed = myDiv.className.indexOf( 'closed' ) !== -1;
+  if( closed ) {
+    myDiv.className = myDiv.className.replace( 'closed', 'open' );
+  }
+  myLink.value = page_url;
+  myLink.select();
+  document.execCommand( "copy" );
+  hideIt();
+}
+
+function hideIt() {
+  setTimeout( function(){
+    var myDiv = document.getElementById( 'shareDiv' );
+    var open = myDiv.className.indexOf( 'open' ) !== -1;
+    if( open ) {
+      myDiv.className = myDiv.className.replace( 'open', 'closed' );
+    }
+  }, 5000 );
+  return false;
 }
 
 // only query string
