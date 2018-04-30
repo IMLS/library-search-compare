@@ -16,10 +16,10 @@
 	  <div class="container-fluid">
     	<div class="row">
 	    	<div class="col-sm-12 col-sm-6">
-	    		<div class="site-logo"><a href="library-search-compare.html"><img src="../sites/default/files/logo.png" alt="Institute of Museum and Library Services"></a></div>
+	    		<div class="site-logo"><a href="index.html"><img src="../sites/default/files/logo.png" alt="Institute of Museum and Library Services"></a></div>
 	    	</div>
 	    	<div class="col-sm-12 col-sm-6 text-right">
-		    	<small>Help IMLS improve this beta website by <a href="#">sending feedback here</a>. All data from IMLS FY2016 Public Libraries Survey (<a href="#">details</a>).</small>
+		    	<small>Help IMPLS improve this beta website by <a href="#">sending feedback here</a>. All data from IMPLS FY2016 Public Libraries Survey (<a href="#">details</a>).</small>
 	    	</div>
     	</div>
 	  </div>
@@ -28,106 +28,136 @@
     <div class="container-fluid">
       <div class="row secondary-nav">
         <div class="col-md-12 text-right">
-          <a href="library-search-compare.html" class="btn btn-default btn-sm">Go to Search Page</a>
-          <!-- <button class="btn btn-default btn-sm" type="button" onclick="window.history.back();">Back to Search Results</button> -->
-          <button id="share-btn" class="btn btn-default btn-sm" type="button">Share This Page</button>
-          <div id="shareDiv" class="closed">
-            <p>This page has been copied to your clipboard. Paste somewhere to share!</p>
-            <input type="text" id="shareMe">
-          </div>
+          <a href="index.html" class="btn btn-default btn-sm">Go to Search Page</a>
+          <button class="btn btn-default btn-sm" type="button" onclick="window.history.back();">Back to Search Results</button>
+          <button class="btn btn-default btn-sm" type="button">Share This Page</button>
         </div>
       </div><!--end .secondary-nav-->
-      <div class="row lib-title">
-        <div class="col-md-10 col-md-offset-1">
-          <h2><span id="name"></span> (<span id="fscs-id"></span>)</h2>
-          <div class="row">
-            <div class="col-md-6">
-              <div><span id="address"></span> <span id="city"></span></div>
-              <div><span id="service-area-population"></span></div>
-              <div><span id="locale"></span></div>
-            </div>
-            <div class="col-md-6">
-              <div><span id="central-libraries"></span></div>
-              <div><span id="branch-libraries"></span></div>
-              <div><span id="bookmobiles"></span> <span id="city"></span></div>
-            </div>
-          </div>
-        </div>
-      </div><!--end title row-->
       <div class="row lib-details">
-        <div class="col-md-10 col-md-offset-1">          
-          <div class="row">
-            <div class="col-md-3">
-              <div class="box">
-                <h3>Service Data:</h3>
-                <div id="hours"></div>
-                <div id="visits"></div>
-                <div id="references"></div>
-                <div id="users"></div>
-                <div id="total_circulation"></div>
-                <div id="loans_to"></div>
-                <div id="total_programs"></div>
-                <div id="computers"></div>
-              </div>
-            </div>
-            <div class="col-md-3">
-              <div class="box">
-                <h3>Staff Data:</h3>
-                <div id="mls_librarian_staff"></div>
-                <div id="librarian_staff"></div>
-                <div id="other_staff"></div>
-                <div id="total_staff"></div>
-              </div>
-            </div>
-            <div class="col-md-3">
-              <div class="box">
-                <h3>Finance Data:</h3>
-                <div id="total_revenue"></div>
-                <div id="total_staff_expenditures"></div>
-                <div id="total_collection_expenditures"></div>
-                <div id="capital_expenditures"></div>
-              </div>
-            </div>
-            <div class="col-md-3">
-              <div class="box">
-                <h3>Collection Data:</h3>
-                <div id="print_materials"></div>
-                <div id="ebooks"></div>
-                <div id="audio_materials"></div>
-                <div id="video_materials"></div>
-                <div id="total_databases"></div>
-                <div id="print_serials"></div>
-              </div>
-            </div>
-          </div>
+        <div class="col-md-8 col-md-offset-2">
+          <h2><span id="name"></span> (<span id="fscs-id"></span>) Details:</h2>
+          <div id="address"></div>
+          <div id="city"></div>
+          
         </div>
       </div><!--end details row-->
+      <div class="row">
+        <div class="col-md-5 col-md-offset-2">
+          <h3>Service data:</h3>
+          <div class="row" id="service-row">
+            <div class="col-md-6">
+              <div id="hours"></div>
+              <div id="visits"></div>
+              <div id="references"></div>
+              <div id="users"></div>
+            </div>
+            <div class="col-md-6">
+              <div id="total_circulation"></div>
+              <div id="loans_to"></div>
+              <div id="total_programs"></div>
+              <div id="computers"></div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-5" id="staff-row">
+          <h3>Staff data:</h3>
+          <div class="row" id="staff-row">
+            <div class="col-md-6">
+              <div id="mls_librarian_staff"></div>
+              <div id="librarian_staff"></div>
+              <div id="other_staff"></div>
+            </div>
+          </div>
+        </div>
+      </div><!-- end variables row 1 -->
+      <div class="row" id="finance-row">
+        <div class="col-md-5 col-md-offset-2">
+          <h3>Finance data:</h3>
+          <div class="row" id="finance-row">
+            <div class="col-md-6">
+              <div id="total_revenue"></div>
+              <div id="total_staff_expenditures"></div>
+            </div>
+            <div class="col-md-6">
+              <div id="total_collection_expenditures"></div>
+              <div id="capital_expenditures"></div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-5" id="collection-row">
+          <h3>Collection data:</h3>
+          <div class="row" id="collection-row">
+            <div class="col-md-6">
+              <div id="print_materials"></div>
+              <div id="ebooks"></div>
+              <div id="audio_materials"></div>
+            </div>
+            <div class="col-md-6">
+              <div id="video_materials"></div>
+              <div id="total_databases"></div>
+              <div id="print_serials"></div>
+            </div>
+          </div>
+        </div>
+      </div><!-- end variables row 2 -->
+      <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+          <h2>See Similar Libraries Based On:</h2>
+        </div>
+      </div>
       <div id="similar-libraries-wrapper">
-        <div class="row detail-stripe">
-          <div class="col-md-10 col-md-offset-1">
-            <h2>See Similar Libraries Based On:</h2>
-            <div class="row" id="similar-links">
-              <div class="col-md-3">
-                <a href="#" class="similar-link" id="service-link" data-type="cluster_service">See Service</a>
-                <div><p>Similarities are based on users, circulation, references and hours data.</p></div>
-              </div><!--end service column-->
-              <div class="col-md-3">
-                <a href="#" class="similar-link" id="staff-link" data-type="cluster_staff">See Staff</a>
-                <div><p>Similarities are based on staffing data.</p></div>
+        <div class="row" id="similar-links">
+          <div class="col-md-2 col-md-offset-2">
+            <div class="media">
+              <div class="media-left">
+                <img src="img/service-icon.svg" alt="Service" class="media-object">
               </div>
-              <div class="col-md-3">
-                <a href="#" class="similar-link" id="finance-link" data-type="cluster_finance">See Finance</a>
-                <div><p>Similarities are based on revenue and expenditures data.</p></div>
-              </div>
-              <div class="col-md-3">
-                <a href="#" class="similar-link" id="collection-link" data-type="cluster_collection">See Collection</a>
-                <div><p>Similarities are based on printed, audio, video and electronic materials data.</p></div>
+              <div class="media-body">
+                <h4>Service</h4>
+                <p>View similar libraries based on users, circulation, references and hours data</p>
+                <a href="#" class="similar-link" id="service-link" data-type="cluster_service">View Service &raquo;</a>
               </div>
             </div>
           </div>
-        </div><!--end buttons row-->
+          <div class="col-md-2">
+            <div class="media">
+              <div class="media-left">
+                <img src="img/staff-icon.svg" alt="Staff" class="media-object">
+              </div>
+              <div class="media-body">
+                <h4>Staff</h4>
+                <p>View similar libraries based on staffing data</p>
+                <a href="#" class="similar-link" id="staff-link" data-type="cluster_staff">View Staff &raquo;</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="media">
+              <div class="media-left">
+                <img src="img/finance-icon.svg" alt="Finance" class="media-object">
+              </div>
+              <div class="media-body">
+                <h4>Finance</h4>
+                <p>View similar libraries based on revenue and expenditures data</p>
+                <a href="#" class="similar-link" id="finance-link" data-type="cluster_finance">View Finance &raquo;</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="media">
+              <div class="media-left">
+                <img src="img/collection-icon.svg" alt="Collection" class="media-object">
+              </div>
+              <div class="media-body">
+                <h4>Collection</h4>
+                <p>View similar libraries based on printed, audio, video and electronic materials data</p>
+                <a href="#" class="similar-link" id="collection-link" data-type="cluster_collection">View Collection &raquo;</a>
+              </div>
+            </div>
+          </div>
+        </div><!--end #similar-links-->
         <div class="row similar-row">
-          <div class="col-md-10 col-md-offset-1">
+          <div class="col-md-12 detail-stripe">
             <h2><span class="library-name"></span> Compared to Other Libraries in this Group:</h2>
             <div class="table-responsive">
               <table class="table table-striped">
@@ -150,8 +180,8 @@
             </div>
           </div>
         </div>
-        <div class="row similar-row detail-stripe">
-          <div class="col-md-10 col-md-offset-1" id="similar-table-wrapper">
+        <div class="row similar-row">
+          <div class="col-md-12 detail-stripe" id="similar-table-wrapper">
             <h2><span class="library-name"></span> is similar to <span id="similar-number"></span> libraries for <span id="similar-name"></span> data</h2>
             <div class="table-responsive">
               <table class="table table-striped" id="similar-table"></table>
@@ -159,10 +189,8 @@
           </div>
         </div>
       </div><!--end #similar-libraries-wrapper-->
-      <!--
       <h2>Full json:</h2>
       <pre id="json"></pre>
-      -->
     </div><!--end container-->
   </main>
   <footer class="footer">
