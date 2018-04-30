@@ -6,10 +6,121 @@
 html {
   overflow-y: scroll;
   background: #FFF;
-}
-html, body, main.container-fluid {
   height: 100%;
 }
+
+body {
+	background-color: #5f6062;
+}
+
+.clear:after {
+  content: '';
+  display: table;
+  clear: both;
+}
+
+img {
+	display: inline-block;
+	height: auto;
+	max-width: 100%;
+	vertical-align: top;
+	width: auto;
+}
+
+.full-height {
+	height: 100%;
+}
+
+
+
+
+/* HEADER ELEMENTS */
+header {
+	background-color: #fff;
+}
+.header-fixed header {
+	-webkit-box-shadow: 0 0 5px 0 rgba(0,0,0,.3);
+	box-shadow: 0 0 5px 0 rgba(0,0,0,.3);
+	position: fixed;
+	width: 100%;
+	z-index: 999;
+}
+header .container-fluid .site-logo {
+	max-width: 180px;
+	padding: .625em;
+}
+.site-logo {
+	padding: .625em;
+}
+.contact-nav {
+	display: none;
+}
+.contact-nav a {
+	color: #5f6062;
+	font-family: "Effra", Helvetica, Arial, sans-serif;
+	font-size: 1.125em;
+	font-weight: 700;
+}
+
+
+
+/* MAIN WRAPPER ELEMENTS */
+.header-fixed .main-wrapper {
+	padding: 75px 0 0;
+}
+.main-wrapper {
+	background: #fff;
+}
+
+
+
+
+/* Homepage Welcome Block */
+.welcome-block p {
+	font-family: "Museo-slab", Helvetica, Arial, sans-serif;
+	font-size: 1.125em;
+	line-height: 1.5em;
+	margin: 0 0 1.5em;
+}
+.welcome-block p a {
+	font-family: "Museo-slab", Helvetica, Arial, sans-serif;
+}
+.welcome-block h2 {
+	color: #5f6062;
+	font-family: "Effra", Helvetica, Arial, sans-serif;
+	font-size: 1.5em;
+	font-weight: 700;
+	line-height: 1.25em;
+	margin: 1em 0;
+}
+.welcome-block h2 a {
+	font-family: "Effra", Helvetica, Arial, sans-serif;
+}
+
+.welcome-buttons-row {
+	padding-bottom: 4em;
+	padding-top: 2em;
+}
+.welcome-buttons-row .btn {
+	-webkit-border-radius: 20px;
+	border-radius: 20px;
+	font-family: "Effra", Helvetica, Arial, sans-serif;
+	font-size: 1.375em;
+	font-weight: 700;
+	margin: 0 0 1em;
+	padding: .875em 2em;
+	position: relative;
+	transition: all .25s ease-in-out;
+	white-space: normal;
+}
+.welcome-buttons-row .btn:hover {
+	background-color: #264c4d;
+}
+
+
+
+
+
 main, #no-results, footer {
 
 }
@@ -32,7 +143,7 @@ main {
   padding: 5px 20px;
 }
 
-.lib-title {
+.lib-details {
   background-color: #e0e0e0;
   border-bottom: 1px solid #c1c8c8;
   padding-bottom: 20px;
@@ -91,26 +202,7 @@ main {
   clear: both;
 }
 
-header {
-  width: 100%;
-  background-color: #34715B;
-  color: #fff;
-  min-height: 41px;
-  margin: 0;
-  padding: 5px 20px;
-  border-bottom: 1px solid #1c3d31;
-}
 
-header a {
-  color: #fafafa;
-}
-header a:hover, header a:focus, header a:active {
-  color: #fafafa;
-}
-header .col-sm-8,
-header .col-sm-4 {
-  text-align: center;
-}
 
 h1, h2, h3, h4, h5, h6, h3 a {
   font-family: 'Sanchez', serif;
@@ -801,21 +893,72 @@ a.clear-all:hover {
   position: relative;
 }
 
+
+
+
+
+
 /* FOOTER */
-footer {
-  font-size: 14px;
-  margin-top: 200px;
-  margin-bottom: 15px;
-  text-align: center;
-}
-footer a {
-  text-decoration: none;
-  color: #ed5565;
+
+footer a, footer a:active {
+	font-family: "Effra", Helvetica, Arial, sans-serif;
+  text-decoration: underline;
+  color: #fff;
 }
 footer a:hover {
-  text-decoration: underline;
-  color: #ed5565;
+  text-decoration: none;
+  color: #fff;
 }
+footer a:focus,
+footer a:active:focus {
+	color: #fff;
+	outline: 2px solid rgba(255, 255, 255, 0.65);
+	outline-offset: -2px;
+}
+footer .block {
+	color: #fff;
+	font-size: 1.125em;
+	padding: 1.5em 0 0;
+	text-align: center;
+}
+footer .block p {
+	color: #fff;
+	font-family: "Effra", Helvetica, Arial, sans-serif;
+}
+footer .block p strong {
+	font-family: "Effra", Helvetica, Arial, sans-serif;
+	font-weight: 700;
+}
+footer .footer-social-container {
+	margin: 0 0 2em;
+}
+footer .block ul {
+	list-style: none;
+	list-style-type: none;
+	margin: 0 0 2em;
+	padding: 0;
+}
+footer .block ul li a {
+	font-family: "Effra", Helvetica, Arial, sans-serif;
+	text-decoration: underline;
+}
+footer .block ul li a:hover {
+	text-decoration: none;
+}
+footer .block.agency-location,
+footer .block.contact-info,
+footer .block.email-info {
+	display: none;
+}
+footer .block.footer-links {
+	font-size: .875em;
+	text-align: center;
+}
+
+
+
+
+
 
 /* CSS added by Mark, just placeholder stuff, feel free to remove */
 

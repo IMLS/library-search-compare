@@ -1,9 +1,7 @@
 <!doctype html>
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans+Condensed:400,400i,700|IBM+Plex+Serif" rel="stylesheet">
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Sanchez:400,400i" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/instantsearch.js@2.7.2/dist/instantsearch.min.css">
   <!-- Always use `2.x` versions in production rather than `2` to mitigate any side effects on your website,
   Find the latest version on InstantSearch.js website: https://community.algolia.com/instantsearch.js/v2/guides/usage.html -->
@@ -12,37 +10,51 @@
 	<script src="//use.typekit.net/dib7hxd.js"></script>
   <script>try{Typekit.load();}catch(e){}</script>
 </head>
-<body>
-  <header>
-	  <div class="container">
+<body class="header-fixed">
+	<header>
+	  <div class="container-fluid">
     	<div class="row">
-	    	<div class="col-sm-12 col-md-6">
-	    		<div class="site-logo"><img src="../sites/default/files/logo.png" alt="Institute of Museum and Library Services"></div>
+	    	<div class="col-sm-12 col-sm-6">
+	    		<div class="site-logo"><a href="index.html"><img src="../sites/default/files/logo.png" alt="Institute of Museum and Library Services"></a></div>
 	    	</div>
-	    	<div class="col-sm-12 col-md-6 text-right">
-		    	<div class="contact-nav">
-			    	<a href="/about-us/contact-us">Contact Us</a>
-		    	</div>
+	    	<div class="col-sm-12 col-sm-6 text-right">
+		    	<small>Help IMPLS improve this beta website by <a href="#">sending feedback here</a>. All data from IMPLS FY2016 Public Libraries Survey (<a href="#">details</a>).</small>
 	    	</div>
     	</div>
 	  </div>
   </header>
-  <main class="main-wrapper">
-	  <div class="container">
-		  <div class="row">
-			  <div class="col-sm-12 welcome-block">
-				  <h2>Welcome to IMLS Labs, a place for visitors to try new capabilities IMLS is exploring for sharing information with the public. Some of these capabilities may still have bugs in them—please help us find those issues and <a href="https://docs.google.com/forms/d/e/1FAIpQLSf4V4KCX2mhITLK-wq0SRgrFWrxQxx-MVtmMw8Ft4Gf7y39_g/viewform" target="_blank">send us feedback</a>.</h2>
-				  <p>IMLS Labs hosts recent new data exploration tools we are seeking feedback about. The latest is the Library Search &amp; Compare, a tool which provides an easy way to query and view data from the FY2016 Public Libraries Survey. All data comes from <a href="https://www.imls.gov/research-evaluation/data-collection/public-libraries-survey/explore-pls-data/pls-data" target="_blank">IMLS FY2016 Public Libraries Survey</a>.</p>
-			  </div>
-		  </div>
-	    <div class="row welcome-buttons-row">
-	      <div class="col-sm-12 text-center">
-		      <a class="btn btn-primary btn-large landing-page-button" href="library-search-compare.html">Library Search &amp; Compare</a>
-	      </div>
-	    </div>
-	  </div>
+  <main class="main-wrapper container-fluid full-height">
+    <div class="row">
+      <div id="left-column" class="col-md-2">
+        <input id="search-input" placeholder="Search for library data">
+        <div id="clear-all" class="btn orange"></div>
+        <div id="total-circulation-refinement" class="facet"></div>
+        <div id="total-revenue-refinement" class="facet"></div>
+        <div id="total-staff-refinement" class="facet"></div>
+        <div id="service-area-population-refinement" class="facet"></div>
+        <div id="locale-refinement" class="facet"></div>
+        <div id="state-refinement" class="facet"></div>
+      </div>
+      <div id="right-column" class="col-md-10">
+        <div class="row">
+          <div class="col-md-9">
+            <div id="search-intro">Enter a keyword in the search box to the left to search for libraries. From there, you can refine your search based on the parameters below the search box.  By clicking on a library name, you can view similar libraries based on Service, Staff, Finance and Collection data.</div>
+          </div>
+          <div class="col-md-3 text-right">
+            <button id="share-btn" class="btn btn-default btn-sm" type="button">Share These Results</button>
+            <div id="shareDiv" class="closed">
+              <p>This page has been copied to your clipboard. Paste somewhere to share!</p>
+              <input type="text" id="shareMe">
+            </div>
+          </div>
+        </div>
+        <div id="count" class="text-right"></div>
+        <div id="hits"></div>
+        <div id="pagination"></div>
+      </div>
+    </div><!--end row-->
   </main>
-	<footer class="footer">
+  <footer class="footer">
 		<div class="container">
 			<div class="row flex-links">
 				<div class="col-lg-3">
@@ -101,5 +113,24 @@
 			</div>
 		</div>
 	</footer>
+  <script src="https://cdn.jsdelivr.net/npm/instantsearch.js@2.7.2/dist/instantsearch.min.js"></script>
+  <script type="type/html" id="hit-template">
+    <div class="hit">
+      <div class="hit-content">
+        <h3 class="hit-name"><a href="details.html?fscs_id={{fscs_id}}">{{{_highlightResult.library_name.value}}} ({{{fscs_id}}})</a></h3>
+        <div class="hit-address">{{{location_address}}}</div>
+        <div class="hit-city">{{{mailing_city}}}, {{{state}}} {{{mailing_zip}}}</div>
+      </div>
+      <div class="similar-results">
+        <strong>See similar libraries based on:</strong>
+        <div>
+          <a href="details.html?fscs_id={{fscs_id}}&similar=collection" class="btn btn-default btn-sm">Collection</a>
+          <a href="details.html?fscs_id={{fscs_id}}&similar=finance" class="btn btn-default btn-sm">Finance</a>
+          <a href="details.html?fscs_id={{fscs_id}}&similar=service" class="btn btn-default btn-sm">Service</a>
+          <a href="details.html?fscs_id={{fscs_id}}&similar=staff" class="btn btn-default btn-sm">Staff</a>
+        </div>
+      </div>
+    </div>
+  </script>
+  <script src="js/app.js"></script>
 </body>
-
