@@ -13,6 +13,8 @@ json.each do |el|
   el[:cluster_staff] = cluster_data[2].to_i
   el[:cluster_finance] = cluster_data[3].to_i
   el[:cluster_collection] = cluster_data[4].to_i
+  el[:total_staff_expenditures_mean] = cluster_data[5].to_i
+  el[:total_staff_expenditures_percentile] = cluster_data[6].to_i
 end
 
 formatted_json = JSON.generate(json)

@@ -24,6 +24,6 @@ CSV.open(outfile, "w") do |out|
     finance = prefixes[finance_arr[0]] + finance_arr[1].to_i
     collection = prefixes[collection_arr[0]] + collection_arr[1].to_i
 
-    out << [row[0], service, staff, finance, collection]
+    out << [row[0], service, staff, finance, collection, row[5], row[6]]
   end
 end

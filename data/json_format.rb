@@ -22,8 +22,19 @@ json.delete_if { |h| h["hours"] == -3 }
 json.each do |el|
   el.each do |k, v|
     if v == -1
-      p el["fscs_id"] + " " + k + " " + v.to_s
+      # p el["fscs_id"] + " " + k + " " + v.to_s
       el[k] = "M"
+    end
+  end
+end
+
+
+# Convert -9 to 'S'
+json.each do |el|
+  el.each do |k, v|
+    if v == -9
+      p el["fscs_id"] + " " + k + " - " + v.to_s
+      el[k] = "S"
     end
   end
 end
