@@ -161,7 +161,7 @@ index.search({
 
       // display library name
       var libraryNames = document.querySelectorAll('.library-name');
-      libraryNames.forEach(function( el ) {
+      _.forEach (libraryNames, function( el ) {
         el.innerHTML = res.library_name;
       });
 
@@ -283,8 +283,6 @@ function createCalculationsTable(baseLibrary, content, field_names, display_name
   // Add total_staff_expenditures_mean and total_staff_expenditures_percentile
   base_values["total_staff_expenditures_mean"] = baseLibrary["total_staff_expenditures_mean"];
   base_values["total_staff_expenditures_percentile"] = baseLibrary["total_staff_expenditures_percentile"];
-  console.log(baseLibrary);
-  console.log(baseLibrary["total_staff_expenditures_percentile"]);
 
   // create empty mean and percentile rank td cells
   var elements = document.getElementById("comparison-mean").getElementsByTagName("td");
@@ -342,8 +340,6 @@ function calculatePercentileRank( content, field_names ) {
       displayPercentileRank ( f, percentile_rank );
     } else if (base_values[f] == "S" ) {
       var percentile_rank = base_values["total_staff_expenditures_percentile"]
-      console.log( base_values );
-      console.log( percentile_rank );
       displayPercentileRank ( f, percentile_rank );
     } else {
       if ( f !== "fscs_id" ) {
