@@ -320,7 +320,15 @@ function calculateMean( content, field_names ) {
           total = total + res[f];
         }
       }
-      var mean = (total/values.length).toLocaleFixed(1);
+
+      console.log( base_values );
+      if ( f === "total_staff_expenditures" ) {
+        var mean  = base_values["total_staff_expenditures_mean"].toLocaleFixed(1);
+        console.log( f );
+        console.log( mean );
+      } else {
+        var mean = (total/values.length).toLocaleFixed(1);
+      }
       // display mean
       displayMean( f, mean );
     }
