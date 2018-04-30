@@ -177,6 +177,9 @@ index.search({
         });
       });
 
+      // Add total staff to Staff Data section
+      document.getElementById("total_staff").innerHTML = "<strong>Total Staff:</strong><span>" + res[ 'total_staff' ] + "</span>";
+
       // var clusters = ' Clusters: <a href="#" id=service" data-type="service", data-value="' + res.cluster_service + '">Service: ' + res.cluster_service + '</a> Staff: ' + res.cluster_staff + ' Finance: ' + res.cluster_finance + ' Collection: ' + res.cluster_collection;
       // document.getElementById("clusters").innerHTML = clusters;
 
@@ -277,6 +280,12 @@ function createCalculationsTable(baseLibrary, content, field_names, display_name
     }
   });
 
+  // Add total_staff_expenditures_mean and total_staff_expenditures_percentile
+  base_values["total_staff_expenditures_mean"] = baseLibrary["total_staff_expenditures_mean"];
+  base_values["total_staff_expenditures_percentile"] = baseLibrary["total_staff_expenditures_percentile"];
+  console.log(baseLibrary);
+  console.log(baseLibrary["total_staff_expenditures_percentile"]);
+
   // create empty mean and percentile rank td cells
   var elements = document.getElementById("comparison-mean").getElementsByTagName("td");
   removeElements( elements );
@@ -308,7 +317,7 @@ function calculateMean( content, field_names ) {
       total = 0;
       for ( var h in content.hits ) {
         res = content.hits[h];
-        if ( res[f] !== "M") {
+        if ( res[f] !== "M" && res[f] !== "S" ) {
           values.push( res[f] );
           total = total + res[f];
         }
@@ -328,8 +337,13 @@ function displayMean( f, mean ) {
 // calculate percentile rank
 function calculatePercentileRank( content, field_names ) {
   field_names.forEach(function(f) {
-    if ( base_values[f] == "M") {
+    if ( base_values[f] == "M" ) {
       var percentile_rank = "M";
+      displayPercentileRank ( f, percentile_rank );
+    } else if (base_values[f] == "S" ) {
+      var percentile_rank = base_values["total_staff_expenditures_percentile"]
+      console.log( base_values );
+      console.log( percentile_rank );
       displayPercentileRank ( f, percentile_rank );
     } else {
       if ( f !== "fscs_id" ) {
