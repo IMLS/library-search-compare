@@ -242,7 +242,7 @@ function getSimilarLibraries(el) {
       calculatePercentileRank( content, field_names );
       displaySimilarLibraries( baseLibrary, content, cluster_type, field_names, display_names );
       var similarRows = document.querySelectorAll('.similar-row');
-      similarRows.forEach(function( el ) {
+      _.forEach( similarRows, function( el ) {
         el.style.display = 'block';
       });
     }
@@ -256,7 +256,7 @@ function createCalculationsTable(baseLibrary, content, field_names, display_name
   var blankTh = document.createElement("th");
   document.getElementById("comparison-headers").appendChild(blankTh);
   // display field titles on data grid
-  display_names.forEach(function(f) {
+  _.forEach( display_names, function(f) {
     if ( f !== "FSCS_ID" ) {
       var th = document.createElement("th");
       var th_text = document.createTextNode(f);
@@ -268,7 +268,7 @@ function createCalculationsTable(baseLibrary, content, field_names, display_name
   // display library data on data grid
   var elements = document.getElementById("comparison-data").getElementsByTagName("td");
   removeElements( elements );
-  field_names.forEach(function(f) {
+  _.forEach( field_names, function(f) {
 
     if ( f !== "fscs_id" ) {
       var td = document.createElement("td");
@@ -289,7 +289,7 @@ function createCalculationsTable(baseLibrary, content, field_names, display_name
   removeElements( elements );
   var elements = document.getElementById("comparison-percentile").getElementsByTagName("td");
   removeElements( elements );
-  field_names.forEach(function(f) {
+  _.forEach( field_names, function(f) {
     if ( f !== "fscs_id" ) {
       var mean_td = document.createElement("td");
       mean_td.setAttribute("id","mean-" + f);
@@ -309,7 +309,7 @@ function removeElements( elements ){
 
 // calculate mean
 function calculateMean( content, field_names ) {
-  field_names.forEach(function(f) { 
+  _.forEach( field_names, function(f) { 
     if ( f !== "fscs_id" ) {
       var values = [];
       total = 0;
@@ -334,7 +334,7 @@ function displayMean( f, mean ) {
 
 // calculate percentile rank
 function calculatePercentileRank( content, field_names ) {
-  field_names.forEach(function(f) {
+  _.forEach( field_names, function(f) {
     if ( base_values[f] == "M" ) {
       var percentile_rank = "M";
       displayPercentileRank ( f, percentile_rank );
@@ -393,12 +393,12 @@ function displaySimilarLibraries( baseLibrary, content, cluster_type, field_name
   for (var h in content.hits) {
     res = content.hits[h];
     var tableRow = [ '<a href="details.html?fscs_id=' + res["fscs_id"] + '">' + res["library_name"] + '</a>' ];
-    field_names.forEach(function(f) {
+    _.forEach( field_names, function(f) {
       tableRow.push(res[f].toLocaleString("en-US"));
     });
     tableRows.push(tableRow);
   }
-  display_names.forEach(function(f) {
+  _.forEach( display_names, function(f) {
     tableHeadings.push(f);
   });
 
