@@ -143,7 +143,7 @@ main {
   padding: 5px 20px;
 }
 
-.lib-details {
+.lib-title {
   background-color: #e0e0e0;
   border-bottom: 1px solid #c1c8c8;
   padding-bottom: 20px;
@@ -1154,4 +1154,70 @@ tr#comparison-headers th, tr#comparison-data td, tr#comparison-mean td, tr#compa
   header .col-sm-4 {
     text-align: left;
   }
+}
+
+@media all and (min-width: 992px) {
+	
+	header small {
+		padding: 2em 0 0;
+	}
+	
+	.contact-nav {
+		display: block;
+		padding: 50px 0 0;
+	}
+	.contact-nav a {
+		font-size: 1.25em;
+	}
+	.header-fixed .contact-nav {
+		padding: 28px 10px 0 0;
+	}
+	.welcome-block h2 {
+		font-size: 2em;
+	}
+	
+}
+
+
+
+@media all and (min-width: 1200px) {
+	
+	footer .block {
+		padding: 0;
+		text-align: left;
+	}
+	
+	footer .block p {
+		margin: 0 0 2em;
+	}
+	footer .block p:last-child {
+		margin: 0;
+	}
+	
+	footer .block.footer-links p {
+		margin: 0 0 1.5em;
+	}
+	
+	footer .block.agency-location,
+	footer .block.contact-info,
+	footer .block.email-info {
+		display: block;
+	}
+	
+	footer .flex-links {
+		display: -webkit-box;
+	  display: -moz-box;
+	  display: -ms-flexbox;
+	  display: -webkit-flex;
+	  display: flex;
+	  flex-flow: row wrap;
+	  padding: 2.5em 0 3.5em;
+	}
+	footer .flex-links .col-lg-3 {
+		border-left: 1px solid #fff;
+	}
+	footer .flex-links .col-lg-3:first-child {
+		border: none;
+	}
+	
 }
