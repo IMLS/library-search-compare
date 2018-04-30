@@ -35,6 +35,14 @@ img {
 
 
 /* HEADER ELEMENTS */
+.header-text{
+  font-size: 18px;
+}
+
+.header-text, .site-logo {
+  display: inline-block;
+}
+
 header {
 	background-color: #fff;
 }
@@ -1221,3 +1229,4 @@ tr#comparison-headers th, tr#comparison-data td, tr#comparison-mean td, tr#compa
 	}
 	
 }
+
