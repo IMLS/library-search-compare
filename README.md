@@ -27,7 +27,12 @@ Workflow:
     [https://imls.github.io/library-search-compare/v04](https://imls.github.io/library-search-compare/v04/)
 ## Creating json file for Algolia:
 
+## Data sources
+Uses IMLS Public Libraries Survey data described here:
+[https://www.imls.gov/research-evaluation/data-collection/public-libraries-survey/explore-pls-data/pls-data](https://www.imls.gov/research-evaluation/data-collection/public-libraries-survey/explore-pls-data/pls-data)
 
+Using the API available on data.imls.gov at [this endpoint](https://data.imls.gov/resource/yqs5-dnp6.json) described here:
+[https://data.imls.gov/Public-Libraries-Survey/Public-Libraries-Survey-2016-Library-Systems-Admin/grpq-tgei](https://data.imls.gov/Public-Libraries-Survey/Public-Libraries-Survey-2016-Library-Systems-Admin/grpq-tgei)
 
 ## Clusters and Variables   
 
