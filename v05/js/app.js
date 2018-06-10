@@ -83,6 +83,21 @@ search.addWidget(
   })
 );
 
+// total circulation input  
+search.addWidget(
+  instantsearch.widgets.rangeInput({
+    container: '#circulation-input',
+    attributeName: 'total_circulation',
+    labels: {
+      separator: 'to',
+      submit: 'Go'
+    },
+    templates: {
+      header: 'Total Circulation'
+    }
+  })
+);
+
 // total circulation slider  
 search.addWidget(
   instantsearch.widgets.rangeSlider({
@@ -98,6 +113,22 @@ search.addWidget(
     }
   })
 );
+
+// total revenue input  
+search.addWidget(
+  instantsearch.widgets.rangeInput({
+    container: '#revenue-input',
+    attributeName: 'total_revenue',
+    labels: {
+      separator: 'to',
+      submit: 'Go'
+    },
+    templates: {
+      header: 'Total Revenue'
+    }
+  })
+);
+
 
 // total revenue slider  
 search.addWidget(
@@ -115,6 +146,21 @@ search.addWidget(
   })
 );
 
+// total staff input  
+search.addWidget(
+  instantsearch.widgets.rangeInput({
+    container: '#staff-input',
+    attributeName: 'total_staff',
+    labels: {
+      separator: 'to',
+      submit: 'Go'
+    },
+    templates: {
+      header: 'Total Staff'
+    }
+  })
+);
+
 // total staff slider  
 search.addWidget(
   instantsearch.widgets.rangeSlider({
@@ -127,6 +173,21 @@ search.addWidget(
       format: function(rawValue) {
         return Math.round(rawValue).toLocaleString();
       }
+    }
+  })
+);
+
+// total population input  
+search.addWidget(
+  instantsearch.widgets.rangeInput({
+    container: '#population-input',
+    attributeName: 'service_area_population',
+    labels: {
+      separator: 'to',
+      submit: 'Go'
+    },
+    templates: {
+      header: 'Service Area Population'
     }
   })
 );

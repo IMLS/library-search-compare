@@ -1231,3 +1231,15 @@ tr#comparison-headers th, tr#comparison-data td, tr#comparison-mean td, tr#compa
 	
 }
 
+/* MMK styles - feel free to discard */
+/* slider min-max input styles */
+
+/* top padding for range input rows */
+.top-buffer {
+  padding-top: 10px;
+}
+
+/* Hide midpoint value for range sliders */
+.ais-range-slider--value {
+  display: none;
+}
