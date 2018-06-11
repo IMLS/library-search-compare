@@ -68,4 +68,17 @@ Using the API available on data.imls.gov at [this endpoint](https://data.imls.go
 Mean and Percentile Rank Calculations for 23 variables:  
 
 
-  
+## Deployment:
+
+### Deployment branch with just app code, no v05, etc
+
+New site structure
+
+index.html - Labs landing page
+
+search-compare directory:
+  - index.html - S&C main page
+
+### Canton-Dev branch 
+
+Place where Canton can push deployment issues

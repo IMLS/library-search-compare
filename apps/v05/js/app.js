@@ -3,7 +3,8 @@ var search = instantsearch({
   appId: 'CDUMM9WVUG',
   apiKey: '3cc392a5d139bd9131e42a5abb75d4ee', // search only API key, no ADMIN key
   indexName: 'imls_v04',
-  urlSync: true,
+  numberLocale: 'en-US',
+  routing: true,
   searchParameters: {
     hitsPerPage: 50
   }
@@ -37,6 +38,27 @@ search.addWidget(
       item: document.getElementById('hit-template').innerHTML,
       empty: "We didn't find any results for the search <em>\"{{query}}\"</em>"
     }
+  })
+);
+
+// display hits library compare data grid
+function renderFn(HitsRenderingOptions) {
+  var tableData = {};
+  tableData.headings  = [ 'Local Revenue', 'State Revenue', 'Federal Revenue', 'Other Revenue', 'Total Revenue', 'Total Expenditures' ];
+  console.log( tableData );
+  console.log( HitsRenderingOptions );
+  HitsRenderingOptions.widgetParams.containerNode.html(
+    HitsRenderingOptions.hits.map(function(hit) {
+      return '<div>' + hit._highlightResult.librname.value + '</div>';
+    })
+  );
+};
+
+var customHits = instantsearch.connectors.connectHits(renderFn)
+
+search.addWidget(
+  customHits({
+    containerNode: $('#library-compare'),
   })
 );
 
