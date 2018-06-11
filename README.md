@@ -25,6 +25,12 @@ Workflow:
   ```
   - View at 
     [https://imls.github.io/library-search-compare/v05](https://imls.github.io/library-search-compare/v05/)
+
+  - Deployment branch push
+  ```
+  git subtree push --prefix apps/v05 origin canton/deployment
+  ```
+
 ## Creating json file for Algolia:
 
 ## Data sources
