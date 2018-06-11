@@ -49,7 +49,6 @@ function renderFn(HitsRenderingOptions) {
   console.log( HitsRenderingOptions );
   HitsRenderingOptions.widgetParams.containerNode.html(
     HitsRenderingOptions.hits.map(function(hit) {
-      return '<div>' + hit._highlightResult.librname.value + '</div>';
     })
   );
 };
