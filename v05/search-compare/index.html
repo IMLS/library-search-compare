@@ -164,11 +164,16 @@
     $(window).on('load resize', function(){
       $('main').css('margin-top', $('header').height());
     });//end on load and resize
+    $(window).on('resize', function(){
+      $('#search-intro').closest('.row').css('margin-top', $('#min-max-wrapper').outerHeight(true));
+    });//end on just resize
 
     $(document).ready(function() {
       $("#sidebarCollapse").on("click", function() {
         $("aside").toggleClass("active");
         $(this).toggleClass("active");
+        $('#min-max-wrapper').toggleClass('active');
+        $('#search-intro').closest('.row').css('margin-top', $('#min-max-wrapper').outerHeight(true));
       });//end on collapse click
 
     });//end document.ready
