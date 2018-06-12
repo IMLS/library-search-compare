@@ -129,7 +129,8 @@ search.addWidget(
     },
     tooltips: {
       format: function(rawValue) {
-        return Math.round(rawValue).toLocaleString();
+        return shortenLargeNumber(rawValue).toLocaleString();
+        //return Math.round(rawValue).toLocaleString();
       }
     }
   })
@@ -161,7 +162,8 @@ search.addWidget(
     },
     tooltips: {
       format: function(rawValue) {
-        return Math.round(rawValue).toLocaleString();
+        return shortenLargeNumber(rawValue).toLocaleString();
+        //return Math.round(rawValue).toLocaleString();
       }
     }
   })
@@ -192,7 +194,8 @@ search.addWidget(
     },
     tooltips: {
       format: function(rawValue) {
-        return Math.round(rawValue).toLocaleString();
+        return shortenLargeNumber(rawValue).toLocaleString();
+        //return Math.round(rawValue).toLocaleString();
       }
     }
   })
@@ -223,7 +226,8 @@ search.addWidget(
     },
     tooltips: {
       format: function(rawValue) {
-        return Math.round(rawValue).toLocaleString();
+        return shortenLargeNumber(rawValue).toLocaleString();
+        //return Math.round(rawValue).toLocaleString();
       }
     }
   })

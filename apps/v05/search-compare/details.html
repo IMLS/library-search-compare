@@ -11,7 +11,7 @@
   <script src="//use.typekit.net/dib7hxd.js"></script>
   <script>try{Typekit.load();}catch(e){}</script>
 </head>
-<body class="header-fixed">
+<body>
 	<header>
 	  <div class="container-fluid">
     	<div class="row">
@@ -25,7 +25,7 @@
     	</div>
 	  </div>
   </header>
-  <main class="main-wrapper">
+  <main>
     <div class="container-fluid">
       <div class="row secondary-nav">
         <div class="col-md-12 text-right">
@@ -226,4 +226,35 @@
 		</div>
 	</footer>
   <script src="js/details.js"></script>
+  <script>
+    var addEvent = function(object, type, callback) {
+      if (object == null || typeof(object) == 'undefined') return;
+      if (object.addEventListener) {
+        object.addEventListener(type, callback, false);
+      } else if (object.attachEvent) {
+        object.attachEvent('on' + type, callback);
+      } else {
+        object['on'+type] = callback;
+      }
+    };//end var addEvent
+
+    addEvent(window, 'resize', function(event) {
+      console.log('resized');
+      addPadding();
+    });//end check for resize
+    addEvent(window, 'DOMContentLoaded', function(event) {
+      console.log('loaded');
+      addPadding();
+    });//end check for load
+
+    function addPadding() {
+      var header = document.querySelector('header');
+      var headerHeight = header.offsetHeight;
+      console.log('headerHeight is: '+headerHeight);
+      var getMain = document.getElementsByTagName('main');
+      for(var i = 0; i < getMain.length; i++){
+        getMain[i].style.paddingTop = headerHeight+'px';
+      }
+    }//end addPadding
+  </script>
 </body>
