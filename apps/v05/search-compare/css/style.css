@@ -1355,3 +1355,7 @@ tr#comparison-headers th, tr#comparison-data td, tr#comparison-mean td, tr#compa
 .pt-20 {
   padding-top: 20px;
 }
+
+#grid-results {
+  display: none;
+}

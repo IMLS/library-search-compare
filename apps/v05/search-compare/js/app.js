@@ -268,6 +268,6 @@ function hideIt() {
 
 //tell when the widgets are rendered
 search.once('render', function(){
-  console.log('render once!');
+  //console.log('render once!');
   $('#search-intro').closest('.row').css('margin-top', $('#min-max-wrapper').outerHeight(true));
 });//end render once
