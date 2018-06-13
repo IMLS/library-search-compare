@@ -59,6 +59,9 @@
           <div id="search-intro">Enter a keyword in the search box to the left to search for libraries. From there, you can refine your search based on the parameters below the search box.  By clicking on a library name, you can view similar libraries based on Service, Staff, Finance and Collection data.</div>
         </div>
         <div class="col-md-3 text-right">
+          <div class="btn-group" role="group">
+            <button type="button" class="btn btn-default" id="viewToggle"><img src="img/list.png"> Toggle View</button>
+          </div>
           <button id="share-btn" class="btn btn-default btn-sm" type="button">Share These Results</button>
           <div id="shareDiv" class="closed">
             <p>This page has been copied to your clipboard. Paste somewhere to share!</p>
@@ -74,9 +77,14 @@
         </div>
       </div><!--end row-->
       <div class="row" id="search-results-wrapper">
-        <div id="count" class="text-right"></div>
-        <div id="hits"></div>
-        <div id="pagination"></div>
+        <div id="count" class="col-xs-12 text-right"></div>
+        <div id="list-results" class="col-xs-12">
+          <div id="hits"></div>
+          <div id="pagination"></div>
+        </div>
+        <div id="grid-results" class="col-xs-12">
+          <p>Hello! I'm a grid!</p>
+        </div>
       </div><!--end row-->
     </div><!--end #content-->
   </main>
@@ -169,12 +177,24 @@
     });//end on just resize
 
     $(document).ready(function() {
-      $("#sidebarCollapse").on("click", function() {
-        $("aside").toggleClass("active");
-        $(this).toggleClass("active");
+      $('#sidebarCollapse').on('click', function() {
+        $('aside').toggleClass('active');
+        $(this).toggleClass('active');
         $('#min-max-wrapper').toggleClass('active');
         $('#search-intro').closest('.row').css('margin-top', $('#min-max-wrapper').outerHeight(true));
       });//end on collapse click
+
+      $('#viewToggle').on('click', function(){
+        if($('#list-results').is(':visible')){
+          $('#list-results').hide();
+          $('#grid-results').show();
+          $('#viewToggle img').attr('src', 'img/grid.png');
+        }else{
+          $('#list-results').show();
+          $('#grid-results').hide();
+          $('#viewToggle img').attr('src', 'img/list.png');
+        }//end if list is shown
+      });//end on viewToggle click
 
     });//end document.ready
 
