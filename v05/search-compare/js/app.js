@@ -1,3 +1,6 @@
+var client = algoliasearch('CDUMM9WVUG', '3cc392a5d139bd9131e42a5abb75d4ee');
+var index = client.initIndex('imls_v04');
+
 var search = instantsearch({
   // Replace with your own values
   appId: 'CDUMM9WVUG',
@@ -41,12 +44,79 @@ search.addWidget(
   })
 );
 
+search.on( 'render', getFullData );
+
+function getFullData() {
+  console.log( 'in full' );
+  index.search({
+    hitsPerPage: 2000
+  }, function searchDone( err, content ) {
+    if ( err ) {
+      console.error( err );
+    } else {
+      displayDataGrid( content )
+    }
+  });
+}
+
+function displayDataGrid( content ) {
+  var tableRows = []
+  var tableData = {};
+  tableData.headings  = [ 'Name', 'Local Revenue', 'State Revenue', 'Federal Revenue', 'Other Revenue', 'Total Revenue', 'Total Expenditures' ];
+  var field_names = [ 'local_revenue', 'state_revenue', 'federal_revenue', 'other_revenue', 'total_revenue', 'total_expenditures' ];
+
+  for (var h in content.hits) {
+    res = content.hits[h];
+    var tableRow = [ '<a href="details.html?fscs_id=' + res["fscs_id"] + '">' + res["library_name"] + '</a>' ];
+    _.forEach( field_names, function(f) {
+      tableRow.push(res[f].toLocaleString("en-US"));
+    });
+    tableRows.push(tableRow);
+  }
+  
+  tableData[ 'data' ] = tableRows;
+
+  if (typeof dataGrid !== 'undefined') {
+    dataGrid.destroy();
+  }
+
+  console.log( typeof(tableData.data) );
+  var page_url = window.location.href;
+  console.log( page_url );
+
+  dataGrid = new DataTable("#grid-results", {
+    perPage: 50,
+    data: tableData,
+    searchable: false,
+    perPageSelect: false,
+    columns: [
+      {
+        select: 0,
+        sortable: false
+      },
+      {
+        select: 1,
+        render: function( data, cell, row) {
+          return data;
+        }
+      }
+    ]
+  });
+
+  dataGrid.on('datatable.sort', function(column, direction) {
+  });
+
+  dataGrid.on('similarTable.init', function() {
+  });
+}
+
 // display hits library compare data grid
+/*
 function renderFn(HitsRenderingOptions) {
   var tableData = {};
   tableData.headings  = [ 'Local Revenue', 'State Revenue', 'Federal Revenue', 'Other Revenue', 'Total Revenue', 'Total Expenditures' ];
   console.log( tableData );
-  console.log( HitsRenderingOptions );
+  console.log( HitsRenderingOptions.hits );
   HitsRenderingOptions.widgetParams.containerNode.html(
     HitsRenderingOptions.hits.map(function(hit) {
     })
@@ -57,9 +127,10 @@ var customHits = instantsearch.connectors.connectHits(renderFn)
 
 search.addWidget(
   customHits({
-    containerNode: $('#library-compare'),
+    containerNode: $('#grid-results'),
   })
 );
+*/
 
 // pagination
 search.addWidget(
