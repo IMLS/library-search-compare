@@ -391,6 +391,7 @@ function displaySimilarLibraries( baseLibrary, content, cluster_type, field_name
   var tableHeadings = ["Name"];
   var tableRows = []
   var tableData = {};
+  var csvRows = []
 
   document.getElementById( "similar-name" ).innerHTML = similarName;
   document.getElementById( "similar-number" ).innerHTML = similarNumber;
@@ -398,10 +399,13 @@ function displaySimilarLibraries( baseLibrary, content, cluster_type, field_name
   for (var h in content.hits) {
     res = content.hits[h];
     var tableRow = [ '<a href="details.html?fscs_id=' + res["fscs_id"] + '">' + res["library_name"] + '</a>' ];
+    var csvRow = [ res["library_name"] ];
     _.forEach( field_names, function(f) {
       tableRow.push(res[f].toLocaleString("en-US"));
+      csvRow.push(res[f]);
     });
     tableRows.push(tableRow);
+    csvRows.push(csvRow);
   }
   _.forEach( display_names, function(f) {
     tableHeadings.push(f);
@@ -409,6 +413,15 @@ function displaySimilarLibraries( baseLibrary, content, cluster_type, field_name
 
   tableData["headings"] = tableHeadings;
   tableData["data"] = tableRows;
+
+  csvRows.unshift( tableData.headings );
+  let csvContent = "data:text/csv;charset=utf-8,";
+  csvRows.forEach(function(rowArray){
+     let row = rowArray.join(",");
+     csvContent += row + "\r\n";
+  }); 
+
+  encodedUri = encodeURI(csvContent);
 
   if (typeof similarTable !== 'undefined') {
     similarTable.destroy();
@@ -441,5 +454,9 @@ function displaySimilarLibraries( baseLibrary, content, cluster_type, field_name
 
   similarTable.on('similarTable.init', function() {
   });
+}
+
+function downloadCsv() {
+  window.open(encodedUri);
 }
 
