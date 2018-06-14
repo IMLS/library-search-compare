@@ -64,23 +64,36 @@ function displayDataGrid( content ) {
   var tableData = {};
   tableData.headings  = [ 'Name', 'Local Revenue', 'State Revenue', 'Federal Revenue', 'Other Revenue', 'Total Revenue', 'Total Expenditures' ];
   var field_names = [ 'local_revenue', 'state_revenue', 'federal_revenue', 'other_revenue', 'total_revenue', 'total_expenditures' ];
+  var csvRows = []
 
   for (var h in content.hits) {
     res = content.hits[h];
     var tableRow = [ '<a href="details.html?fscs_id=' + res["fscs_id"] + '">' + res["library_name"] + '</a>' ];
+    var csvRow = [ res["library_name"] ];
     _.forEach( field_names, function(f) {
       tableRow.push(res[f].toLocaleString("en-US"));
+      csvRow.push(res[f]);
     });
     tableRows.push(tableRow);
+    csvRows.push(csvRow);
   }
-  
   tableData[ 'data' ] = tableRows;
+  
+  csvRows.unshift( tableData.headings );
+  let csvContent = "data:text/csv;charset=utf-8,";
+  csvRows.forEach(function(rowArray){
+     let row = rowArray.join(",");
+     csvContent += row + "\r\n";
+  }); 
+
+  
+  console.log( csvRows[1] );
+  encodedUri = encodeURI(csvContent);
 
   if (typeof dataGrid !== 'undefined') {
     dataGrid.destroy();
   }
 
-  console.log( typeof(tableData.data) );
   var page_url = window.location.href;
   console.log( page_url );
 
@@ -110,6 +123,9 @@ function displayDataGrid( content ) {
   });
 }
 
+function downloadCsv() {
+  window.open(encodedUri);
+}
 // display hits library compare data grid
 /*
 function renderFn(HitsRenderingOptions) {
