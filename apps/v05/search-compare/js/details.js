@@ -226,7 +226,7 @@ function getSimilarLibraries(el) {
       console.error(err);
       return;
     } else {
-      var cn = "collection";
+      // var cn = "collection";
       var clusterName = cluster_type.split("_")[1];
       var field_names = _.map(_.find(clusters, {"name": clusterName}).fields, "field");
       var display_names = _.map(_.find(clusters, {"name": clusterName}).fields, "name");

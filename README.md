@@ -30,6 +30,13 @@ Workflow:
   ```
   git subtree push --prefix apps/v05 origin canton/deployment
   ```
+## Start web server:
+
+  ruby -run -e httpd . -p 9090
+
+  or
+
+  python -m SimpleHTTPServer 8000
 
 ## Creating json file for Algolia:
 
