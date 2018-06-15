@@ -60,6 +60,9 @@ search.addWidget(
 })();
 
 function getFullData( results ) {
+  var query = _.split( results[0].params, "&", 1);
+  var query = _.split(query, "=")[1];
+  console.log( query );
   var filters = _.split( results[0].params, 'tagFilters=&');
   filters = decodeURIComponent( filters[1] );
   filters = _.split( filters, "&" );
@@ -79,6 +82,7 @@ function getFullData( results ) {
     }
   });
   index.search({
+    query: query,
     hitsPerPage: 2000,
     numericFilters: asNf
     //filters: '(locale_string:City) AND (state:AK OR state:AL) AND (total_staff>=10 AND total_staff<=100 AND total_revenue<=10440455)'
