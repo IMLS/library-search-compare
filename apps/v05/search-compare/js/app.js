@@ -352,6 +352,13 @@ search.addWidget(
 // start the search UI
 search.start();
 
+//tell when the widgets are rendered
+search.once('render', function(){
+  //console.log('render once!');
+  $('#search-intro').closest('.row').css('margin-top', $('#min-max-wrapper').outerHeight(true));
+});//end render once
+
+// handle share button stuff
 var share_btn = document.querySelector('#share-btn');
 share_btn.onclick = function( evt ) {
   sharePage( evt );
@@ -381,9 +388,3 @@ function hideIt() {
   }, 5000 );
   return false;
 }
-
-//tell when the widgets are rendered
-search.once('render', function(){
-  //console.log('render once!');
-  $('#search-intro').closest('.row').css('margin-top', $('#min-max-wrapper').outerHeight(true));
-});//end render once
