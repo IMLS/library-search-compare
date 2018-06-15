@@ -62,28 +62,24 @@ search.addWidget(
 function getFullData( results ) {
   var query = _.split( results[0].params, "&", 1);
   var query = _.split(query, "=")[1];
-  console.log( query );
   var filters = _.split( results[0].params, 'tagFilters=&');
   filters = decodeURIComponent( filters[1] );
   filters = _.split( filters, "&" );
-  // filters[0] = _.split( filters[0], "=" );
+  asFf = "";
+  asNf = "";
   _.forEach( filters, function( value ) {
-    asFf = "";
-    asNf = "";
     if( _.startsWith( value, 'facetFilters' ) ) {
       eqIndex = value.indexOf('=') + 1;
       asFf = value.substring( eqIndex );
-      console.log( asFf );
-      // asFf =  [['locale_string:City'], ['state:AK', 'state:AL']];
     } else if( _.startsWith( value, 'numericFilters' ) ) {
       eqIndex = value.indexOf('=') + 1;
       asNf = value.substring( eqIndex );
-      console.log( asNf );
     }
   });
   index.search({
     query: query,
     hitsPerPage: 2000,
+    facetFilters: asFf,
     numericFilters: asNf
     //filters: '(locale_string:City) AND (state:AK OR state:AL) AND (total_staff>=10 AND total_staff<=100 AND total_revenue<=10440455)'
   }, function searchDone( err, content ) {
