@@ -7,6 +7,7 @@ var search = instantsearch({
   apiKey: '3cc392a5d139bd9131e42a5abb75d4ee', // search only API key, no ADMIN key
   indexName: 'imls_v04',
   numberLocale: 'en-US',
+  stalledSearchDelay: 2000,
   routing: true,
   searchParameters: {
     hitsPerPage: 50
@@ -45,6 +46,19 @@ search.addWidget(
 );
 
 search.on( 'render', getFullData );
+(function() {
+    var origOpen = XMLHttpRequest.prototype.open;
+    XMLHttpRequest.prototype.open = function() {
+        console.log('request started!');
+        this.addEventListener('load', function() {
+            console.log('request completed!');
+            var res = JSON.parse(this.responseText);
+            console.log(res); //will always be 4 (ajax is completed successfully)
+            //console.log(this.responseText); //whatever the response was
+        });
+        origOpen.apply(this, arguments);
+    };
+})();
 
 function getFullData() {
   index.search({
@@ -80,7 +94,6 @@ function displayDataGrid( content ) {
   }
 
   var page_url = window.location.href;
-  console.log( page_url );
 
   dataGrid = new DataTable("#grid-results", {
     perPage: 50,
