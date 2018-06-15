@@ -47,7 +47,6 @@ search.addWidget(
 search.on( 'render', getFullData );
 
 function getFullData() {
-  console.log( 'in full' );
   index.search({
     hitsPerPage: 2000
   }, function searchDone( err, content ) {
@@ -55,6 +54,7 @@ function getFullData() {
       console.error( err );
     } else {
       displayDataGrid( content )
+      prepareCsvData( content );
     }
   });
 }
@@ -64,32 +64,17 @@ function displayDataGrid( content ) {
   var tableData = {};
   tableData.headings  = [ 'Name', 'Local Revenue', 'State Revenue', 'Federal Revenue', 'Other Revenue', 'Total Revenue', 'Total Expenditures' ];
   var field_names = [ 'local_revenue', 'state_revenue', 'federal_revenue', 'other_revenue', 'total_revenue', 'total_expenditures' ];
-  var csvRows = []
 
   for (var h in content.hits) {
     res = content.hits[h];
     var tableRow = [ '<a href="details.html?fscs_id=' + res["fscs_id"] + '">' + res["library_name"] + '</a>' ];
-    var csvRow = [ res["library_name"] ];
     _.forEach( field_names, function(f) {
       tableRow.push(res[f].toLocaleString("en-US"));
-      csvRow.push(res[f]);
     });
     tableRows.push(tableRow);
-    csvRows.push(csvRow);
   }
   tableData[ 'data' ] = tableRows;
   
-  csvRows.unshift( tableData.headings );
-  let csvContent = "data:text/csv;charset=utf-8,";
-  csvRows.forEach(function(rowArray){
-     let row = rowArray.join(",");
-     csvContent += row + "\r\n";
-  }); 
-
-  
-  console.log( csvRows[1] );
-  encodedUri = encodeURI(csvContent);
-
   if (typeof dataGrid !== 'undefined') {
     dataGrid.destroy();
   }
@@ -122,6 +107,37 @@ function displayDataGrid( content ) {
   dataGrid.on('similarTable.init', function() {
   });
 }
+
+function prepareCsvData( content ) {
+  var csvRows = [];
+  var excludeFields = [ '_highlightResult', 'address', 'address_change', 'address_match_type', 'administrative_structure', 'bea_region', 'census_block', 'census_track', 'city', 'cluster_collection', 'cluster_finance', 'cluster_service', 'cluster_staff', 'congressional_district', 'county', 'end_date', 'esri_match_status', 'fscs_definition', 'geocode_score', 'geographic_code', 'gnis_id', 'incits_county_code', 'incits_state_code', 'interlibrary_relationship', 'legal_basis', 'library_id', 'library_name', 'locale_string', 'longitude', 'lsabound', 'mailing_address', 'mailing_city', 'mailing_zip', 'metro_micro_area', 'name_change', 'objectID', 'phone', 'reap_locale', 'reporting_status', 'start_date', 'state', 'structure_change', 'total_staff_expenditures_mean', 'total_staff_expenditures_percentile', 'year', 'zip' ];
+
+  for (var h in content.hits) {
+    var res = content.hits[h];
+    var csvHeadings = [ 'Name' ];
+    var library_name = _.replace( res[ 'library_name' ], ',', '' );
+    var csvRow = [ library_name ];
+    _.forEach( res, function( value, key ) {
+      if ( _.includes( excludeFields, key ) === false ) {
+        csvHeadings.push( key );
+        csvRow.push(res[ key ]);
+      }
+    });
+    csvRows.push(csvRow);
+  }
+
+  csvRows.unshift( csvHeadings );
+
+  // csvRows.unshift( tableData.headings );
+  var csvContent = "data:text/csv;charset=utf-8,";
+  csvRows.forEach(function(rowArray){
+     var row = rowArray.join(",");
+     csvContent += row + "\r\n";
+  }); 
+
+  encodedUri = encodeURI(csvContent);
+}
+
 
 function downloadCsv() {
   window.open(encodedUri);
