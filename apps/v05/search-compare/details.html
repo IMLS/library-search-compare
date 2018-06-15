@@ -226,7 +226,8 @@
 			</div>
 		</div>
 	</footer>
-  <script src="js/details.js"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+  <script>jQuery.noConflict();</script>
   <script>
     var addEvent = function(object, type, callback) {
       if (object == null || typeof(object) == 'undefined') return;
@@ -257,5 +258,25 @@
         getMain[i].style.paddingTop = headerHeight+'px';
       }
     }//end addPadding
+
+    //add to URL on button click
+    jQuery(function($){
+      $(document).ready(function(){
+
+        $('.similar-link').click(function(event){
+          //first check if the similar param already exists
+          var currentURL = window.location.href.split('/').pop();
+          if(currentURL.includes('similar')){
+            var currentURL = currentURL.split('&')[0];
+          }
+          //add the appropriate param
+          var clickedSimilar = $(this).attr('id').split('-')[0];
+
+          history.replaceState(null,null,currentURL+'&similar='+clickedSimilar);
+        });//end on similar-link click
+
+      });//end document ready
+    });//dollar sign    
   </script>
+  <script src="js/details.js"></script>
 </body>
