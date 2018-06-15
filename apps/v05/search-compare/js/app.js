@@ -7,7 +7,7 @@ var search = instantsearch({
   apiKey: '3cc392a5d139bd9131e42a5abb75d4ee', // search only API key, no ADMIN key
   indexName: 'imls_v04',
   numberLocale: 'en-US',
-  stalledSearchDelay: 2000,
+  stalledSearchDelay: 5000,
   routing: true,
   searchParameters: {
     hitsPerPage: 50
@@ -45,24 +45,43 @@ search.addWidget(
   })
 );
 
-search.on( 'render', getFullData );
+// search.on( 'render', getFullData );
 (function() {
     var origOpen = XMLHttpRequest.prototype.open;
     XMLHttpRequest.prototype.open = function() {
-        console.log('request started!');
         this.addEventListener('load', function() {
-            console.log('request completed!');
-            var res = JSON.parse(this.responseText);
-            console.log(res); //will always be 4 (ajax is completed successfully)
-            //console.log(this.responseText); //whatever the response was
+          var res = JSON.parse(this.responseText);
+          if ( typeof res.results !== "undefined" ) {
+            getFullData( res.results );
+          }
         });
         origOpen.apply(this, arguments);
     };
 })();
 
-function getFullData() {
+function getFullData( results ) {
+  var filters = _.split( results[0].params, 'tagFilters=&');
+  filters = decodeURIComponent( filters[1] );
+  filters = _.split( filters, "&" );
+  // filters[0] = _.split( filters[0], "=" );
+  _.forEach( filters, function( value ) {
+    asFf = "";
+    asNf = "";
+    if( _.startsWith( value, 'facetFilters' ) ) {
+      eqIndex = value.indexOf('=') + 1;
+      asFf = value.substring( eqIndex );
+      console.log( asFf );
+      // asFf =  [['locale_string:City'], ['state:AK', 'state:AL']];
+    } else if( _.startsWith( value, 'numericFilters' ) ) {
+      eqIndex = value.indexOf('=') + 1;
+      asNf = value.substring( eqIndex );
+      console.log( asNf );
+    }
+  });
   index.search({
-    hitsPerPage: 2000
+    hitsPerPage: 2000,
+    numericFilters: asNf
+    //filters: '(locale_string:City) AND (state:AK OR state:AL) AND (total_staff>=10 AND total_staff<=100 AND total_revenue<=10440455)'
   }, function searchDone( err, content ) {
     if ( err ) {
       console.error( err );
