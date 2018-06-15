@@ -241,6 +241,7 @@ function getSimilarLibraries(el) {
       calculateMean(content, field_names);
       calculatePercentileRank( content, field_names );
       displaySimilarLibraries( baseLibrary, content, cluster_type, field_names, display_names );
+      prepareCsvData( content );
       var similarRows = document.querySelectorAll('.similar-row');
       _.forEach( similarRows, function( el ) {
         el.style.display = 'block';
@@ -391,7 +392,6 @@ function displaySimilarLibraries( baseLibrary, content, cluster_type, field_name
   var tableHeadings = ["Name"];
   var tableRows = []
   var tableData = {};
-  var csvRows = []
 
   document.getElementById( "similar-name" ).innerHTML = similarName;
   document.getElementById( "similar-number" ).innerHTML = similarNumber;
@@ -399,13 +399,10 @@ function displaySimilarLibraries( baseLibrary, content, cluster_type, field_name
   for (var h in content.hits) {
     res = content.hits[h];
     var tableRow = [ '<a href="details.html?fscs_id=' + res["fscs_id"] + '">' + res["library_name"] + '</a>' ];
-    var csvRow = [ res["library_name"] ];
     _.forEach( field_names, function(f) {
       tableRow.push(res[f].toLocaleString("en-US"));
-      csvRow.push(res[f]);
     });
     tableRows.push(tableRow);
-    csvRows.push(csvRow);
   }
   _.forEach( display_names, function(f) {
     tableHeadings.push(f);
@@ -413,15 +410,6 @@ function displaySimilarLibraries( baseLibrary, content, cluster_type, field_name
 
   tableData["headings"] = tableHeadings;
   tableData["data"] = tableRows;
-
-  csvRows.unshift( tableData.headings );
-  let csvContent = "data:text/csv;charset=utf-8,";
-  csvRows.forEach(function(rowArray){
-     let row = rowArray.join(",");
-     csvContent += row + "\r\n";
-  }); 
-
-  encodedUri = encodeURI(csvContent);
 
   if (typeof similarTable !== 'undefined') {
     similarTable.destroy();
@@ -454,6 +442,36 @@ function displaySimilarLibraries( baseLibrary, content, cluster_type, field_name
 
   similarTable.on('similarTable.init', function() {
   });
+}
+
+function prepareCsvData( content ) {
+  var csvRows = [];
+  var excludeFields = [ '_highlightResult', 'address', 'address_change', 'address_match_type', 'administrative_structure', 'bea_region', 'census_block', 'census_track', 'city', 'cluster_collection', 'cluster_finance', 'cluster_service', 'cluster_staff', 'congressional_district', 'county', 'end_date', 'esri_match_status', 'fscs_definition', 'geocode_score', 'geographic_code', 'gnis_id', 'incits_county_code', 'incits_state_code', 'interlibrary_relationship', 'legal_basis', 'library_id', 'library_name', 'locale_string', 'longitude', 'lsabound', 'mailing_address', 'mailing_city', 'mailing_zip', 'metro_micro_area', 'name_change', 'objectID', 'phone', 'reap_locale', 'reporting_status', 'start_date', 'state', 'structure_change', 'total_staff_expenditures_mean', 'total_staff_expenditures_percentile', 'year', 'zip' ];
+
+  for (var h in content.hits) {
+    var res = content.hits[h];
+    var csvHeadings = [ 'Name' ];
+    var library_name = _.replace( res[ 'library_name' ], ',', '' );
+    var csvRow = [ library_name ];
+    _.forEach( res, function( value, key ) {
+      if ( _.includes( excludeFields, key ) === false ) {
+        csvHeadings.push( key );
+        csvRow.push(res[ key ]);
+      }
+    });
+    csvRows.push(csvRow);
+  }
+
+  csvRows.unshift( csvHeadings );
+
+  // csvRows.unshift( tableData.headings );
+  var csvContent = "data:text/csv;charset=utf-8,";
+  csvRows.forEach(function(rowArray){
+     var row = rowArray.join(",");
+     csvContent += row + "\r\n";
+  }); 
+
+  encodedUri = encodeURI(csvContent);
 }
 
 function downloadCsv() {
