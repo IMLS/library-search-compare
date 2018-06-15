@@ -1363,6 +1363,6 @@ tr#comparison-headers th, tr#comparison-data td, tr#comparison-mean td, tr#compa
   margin-top: 10px;
 }
 
-#grid-results, #download-csv {
+#grid-results-wrapper, #download-csv {
   display: none;
 }
