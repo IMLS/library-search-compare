@@ -20,7 +20,7 @@
           <h1 class="header-text">Library Search &amp; Compare</h1>
 	    	</div>
 	    	<div class="col-sm-12 col-sm-6 text-right">
-		    	<small>Help IMLS improve this beta website by <a href="https://docs.google.com/forms/d/e/1FAIpQLSf4V4KCX2mhITLK-wq0SRgrFWrxQxx-MVtmMw8Ft4Gf7y39_g/viewform" target="_blank">sending feedback here</a>. All data from IMLS FY2016 Public Libraries Survey (<a href="https://www.imls.gov/research-evaluation/data-collection/public-libraries-survey/explore-pls-data/pls-data" target="_blank">details</a>).</small>
+		    	<small>Help IMLS improve this beta website by <a href="https://docs.google.com/forms/d/e/1FAIpQLSeGKnrCIFE3ir20_URfyc1jvkmAnlcoqeIUfLciGIJ82Z-Pbg/viewform" target="_blank">sending feedback here</a>. All data from IMLS FY2016 Public Libraries Survey (<a href="https://www.imls.gov/research-evaluation/data-collection/public-libraries-survey/explore-pls-data/pls-data" target="_blank">details</a>).</small>
 	    	</div>
     	</div>
 	  </div>
@@ -109,19 +109,19 @@
             <h2>See Similar Libraries Based On:</h2>
             <div class="row" id="similar-links">
               <div class="col-md-3">
-                <a href="#" class="similar-link" id="service-link" data-type="cluster_service">See Service</a>
+                <button class="similar-link" id="service-link" data-type="cluster_service">See Service</button>
                 <div><p>Similarities are based on users, circulation, references and hours data.</p></div>
               </div><!--end service column-->
               <div class="col-md-3">
-                <a href="#" class="similar-link" id="staff-link" data-type="cluster_staff">See Staff</a>
+                <button class="similar-link" id="staff-link" data-type="cluster_staff">See Staff</button>
                 <div><p>Similarities are based on staffing data.</p></div>
               </div>
               <div class="col-md-3">
-                <a href="#" class="similar-link" id="finance-link" data-type="cluster_finance">See Finance</a>
+                <button class="similar-link" id="finance-link" data-type="cluster_finance">See Finance</button>
                 <div><p>Similarities are based on revenue and expenditures data.</p></div>
               </div>
               <div class="col-md-3">
-                <a href="#" class="similar-link" id="collection-link" data-type="cluster_collection">See Collection</a>
+                <button class="similar-link" id="collection-link" data-type="cluster_collection">See Collection</button>
                 <div><p>Similarities are based on printed, audio, video and electronic materials data.</p></div>
               </div>
             </div>
@@ -154,7 +154,7 @@
         <div class="row similar-row detail-stripe">
           <div class="col-md-10 col-md-offset-1" id="similar-table-wrapper">
             <h2><span class="library-name"></span> is similar to <span id="similar-number"></span> libraries for <span id="similar-name"></span> data</h2>
-            <a href="#" onclick="downloadCsv();">Download csv file</a>
+            <button onclick="downloadCsv();" class="btn btn-default btn-small">Download CSV</button>
             <div class="table-responsive">
               <table class="table table-striped" id="similar-table"></table>
             </div>
