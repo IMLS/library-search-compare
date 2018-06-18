@@ -176,7 +176,7 @@ function downloadCsv() {
   var csvData = new Blob([csvContent], {type: 'text/csv;charset=utf-8;'});
   if( msieversion()) {
     var IEwindow = window.open();
-    IEwindow.document.write('sep=,\r\n' + CSV);
+    IEwindow.document.write('sep=,\r\n' + csvData);
     IEwindow.document.close();
     IEwindow.document.execCommand('SaveAs', true, fileName + ".csv");
     IEwindow.close();
