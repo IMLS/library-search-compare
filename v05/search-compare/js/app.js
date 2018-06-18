@@ -175,11 +175,7 @@ function downloadCsv() {
   var filename = "imls_data"; 
   var csvData = new Blob([csvContent], {type: 'text/csv;charset=utf-8;'});
   if( msieversion()) {
-    var IEwindow = window.open();
-    IEwindow.document.write('sep=,\r\n' + csvData);
-    IEwindow.document.close();
-    IEwindow.document.execCommand('SaveAs', true, fileName + ".csv");
-    IEwindow.close();
+    navigator.msSaveBlob(csvData, 'imls_data.csv');
   } else {
     // window.open(encodedUri);
     var link = document.createElement('a');
