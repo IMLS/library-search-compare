@@ -266,7 +266,7 @@
         $('.similar-link').click(function(event){
           //first check if the similar param already exists
           var currentURL = window.location.href.split('/').pop();
-          if(currentURL.includes('similar')){
+          if(currentURL.indexOf('similar')>=0){
             var currentURL = currentURL.split('&')[0];
           }
           //add the appropriate param
