@@ -161,7 +161,7 @@ function prepareCsvData( content ) {
   csvRows.unshift( csvHeadings );
 
   // csvRows.unshift( tableData.headings );
-  var csvContent = "data:text/csv;charset=utf-8,";
+  csvContent = "";
   csvRows.forEach(function(rowArray){
      var row = rowArray.join(",");
      csvContent += row + "\r\n";
@@ -172,8 +172,19 @@ function prepareCsvData( content ) {
 
 
 function downloadCsv() {
-  JSONToCSVConvertor( encodedUri, 'IMLS data', false );
-  // window.open(encodedUri);
+  var filename = "imls_data"; 
+  var csvData = new Blob([csvContent], {type: 'text/csv;charset=utf-8;'});
+  if( msieversion()) {
+    navigator.msSaveBlob(csvData, 'pls_export.csv');
+  } else {
+    // window.open(encodedUri);
+    var link = document.createElement('a');
+    link.href = window.URL.createObjectURL(csvData);
+    link.setAttribute('download', 'pls_export.csv');
+    document.body.appendChild(link);    
+    link.click();
+    document.body.removeChild(link);
+  }
 }
 // display hits library compare data grid
 /*
