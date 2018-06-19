@@ -61,11 +61,17 @@ Number.prototype.toLocaleFixed = function(n) {
  */
 var simulateClick = function (elem) {
 	// Create our event (with options)
-	var evt = new MouseEvent('click', {
-		bubbles: true,
-		cancelable: true,
-		view: window
-	});
+  if ( document.createEvent ) {
+    var evt = document.createEvent( "MouseEvent" );
+    evt.initMouseEvent("click",true,true,window,0,0,0,0,0,false,false,false,false,0,null);
+    elem.dispatchEvent( evt );
+  } else {
+    var evt = new MouseEvent('click', {
+      bubbles: true,
+      cancelable: true,
+      view: window
+    });
+  }
 	// If cancelled, don't dispatch our event
 	var canceled = !elem.dispatchEvent(evt);
 };
