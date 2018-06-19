@@ -471,7 +471,7 @@ function prepareCsvData( content ) {
   csvRows.unshift( csvHeadings );
 
   // csvRows.unshift( tableData.headings );
-  var csvContent = "data:text/csv;charset=utf-8,";
+  csvContent = "";
   csvRows.forEach(function(rowArray){
      var row = rowArray.join(",");
      csvContent += row + "\r\n";
@@ -481,6 +481,30 @@ function prepareCsvData( content ) {
 }
 
 function downloadCsv() {
-  window.open(encodedUri);
+  var filename = "imls_data"; 
+  var csvData = new Blob([csvContent], {type: 'text/csv;charset=utf-8;'});
+  if( msieversion()) {
+    navigator.msSaveBlob(csvData, 'pls_export.csv');
+  } else {
+    // window.open(encodedUri);
+    var link = document.createElement('a');
+    link.href = window.URL.createObjectURL(csvData);
+    link.setAttribute('download', 'pls_export.csv');
+    document.body.appendChild(link);    
+    link.click();
+    document.body.removeChild(link);
+  }
+}
+
+function msieversion() {
+  var ua = window.navigator.userAgent;
+  var msie = ua.indexOf("MSIE ");
+  if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./)) // If Internet Explorer, return true
+  {
+    return true;
+  } else { // If another browser,
+  return false;
+  }
+  return false;
 }
 
