@@ -24,11 +24,11 @@ Workflow:
   git subtree push --prefix apps origin gh-pages
   ```
   - View at 
-    [https://imls.github.io/library-search-compare/v05](https://imls.github.io/library-search-compare/v05/)
+    [https://imls.github.io/library-search-compare/v06](https://imls.github.io/library-search-compare/v06/)
 
   - Deployment branch push
   ```
-  git subtree push --prefix apps/v05 origin canton/deployment
+  git subtree push --prefix apps/[current_version] origin canton/deployment
   ```
 ## Start web server:
 
@@ -83,7 +83,7 @@ Mean and Percentile Rank Calculations for 23 variables:
 
 ## Deployment:
 
-### Deployment branch with just app code, no v05, etc
+### Deployment branch with just app code, no v06, etc
 
 New site structure
 
