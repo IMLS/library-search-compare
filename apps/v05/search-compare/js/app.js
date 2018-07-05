@@ -186,27 +186,6 @@ function downloadCsv() {
     document.body.removeChild(link);
   }
 }
-// display hits library compare data grid
-/*
-function renderFn(HitsRenderingOptions) {
-  var tableData = {};
-  tableData.headings  = [ 'Local Revenue', 'State Revenue', 'Federal Revenue', 'Other Revenue', 'Total Revenue', 'Total Expenditures' ];
-  console.log( tableData );
-  console.log( HitsRenderingOptions.hits );
-  HitsRenderingOptions.widgetParams.containerNode.html(
-    HitsRenderingOptions.hits.map(function(hit) {
-    })
-  );
-};
-
-var customHits = instantsearch.connectors.connectHits(renderFn)
-
-search.addWidget(
-  customHits({
-    containerNode: $('#grid-results'),
-  })
-);
-*/
 
 // pagination
 search.addWidget(
