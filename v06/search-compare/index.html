@@ -67,7 +67,10 @@
       <div class="row secondary-nav mt-10">
         <div class="col-xs-6">
           <button type="button" class="btn btn-default btn-sm" id="viewToggle"><img src="img/grid.png"> <span>Compare Libraries</span></button>
-          <select id="comparison-select">
+          <span id="comparison-select-wrapper">
+            <span id="comparison-select-text">See variables related to: &nbsp;</span>
+            <select id="comparison-select">
+          </span>
           </select>
         </div>
         <div class="col-xs-6 text-right">
@@ -189,7 +192,6 @@
       var selectLabels = _.map( comparisonData, 'display_name' );
       var selectValues = _.map( comparisonData, 'name' );
       _.forEach( comparisonData, function( value, key ) {
-        console.log( value.name );
         $( '#comparison-select' ).append( $('<option></option>' )
           .attr( 'value', value.name )
           .text( value.display_name ));
@@ -207,12 +209,14 @@
           $('#list-results').hide();
           $('#grid-results-wrapper').show();
           $('#download-csv').show();
+          $('#comparison-select-wrapper').show();
           $('#viewToggle img').attr('src', 'img/list.png');
           $('#viewToggle span').text('List Libraries');
         }else{
           $('#list-results').show();
           $('#grid-results-wrapper').hide();
           $('#download-csv').hide();
+          $('#comparison-select-wrapper').hide();
           $('#viewToggle img').attr('src', 'img/grid.png');
           $('#viewToggle span').text('Compare Libraries');
         }//end if list is shown
