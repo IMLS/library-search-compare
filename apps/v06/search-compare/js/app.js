@@ -173,8 +173,6 @@ function displayDataGrid( content, comparisonSelect ) {
 
   var page_url = window.location.href;
 
-  console.log( tableData );
-
   dataGrid = new DataTable("#grid-results", {
     perPage: 50,
     data: tableData,
