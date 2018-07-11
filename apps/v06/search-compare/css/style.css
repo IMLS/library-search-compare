@@ -1085,7 +1085,7 @@ footer .block.footer-links {
   color: #1c1f1f;
 }
 
-#count div {
+#comparison-select-text, #count div {
   display: inline-block;
   color: #fff;
 }
@@ -1363,6 +1363,6 @@ tr#comparison-headers th, tr#comparison-data td, tr#comparison-mean td, tr#compa
   margin-top: 10px;
 }
 
-#grid-results-wrapper, #download-csv {
+#grid-results-wrapper, #download-csv, #comparison-select-wrapper {
   display: none;
 }

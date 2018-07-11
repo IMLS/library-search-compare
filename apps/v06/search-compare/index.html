@@ -67,11 +67,16 @@
       <div class="row secondary-nav mt-10">
         <div class="col-xs-6">
           <button type="button" class="btn btn-default btn-sm" id="viewToggle"><img src="img/grid.png"> <span>Compare Libraries</span></button>
-          <button id="download-csv" onclick="downloadCsv();" class="btn btn-default btn-sm">Download CSV</button>
+          <span id="comparison-select-wrapper">
+            <span id="comparison-select-text">See variables related to: &nbsp;</span>
+            <select id="comparison-select">
+          </span>
+          </select>
         </div>
         <div class="col-xs-6 text-right">
           <span id="count"></span>
           <button id="share-btn" class="btn btn-default btn-sm" type="button">Share These Results</button>
+          <button id="download-csv" onclick="downloadCsv();" class="btn btn-default btn-sm">Download CSV</button>
         </div>
       </div><!--end button row-->
       <div class="row similar-row detail-stripe">
@@ -183,6 +188,15 @@
     });//end on just resize
 
     $(document).ready(function() {
+      // fill in data grid variable selector
+      var selectLabels = _.map( comparisonData, 'display_name' );
+      var selectValues = _.map( comparisonData, 'name' );
+      _.forEach( comparisonData, function( value, key ) {
+        $( '#comparison-select' ).append( $('<option></option>' )
+          .attr( 'value', value.name )
+          .text( value.display_name ));
+      });
+
       $('#sidebarCollapse').on('click', function() {
         $('aside').toggleClass('active');
         $(this).toggleClass('active');
@@ -195,12 +209,14 @@
           $('#list-results').hide();
           $('#grid-results-wrapper').show();
           $('#download-csv').show();
+          $('#comparison-select-wrapper').show();
           $('#viewToggle img').attr('src', 'img/list.png');
           $('#viewToggle span').text('List Libraries');
         }else{
           $('#list-results').show();
           $('#grid-results-wrapper').hide();
           $('#download-csv').hide();
+          $('#comparison-select-wrapper').hide();
           $('#viewToggle img').attr('src', 'img/grid.png');
           $('#viewToggle span').text('Compare Libraries');
         }//end if list is shown
