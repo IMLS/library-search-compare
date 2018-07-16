@@ -226,35 +226,6 @@ function prepareCsvData( content ) {
   }); 
 
   encodedUri = encodeURI(csvContent);
-  /*
-  var csvRows = [];
-  var excludeFields = [ '_highlightResult', 'address', 'address_change', 'address_match_type', 'administrative_structure', 'bea_region', 'census_block', 'census_track', 'city', 'state', 'cluster_collection', 'cluster_finance', 'cluster_service', 'cluster_staff', 'congressional_district', 'county', 'end_date', 'esri_match_status', 'fscs_definition', 'geocode_score', 'geographic_code', 'gnis_id', 'incits_county_code', 'incits_state_code', 'interlibrary_relationship', 'legal_basis', 'library_id', 'library_name', 'locale_string', 'longitude', 'lsabound', 'mailing_address', 'mailing_city', 'mailing_zip', 'metro_micro_area', 'name_change', 'objectID', 'phone', 'reap_locale', 'reporting_status', 'start_date', 'structure_change', 'total_staff_expenditures_mean', 'total_staff_expenditures_percentile', 'year', 'zip' ];
-
-  for (var h in content.hits) {
-    var res = content.hits[h];
-    var csvHeadings = [ 'Name', 'State' ];
-    var library_name = _.replace( res[ 'library_name' ], ',', '' );
-    var csvRow = [ library_name, res[ 'state' ] ];
-    _.forEach( res, function( value, key ) {
-      if ( _.includes( excludeFields, key ) === false ) {
-        csvHeadings.push( key );
-        csvRow.push(res[ key ]);
-      }
-    });
-    csvRows.push(csvRow);
-  }
-
-  csvRows.unshift( csvHeadings );
-
-  // csvRows.unshift( tableData.headings );
-  csvContent = "";
-  csvRows.forEach(function(rowArray){
-     var row = rowArray.join(",");
-     csvContent += row + "\r\n";
-  }); 
-
-  encodedUri = encodeURI(csvContent);
-  */
 }
 
 
@@ -497,48 +468,3 @@ function msieversion() {
   }
   return false;
 }
-
-/*
-function JSONToCSVConvertor(JSONData,fileName,ShowLabel) {
-    var arrData = typeof JSONData != 'object' ? JSON.parse(JSONData) : JSONData;
-    var CSV = '';
-    if (ShowLabel) {
-        var row = "";
-        for (var index in arrData[0]) {
-            row += index + ',';
-        }
-        row = row.slice(0, -1);
-        CSV += row + '\r\n';
-    }
-    for (var i = 0; i < arrData.length; i++) {
-        var row = "";
-        for (var index in arrData[i]) {
-            var arrValue = arrData[i][index] == null ? "" : '="' + arrData[i][index] + '"';
-            row += arrValue + ',';
-        }
-        row.slice(0, row.length - 1);
-        CSV += row + '\r\n';
-    }
-    if (CSV == '') {
-        growl.error("Invalid data");
-        return;
-    }
-    var fileName = "Result";
-    if(msieversion()){
-        var IEwindow = window.open();
-        IEwindow.document.write('sep=,\r\n' + CSV);
-        IEwindow.document.close();
-        IEwindow.document.execCommand('SaveAs', true, fileName + ".csv");
-        IEwindow.close();
-    } else {
-        var uri = 'data:application/csv;charset=utf-8,' + escape(CSV);
-        var link = document.createElement("a");
-        link.href = uri;
-        link.style = "visibility:hidden";
-        link.download = fileName + ".csv";
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-    }
-}
-*/

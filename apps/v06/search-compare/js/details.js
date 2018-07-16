@@ -134,15 +134,6 @@ share_btn.onclick = function( evt ) {
   sharePage( evt );
 }
 
-/*function sharePage( evt ) {
-  var page_url = window.location.href;
-  var dummy = document.createElement( 'input' );
-  document.body.appendChild( dummy );
-  dummy.value = page_url;
-  dummy.select();
-  document.execCommand( "copy" );
-  document.body.removeChild( dummy );
-}*/
 function sharePage( evt ) {
   var page_url = window.location.href;
   var myLink = document.getElementById( 'shareMe' );
@@ -198,8 +189,6 @@ index.search({
       document.getElementById("branch-libraries").innerHTML = branchLibraries;
       var bookmobiles = 'Bookmobiles: ' + res.bookmobiles;
       document.getElementById("bookmobiles").innerHTML = bookmobiles;
-      // var county = 'County: ' + res.county + ' Population: ' + res.county_population;
-      // document.getElementById("county").innerHTML = county;
       var fscs_id = res.fscs_id;
       document.getElementById("fscs-id").innerHTML = fscs_id;
 
@@ -224,9 +213,6 @@ index.search({
       // Add total staff to Staff Data section
       document.getElementById("total_staff").innerHTML = "<strong>Total Staff:</strong><span>" + res[ 'total_staff' ] + "</span>";
 
-      // var clusters = ' Clusters: <a href="#" id=service" data-type="service", data-value="' + res.cluster_service + '">Service: ' + res.cluster_service + '</a> Staff: ' + res.cluster_staff + ' Finance: ' + res.cluster_finance + ' Collection: ' + res.cluster_collection;
-      // document.getElementById("clusters").innerHTML = clusters;
-
       var service = document.querySelector('#service-link');
       service.setAttribute("data-cluster",res.cluster_service);
 
@@ -239,14 +225,11 @@ index.search({
       var collection = document.querySelector('#collection-link');
       collection.setAttribute("data-cluster",res.cluster_collection);
 
-      // document.getElementById("json").innerHTML = JSON.stringify(content.hits[0], undefined, 2);
-
       // Event handler for similar libraries buttons
       var similar_links = document.querySelector('#similar-links');
       similar_links.onclick = function(el) {
         getSimilarLibraries( el );
       }
-
 
       if (similar_param !== null ) {
         var el_id = similar_param + '-link';
@@ -270,14 +253,12 @@ function getSimilarLibraries(el) {
       console.error(err);
       return;
     } else {
-      // var cn = "collection";
       var clusterName = cluster_type.split("_")[1];
       var field_names = _.map(_.find(clusters, {"name": clusterName}).fields, "field");
       var display_names = _.map(_.find(clusters, {"name": clusterName}).fields, "name");
 
       if (content.nbPages > 1) {
          console.log( content.nbPages );
-        // console.log(fscs_id);
       }
       var baseLibrary = _.find(content.hits, {"fscs_id": fscs_id_param} );
 
@@ -515,36 +496,6 @@ function prepareCsvData( content ) {
   }); 
 
   encodedUri = encodeURI(csvContent);
-
-  /*
-  var csvRows = [];
-  var excludeFields = [ '_highlightResult', 'address', 'address_change', 'address_match_type', 'administrative_structure', 'bea_region', 'census_block', 'census_track', 'city', 'cluster_collection', 'cluster_finance', 'cluster_service', 'cluster_staff', 'congressional_district', 'county', 'end_date', 'esri_match_status', 'fscs_definition', 'geocode_score', 'geographic_code', 'gnis_id', 'incits_county_code', 'incits_state_code', 'interlibrary_relationship', 'legal_basis', 'library_id', 'library_name', 'locale_string', 'longitude', 'lsabound', 'mailing_address', 'mailing_city', 'mailing_zip', 'metro_micro_area', 'name_change', 'objectID', 'phone', 'reap_locale', 'reporting_status', 'start_date', 'state', 'structure_change', 'total_staff_expenditures_mean', 'total_staff_expenditures_percentile', 'year', 'zip' ];
-
-  for (var h in content.hits) {
-    var res = content.hits[h];
-    var csvHeadings = [ 'Name' ];
-    var library_name = _.replace( res[ 'library_name' ], ',', '' );
-    var csvRow = [ library_name ];
-    _.forEach( res, function( value, key ) {
-      if ( _.includes( excludeFields, key ) === false ) {
-        csvHeadings.push( key );
-        csvRow.push(res[ key ]);
-      }
-    });
-    csvRows.push(csvRow);
-  }
-
-  csvRows.unshift( csvHeadings );
-
-  // csvRows.unshift( tableData.headings );
-  csvContent = "";
-  csvRows.forEach(function(rowArray){
-     var row = rowArray.join(",");
-     csvContent += row + "\r\n";
-  }); 
-
-  encodedUri = encodeURI(csvContent);
-  */
 }
 
 function downloadCsv() {
@@ -574,4 +525,3 @@ function msieversion() {
   }
   return false;
 }
-
