@@ -1,13 +1,51 @@
-// var algoliasearch = require('algoliasearch');
-// var algoliasearch = require('algoliasearch/reactnative');
-// var algoliasearch = require('algoliasearch/lite');
-// or just use algoliasearch if you are using a <script> tag
-// if you are using AMD module loader, algoliasearch will not be defined in window,
-// but in the AMD modules of the page
-
 var client = algoliasearch('CDUMM9WVUG', '3cc392a5d139bd9131e42a5abb75d4ee');
 var index = client.initIndex('imls_v04');
-//var fields = ["print_materials", "ebooks", "audio_materials", "video_materials", "total_databases", "print_serials"]
+
+// comparison data grid labels and field names  
+var comparisonData = {};
+comparisonData = [
+  { name: 'capital',
+    display_name: 'Capital Revenue and Expenditures', 
+    headings: [ 'Name', 'Local capital revenue', 'State capital revenue', 'Federal captial revenue', 'Other capital revenue', 'Total capital revenue', 'Total capital expenditures' ],
+    field_names: [ 'local_capital_revenue', 'state_capital_revenue', 'federal_capital_revenue', 'other_capital_revenue', 'total_capital_revenue', 'capital_expenditures' ] },
+  { name: 'demographic',
+    display_name: 'Demographic', 
+    headings: [ 'Name', 'Population of Legal Service Area (LSA)', 'Total unduplicated population of LSA', 'Number of central libraries', 'Number of branch libraries', 'Number of bookmobiles', 'Interlibrary relationship code', 'Legal basis code', 'Administrative structure code', 'FSCS public library definition', 'Geographic code' ],
+    field_names: [ 'service_area_population', 'unduplicated_population', 'central_libraries', 'branch_libraries', 'bookmobiles', 'interlibrary_relationship', 'legal_basis', 'administrative_structure', 'fscs_definition', 'geographic_code' ] },
+  { name: 'inter-library',
+    display_name: 'Inter-Library Loans', 
+    headings: [ 'Name', 'Provided to', 'Received from' ],
+    field_names: [ 'loans_to', 'loans_from' ] },
+  { name: 'collection',
+    display_name: 'Library Collection', 
+    headings: [ 'Name', 'Print materials', 'Electronic books', 'Audio-physical units', 'Audio-downloadable units', 'Video-physical units', 'Video-downloadable units', 'Local databases', 'State databases', 'Total databases', 'Print serial subscriptions' ],
+    field_names: [ 'print_materials', 'ebooks', 'audio_materials', 'audio_downloads', 'video_materials', 'video_downloads', 'local_databases', 'state_databases', 'total_databases', 'print_serials' ] },
+  { name: 'programs',
+    display_name: 'Library Programs', 
+    headings: [ 'Name', 'Total library programs', 'Children\'s programs', 'Young adult prograns', 'Total attendance at library programs', 'Children\'s program attendance', 'Young adult program attendance' ],
+    field_names: [ 'total_programs', 'kids_programs', 'ya_programs', 'program_audience', 'kids_program_audience', 'ya_program_audience' ] },
+  { name: 'revenue',
+    display_name: 'Operating Revenue', 
+    headings: [ 'Name', 'Local Revenue', 'State Revenue', 'Federal Revenue', 'Other Revenue', 'Total Revenue' ],
+    field_names: [ 'local_revenue', 'state_revenue', 'federal_revenue', 'other_revenue', 'total_revenue' ] },
+  { name: 'expenditures',
+    display_name: 'Operating Expenditures', 
+    headings: [ 'Name', 'Salaries & wages', 'Employee benefits', 'Total staff expenditures', 'Print materials expenditures', 'Electronic materials expenditures', 'Other material expenditures', 'Total collection expenditures', 'Other operating expenditures', 'Total operating expenditures' ],
+    field_names: [ 'salaries', 'benefits', 'total_staff_expenditures', 'print_expenditures', 'electronic_expenditures', 'other_collection_expenditures', 'total_collection_expenditures', 'other_expenditures', 'total_expenditures' ] },
+  { name: 'other_electronic',
+    display_name: 'Other Electronic Information', 
+    headings: [ 'Name', 'Computers used by general public', 'Computer uses', 'Wireless sessions' ],
+    field_names: [ 'computers', 'computer_uses', 'wifi_sessions' ] },
+  { name: 'services',
+    display_name: 'Services', 
+    headings: [ 'Name', 'Public service hours/year', 'Library visits', 'Reference transactions', 'Number of registered users', 'Total circulation of materials', 'Circulation of kid\'s materials', 'Use of electronic material', 'Physical item circulation', 'Electronic information retrievals', 'Electronic content use', 'Total collection use' ],
+    field_names: [ 'hours', 'visits', 'references', 'users', 'total_circulation', 'kids_circulation', 'electronic_content_uses', 'physical_item_circulation', 'electronic_info_retrievals', 'electronic_content_uses', 'total_circulation_retrievals' ] },
+  { name: 'staff',
+    display_name: 'Paid Staff (FTE)', 
+    headings: [ 'Name', 'ALA-MLS librarians', 'Total librarians', 'All other paid staff', 'Total paid staff' ],
+    field_names: [ 'mls_librarian_staff', 'librarian_staff', 'other_staff', 'total_staff' ] }
+];
+
 var clusters = [
   { name: "service", fields: [
     {field: "fscs_id", name: "FSCS_ID"},
@@ -96,15 +134,6 @@ share_btn.onclick = function( evt ) {
   sharePage( evt );
 }
 
-/*function sharePage( evt ) {
-  var page_url = window.location.href;
-  var dummy = document.createElement( 'input' );
-  document.body.appendChild( dummy );
-  dummy.value = page_url;
-  dummy.select();
-  document.execCommand( "copy" );
-  document.body.removeChild( dummy );
-}*/
 function sharePage( evt ) {
   var page_url = window.location.href;
   var myLink = document.getElementById( 'shareMe' );
@@ -160,8 +189,6 @@ index.search({
       document.getElementById("branch-libraries").innerHTML = branchLibraries;
       var bookmobiles = 'Bookmobiles: ' + res.bookmobiles;
       document.getElementById("bookmobiles").innerHTML = bookmobiles;
-      // var county = 'County: ' + res.county + ' Population: ' + res.county_population;
-      // document.getElementById("county").innerHTML = county;
       var fscs_id = res.fscs_id;
       document.getElementById("fscs-id").innerHTML = fscs_id;
 
@@ -186,9 +213,6 @@ index.search({
       // Add total staff to Staff Data section
       document.getElementById("total_staff").innerHTML = "<strong>Total Staff:</strong><span>" + res[ 'total_staff' ] + "</span>";
 
-      // var clusters = ' Clusters: <a href="#" id=service" data-type="service", data-value="' + res.cluster_service + '">Service: ' + res.cluster_service + '</a> Staff: ' + res.cluster_staff + ' Finance: ' + res.cluster_finance + ' Collection: ' + res.cluster_collection;
-      // document.getElementById("clusters").innerHTML = clusters;
-
       var service = document.querySelector('#service-link');
       service.setAttribute("data-cluster",res.cluster_service);
 
@@ -201,14 +225,11 @@ index.search({
       var collection = document.querySelector('#collection-link');
       collection.setAttribute("data-cluster",res.cluster_collection);
 
-      // document.getElementById("json").innerHTML = JSON.stringify(content.hits[0], undefined, 2);
-
       // Event handler for similar libraries buttons
       var similar_links = document.querySelector('#similar-links');
       similar_links.onclick = function(el) {
         getSimilarLibraries( el );
       }
-
 
       if (similar_param !== null ) {
         var el_id = similar_param + '-link';
@@ -232,14 +253,12 @@ function getSimilarLibraries(el) {
       console.error(err);
       return;
     } else {
-      // var cn = "collection";
       var clusterName = cluster_type.split("_")[1];
       var field_names = _.map(_.find(clusters, {"name": clusterName}).fields, "field");
       var display_names = _.map(_.find(clusters, {"name": clusterName}).fields, "name");
 
       if (content.nbPages > 1) {
          console.log( content.nbPages );
-        // console.log(fscs_id);
       }
       var baseLibrary = _.find(content.hits, {"fscs_id": fscs_id_param} );
 
@@ -452,25 +471,24 @@ function displaySimilarLibraries( baseLibrary, content, cluster_type, field_name
 
 function prepareCsvData( content ) {
   var csvRows = [];
-  var excludeFields = [ '_highlightResult', 'address', 'address_change', 'address_match_type', 'administrative_structure', 'bea_region', 'census_block', 'census_track', 'city', 'cluster_collection', 'cluster_finance', 'cluster_service', 'cluster_staff', 'congressional_district', 'county', 'end_date', 'esri_match_status', 'fscs_definition', 'geocode_score', 'geographic_code', 'gnis_id', 'incits_county_code', 'incits_state_code', 'interlibrary_relationship', 'legal_basis', 'library_id', 'library_name', 'locale_string', 'longitude', 'lsabound', 'mailing_address', 'mailing_city', 'mailing_zip', 'metro_micro_area', 'name_change', 'objectID', 'phone', 'reap_locale', 'reporting_status', 'start_date', 'state', 'structure_change', 'total_staff_expenditures_mean', 'total_staff_expenditures_percentile', 'year', 'zip' ];
 
   for (var h in content.hits) {
     var res = content.hits[h];
-    var csvHeadings = [ 'Name' ];
-    var library_name = _.replace( res[ 'library_name' ], ',', '' );
-    var csvRow = [ library_name ];
-    _.forEach( res, function( value, key ) {
-      if ( _.includes( excludeFields, key ) === false ) {
-        csvHeadings.push( key );
-        csvRow.push(res[ key ]);
-      }
-    });
+    var csvHeadings = [ 'Name', 'State' ];
+    var library_name = _.replace( res[ 'library_name' ], ',', '' ) + ' (' + res[ 'fscs_id' ] + ')';
+    var csvRow = [ library_name, res[ 'state' ] ];
+
+    _.forEach( comparisonData, function( value, key) {
+      _.forEach( value.field_names, function( value ) {
+        csvHeadings.push( value );
+        csvRow.push(res[ value ]);
+      } );
+    } );
     csvRows.push(csvRow);
   }
 
   csvRows.unshift( csvHeadings );
 
-  // csvRows.unshift( tableData.headings );
   csvContent = "";
   csvRows.forEach(function(rowArray){
      var row = rowArray.join(",");
@@ -507,4 +525,3 @@ function msieversion() {
   }
   return false;
 }
-
