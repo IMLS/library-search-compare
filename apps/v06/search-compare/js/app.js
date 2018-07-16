@@ -201,13 +201,40 @@ function displayDataGrid( content, comparisonSelect ) {
 
 function prepareCsvData( content ) {
   var csvRows = [];
-  var excludeFields = [ '_highlightResult', 'address', 'address_change', 'address_match_type', 'administrative_structure', 'bea_region', 'census_block', 'census_track', 'city', 'cluster_collection', 'cluster_finance', 'cluster_service', 'cluster_staff', 'congressional_district', 'county', 'end_date', 'esri_match_status', 'fscs_definition', 'geocode_score', 'geographic_code', 'gnis_id', 'incits_county_code', 'incits_state_code', 'interlibrary_relationship', 'legal_basis', 'library_id', 'library_name', 'locale_string', 'longitude', 'lsabound', 'mailing_address', 'mailing_city', 'mailing_zip', 'metro_micro_area', 'name_change', 'objectID', 'phone', 'reap_locale', 'reporting_status', 'start_date', 'state', 'structure_change', 'total_staff_expenditures_mean', 'total_staff_expenditures_percentile', 'year', 'zip' ];
 
   for (var h in content.hits) {
     var res = content.hits[h];
-    var csvHeadings = [ 'Name' ];
+    var csvHeadings = [ 'Name', 'State' ];
+    var library_name = _.replace( res[ 'library_name' ], ',', '' ) + ' (' + res[ 'fscs_id' ] + ')';
+    var csvRow = [ library_name, res[ 'state' ] ];
+
+    _.forEach( comparisonData, function( value, key) {
+      _.forEach( value.field_names, function( value ) {
+        csvHeadings.push( value );
+        csvRow.push(res[ value ]);
+      } );
+    } );
+    csvRows.push(csvRow);
+  }
+
+  csvRows.unshift( csvHeadings );
+
+  csvContent = "";
+  csvRows.forEach(function(rowArray){
+     var row = rowArray.join(",");
+     csvContent += row + "\r\n";
+  }); 
+
+  encodedUri = encodeURI(csvContent);
+  /*
+  var csvRows = [];
+  var excludeFields = [ '_highlightResult', 'address', 'address_change', 'address_match_type', 'administrative_structure', 'bea_region', 'census_block', 'census_track', 'city', 'state', 'cluster_collection', 'cluster_finance', 'cluster_service', 'cluster_staff', 'congressional_district', 'county', 'end_date', 'esri_match_status', 'fscs_definition', 'geocode_score', 'geographic_code', 'gnis_id', 'incits_county_code', 'incits_state_code', 'interlibrary_relationship', 'legal_basis', 'library_id', 'library_name', 'locale_string', 'longitude', 'lsabound', 'mailing_address', 'mailing_city', 'mailing_zip', 'metro_micro_area', 'name_change', 'objectID', 'phone', 'reap_locale', 'reporting_status', 'start_date', 'structure_change', 'total_staff_expenditures_mean', 'total_staff_expenditures_percentile', 'year', 'zip' ];
+
+  for (var h in content.hits) {
+    var res = content.hits[h];
+    var csvHeadings = [ 'Name', 'State' ];
     var library_name = _.replace( res[ 'library_name' ], ',', '' );
-    var csvRow = [ library_name ];
+    var csvRow = [ library_name, res[ 'state' ] ];
     _.forEach( res, function( value, key ) {
       if ( _.includes( excludeFields, key ) === false ) {
         csvHeadings.push( key );
@@ -227,6 +254,7 @@ function prepareCsvData( content ) {
   }); 
 
   encodedUri = encodeURI(csvContent);
+  */
 }
 
 
