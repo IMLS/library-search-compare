@@ -278,8 +278,8 @@ search.addWidget(
   instantsearch.widgets.refinementList({
     container: '#state-refinement',
     attributeName: 'state',
-    limit: 5,
-    showMore: true,
+    limit: 65,
+    showMore: false,
     sortBy: ['name:asc'],
     templates: {
       header: 'State'
@@ -319,15 +319,8 @@ search.addWidget(
   instantsearch.widgets.rangeSlider({
     container: '#total-circulation-refinement',
     attributeName: 'total_circulation',
-    templates: {
-      header: 'Total Circulation'
-    },
-    tooltips: {
-      format: function(rawValue) {
-        return shortenLargeNumber(rawValue).toLocaleString();
-        //return Math.round(rawValue).toLocaleString();
-      }
-    }
+    pips: false,
+    tooltips: false
   })
 );
 
@@ -352,15 +345,8 @@ search.addWidget(
   instantsearch.widgets.rangeSlider({
     container: '#total-revenue-refinement',
     attributeName: 'total_revenue',
-    templates: {
-      header: 'Total Revenue'
-    },
-    tooltips: {
-      format: function(rawValue) {
-        return shortenLargeNumber(rawValue).toLocaleString();
-        //return Math.round(rawValue).toLocaleString();
-      }
-    }
+    pips: false,
+    tooltips: false
   })
 );
 
@@ -384,15 +370,8 @@ search.addWidget(
   instantsearch.widgets.rangeSlider({
     container: '#total-staff-refinement',
     attributeName: 'total_staff',
-    templates: {
-      header: 'Total Staff'
-    },
-    tooltips: {
-      format: function(rawValue) {
-        return shortenLargeNumber(rawValue).toLocaleString();
-        //return Math.round(rawValue).toLocaleString();
-      }
-    }
+    tooltips: false,
+    pips: false
   })
 );
 
@@ -416,26 +395,48 @@ search.addWidget(
   instantsearch.widgets.rangeSlider({
     container: '#service-area-population-refinement',
     attributeName: 'service_area_population',
-    templates: {
-      header: 'Service Area Population'
-    },
-    tooltips: {
-      format: function(rawValue) {
-        return shortenLargeNumber(rawValue).toLocaleString();
-        //return Math.round(rawValue).toLocaleString();
-      }
-    }
+    pips: false,
+    tooltips: false,
   })
 );
 
 // start the search UI
 search.start();
 
-//tell when the widgets are rendered
+//tell when the widgets are rendered the first time
 search.once('render', function(){
-  //console.log('render once!');
-  $('#search-intro').closest('.row').css('margin-top', $('#min-max-wrapper').outerHeight(true));
+  //$('#search-intro').closest('.row').css('margin-top', $('#min-max-wrapper').outerHeight(true));
+  
+  /* Make space for fixed header once filters are loaded */
+  headRoom();
+
+  /* Make the checkbox lists into dropdowns */
+  $('.ais-refinement-list--header').click(function(){
+    $(this).next('.ais-refinement-list--body').toggleClass('show');
+  });//end on dropdown click
+  $(document).click(function(e){
+    if(!e.target.matches('.ais-refinement-list--header, .ais-refinement-list--checkbox, .ais-refinement-list--list, .ais-refinement-list--label, .ais-refinement-list--count')){
+      //click was somewhere outside of the dropdowns
+      $('.ais-refinement-list--body').each(function(){
+        if($(this).hasClass('show')){
+          //the dropdown is open; close it
+          $(this).removeClass('show');
+        }
+      });//end check each dropdown
+    }//end if click outside dropdown
+  });//end if click document
+
 });//end render once
+
+//tell when the widgets are re-rendered
+search.on('render', function(){
+  /* Make sure the content is still in the right place */
+  headRoom();
+  
+  /* Assemble the 'current filters' list and stick it in
+  currentFilters(); */
+
+});//end on render
 
 // handle share button stuff
 var share_btn = document.querySelector('#share-btn');
@@ -479,3 +480,44 @@ function msieversion() {
   }
   return false;
 }
+
+$(document).ready(function() {
+  // fill in data grid variable selector
+  var selectLabels = _.map( comparisonData, 'display_name' );
+  var selectValues = _.map( comparisonData, 'name' );
+  _.forEach( comparisonData, function( value, key ) {
+    $( '#comparison-select' ).append( $('<option></option>' )
+      .attr( 'value', value.name )
+      .text( value.display_name ));
+  });//end forEach
+
+    /* Hide and show filters section */
+    $('#hide-filters').click(function(){
+      if($('.filter-row').is(':visible')){
+        $('.filter-row').hide();
+        $('#hide-filters').text('Show Filters');
+      }else{
+        $('.filter-row').show();
+        $('#hide-filters').text('Hide Filters');
+      }
+      headRoom();
+    });//end hide-filters click
+
+    /* Toggle between list and grid view for results */
+  $('#viewToggle').on('click', function(){
+    if($('#list-results').is(':visible')){
+      $('#list-results').hide();
+      $('#grid-results-wrapper').show();
+      $('#comparison-select-wrapper').show();
+      $('#viewToggle img').attr('src', 'img/list.png');
+      $('#viewToggle span').text('List Libraries');
+    }else{
+      $('#list-results').show();
+      $('#grid-results-wrapper').hide();
+      $('#comparison-select-wrapper').hide();
+      $('#viewToggle img').attr('src', 'img/grid.png');
+      $('#viewToggle span').text('Compare Libraries');
+    }//end if list is shown
+  });//end on viewToggle click
+
+});//end document ready
