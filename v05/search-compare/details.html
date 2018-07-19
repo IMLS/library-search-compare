@@ -127,7 +127,7 @@
             </div>
           </div>
         </div><!--end buttons row-->
-        <div class="row similar-row">
+        <div class="row similar-row" id="compared-to">
           <div class="col-md-10 col-md-offset-1">
             <h2><span class="library-name"></span> Compared to Other Libraries in this Group:</h2>
             <div class="table-responsive">
@@ -273,6 +273,8 @@
           var clickedSimilar = $(this).attr('id').split('-')[0];
 
           history.replaceState(null,null,currentURL+'&similar='+clickedSimilar);
+
+          location.hash = 'compared-to';
         });//end on similar-link click
 
       });//end document ready
