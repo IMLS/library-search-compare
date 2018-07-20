@@ -18,17 +18,17 @@ comparisonData = [
     field_types: [ 'number', 'number', 'number', 'number' ] },
   { name: 'revenue',
     display_name: 'Operating Revenue', 
-    headings: [ 'Name', 'Local Revenue', 'State Revenue', 'Federal Revenue', 'Other Revenue', 'Total Revenue' ],
+    headings: [ 'Name', 'Local Revenue ($)', 'State Revenue ($)', 'Federal Revenue ($)', 'Other Revenue ($)', 'Total Revenue ($)' ],
     field_names: [ 'local_revenue', 'state_revenue', 'federal_revenue', 'other_revenue', 'total_revenue' ],
     field_types: [ 'dollars', 'dollars', 'dollars', 'dollars', 'dollars' ] },
   { name: 'expenditures',
     display_name: 'Operating Expenditures', 
-    headings: [ 'Name', 'Salaries & wages', 'Employee benefits', 'Total staff expenditures', 'Print materials expenditures', 'Electronic materials expenditures', 'Other material expenditures', 'Total collection expenditures', 'Other operating expenditures', 'Total operating expenditures' ],
+    headings: [ 'Name', 'Salaries & wages ($)', 'Employee benefits ($)', 'Total staff expenditures ($)', 'Print materials expenditures ($)', 'Electronic materials expenditures ($)', 'Other material expenditures ($)', 'Total collection expenditures ($)', 'Other operating expenditures ($)', 'Total operating expenditures ($)' ],
     field_names: [ 'salaries', 'benefits', 'total_staff_expenditures', 'print_expenditures', 'electronic_expenditures', 'other_collection_expenditures', 'total_collection_expenditures', 'other_expenditures', 'total_expenditures' ],
     field_types: [ 'dollars', 'dollars', 'dollars', 'dollars', 'dollars', 'dollars', 'dollars', 'dollars', 'dollars' ] },
   { name: 'capital',
     display_name: 'Capital Revenue and Expenditures', 
-    headings: [ 'Name', 'Local capital revenue', 'State capital revenue', 'Federal captial revenue', 'Other capital revenue', 'Total capital revenue', 'Total capital expenditures' ],
+    headings: [ 'Name', 'Local capital revenue ($)', 'State capital revenue ($)', 'Federal capital revenue ($)', 'Other capital revenue ($)', 'Total capital revenue ($)', 'Total capital expenditures ($)' ],
     field_names: [ 'local_capital_revenue', 'state_capital_revenue', 'federal_capital_revenue', 'other_capital_revenue', 'total_capital_revenue', 'capital_expenditures' ],
     field_types: [ 'dollars', 'dollars', 'dollars', 'dollars', 'dollars', 'dollars' ] },
   { name: 'collection',
@@ -48,7 +48,7 @@ comparisonData = [
     field_types: [ 'number', 'number' ] },
   { name: 'programs',
     display_name: 'Library Programs', 
-    headings: [ 'Name', 'Total library programs', 'Children\'s programs', 'Young adult prograns', 'Total attendance at library programs', 'Children\'s program attendance', 'Young adult program attendance' ],
+    headings: [ 'Name', 'Total library programs', 'Children\'s programs', 'Young adult programs', 'Total attendance at library programs', 'Children\'s program attendance', 'Young adult program attendance' ],
     field_names: [ 'total_programs', 'kids_programs', 'ya_programs', 'program_audience', 'kids_program_audience', 'ya_program_audience' ],
     field_types: [ 'number', 'number', 'number', 'number', 'number', 'number' ] },
   { name: 'other_electronic',
@@ -170,7 +170,7 @@ function displayDataGrid( content, comparisonSelect ) {
   tableData[ 'headings' ] = _.map( _.find( comparisonData, { 'name': comparisonSelect } ).headings );
   for (var h in content.hits) {
     res = content.hits[h];
-    var tableRow = [ '<a href="details.html?fscs_id=' + res["fscs_id"] + '">' + res["library_name"] + ' (' + res[ "fscs_id" ] + ')' + '</a>' ];
+    var tableRow = [ '<a data-name="' + res[ 'library_name' ] + '" href="details.html?fscs_id=' + res["fscs_id"] + '">' + res["library_name"] + ' (' + res[ "fscs_id" ] + ')' + '</a>' ];
     _.forEach( field_names, function(f) {
       tableRow.push(res[f].toLocaleString("en-US"));
     });
@@ -184,6 +184,8 @@ function displayDataGrid( content, comparisonSelect ) {
 
   var page_url = window.location.href;
 
+  console.log( tableData );
+
   dataGrid = new DataTable("#grid-results", {
     perPage: 50,
     data: tableData,
@@ -192,7 +194,7 @@ function displayDataGrid( content, comparisonSelect ) {
     columns: [
       {
         select: 0,
-        sortable: false
+        sortable: true
       },
       {
         select: 1,
@@ -215,9 +217,9 @@ function prepareCsvData( content ) {
 
   for (var h in content.hits) {
     var res = content.hits[h];
-    var csvHeadings = [ 'Name', 'fscs_id', 'State', 'City', 'Locale code' ];
+    var csvHeadings = [ 'Name', 'fscs_id', 'City', 'State', 'Locale code' ];
     var library_name = _.replace( res[ 'library_name' ], ',', '' );
-    var csvRow = [ library_name, res[ 'fscs_id' ], res[ 'state' ], res[ 'mailing_city' ], res[ 'locale' ] ];
+    var csvRow = [ library_name, res[ 'fscs_id' ], res[ 'mailing_city' ], res[ 'state' ], res[ 'locale' ] ];
 
     _.forEach( comparisonData, function( value, key) {
       _.forEach( value.field_names, function( value ) {
