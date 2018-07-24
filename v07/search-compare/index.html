@@ -1,0 +1,201 @@
+<!doctype html>
+<head>
+  <meta charset="UTF-8">
+  
+  <title>Library Search &amp; Compare</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.5/lodash.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vanilla-datatables@latest/dist/vanilla-dataTables.min.js" type="text/javascript"></script>
+  <script src="https://cdn.jsdelivr.net/algoliasearch/3.25.1/algoliasearch.min.js"></script>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/instantsearch.js@2.7.2/dist/instantsearch.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/vanilla-datatables@latest/dist/vanilla-dataTables.min.css" rel="stylesheet" type="text/css">
+  <!-- Always use `2.x` versions in production rather than `2` to mitigate any side effects on your website,
+  Find the latest version on InstantSearch.js website: https://community.algolia.com/instantsearch.js/v2/guides/usage.html -->
+
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="css/style.css">
+
+  <script src="//use.typekit.net/dib7hxd.js"></script>
+  <script>try{Typekit.load();}catch(e){}</script>
+</head>
+<body>
+  <header>
+  	<section id="top-banner" class="container-fluid">
+      <div class="row">
+        <div class="col-sm-12 col-sm-6">
+          <div class="site-logo"><a href="../index.html"><img src="../../sites/default/files/logo.png" alt="Institute of Museum and Library Services"></a></div>
+              <h1 class="header-text">Library Search &amp; Compare</h1>
+        </div>
+        <div class="col-sm-12 col-sm-6 text-right">
+          <small>Help IMLS improve this beta website by <a href="https://docs.google.com/forms/d/1UKswUEN0XAmZMwtPNyWBKLLcB_AaJb8GWvgUZpD_aBk/viewform" target="_blank">sending feedback here</a>. All data from IMLS FY2016 Public Libraries Survey (<a href="https://www.imls.gov/research-evaluation/data-collection/public-libraries-survey/explore-pls-data/pls-data" target="_blank">details</a>).</small>
+        </div>
+      </div>
+    </section><!--end #top-banner-->
+    <section id="filters" class="container-fluid">
+		<div class="row filter-row">
+			<div class="col-sm-4">
+				<input id="search-input" placeholder="Search for library data">
+			</div>
+			<div class="col-sm-2">
+        		<div id="locale-refinement" class="facet"></div>
+			</div>
+			<div class="col-sm-2">
+        		<div id="state-refinement" class="facet"></div>
+			</div>
+		</div>
+		<div class="row filter-row" id="min-max-wrapper">
+			<div class="col-sm-3">
+          		<div id="circulation-input"></div>
+          		<div id="total-circulation-refinement" class="facet"></div>
+        	</div> 
+	        <div class="col-sm-3">
+          		<div id="revenue-input"></div>
+          		<div id="total-revenue-refinement" class="facet"></div>
+        	</div>
+        	<div class="col-sm-3">
+	          <div id="staff-input"></div>
+	          <div id="total-staff-refinement" class="facet"></div>
+        	</div>
+        	<div class="col-sm-3">
+		      <div id="population-input"></div>
+		      <div id="service-area-population-refinement" class="facet"></div>
+        	</div>
+      	</div><!--end #min-max-wrapper-->
+		<div class="row filter-recap">
+			<div class="col-sm-9">
+				<!--RW: still working on this 
+					Current filters: <span id="current-filters"></span>-->
+			</div>
+			<div class="col-sm-3 text-right">
+				<div id="clear-all"></div>
+				<button id="hide-filters" class="btn btn-primary btn-sm">Hide Filters</button>
+			</div>
+		</div>
+  	</section><!--end #filters-->
+  </header>
+  <main>  	
+  	<section id="results" class="container-fluid">
+  		<div class="row">
+  			<div class="col-xs-12">
+  				<div class="page-shadow" id="search-results-wrapper">
+  					<p>Enter a keyword in the search box above to search for libraries. From there, you can refine your search based on the other filters above. By clicking on a library name, you can view similar libraries based on Service, Staff, Finance and Collection data.</p>
+  					<div class="actions-box">
+  						<div class="row">  						
+							<div class="col-sm-2">
+	  							<button type="button" class="btn btn-default btn-sm" id="viewToggle"><img src="img/grid.png"> <span>Compare Libraries</span></button>
+	  						</div>
+	  						<div class="col-sm-6">
+	  							<div id="comparison-select-wrapper">
+									<span id="comparison-select-text">See variables related to: </span>
+									<select id="comparison-select"></select>
+								</div>
+	  						</div>
+	  						<div class="col-sm-4 text-right">
+	  							<span id="count"></span>
+	  							<button id="share-btn" class="btn btn-default btn-sm" type="button">Share These Results</button>
+	  							<div id="shareDiv" class="closed">
+							        <p>This page has been copied to your clipboard. Paste somewhere to share!</p>
+							        <input type="text" id="shareMe">
+						        </div><!--end #shareDiv-->
+						        <button id="download-csv" onclick="downloadCsv();" class="btn btn-default btn-sm">Download</button>
+	  						</div>
+  						</div>  						
+  					</div><!--end .actions-box-->
+  					<div id="list-results">
+  						<div id="hits"></div>
+          				<div id="pagination"></div>
+  					</div><!--end #list-results-->
+  					<div id="grid-results-wrapper">
+						<div class="table-responsive">
+							<table class="table table-striped" id="grid-results"></table>
+						</div>
+					</div><!--end #grid-results-wrapper-->
+  				</div><!--end #search-results-wrapper-->
+  			</div>
+  		</div>
+	</section><!--end #results-->  	
+  </main>
+  <footer class="footer">
+    <div class="container">
+      <div class="row flex-links">
+        <div class="col-lg-3">
+          <div class="block agency-location">
+            <p><strong>Agency Location</strong><br />
+            955 L’Enfant Plaza North, SW, Suite 4000<br />
+            Washington, D.C.  20024-2135</p>
+          </div>
+        </div>
+        <div class="col-lg-3">
+          <div class="block contact-info">
+            <p><strong>Contact Us</strong><br />
+            Phone: 202-653-IMLS (4657)<br />
+            <a href="mailto:imlsinfo@imls.gov">imlsinfo@imls.gov</a><br />
+            <a href="/about-us/contact-us">Contact Us Form</a></p>
+            <p><strong>Library Grants</strong><br />
+            Phone: 202-653-4700</p>
+            <p><strong>Museum Grants</strong><br />
+            Phone: 202-653-4789</p>
+          </div>
+        </div>
+        <div class="col-lg-3">
+          <div class="block email-info">
+            <p><strong>Communications</strong><br />
+            <a href="mailto:imlsnews@imls.gov">imlsnews@imls.gov</a></p>
+            <p><strong>Webmaster</strong><br />
+            <a href="mailto:webmaster@imls.gov">webmaster@imls.gov</a></p>
+          </div>
+        </div>
+        <div class="col-lg-3">
+          <div class="block other-links">
+            <div class="footer-social-container">
+              <div class="footer-social">
+                <a href="https://www.facebook.com/USIMLS" target="_blank" tabindex="72" class="tabstop-processed"><img alt="Facebook" src="/sites/default/files/footer-facebook-icon_0.png" title="Facebook"></a>
+                <a href="https://twitter.com/us_imls" target="_blank" tabindex="73" class="tabstop-processed"><img alt="Twitter" src="/sites/default/files/footer-twitter-icon.png" title="Twitter"></a>
+                <a href="https://www.youtube.com/channel/UC_3YQWDq3Rqvo1y2L9cxKEw" target="_blank" tabindex="74" class="tabstop-processed"><img alt="YouTube" src="/sites/default/files/footer-youtube-icon.png" title="Youtube"></a>
+                <a href="https://www.instagram.com/us_imls/" target="_blank" tabindex="75" class="tabstop-processed"><img alt="Instagram" src="/sites/default/files/footer-instagram-icon_0.png" style="width: 23px; height: 23px;" title="Instagram"></a></div>
+              </div>
+              <ul>
+                <li><a href="/about-us" tabindex="76" class="tabstop-processed">About Us</a></li>
+                <li><a href="/grants" tabindex="77" class="tabstop-processed">Grants</a></li>
+                <li><a href="/issues" tabindex="78" class="tabstop-processed">Issues</a></li>
+                <li><a href="/publications" tabindex="79" class="tabstop-processed">Publications</a></li>
+                <li><a href="/research-evaluation" tabindex="80" class="tabstop-processed">Research &amp; Evaluation</a></li>
+                <li><a href="/news-events" tabindex="81" class="tabstop-processed">News &amp; Events</a></li>
+              </ul>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="block footer-links text-center"> 
+            <p><strong>Institute of Museum and Library Services</strong></p>
+            <p><a href="/about-us/policy-notices/website-accessibility/viewers-players" tabindex="82" class="tabstop-processed">Viewers &amp; Players</a> |&nbsp;<a href="/about-us/agency-reports/freedom-information-act-foia" tabindex="83" class="tabstop-processed">FOIA</a>&nbsp;|&nbsp;<a href="/about-us/agency-reports/no-fear-act" tabindex="84" class="tabstop-processed">No FEAR Act</a>&nbsp;|&nbsp;<a href="/about-us/policy-notices/privacy-terms-use" tabindex="85" class="tabstop-processed">Privacy &amp; Terms of Use</a>&nbsp;|&nbsp;<a href="/about-us/agency-reports/equal-employment-opportunity-data" tabindex="86" class="tabstop-processed">EEO</a> | <a href="/about-us/policy-notices/website-accessibility" tabindex="87" class="tabstop-processed">Accessibility</a> | <a href="/about-us/open-government" tabindex="88" class="tabstop-processed">Open Government</a>&nbsp;| <a href="http://osc.gov/" class="ext tabstop-processed" target="_blank" tabindex="89">Office of Special Counsel</a>&nbsp;| <a href="https://www.usa.gov/" class="ext tabstop-processed" target="_blank" tabindex="90">USA.gov</a></p>
+          </div>
+      </div>
+    </div>
+  </footer>
+  <script src="https://cdn.jsdelivr.net/npm/instantsearch.js@2.7.2/dist/instantsearch.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+  <script type="type/html" id="hit-template">
+    <div class="hit">
+      <div class="hit-content">
+        <h3 class="hit-name"><a href="details.html?fscs_id={{fscs_id}}">{{{_highlightResult.library_name.value}}} ({{{fscs_id}}})</a></h3>
+        <div class="hit-address">{{{location_address}}}</div>
+        <div class="hit-city">{{{mailing_city}}}, {{{state}}} {{{mailing_zip}}}</div>
+      </div>
+      <div class="similar-results">
+        <strong>See similar libraries based on:</strong>
+        <div>
+          <a href="details.html?fscs_id={{fscs_id}}&similar=collection#compared-to" class="btn btn-default btn-sm">Collection</a>
+          <a href="details.html?fscs_id={{fscs_id}}&similar=finance#compared-to" class="btn btn-default btn-sm">Finance</a>
+          <a href="details.html?fscs_id={{fscs_id}}&similar=service#compared-to" class="btn btn-default btn-sm">Service</a>
+          <a href="details.html?fscs_id={{fscs_id}}&similar=staff#compared-to" class="btn btn-default btn-sm">Staff</a>
+        </div>
+      </div>
+    </div>
+  </script>
+  <script src="js/app.js"></script>
+  <script src="js/common.js"></script>
+</body>
+</html>
