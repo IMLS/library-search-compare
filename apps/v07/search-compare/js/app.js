@@ -65,7 +65,7 @@ $( '#comparison-select' ).change( function() {
 
 function handleDataSelection( evt ) {
   var comparisonSelect = evt.value;
-  displayDataGrid( searchCompare.globalContent, comparisonSelect )
+  displayDataGrid( searchCompare.globalContent, comparisonSelect, '#grid-results' )
 }
 
 var search = instantsearch({
@@ -143,6 +143,9 @@ function getFullData( results ) {
       asNf = value.substring( eqIndex );
     }
   });
+
+  console.log( asFf );
+
   index.search({
     query: query,
     hitsPerPage: 2000,
@@ -154,14 +157,13 @@ function getFullData( results ) {
     } else {
       searchCompare.globalContent = content;
       var comparisonSelect = $( '#comparison-select' ).val();
-      displayDataGrid( searchCompare.globalContent, comparisonSelect )
+      displayDataGrid( searchCompare.globalContent, comparisonSelect, '#grid-results' )
       prepareCsvData( searchCompare.globalContent, comparisonSelect );
     }
   });
 }
 
-
-function displayDataGrid( content, comparisonSelect ) {
+function displayDataGrid( content, comparisonSelect, el ) {
   var tableRows = []
   var tableData = {};
 
@@ -170,7 +172,7 @@ function displayDataGrid( content, comparisonSelect ) {
   tableData[ 'headings' ] = _.map( _.find( comparisonData, { 'name': comparisonSelect } ).headings );
   for (var h in content.hits) {
     res = content.hits[h];
-    var tableRow = [ '<a data-name="' + res[ 'library_name' ] + '" href="details.html?fscs_id=' + res["fscs_id"] + '">' + res["library_name"] + ' (' + res[ "fscs_id" ] + ')' + '</a>' ];
+    var tableRow = [ '<a data-name="' + res[ 'library_name' ] + '" data-fscs="' + res[ "fscs_id" ] + '" href="details.html?fscs_id=' + res["fscs_id"] + '">' + res["library_name"] + ' (' + res[ "fscs_id" ] + ')' + '</a>' ];
     _.forEach( field_names, function(f) {
       tableRow.push(res[f].toLocaleString("en-US"));
     });
@@ -186,24 +188,32 @@ function displayDataGrid( content, comparisonSelect ) {
 
   console.log( tableData );
 
-  dataGrid = new DataTable("#grid-results", {
+  dataGrid = new DataTable(el, {
     perPage: 50,
     data: tableData,
     searchable: false,
     perPageSelect: false,
     columns: [
       {
-        select: 0,
+        select: 1,
         sortable: true
       },
       {
-        select: 1,
+        select: 2,
         render: function( data, cell, row) {
           return data;
         }
       }
     ]
   });
+
+  // Draggable settings
+  $('#grid-results tbody tr').attr('draggable','true');
+  $('#grid-results').attr('ondragstart', 'dragstartHandler(event)');
+
+  $( '#compare-box' ).attr( 'ondragenter', 'dragEnterHandler(event)' );
+  $( '#compare-box' ).attr( 'ondragover', 'dragOverHandler(event)' );
+  $( '#compare-box' ).attr( 'ondrop', 'dropHandler(event)' );
 
   dataGrid.on('datatable.sort', function(column, direction) {
   });
@@ -258,6 +268,7 @@ function downloadCsv() {
   }
 }
 
+// Add instant search widgets  
 // pagination
 search.addWidget(
   instantsearch.widgets.pagination({
@@ -481,6 +492,98 @@ function msieversion() {
   return false;
   }
   return false;
+}
+
+// Drag and drop functions
+function dragstartHandler(evt) {
+  var fscs = $( evt.target ).find( 'a' )[0].dataset.fscs;
+  event.dataTransfer.setData( 'fscs', fscs );
+  event.dataTransfer.effectAllowed = 'move';
+}
+
+function dragEnterHandler( evt ) {
+}
+
+function dragOverHandler( evt ) {
+  evt.preventDefault();
+}
+
+var fscs_arr = [];
+
+function dropHandler( evt ) {
+  var fscs = evt.dataTransfer.getData( 'fscs' );
+  fscs_arr.push( fscs );
+  getComparisonData();
+}
+
+function getComparisonData() {
+  var filterParam = []
+  _.forEach( fscs_arr, function(id) {
+    var filterString = "fscs_id:" + id;
+    filterParam.push( filterString );
+  } );
+
+  index.search({
+    query: '',
+    hitsPerPage: 2000,
+    facetFilters: [filterParam]
+  }, function comparisonSearchDone( err, content ) {
+    if ( err ) {
+      console.log( err );
+    } else {
+      var comparisonSelect = $( '#comparison-select' ).val();
+      displayComparisonGrid( content, comparisonSelect, '#comparison-results' )
+    };
+  })
+}
+
+function displayComparisonGrid ( content, comparisonSelect, el ) {
+  var tableRows = []
+  var tableData = {};
+
+  var field_names = _.map( _.find( comparisonData, { 'name': comparisonSelect } ).field_names );
+
+  tableData[ 'headings' ] = _.map( _.find( comparisonData, { 'name': comparisonSelect } ).headings );
+  for (var h in content.hits) {
+    res = content.hits[h];
+    var tableRow = [ '<a data-name="' + res[ 'library_name' ] + '" data-fscs="' + res[ "fscs_id" ] + '" href="details.html?fscs_id=' + res["fscs_id"] + '">' + res["library_name"] + ' (' + res[ "fscs_id" ] + ')' + '</a>' ];
+    _.forEach( field_names, function(f) {
+      tableRow.push(res[f].toLocaleString("en-US"));
+    });
+    tableRows.push(tableRow);
+  }
+  tableData[ 'data' ] = tableRows;
+  
+  if (typeof comparisonGrid !== 'undefined') {
+    comparisonGrid.destroy();
+  }
+
+  var page_url = window.location.href;
+
+  comparisonGrid = new DataTable(el, {
+    perPage: 50,
+    data: tableData,
+    searchable: false,
+    perPageSelect: false,
+    columns: [
+      {
+        select: 1,
+        sortable: true
+      },
+      {
+        select: 2,
+        render: function( data, cell, row) {
+          return data;
+        }
+      }
+    ]
+  });
+
+  comparisonGrid.on('datatable.sort', function(column, direction) {
+  });
+
+  comparisonGrid.on('similarTable.init', function() {
+  });
 }
 
 $(document).ready(function() {

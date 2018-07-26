@@ -64,6 +64,11 @@
       	</div><!--end #min-max-wrapper-->
 		<div class="row filter-recap">
 			<div class="col-sm-9">
+        <div class="actions-box" id="compare-box">
+          <div>Drop libraries to compare here</div>
+          <div id="fscs-holder"></div>
+        </div>
+        <!-- end compare-box -->
 				<!--RW: still working on this 
 					Current filters: <span id="current-filters"></span>-->
 			</div>
@@ -106,11 +111,16 @@
   						<div id="hits"></div>
           				<div id="pagination"></div>
   					</div><!--end #list-results-->
+  					<div id="comparison-results-wrapper">
+              <div class="table-responsive">
+                <table class="table table-striped" id="comparison-results"></table>
+              </div>
+            </div><!--end #grid-results-wrapper-->
   					<div id="grid-results-wrapper">
-						<div class="table-responsive">
-							<table class="table table-striped" id="grid-results"></table>
-						</div>
-					</div><!--end #grid-results-wrapper-->
+              <div class="table-responsive">
+                <table class="table table-striped" id="grid-results"></table>
+              </div>
+            </div><!--end #grid-results-wrapper-->
   				</div><!--end #search-results-wrapper-->
   			</div>
   		</div>
