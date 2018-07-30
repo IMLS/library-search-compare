@@ -286,7 +286,7 @@ input[type=number]::-webkit-outer-spin-button {
 	display: none;
 }
 
-#shareDiv {
+#shareDiv, #userShareDiv {
 	position: absolute;
 	background-color: #34715b;
 	right: 15px;
@@ -294,7 +294,7 @@ input[type=number]::-webkit-outer-spin-button {
 	text-align: left;
 	color: #fff;
 }
-#shareMe {
+#shareMe, #userShareMe {
 	border-top: 0;
 	border-left: 0;
 	border-right: 0;
@@ -304,7 +304,7 @@ input[type=number]::-webkit-outer-spin-button {
 	background-color: #34715b;
 }
 
-#comparison-select, #count {
+#comparison-select, #count, #userCount {
 	display: inline-block;
 }
 
@@ -371,6 +371,34 @@ input[type=number]::-webkit-outer-spin-button {
 }
 .dataTable-sorter::after, .dataTable-sorter::before {
 	opacity: .9;
+}
+
+/* User Table Things
+   =========================*/
+#userTable {
+	position: fixed;
+	right: -10000px;
+	width: 100%;
+	z-index: 0;
+	padding-left: 15px;
+	padding-right: 15px;
+	padding-top: 20px;
+	-webkit-transform: translateX(100%);
+	-moz-transform: translateX(100%);
+	transform: translateX(100%);
+	-webkit-transition: transform 0.6 ease-in-out;
+	-moz-transition: transform 0.6 ease-in-out;
+	transition: transform 0.6 ease-in-out;
+}
+#userTable.open {
+	z-index: 1009;
+	right: auto;
+	-webkit-transform: translateX(0);
+	-moz-transform: translateX(0);
+	transform: translateX(0);
+	-webkit-transition: transform 0.6 ease-in-out;
+	-moz-transition: transform 0.6 ease-in-out;
+	transition: transform 0.6 ease-in-out;
 }
 
 /* Details Things

@@ -73,9 +73,13 @@ function currentFilters(){
 }//end currentFilters function
 
 function headRoom() {
+  //do the main page stuff
   if ($('header').css('position') == 'fixed'){
     $('main').css('margin-top', $('header').height());
   }else{
     $('main').css('margin-top', '20px');
   }
+
+  //also do the user table if needed
+  $('#userTable').css('top', $('header').height());
 }

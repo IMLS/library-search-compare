@@ -522,4 +522,15 @@ $(document).ready(function() {
     }//end if list is shown
   });//end on viewToggle click
 
+  /* Hide and show User Table */
+  $('#show-user-table').on('click', function(){
+    if($('#userTable').hasClass('open')){
+      $('#userTable').removeClass('open');
+      $('#show-user-table').text('Show My Table');
+    }else{
+      $('#userTable').addClass('open');
+      $('#show-user-table').text('Hide My Table');
+    }
+  });//end on show-user-table click
+
 });//end document ready
