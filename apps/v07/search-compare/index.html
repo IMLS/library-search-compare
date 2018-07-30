@@ -70,6 +70,7 @@
 			<div class="col-sm-3 text-right">
 				<div id="clear-all"></div>
 				<button id="hide-filters" class="btn btn-primary btn-sm">Hide Filters</button>
+        <button id="show-user-table" class="btn btn-primary btn-sm">Show My Table</button>
 			</div>
 		</div>
   	</section><!--end #filters-->
@@ -114,7 +115,35 @@
   				</div><!--end #search-results-wrapper-->
   			</div>
   		</div>
-	</section><!--end #results-->  	
+	</section><!--end #results-->
+  <section id="userTable">
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="page-shadow">
+          <div class="actions-box">
+            <div class="row">
+              <div class="col-sm-6 col-sm-offset-2">
+                <div id="user-comparison-select-wrapper">
+                  <span id="user-comparison-select-text">See variables related to: </span>
+                  <select id="user-comparison-select"></select>
+                </div>
+              </div>
+              <div class="col-sm-4 text-right">
+                <span id="userCount"></span>
+                <button id="user-share-btn" class="btn btn-default btn-sm" type="button">Share These Results</button>
+                <div id="userShareDiv" class="closed">
+                    <p>This page has been copied to your clipboard. Paste somewhere to share!</p>
+                    <input type="text" id="userShareMe">
+                  </div><!--end #shareDiv-->
+                  <button id="download-user-csv" onclick="downloadCsv();" class="btn btn-default btn-sm">Download</button>
+              </div>
+            </div>              
+          </div><!--end .actions-box-->
+          Here is where the user's table will go.
+        </div>
+      </div>
+    </div>
+  </section><!--end #userTable-->	
   </main>
   <footer class="footer">
     <div class="container">
