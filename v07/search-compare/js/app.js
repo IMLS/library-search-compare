@@ -435,8 +435,8 @@ search.on('render', function(){
   /* Make sure the content is still in the right place */
   headRoom();
   
-  /* Assemble the 'current filters' list and stick it in
-  currentFilters(); */
+  /* Assemble the 'current filters' list and stick it in */
+  currentFilters();
 
 });//end on render
 
@@ -511,25 +511,24 @@ $(document).ready(function() {
       $('#list-results').hide();
       $('#grid-results-wrapper').show();
       $('#comparison-select-wrapper').show();
-      $('#viewToggle img').attr('src', 'img/list.png');
+      $('#viewToggle i').toggleClass('icon-list-view icon-grid-view');
       $('#viewToggle span').text('List Libraries');
     }else{
       $('#list-results').show();
       $('#grid-results-wrapper').hide();
       $('#comparison-select-wrapper').hide();
-      $('#viewToggle img').attr('src', 'img/grid.png');
+      $('#viewToggle i').toggleClass('icon-list-view icon-grid-view');
       $('#viewToggle span').text('Compare Libraries');
     }//end if list is shown
   });//end on viewToggle click
 
   /* Hide and show User Table */
   $('#show-user-table').on('click', function(){
+    $('#userTable, #results').toggleClass('open closed');
     if($('#userTable').hasClass('open')){
-      $('#userTable').removeClass('open');
-      $('#show-user-table').text('Show My Table');
+      $('#show-user-table').text('Show Search Results');
     }else{
-      $('#userTable').addClass('open');
-      $('#show-user-table').text('Hide My Table');
+      $('#show-user-table').text('Show My Libraries');
     }
   });//end on show-user-table click
 

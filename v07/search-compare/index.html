@@ -14,6 +14,7 @@
   Find the latest version on InstantSearch.js website: https://community.algolia.com/instantsearch.js/v2/guides/usage.html -->
 
   <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="css/icons.css">
   <link rel="stylesheet" type="text/css" href="css/style.css">
 
   <script src="//use.typekit.net/dib7hxd.js"></script>
@@ -46,37 +47,65 @@
 		</div>
 		<div class="row filter-row" id="min-max-wrapper">
 			<div class="col-sm-3">
-          		<div id="circulation-input"></div>
-          		<div id="total-circulation-refinement" class="facet"></div>
-        	</div> 
-	        <div class="col-sm-3">
-          		<div id="revenue-input"></div>
-          		<div id="total-revenue-refinement" class="facet"></div>
-        	</div>
-        	<div class="col-sm-3">
-	          <div id="staff-input"></div>
-	          <div id="total-staff-refinement" class="facet"></div>
-        	</div>
-        	<div class="col-sm-3">
-		      <div id="population-input"></div>
-		      <div id="service-area-population-refinement" class="facet"></div>
-        	</div>
-      	</div><!--end #min-max-wrapper-->
+    		<div id="circulation-input"></div>
+    		<div id="total-circulation-refinement" class="facet"></div>
+    	</div> 
+      <div class="col-sm-3">
+    		<div id="revenue-input"></div>
+    		<div id="total-revenue-refinement" class="facet"></div>
+    	</div>
+    	<div class="col-sm-3">
+        <div id="staff-input"></div>
+        <div id="total-staff-refinement" class="facet"></div>
+    	</div>
+    	<div class="col-sm-3">
+        <div id="population-input"></div>
+        <div id="service-area-population-refinement" class="facet"></div>
+    	</div>
+  	</div><!--end #min-max-wrapper-->
 		<div class="row filter-recap">
 			<div class="col-sm-9">
-				<!--RW: still working on this 
-					Current filters: <span id="current-filters"></span>-->
-			</div>
+				<!--RW: still working on this-->
+        <div class="row">
+          <!--<div class="col-xs-2">
+            <strong>Current filters:</strong>
+          </div>-->
+          <div class="col-md-2 col-xs-4">
+            <h2>Locales:</h2>
+            <div id="current-locales"></div>
+          </div>
+          <div class="col-md-2 col-xs-4">
+            <h2>States:</h2>
+            <div id="current-states"></div>
+          </div>
+          <div class="col-md-2 col-xs-4">
+            <h2>Circulation:</h2>
+            <div id="circulation"></div>
+          </div>
+          <div class="col-md-2 col-xs-4">
+            <h2>Revenue:</h2>
+            <div id="revenue"></div>
+          </div>
+          <div class="col-md-2 col-xs-4">
+            <h2>Staff:</h2>
+            <div id="staff"></div>
+          </div>
+          <div class="col-md-2 col-xs-4">
+            <h2>Service Area Pop:</h2>
+            <div id="service-area-population"></div>
+          </div>
+        </div>
+      </div><!--end col-sm-9 for current filters-->
 			<div class="col-sm-3 text-right">
 				<div id="clear-all"></div>
 				<button id="hide-filters" class="btn btn-primary btn-sm">Hide Filters</button>
-        <button id="show-user-table" class="btn btn-primary btn-sm">Show My Table</button>
 			</div>
 		</div>
   	</section><!--end #filters-->
   </header>
-  <main>  	
-  	<section id="results" class="container-fluid">
+  <main>
+    <div id="show-user-table">Show My Libraries</div>
+  	<section id="results" class="container-fluid open">
   		<div class="row">
   			<div class="col-xs-12">
   				<div class="page-shadow" id="search-results-wrapper">
@@ -84,7 +113,7 @@
   					<div class="actions-box">
   						<div class="row">  						
 							<div class="col-sm-2">
-	  							<button type="button" class="btn btn-default btn-sm" id="viewToggle"><img src="img/grid.png"> <span>Compare Libraries</span></button>
+	  							<button type="button" class="btn btn-default btn-sm" id="viewToggle"><!--<img src="img/grid.png">--><i class="icon-grid-view"></i> <span>Compare Libraries</span></button>
 	  						</div>
 	  						<div class="col-sm-6">
 	  							<div id="comparison-select-wrapper">
@@ -99,7 +128,7 @@
 							        <p>This page has been copied to your clipboard. Paste somewhere to share!</p>
 							        <input type="text" id="shareMe">
 						        </div><!--end #shareDiv-->
-						        <button id="download-csv" onclick="downloadCsv();" class="btn btn-default btn-sm">Download</button>
+						        <button id="download-csv" onclick="downloadCsv();" class="btn btn-default btn-sm"><i class="icon-file-excel"></i> Download</button>
 	  						</div>
   						</div>  						
   					</div><!--end .actions-box-->
@@ -116,7 +145,7 @@
   			</div>
   		</div>
 	</section><!--end #results-->
-  <section id="userTable">
+  <section id="userTable" class="closed">
     <div class="row">
       <div class="col-xs-12">
         <div class="page-shadow">
@@ -135,7 +164,7 @@
                     <p>This page has been copied to your clipboard. Paste somewhere to share!</p>
                     <input type="text" id="userShareMe">
                   </div><!--end #shareDiv-->
-                  <button id="download-user-csv" onclick="downloadCsv();" class="btn btn-default btn-sm">Download</button>
+                  <button id="download-user-csv" onclick="downloadCsv();" class="btn btn-default btn-sm"><i class="icon-file-excel"></i> Download</button>
               </div>
             </div>              
           </div><!--end .actions-box-->

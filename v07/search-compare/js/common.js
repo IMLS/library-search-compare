@@ -20,6 +20,7 @@ function shortenLargeNumber(num, digits) {
 
 /* Handle the "Current Filters" section */
 function currentFilters(){
+
 	//assemble checked locales
 	var selectedLocales = $('#locale-refinement input:checked').map(function(){
 		return this.value;
@@ -30,46 +31,39 @@ function currentFilters(){
 		return this.value;
 	}).get();//end map checked state checkboxes
 
-	//get slider values if they've been modified
-	$('.ais-root.ais-range-input').each(function(){
-		
-		var minInput = $(this).find('.ais-range-input--inputMin').val();
-		var maxInput = $(this).find('.ais-range-input--inputMax').val();
-		
-		if(!minInput){
-			console.log('min is empty');
-		}else{
-			console.log('there is something in min!');
-		}
 
-		var minValue = $(this).find('.ais-range-input--inputMin').attr('min');
-		var maxValue = $(this).find('.ais-range-input--inputMax').attr('max');
+	$('#min-max-wrapper .facet').each(function(){
+		var currentSlider = $(this).attr('id').replace('-refinement','').replace('total-','');
 
-		
+		//get current lower position
+		var lowerPos = $(this).find('.ais-range-slider--handle-lower').attr('aria-valuenow');
+		var lowerPos = shortenLargeNumber(lowerPos,2);
 
-		//console.log('minValue: '+minValue+', maxValue: '+maxValue+', minInput: '+minInput+', maxInput: '+maxInput);
+		//get current upper position
+		var upperPos = $(this).find('.ais-range-slider--handle-upper').attr('aria-valuenow');
+		var upperPos = shortenLargeNumber(upperPos,2);
 
-		if(minValue == (minInput || '')){
-			//console.log('the min matches the current value of the min');
-		}else{
-			//console.log('no the min does not match');
-		}
-	});//end each range-input
+		//stick it in the right hole
+		$('#'+currentSlider).text(lowerPos+' - '+upperPos);
+
+	});//end each slider container
 
 
-	/*$('.ais-range-slider--handle-lower').each(function(){
-		console.log('the aria-valuemax is ' + $(this).attr('aria-valuemax'));
-		
-		//check if min is modified
-		if(($(this).attr('aria-valuemin')) == ($(this).attr('aria-valuenow'))){
-			//the min hasn't been modified; has the max?
-			if(($(this).next('.ais-range-slider--handle-upper').attr('aria-valuemax')) == ($(this).next('.ais-range-slider--handle-upper').attr('aria-valuenow'))){
-				//the max hasn't been modified either
-			}
-		}
-	});//end each lower handle*/
+	/* Fill in "current filters" for locale and state */
+	if(jQuery.isEmptyObject(selectedLocales)){
+		$('#current-locales').text('All');
+	}else{
+		$('#current-locales').text(selectedLocales.join(', '));
+	}//end check if any locales are selected
 
-	$('#current-filters').text(selectedStates.join(', '));
+	if(jQuery.isEmptyObject(selectedStates)){
+		$('#current-states').text('All');
+	}else{
+		$('#current-states').text(selectedStates.join(', '));
+	}//end check if any states are selected
+
+	headRoom();
+
 }//end currentFilters function
 
 function headRoom() {
@@ -82,4 +76,7 @@ function headRoom() {
 
   //also do the user table if needed
   $('#userTable').css('top', $('header').height());
+
+  //and the user table button
+  $('#show-user-table').css('top', $('header').height());
 }
