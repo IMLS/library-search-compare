@@ -643,12 +643,4 @@ $(document).ready(function() {
     }
   });//end on show-user-table click
 
-
-
-  // Temporary trigger to show data user tables
-  // TODO: delete before commit
-  $('#show-user-table').trigger('click');
-  $('#viewToggle').trigger('click');
-  $('#hide-filters').trigger('click');
-
 });//end document ready
