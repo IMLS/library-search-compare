@@ -150,7 +150,7 @@ function getFullData( results ) {
   });
   index.search({
     query: query,
-    hitsPerPage: 2000,
+    hitsPerPage: 10000,
     facetFilters: asFf,
     numericFilters: asNf
   }, function searchDone( err, content ) {
@@ -258,7 +258,7 @@ function getUserComparisonData() {
 
     index.search({
       query: '',
-      hitsPerPage: 2000,
+      hitsPerPage: 10000,
       facetFilters: [filterParam]
     }, function comparisonSearchDone( err, content ) {
       if ( err ) {
