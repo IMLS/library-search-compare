@@ -556,9 +556,9 @@ function sharePage( evt ) {
     var page_url = window.location.href;
     var myLink = document.getElementById( 'shareMe' );
     var myDiv = document.getElementById( 'shareDiv' );
-    var closed = myDiv.className.indexOf( 'closed' ) !== -1;
+    var closed = myDiv.className.indexOf( 'away' ) !== -1;
     if( closed ) {
-      myDiv.className = myDiv.className.replace( 'closed', 'open' );
+      myDiv.className = myDiv.className.replace( 'away', 'here' );
     }
     myLink.value = page_url;
     myLink.select();
@@ -574,9 +574,9 @@ function sharePage( evt ) {
 function hideIt() {
   setTimeout( function(){
     var myDiv = document.getElementById( 'shareDiv' );
-    var open = myDiv.className.indexOf( 'open' ) !== -1;
+    var open = myDiv.className.indexOf( 'here' ) !== -1;
     if( open ) {
-      myDiv.className = myDiv.className.replace( 'open', 'closed' );
+      myDiv.className = myDiv.className.replace( 'here', 'away' );
     }
   }, 5000 );
   return false;
@@ -636,6 +636,8 @@ $(document).ready(function() {
   /* Hide and show User Table */
   $('#show-user-table').on('click', function(){
     $('#userTable, #results').toggleClass('open closed');
+    document.body.scrollTop = 0; // For Safari
+    document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
     if($('#userTable').hasClass('open')){
       $('#show-user-table').text('Show Search Results');
     }else{
