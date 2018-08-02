@@ -59,13 +59,18 @@ comparisonData = [
 ];
 
 // Comparison data selector event handler
-$( '#comparison-select' ).change( function() { 
+$( '#comparison-select, #user-comparison-select' ).change( function() { 
   handleDataSelection( this );
 });
 
-function handleDataSelection( evt ) {
-  var comparisonSelect = evt.value;
-  displayDataGrid( searchCompare.globalContent, comparisonSelect )
+function handleDataSelection( target ) {
+  var comparisonSelect = target.value;
+  var targetID = $( target ).attr( 'id' );
+  if( targetID === 'comparison-select' ) {
+    displayDataGrid( searchCompare.globalContent, comparisonSelect );
+  } else if( targetID === 'user-comparison-select' ) {
+    getUserComparisonData();
+  }
 }
 
 var search = instantsearch({
@@ -160,7 +165,6 @@ function getFullData( results ) {
   });
 }
 
-
 function displayDataGrid( content, comparisonSelect ) {
   var tableRows = []
   var tableData = {};
@@ -168,9 +172,11 @@ function displayDataGrid( content, comparisonSelect ) {
   var field_names = _.map( _.find( comparisonData, { 'name': comparisonSelect } ).field_names );
 
   tableData[ 'headings' ] = _.map( _.find( comparisonData, { 'name': comparisonSelect } ).headings );
+  tableData[ 'headings' ].unshift('');
+
   for (var h in content.hits) {
     res = content.hits[h];
-    var tableRow = [ '<a data-name="' + res[ 'library_name' ] + '" href="details.html?fscs_id=' + res["fscs_id"] + '">' + res["library_name"] + ' (' + res[ "fscs_id" ] + ')' + '</a>' ];
+    var tableRow = [ '<button href="#" class="user-compare-btn user-compare-add" data-fscs="' + res[ "fscs_id" ] + '" data-action="add">+</button>', '<a data-name="' + res[ 'library_name' ] + '" href="details.html?fscs_id=' + res["fscs_id"] + '">' + res["library_name"] + ' (' + res[ "fscs_id" ] + ')' + '</a>' ];
     _.forEach( field_names, function(f) {
       tableRow.push(res[f].toLocaleString("en-US"));
     });
@@ -184,8 +190,6 @@ function displayDataGrid( content, comparisonSelect ) {
 
   var page_url = window.location.href;
 
-  console.log( tableData );
-
   dataGrid = new DataTable("#grid-results", {
     perPage: 50,
     data: tableData,
@@ -194,7 +198,7 @@ function displayDataGrid( content, comparisonSelect ) {
     columns: [
       {
         select: 0,
-        sortable: true
+        sortable: false
       },
       {
         select: 1,
@@ -205,10 +209,110 @@ function displayDataGrid( content, comparisonSelect ) {
     ]
   });
 
-  dataGrid.on('datatable.sort', function(column, direction) {
+  dataGrid.on('datatable.init', function() {
+    setAddUserCompareHandler();
   });
 
-  dataGrid.on('similarTable.init', function() {
+  dataGrid.on('datatable.page', function() {
+    setAddUserCompareHandler();
+  });
+
+  dataGrid.on('datatable.sort', function() {
+    setAddUserCompareHandler();
+  });
+}
+
+searchCompare.fscs_arr = [];
+
+function setAddUserCompareHandler() {
+  // Click event for adding libraries to user-comparison table  
+  $('.user-compare-btn').on('click', function( evt ) {
+    event.stopPropagation();
+    event.stopImmediatePropagation();
+    var userCompareBtn = $( evt.target );
+
+    userCompareBtn.toggleClass( 'user-compare-add user-compare-remove' );
+    if( evt.target.dataset.action === 'add' ) {
+      searchCompare.fscs_arr.push( evt.target.dataset.fscs );
+      userCompareBtn.attr( 'data-action', 'remove' );
+      userCompareBtn.text( '-');
+    } else {
+      _.pull( searchCompare.fscs_arr, evt.target.dataset.fscs );
+      userCompareBtn.attr( 'data-action', 'add' );
+      userCompareBtn.text( '+');
+    }
+
+    searchCompare.fscs_arr = _.uniq( searchCompare.fscs_arr );
+    getUserComparisonData();
+    evt.preventDefault();
+  } );
+}
+
+function getUserComparisonData() {
+  if( searchCompare.fscs_arr.length !== 0 ) {
+    var filterParam = []
+    _.forEach( searchCompare.fscs_arr, function(id) {
+      var filterString = "fscs_id:" + id;
+      filterParam.push( filterString );
+    } );
+
+    index.search({
+      query: '',
+      hitsPerPage: 2000,
+      facetFilters: [filterParam]
+    }, function comparisonSearchDone( err, content ) {
+      if ( err ) {
+        console.log( err );
+      } else {
+        var comparisonSelect = $( '#user-comparison-select' ).val();
+        displayUserComparisonGrid( content, comparisonSelect, '#user-comparison-results' )
+      };
+    })
+  } else {
+    $( '#user-comparison-results' ).empty();
+  }
+}
+
+function displayUserComparisonGrid ( content, comparisonSelect, el ) {
+  var tableRows = []
+  var tableData = {};
+
+  var field_names = _.map( _.find( comparisonData, { 'name': comparisonSelect } ).field_names );
+
+  tableData[ 'headings' ] = _.map( _.find( comparisonData, { 'name': comparisonSelect } ).headings );
+  for (var h in content.hits) {
+    res = content.hits[h];
+    var tableRow = [ '<a data-name="' + res[ 'library_name' ] + '" data-fscs="' + res[ "fscs_id" ] + '" href="details.html?fscs_id=' + res["fscs_id"] + '">' + res["library_name"] + ' (' + res[ "fscs_id" ] + ')' + '</a>' ];
+    _.forEach( field_names, function(f) {
+      tableRow.push(res[f].toLocaleString("en-US"));
+    });
+    tableRows.push(tableRow);
+  }
+  tableData[ 'data' ] = tableRows;
+  
+  if (typeof comparisonGrid !== 'undefined') {
+    comparisonGrid.destroy();
+  }
+
+  var page_url = window.location.href;
+
+  comparisonGrid = new DataTable(el, {
+    perPage: 50,
+    data: tableData,
+    searchable: false,
+    perPageSelect: false,
+    columns: [
+      {
+        select: 1,
+        sortable: true
+      },
+      {
+        select: 2,
+        render: function( data, cell, row) {
+          return data;
+        }
+      }
+    ]
   });
 }
 
@@ -441,23 +545,30 @@ search.on('render', function(){
 });//end on render
 
 // handle share button stuff
-var share_btn = document.querySelector('#share-btn');
-share_btn.onclick = function( evt ) {
+$( '#share-btn, #user-share-btn' ).on( 'click', function( evt ) {
   sharePage( evt );
-}
+} );
 
 function sharePage( evt ) {
-  var page_url = window.location.href;
-  var myLink = document.getElementById( 'shareMe' );
-  var myDiv = document.getElementById( 'shareDiv' );
-  var closed = myDiv.className.indexOf( 'closed' ) !== -1;
-  if( closed ) {
-    myDiv.className = myDiv.className.replace( 'closed', 'open' );
+  var shareId = $( evt.target ).attr( 'id' );
+
+  if( shareId === 'share-btn' ) {
+    var page_url = window.location.href;
+    var myLink = document.getElementById( 'shareMe' );
+    var myDiv = document.getElementById( 'shareDiv' );
+    var closed = myDiv.className.indexOf( 'closed' ) !== -1;
+    if( closed ) {
+      myDiv.className = myDiv.className.replace( 'closed', 'open' );
+    }
+    myLink.value = page_url;
+    myLink.select();
+    document.execCommand( "copy" );
+    hideIt();
+  } 
+  else if (shareId === 'user-share-btn' ) 
+  {
+    console.log( searchCompare.fscs_arr );
   }
-  myLink.value = page_url;
-  myLink.select();
-  document.execCommand( "copy" );
-  hideIt();
 }
 
 function hideIt() {
@@ -488,7 +599,7 @@ $(document).ready(function() {
   var selectLabels = _.map( comparisonData, 'display_name' );
   var selectValues = _.map( comparisonData, 'name' );
   _.forEach( comparisonData, function( value, key ) {
-    $( '#comparison-select' ).append( $('<option></option>' )
+    $( '#comparison-select, #user-comparison-select' ).append( $('<option></option>' )
       .attr( 'value', value.name )
       .text( value.display_name ));
   });//end forEach
@@ -531,5 +642,13 @@ $(document).ready(function() {
       $('#show-user-table').text('Show My Libraries');
     }
   });//end on show-user-table click
+
+
+
+  // Temporary trigger to show data user tables
+  // TODO: delete before commit
+  $('#show-user-table').trigger('click');
+  $('#viewToggle').trigger('click');
+  $('#hide-filters').trigger('click');
 
 });//end document ready
