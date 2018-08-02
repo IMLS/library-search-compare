@@ -176,7 +176,7 @@ function displayDataGrid( content, comparisonSelect ) {
 
   for (var h in content.hits) {
     res = content.hits[h];
-    var tableRow = [ '<button href="#" class="user-compare-btn user-compare-add" data-fscs="' + res[ "fscs_id" ] + '" data-action="add">+</button>', '<a data-name="' + res[ 'library_name' ] + '" href="details.html?fscs_id=' + res["fscs_id"] + '">' + res["library_name"] + ' (' + res[ "fscs_id" ] + ')' + '</a>' ];
+    var tableRow = [ '<i class="user-compare-btn user-compare-add" data-fscs="' + res[ "fscs_id" ] + '" data-action="add"></i>', '<a data-name="' + res[ 'library_name' ] + '" href="details.html?fscs_id=' + res["fscs_id"] + '">' + res["library_name"] + ' (' + res[ "fscs_id" ] + ')' + '</a>' ];
     _.forEach( field_names, function(f) {
       tableRow.push(res[f].toLocaleString("en-US"));
     });
@@ -235,11 +235,11 @@ function setAddUserCompareHandler() {
     if( evt.target.dataset.action === 'add' ) {
       searchCompare.fscs_arr.push( evt.target.dataset.fscs );
       userCompareBtn.attr( 'data-action', 'remove' );
-      userCompareBtn.text( '-');
+      //userCompareBtn.text( '-');
     } else {
       _.pull( searchCompare.fscs_arr, evt.target.dataset.fscs );
       userCompareBtn.attr( 'data-action', 'add' );
-      userCompareBtn.text( '+');
+      //userCompareBtn.text( '+');
     }
 
     searchCompare.fscs_arr = _.uniq( searchCompare.fscs_arr );

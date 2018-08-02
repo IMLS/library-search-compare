@@ -26,7 +26,9 @@
 }
 
 [class^="icon-"]:before,
-[class*=" icon-"]:before {
+[class*=" icon-"]:before,
+[class^="user-compare-"]:before,
+[class*=" user-compare-"]:before {
   font-family: "icon-font" !important;
   font-style: normal !important;
   font-weight: normal !important;
@@ -50,10 +52,10 @@
 .icon-file-pdf:before {
   content: "\66";
 }
-.icon-minus-circle:before {
+.user-compare-remove:before {
   content: "\67";
 }
-.icon-plus-circle:before {
+.user-compare-add:before {
   content: "\6a";
 }
 .icon-grid-view:before {
