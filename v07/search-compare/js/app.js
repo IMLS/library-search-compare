@@ -63,10 +63,14 @@ $( '#comparison-select, #user-comparison-select' ).change( function() {
   handleDataSelection( this );
 });
 
-function handleDataSelection( evt ) {
-  console.log( evt );
-  var comparisonSelect = evt.value;
-  displayDataGrid( searchCompare.globalContent, comparisonSelect )
+function handleDataSelection( target ) {
+  var comparisonSelect = target.value;
+  var targetID = $( target ).attr( 'id' );
+  if( targetID === 'comparison-select' ) {
+    displayDataGrid( searchCompare.globalContent, comparisonSelect );
+  } else if( targetID === 'user-comparison-select' ) {
+    getUserComparisonData();
+  }
 }
 
 var search = instantsearch({
@@ -260,7 +264,7 @@ function getUserComparisonData() {
       if ( err ) {
         console.log( err );
       } else {
-        var comparisonSelect = $( '#comparison-select' ).val();
+        var comparisonSelect = $( '#user-comparison-select' ).val();
         displayUserComparisonGrid( content, comparisonSelect, '#user-comparison-results' )
       };
     })
@@ -541,23 +545,30 @@ search.on('render', function(){
 });//end on render
 
 // handle share button stuff
-var share_btn = document.querySelector('#share-btn');
-share_btn.onclick = function( evt ) {
+$( '#share-btn, #user-share-btn' ).on( 'click', function( evt ) {
   sharePage( evt );
-}
+} );
 
 function sharePage( evt ) {
-  var page_url = window.location.href;
-  var myLink = document.getElementById( 'shareMe' );
-  var myDiv = document.getElementById( 'shareDiv' );
-  var closed = myDiv.className.indexOf( 'closed' ) !== -1;
-  if( closed ) {
-    myDiv.className = myDiv.className.replace( 'closed', 'open' );
+  var shareId = $( evt.target ).attr( 'id' );
+
+  if( shareId === 'share-btn' ) {
+    var page_url = window.location.href;
+    var myLink = document.getElementById( 'shareMe' );
+    var myDiv = document.getElementById( 'shareDiv' );
+    var closed = myDiv.className.indexOf( 'closed' ) !== -1;
+    if( closed ) {
+      myDiv.className = myDiv.className.replace( 'closed', 'open' );
+    }
+    myLink.value = page_url;
+    myLink.select();
+    document.execCommand( "copy" );
+    hideIt();
+  } 
+  else if (shareId === 'user-share-btn' ) 
+  {
+    console.log( searchCompare.fscs_arr );
   }
-  myLink.value = page_url;
-  myLink.select();
-  document.execCommand( "copy" );
-  hideIt();
 }
 
 function hideIt() {
