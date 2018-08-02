@@ -414,9 +414,21 @@ input[type=number]::-webkit-outer-spin-button {
 	cursor: pointer;
 	z-index: 101;
 	margin-top: 15px;
+	-ms-writing-mode: tb-lr;
 	writing-mode: vertical-lr;
 	line-height: 30px;
 	padding: 10px 0 5px;
+}
+
+.user-compare-btn {
+	font-size: 20px;
+	cursor: pointer;
+}
+.user-compare-remove {
+	color: rgb(156, 197, 202);
+}
+.user-compare-add {
+	color: rgb(0, 58, 99);
 }
 
 /* Details Things
