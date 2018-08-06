@@ -2,8 +2,40 @@
 
 ## Github:
 
+### Current Version:
+
+  - v08 
+  - The current codebase is always in apps/( version #)
+
+### Overview:
+
+The IMLS Search and compare tool provides an interface to both search the 2016 Public Library Survey data via faceted and filtered search and to compare data between the libraries.  The faceted search capabilities are provided by [Algolia](https://www.algolia.com/apps/CDUMM9WVUG/dashboard).  The widgets that make up the search box, search facets, slider filters and display of the search results are provided by Algolia's [InstantSearch.js](https://community.algolia.com/instantsearch.js/) JavaScript library.  The site also uses the direct [Algolia search API](https://www.algolia.com/doc/api-reference/).
+
+In addition the site uses the following JS libraries:
+  - jQuery(3.3.1), lodash, vanilla-datatables
+
+CSS files are located in:
+  - search-compare/css/
+    - bootstrap-min.css
+    - style.css
+
+There are two pages to the application:
+
+Search page:
+  - search-compare/index.html
+  - search-compare/js/app.js
+  - search-compare/js/common.js
+
+Details page:
+  - search-compare/detail.html  
+  - search-compare/js/details.js
+
 Repo: 
   - library-search-compare [https://github.com/IMLS/library-search-compare](https://github.com/IMLS/library-search-compare)  
+
+
+Project Schedule:
+RTI is working under two contracts - Base contract and modification/extension.  The schedule for each is kept in a [Google Calendar](https://calendar.google.com/calendar/b/1/r/month/2018/8/1?tab=wc)
 
 Branches:
   - master
