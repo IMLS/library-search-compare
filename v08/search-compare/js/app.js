@@ -316,52 +316,6 @@ function displayUserComparisonGrid ( content, comparisonSelect, el ) {
   });
 }
 
-function prepareCsvData( content ) {
-  var csvRows = [];
-
-  for (var h in content.hits) {
-    var res = content.hits[h];
-    var csvHeadings = [ 'Name', 'fscs_id', 'City', 'State', 'Locale code' ];
-    var library_name = _.replace( res[ 'library_name' ], ',', '' );
-    var csvRow = [ library_name, res[ 'fscs_id' ], res[ 'mailing_city' ], res[ 'state' ], res[ 'locale' ] ];
-
-    _.forEach( comparisonData, function( value, key) {
-      _.forEach( value.field_names, function( value ) {
-        csvHeadings.push( value );
-        csvRow.push(res[ value ]);
-      } );
-    } );
-    csvRows.push(csvRow);
-  }
-
-  csvRows.unshift( csvHeadings );
-
-  csvContent = "";
-  csvRows.forEach(function(rowArray){
-     var row = rowArray.join(",");
-     csvContent += row + "\r\n";
-  }); 
-
-  encodedUri = encodeURI(csvContent);
-}
-
-
-function downloadCsv() {
-  var filename = "imls_data"; 
-  var csvData = new Blob([csvContent], {type: 'text/csv;charset=utf-8;'});
-  if( msieversion()) {
-    navigator.msSaveBlob(csvData, 'pls_export.csv');
-  } else {
-    // window.open(encodedUri);
-    var link = document.createElement('a');
-    link.href = window.URL.createObjectURL(csvData);
-    link.setAttribute('download', 'pls_export.csv');
-    document.body.appendChild(link);    
-    link.click();
-    document.body.removeChild(link);
-  }
-}
-
 // pagination
 search.addWidget(
   instantsearch.widgets.pagination({
@@ -543,56 +497,6 @@ search.on('render', function(){
   currentFilters();
 
 });//end on render
-
-// handle share button stuff
-$( '#share-btn, #user-share-btn' ).on( 'click', function( evt ) {
-  sharePage( evt );
-} );
-
-function sharePage( evt ) {
-  var shareId = $( evt.target ).attr( 'id' );
-
-  if( shareId === 'share-btn' ) {
-    var page_url = window.location.href;
-    var myLink = document.getElementById( 'shareMe' );
-    var myDiv = document.getElementById( 'shareDiv' );
-    var closed = myDiv.className.indexOf( 'away' ) !== -1;
-    if( closed ) {
-      myDiv.className = myDiv.className.replace( 'away', 'here' );
-    }
-    myLink.value = page_url;
-    myLink.select();
-    document.execCommand( "copy" );
-    hideIt();
-  } 
-  else if (shareId === 'user-share-btn' ) 
-  {
-    console.log( searchCompare.fscs_arr );
-  }
-}
-
-function hideIt() {
-  setTimeout( function(){
-    var myDiv = document.getElementById( 'shareDiv' );
-    var open = myDiv.className.indexOf( 'here' ) !== -1;
-    if( open ) {
-      myDiv.className = myDiv.className.replace( 'here', 'away' );
-    }
-  }, 5000 );
-  return false;
-}
-
-function msieversion() {
-  var ua = window.navigator.userAgent;
-  var msie = ua.indexOf("MSIE ");
-  if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./)) // If Internet Explorer, return true
-  {
-    return true;
-  } else { // If another browser,
-  return false;
-  }
-  return false;
-}
 
 $(document).ready(function() {
   // fill in data grid variable selector

@@ -128,7 +128,7 @@ function getParameterByName(name, url) {
 var fscs_id_param = getParameterByName('fscs_id');
 var similar_param = getParameterByName('similar');
 
-// Event handler for share this page button
+/* Event handler for share this page button
 var share_btn = document.querySelector('#share-btn');
 share_btn.onclick = function( evt ) {
   sharePage( evt );
@@ -157,7 +157,7 @@ function hideIt() {
     }
   }, 5000 );
   return false;
-}
+}*/
 
 // only query string
 var query = 'fscs_id ' + fscs_id_param;
@@ -469,59 +469,28 @@ function displaySimilarLibraries( baseLibrary, content, cluster_type, field_name
   });
 }
 
-function prepareCsvData( content ) {
-  var csvRows = [];
 
-  for (var h in content.hits) {
-    var res = content.hits[h];
-    var csvHeadings = [ 'Name', 'fscs_id', 'City', 'State', 'Locale code' ];
-    var library_name = _.replace( res[ 'library_name' ], ',', '' );
-    var csvRow = [ library_name, res[ 'fscs_id' ], res[ 'mailing_city' ], res[ 'state' ], res[ 'locale' ] ];
+//add to URL on button click
+    jQuery(function($){
+      $(document).ready(function(){
 
-    _.forEach( comparisonData, function( value, key) {
-      _.forEach( value.field_names, function( value ) {
-        csvHeadings.push( value );
-        csvRow.push(res[ value ]);
-      } );
-    } );
-    csvRows.push(csvRow);
-  }
+        //first, make room for header
+        headRoom();
 
-  csvRows.unshift( csvHeadings );
+        $('.similar-link').click(function(event){
+          //first check if the similar param already exists
+          var currentURL = window.location.href.split('/').pop();
+          if(currentURL.indexOf('similar')>=0){
+            var currentURL = currentURL.split('&')[0];
+          }
+          //add the appropriate param
+          var clickedSimilar = $(this).attr('id').split('-')[0];
 
-  csvContent = "";
-  csvRows.forEach(function(rowArray){
-     var row = rowArray.join(",");
-     csvContent += row + "\r\n";
-  }); 
+          history.replaceState(null,null,currentURL+'&similar='+clickedSimilar);
 
-  encodedUri = encodeURI(csvContent);
-}
+          location.hash = 'compared-to';
 
-function downloadCsv() {
-  var filename = "imls_data"; 
-  var csvData = new Blob([csvContent], {type: 'text/csv;charset=utf-8;'});
-  if( msieversion()) {
-    navigator.msSaveBlob(csvData, 'pls_export.csv');
-  } else {
-    // window.open(encodedUri);
-    var link = document.createElement('a');
-    link.href = window.URL.createObjectURL(csvData);
-    link.setAttribute('download', 'pls_export.csv');
-    document.body.appendChild(link);    
-    link.click();
-    document.body.removeChild(link);
-  }
-}
+        });//end on similar-link click
 
-function msieversion() {
-  var ua = window.navigator.userAgent;
-  var msie = ua.indexOf("MSIE ");
-  if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./)) // If Internet Explorer, return true
-  {
-    return true;
-  } else { // If another browser,
-  return false;
-  }
-  return false;
-}
+      });//end document ready
+    });//dollar sign
