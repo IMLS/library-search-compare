@@ -10,6 +10,7 @@
 
   <link href="https://cdn.jsdelivr.net/npm/vanilla-datatables@latest/dist/vanilla-dataTables.min.css" rel="stylesheet" type="text/css">
   <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="css/icons.css">
   <link rel="stylesheet" type="text/css" href="css/style.css">
 
   <script src="//use.typekit.net/dib7hxd.js"></script>
@@ -162,7 +163,7 @@
         <div class="row similar-row">
           <div class="col-md-12" id="similar-table-wrapper">
             <div class="page-shadow">
-              <h2><span class="library-name"></span> is similar to <span id="similar-number"></span> libraries for <span id="similar-name"></span> data <button onclick="downloadCsv();" class="btn btn-primary btn-small">Download</button></h2>
+              <h2><span class="library-name"></span> is similar to <span id="similar-number"></span> libraries for <span id="similar-name"></span> data <button onclick="downloadCsv();" class="btn btn-default btn-small"><i class="icon-file-excel"></i> Download</button></h2>
               <div class="table-responsive">
                 <table class="table table-striped" id="similar-table"></table>
               </div>
@@ -232,66 +233,7 @@
     </div>
   </footer>
   <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
-  <script>jQuery.noConflict();</script>
-  <script>
-    var addEvent = function(object, type, callback) {
-      if (object == null || typeof(object) == 'undefined') return;
-      if (object.addEventListener) {
-        object.addEventListener(type, callback, false);
-      } else if (object.attachEvent) {
-        object.attachEvent('on' + type, callback);
-      } else {
-        object['on'+type] = callback;
-      }
-    };//end var addEvent
-
-    addEvent(window, 'resize', function(event) {
-      console.log('resized');
-      addPadding();
-    });//end check for resize
-    addEvent(window, 'DOMContentLoaded', function(event) {
-      //console.log('loaded');
-      addPadding();
-    });//end check for load
-
-    function addPadding() {
-      jQuery(function($){
-        if ($('header').css('position') == 'fixed'){
-          var header = document.querySelector('header');
-          var headerHeight = header.offsetHeight;
-          //console.log('headerHeight is: '+headerHeight);
-          var getMain = document.getElementsByTagName('main');
-          for(var i = 0; i < getMain.length; i++){
-            getMain[i].style.paddingTop = headerHeight+'px';
-          }
-        }else{
-          $('main').css('padding-top', '0');
-        }
-      });
-    }//end addPadding
-
-    //add to URL on button click
-    jQuery(function($){
-      $(document).ready(function(){
-
-        $('.similar-link').click(function(event){
-          //first check if the similar param already exists
-          var currentURL = window.location.href.split('/').pop();
-          if(currentURL.indexOf('similar')>=0){
-            var currentURL = currentURL.split('&')[0];
-          }
-          //add the appropriate param
-          var clickedSimilar = $(this).attr('id').split('-')[0];
-
-          history.replaceState(null,null,currentURL+'&similar='+clickedSimilar);
-
-          location.hash = 'compared-to';
-
-        });//end on similar-link click
-
-      });//end document ready
-    });//dollar sign    
-  </script>
   <script src="js/details.js"></script>
+  <script src="js/common.js"></script>
 </body>
 </html>
