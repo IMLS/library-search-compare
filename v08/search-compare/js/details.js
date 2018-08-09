@@ -1,5 +1,6 @@
 var client = algoliasearch('CDUMM9WVUG', '3cc392a5d139bd9131e42a5abb75d4ee');
 var index = client.initIndex('imls_v04');
+var outletsIndex = client.initIndex('imls_v08_outlets');
 
 // comparison data grid labels and field names  
 var comparisonData = {};
@@ -241,6 +242,58 @@ index.search({
   }
 });
 
+outletsIndex.search({ 
+    query: query,
+    exactOnSingleWordQuery: 'attribute', 
+    typoTolerance: false
+  }, function searchDone(err, content) {
+    if (err) {
+      console.error(err);
+      return;
+    } else {
+      displayOutlets( content );
+    }
+
+});
+
+function displayOutlets( content ) {
+  if ( content.hits.length > 0 ) {
+    var outletRows = [];
+    var outletData = {};
+
+    for ( var h in content.hits) {
+      res = content.hits[h];
+      var outletRow = [ res['library_name'], res['outlet_type'], res['sq_feet'].toLocaleString("en-US"), res['hours'].toLocaleString("en-US"), res['weeks_open'].toLocaleString("en-US") ];
+      outletRows.push( outletRow );
+    }
+
+    outletData["headings"] = ["Name","Outlet Type","Square Feet","Hours","Weeks Open"];
+    outletData["data"] = outletRows;
+
+    outletTable = new DataTable("#outlets-table", {
+      perPage: 50,
+      data: outletData,
+      searchable: false,
+      perPageSelect: false,
+      columns: [
+        {
+          select: 0,
+          sortable: true
+        },
+        {
+          select: 1,
+          render: function( data, cell, row) {
+            return data;
+          }
+        }
+      ]
+    });
+  } else {
+    console.log( 'empty' );
+    jQuery( '#outlets-table-wrapper h2' ).after( '<div>There are no outlets for this library system</div>' );
+  }
+};
+
 // Get and display cluster data
 function getSimilarLibraries(el) {
   var cluster_type = el.target.getAttribute("data-type");
@@ -415,7 +468,7 @@ function displaySimilarLibraries( baseLibrary, content, cluster_type, field_name
   var similarName = _.capitalize(cluster_type.split("_")[1]);
   var similarNumber = content.hits.length;
   var tableHeadings = ["Name"];
-  var tableRows = []
+  var tableRows = [];
   var tableData = {};
 
   document.getElementById( "similar-name" ).innerHTML = similarName;
