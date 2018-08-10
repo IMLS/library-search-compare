@@ -243,7 +243,6 @@ function setAddUserCompareHandler() {
     }
 
     searchCompare.fscs_arr = _.uniq( searchCompare.fscs_arr );
-    getUserComparisonData();
     evt.preventDefault();
   } );
 }
@@ -280,9 +279,11 @@ function displayUserComparisonGrid ( content, comparisonSelect, el ) {
   var field_names = _.map( _.find( comparisonData, { 'name': comparisonSelect } ).field_names );
 
   tableData[ 'headings' ] = _.map( _.find( comparisonData, { 'name': comparisonSelect } ).headings );
+  tableData[ 'headings' ].unshift('');
   for (var h in content.hits) {
     res = content.hits[h];
-    var tableRow = [ '<a data-name="' + res[ 'library_name' ] + '" data-fscs="' + res[ "fscs_id" ] + '" href="details.html?fscs_id=' + res["fscs_id"] + '">' + res["library_name"] + ' (' + res[ "fscs_id" ] + ')' + '</a>' ];
+    //var tableRow = [ '<a data-name="' + res[ 'library_name' ] + '" data-fscs="' + res[ "fscs_id" ] + '" href="details.html?fscs_id=' + res["fscs_id"] + '">' + res["library_name"] + ' (' + res[ "fscs_id" ] + ')' + '</a>' ];
+    var tableRow = [ '<i class="user-compare-btn user-compare-remove" data-fscs="' + res[ "fscs_id" ] + '" data-action="remove"></i>', '<a data-name="' + res[ 'library_name' ] + '" href="details.html?fscs_id=' + res["fscs_id"] + '">' + res["library_name"] + ' (' + res[ "fscs_id" ] + ')' + '</a>' ];
     _.forEach( field_names, function(f) {
       tableRow.push(res[f].toLocaleString("en-US"));
     });
@@ -313,6 +314,17 @@ function displayUserComparisonGrid ( content, comparisonSelect, el ) {
         }
       }
     ]
+  });
+  comparisonGrid.on('datatable.init', function() {
+    setAddUserCompareHandler();
+  });
+
+  comparisonGrid.on('datatable.page', function() {
+    setAddUserCompareHandler();
+  });
+
+  comparisonGrid.on('datatable.sort', function() {
+    setAddUserCompareHandler();
   });
 }
 
@@ -543,6 +555,7 @@ $(document).ready(function() {
     document.body.scrollTop = 0; // For Safari
     document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
     if($('#userTable').hasClass('open')){
+      getUserComparisonData();
       $('#show-user-table').text('Show Search Results');
     }else{
       $('#show-user-table').text('Show My Libraries');
