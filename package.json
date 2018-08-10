@@ -1,0 +1,23 @@
+{
+  "name": "library-search-compare",
+  "version": "1.0.0",
+  "description": "## Github:",
+  "main": "index.js",
+  "scripts": {
+    "start": "./node_modules/.bin/http-server -c-1",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/imls/library-search-compare.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/imls/library-search-compare/issues"
+  },
+  "homepage": "https://github.com/imls/library-search-compare#readme",
+  "dependencies": {
+    "http-server": "^0.11.1"
+  }
+}

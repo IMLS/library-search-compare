@@ -1,5 +1,18 @@
 # library-search-compare
 
+## Install
+Requires nodejs and git.
+
+```
+git clone git@github.com:IMLS/library-search-compare
+cd library-search-compare
+npm install
+npm start
+```
+
+Then open a browser to the URL specified in your terminal and in the browser navigate to the latest version in the apps folder.
+
+
 ## Github:
 
 ### Current Version:
@@ -62,13 +75,6 @@ Workflow:
   ```
   git subtree push --prefix apps/[current_version] origin canton/deployment
   ```
-## Start web server:
-
-  ruby -run -e httpd . -p 9090
-
-  or
-
-  python -m SimpleHTTPServer 8000
 
 ## Creating json file for Algolia:
 
