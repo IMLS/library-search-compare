@@ -229,20 +229,23 @@ function setAddUserCompareHandler() {
   $('.user-compare-btn').on('click', function( evt ) {
     event.stopPropagation();
     event.stopImmediatePropagation();
-    var userCompareBtn = $( evt.target );
-
-    userCompareBtn.toggleClass( 'user-compare-add user-compare-remove' );
     if( evt.target.dataset.action === 'add' ) {
       searchCompare.fscs_arr.push( evt.target.dataset.fscs );
-      userCompareBtn.attr( 'data-action', 'remove' );
-      //userCompareBtn.text( '-');
     } else {
       _.pull( searchCompare.fscs_arr, evt.target.dataset.fscs );
-      userCompareBtn.attr( 'data-action', 'add' );
-      //userCompareBtn.text( '+');
     }
-
+    document
+      .querySelectorAll('[data-fscs=' + evt.target.dataset.fscs + ']')
+      .forEach(function (userCompareBtnEl) {
+        $(userCompareBtnEl).toggleClass( 'user-compare-add user-compare-remove' );
+        if( userCompareBtnEl.dataset.action === 'add' ) {
+          $(userCompareBtnEl).attr( 'data-action', 'remove' );
+        } else {
+          $(userCompareBtnEl).attr( 'data-action', 'add' );
+        }
+      })
     searchCompare.fscs_arr = _.uniq( searchCompare.fscs_arr );
+    //getUserComparisonData();
     evt.preventDefault();
   } );
 }
