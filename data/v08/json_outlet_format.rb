@@ -7,7 +7,7 @@ fields_to_f = ["sq_feet", "bookmobiles", "hours", "weeks_open", "county_populati
 json = JSON.parse(infile)
 
 # Only inlcude records with fscs_id = AK0002
-json.delete_if { |o| o["fscs_id"] != "AK0002" }
+# json.delete_if { |o| o["fscs_id"] != "AK0002" }
 
 p json.count
 
