@@ -5,12 +5,42 @@ Requires nodejs and git.
 
 ```
 git clone git@github.com:IMLS/library-search-compare
-cd library-search-compare
+cd library-search-compare/search-compare
 npm install
 npm start
 ```
 
-Then open a browser to the URL specified in your terminal and in the browser navigate to the latest version in the apps folder.
+Then open a browser to the URL specified in your terminal.
+
+
+## Build
+```
+OLD_VERSION="v08"
+NEW_VERSION="v09"
+git clone git@github.com:IMLS/library-search-compare
+cd libary-search-compare
+cp -r apps/$OLD_VERSION apps/$NEW_VERSION
+rm -r apps/$NEW_VERSION/search-compare
+cd search-compare
+npm install
+npm run build 
+cd ..
+cp -r search-compare/build/default apps/$NEW_VERSION/search-compare 
+git add apps/$NEW_VERSION
+git commit -m "build $NEW_VERSION"
+git tag $NEW_VERSION
+git push origin master
+git push origin $NEW_VERSION
+```
+
+## Test
+
+```
+git clone git@github.com:IMLS/library-search-compare
+cd library-search-compare/search-compare
+npm install
+npm run test 
+```
 
 
 ## Github:

@@ -1,0 +1,27 @@
+{
+  "npm": true,
+  "lint": {
+    "rules": [
+      "polymer-3"
+    ]
+  },
+  "builds": [
+		{
+			"name": "es5-bundled",
+			"js": {"minify": false, "compile": true},
+			"css": {"minify": false},
+			"html": {"minify": false},
+			"bundle": false,
+			"addServiceWorker": false,
+			"addPushManifest": false
+		}
+  ],
+
+"sources": [
+  "details.html",
+  "img/**/*",
+  "js/**/*",
+  "src/**/*",
+  "css/**/*"
+ ]
+}

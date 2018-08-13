@@ -1,0 +1,6 @@
+{
+  "name": "search-compare",
+  "short_name": "search-compare",
+  "start_url": "/",
+  "display": "standalone"
+}
