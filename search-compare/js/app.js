@@ -266,8 +266,12 @@ function getUserComparisonData() {
       if ( err ) {
         console.log( err );
       } else {
-        var comparisonSelect = $( '#user-comparison-select' ).val();
-        displayUserComparisonGrid( content, comparisonSelect, '#user-comparison-results' )
+        var comparisonSelect = $( '#user-comparison-select' ).val() ? $( '#user-comparison-select' ).val() : 'demographic';
+        var imlsTableEl = document.createElement('imls-table')
+        imlsTableEl.rowData = content.hits
+        imlsTableEl.compareOn = comparisonSelect
+        document.querySelector('#userTable .page-shadow').innerHTML = ''
+        document.querySelector('#userTable .page-shadow').appendChild(imlsTableEl)
       };
     })
   } else {
