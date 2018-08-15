@@ -270,6 +270,7 @@ function getUserComparisonData() {
         var imlsTableEl = document.createElement('imls-table')
         imlsTableEl.rowData = content.hits
         imlsTableEl.compareOn = comparisonSelect
+        imlsTableEl.userCompareListOnly = true
         imlsTableEl.userCompareList = searchCompare.fscs_arr
         document.querySelector('#userTable .page-shadow').innerHTML = ''
         document.querySelector('#userTable .page-shadow').appendChild(imlsTableEl)
