@@ -19,27 +19,36 @@ class ImlsTable extends PolymerElement {
       rowData: {
         type: Array,
         value: [],
+        reflectToAttribute: true,
         observer: 'render'
       },
       userCompareList: {
         type: Array,
         value: [],
+        reflectToAttribute: true,
         observer: 'userCompareListChange'
       },
+      userCompareListOnly: {
+        type: Boolean,
+        value: false,
+        observer: 'render'
+      },
       compareOn: {
-          type: String,
-          value: 'demographic',
-          reflectToAttribute: true,
-          observer: 'render'
+        type: String,
+        value: 'demographic',
+        reflectToAttribute: true,
+        observer: 'render'
       },
       // Note currentPage is not tied to render because it would cause an infinite loop with dataTable.
       currentPage: {
         type: Number,
+        reflectToAttribute: true,
         value: 1
       },
       perPage: {
         type: Number,
         value: 50,
+        reflectToAttribute: true,
         observer: 'render'
       }
     };
@@ -106,8 +115,9 @@ class ImlsTable extends PolymerElement {
 
     tableData[ 'headings' ] = _.map( _.find( this._comparisonTableConfig, { 'name': this.compareOn } ).headings );
     tableData[ 'headings' ].unshift('');
-    for (var h in this.rowData) {
-      let res = this.rowData[h];
+    let rowData = (this.userCompareListOnly) ? this.rowData.filter(data => this.userCompareList.includes(data.fscs_id)) : this.rowData
+    for (var h in rowData) {
+      let res = rowData[h];
       var tableRow = [ '<i class="user-compare-btn" data-fscs="' + res[ "fscs_id" ] + '" data-action="remove"></i>', '<a data-name="' + res[ 'library_name' ] + '" href="details.html?fscs_id=' + res["fscs_id"] + '">' + res["library_name"] + ' (' + res[ "fscs_id" ] + ')' + '</a>' ];
       _.forEach( field_names, function(f) {
         tableRow.push(res[f].toLocaleString("en-US"));
