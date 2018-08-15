@@ -270,8 +270,12 @@ function getUserComparisonData() {
         var imlsTableEl = document.createElement('imls-table')
         imlsTableEl.rowData = content.hits
         imlsTableEl.compareOn = comparisonSelect
+        imlsTableEl.userCompareList = searchCompare.fscs_arr
         document.querySelector('#userTable .page-shadow').innerHTML = ''
         document.querySelector('#userTable .page-shadow').appendChild(imlsTableEl)
+        imlsTableEl.addEventListener('imls-table-user-compare-list-change', function(event) {
+          searchCompare.fscs_arr = event.target.userCompareList
+        })
       };
     })
   } else {
