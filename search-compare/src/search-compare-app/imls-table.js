@@ -24,13 +24,23 @@ class ImlsTable extends PolymerElement {
       userCompareList: {
         type: Array,
         value: [],
-        observer: 'render'
+        observer: 'userCompareListChange'
       },
       compareOn: {
           type: String,
           value: 'demographic',
           reflectToAttribute: true,
           observer: 'render'
+      },
+      // Note currentPage is not tied to render because it would cause an infinite loop with dataTable.
+      currentPage: {
+        type: Number,
+        value: 1
+      },
+      perPage: {
+        type: Number,
+        value: 50,
+        observer: 'render'
       }
     };
   }
@@ -112,7 +122,7 @@ class ImlsTable extends PolymerElement {
       this.comparisonGrid.destroy();
     }
     this.comparisonGrid = new DataTable(this.querySelector('#data_table'), {
-      perPage: 50,
+      perPage: this.perPage,
       data: tableData,
       searchable: false,
       perPageSelect: false,
@@ -130,21 +140,20 @@ class ImlsTable extends PolymerElement {
       ]
     });
 
-    this.comparisonGrid.on('datatable.init', _ => { 
-      this.querySelectorAll('.user-compare-btn').forEach(el => {
-        if (this.userCompareList.includes(el.getAttribute('data-fscs'))) {
-          el.classList.add('user-compare-remove')
-        } else {
-          el.classList.add('user-compare-add')
-        }
-      })
-    })
-    
-    /* @TODO
-    comparisonGrid.on('datatable.page', function() {
-        //setAddUserCompareHandler();
-    });
+    this.comparisonGrid.on('datatable.init', _ => {
 
+      this.comparisonGrid.page(this.currentPage)
+      this.gridHasRendered()
+    })
+    this.comparisonGrid.on('datatable.page', page => {
+      if(this.currentPage !== page) {
+        this.currentPage = page
+      } else {
+        this.gridHasRendered()
+      }
+    })
+
+    /* @TODO
     comparisonGrid.on('datatable.sort', function() {
         //setAddUserCompareHandler();
     });
@@ -152,11 +161,21 @@ class ImlsTable extends PolymerElement {
 
   }
 
-  bindRemoveButton(event) {
-    // @TODO
-    // this.dispatch(new CustomEvent('REMOVE_ITEM', {detail: { id: event.target.id }}))
+  gridHasRendered() {
+    this.querySelectorAll('.user-compare-btn').forEach(el => {
+      if (this.userCompareList.includes(el.getAttribute('data-fscs'))) {
+        el.classList.add('user-compare-remove')
+      } else {
+        el.classList.add('user-compare-add')
+      }
+    })
+    this.dispatchEvent(new CustomEvent('imls-table-grid-render'))
   }
- 
+
+  userCompareListChange() {
+    this.dispatchEvent(new CustomEvent('imls-table-user-compare-list-change'))
+    this.render()
+  }
 
   get _comparisonTableConfig() {
     return [
