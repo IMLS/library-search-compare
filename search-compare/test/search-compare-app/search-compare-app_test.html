@@ -9,6 +9,11 @@
     <script src="../../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
     <script src="../../node_modules/wct-browser-legacy/browser.js"></script>
 
+    <link rel="stylesheet" type="text/css" href="../../css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="../../css/icons.css">
+    <link rel="stylesheet" type="text/css" href="../../css/style.css">
+
+
     <script src="https://cdn.jsdelivr.net/npm/vanilla-datatables@latest/dist/vanilla-dataTables.min.js" type="text/javascript"></script>
     <link href="https://cdn.jsdelivr.net/npm/vanilla-datatables@latest/dist/vanilla-dataTables.min.css" rel="stylesheet" type="text/css">
     <script type="module" src="../../src/search-compare-app/search-compare-app.js"></script>
@@ -31,6 +36,41 @@
           imlsTableEl.compareOn = 'demographic';
           container.appendChild(imlsTableEl)
           assert.equal(container.querySelectorAll('tr').length, 3)
+        });
+
+        test('imls-table "compare on" should be selectable', function() {
+          var container = fixture('BasicContainerFixture');
+          var imlsTableEl = document.createElement('imls-table');
+          imlsTableEl.rowData = window.stubSearchResult.hits;
+          imlsTableEl.compareOn = 'demographic';
+          container.appendChild(imlsTableEl)
+          // Select the second option, staff.
+          imlsTableEl.querySelectorAll('#user-comparison-select option')[1].setAttribute('selected', '')
+          // We have to force the change event programatically.
+          imlsTableEl.querySelector('#user-comparison-select').dispatchEvent(new Event('change'))
+          // Make sure the headers are now different.
+          assert.equal(imlsTableEl.querySelectorAll('th a')[2].innerText, "ALA-MLS librarians")
+          // Make sure the previously selected option is still selected.
+          assert.equal(imlsTableEl.querySelector('#user-comparison-select').value, imlsTableEl.querySelectorAll('#user-comparison-select option')[1].value)
+        });
+
+        test('imls-table row should remove from user compare list', function(done) {
+          var container = fixture('BasicContainerFixture');
+          var imlsTableEl = document.createElement('imls-table');
+          imlsTableEl.rowData = window.stubSearchResult.hits;
+          imlsTableEl.userCompareList = ['PA0180'];
+          container.appendChild(imlsTableEl)
+          // Tragically dataTable is async, probably using setTimeout somewhere so we have to as well as long as our setTimeout is longer than their setTimeout. 
+          setTimeout(_ => {
+            assert.equal(imlsTableEl.querySelectorAll('.user-compare-btn')[0].classList.contains('user-compare-remove'), true)
+            imlsTableEl.querySelectorAll('.user-compare-btn')[0].click()
+            setTimeout(_ => {
+              assert.equal(imlsTableEl.querySelectorAll('.user-compare-btn')[0].classList.contains('user-compare-remove'), false)
+              assert.equal(imlsTableEl.querySelectorAll('.user-compare-btn')[0].classList.contains('user-compare-add'), true)
+              assert.equal(imlsTableEl.userCompareList.length, 0)
+              done()
+            }, 100)
+          }, 100)
         });
 
       });

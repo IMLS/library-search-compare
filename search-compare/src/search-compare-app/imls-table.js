@@ -21,6 +21,11 @@ class ImlsTable extends PolymerElement {
         value: [],
         observer: 'render'
       },
+      userCompareList: {
+        type: Array,
+        value: [],
+        observer: 'render'
+      },
       compareOn: {
           type: String,
           value: 'demographic',
@@ -32,6 +37,19 @@ class ImlsTable extends PolymerElement {
   
   connectedCallback() {
     super.connectedCallback()
+    // Add event listener for user-compare-btn clicks here because we can't add the event listener directly. If we did,
+    // because dataTable uses the same row DOM over and over, we would be making duplicate event bindings. This is a tricky
+    // quirk of dataTable.
+    this.addEventListener('click', event => {
+      if (event.target.classList.contains('user-compare-btn')) {
+        if (this.userCompareList.includes(event.target.getAttribute('data-fscs'))) {
+          this.userCompareList = this.userCompareList.filter(item => item !== event.target.getAttribute('data-fscs'))
+        } else {
+          this.userCompareList = [...this.userCompareList, event.target.getAttribute('data-fscs')]
+        }
+      }
+    });
+
     this.render()
   }
 
@@ -42,7 +60,13 @@ class ImlsTable extends PolymerElement {
               <div class="col-sm-6 col-sm-offset-2">
               <div id="user-comparison-select-wrapper">
                   <span id="user-comparison-select-text">See variables related to: </span>
-                  <select id="user-comparison-select"></select>
+                  <select id="user-comparison-select">
+                  ${this._comparisonTableConfig.map(option => `
+                    <option value="${option.name}" ${option.name === this.compareOn ? 'selected' : ''}>
+                      ${option.display_name}
+                    </option>
+                  `).join('')}
+                  </select>
               </div>
               </div>
               <div class="col-sm-4 text-right">
@@ -63,6 +87,8 @@ class ImlsTable extends PolymerElement {
       </div><!-- end user-comparison-results-wrapper -->
     `
 
+    this.querySelector('#user-comparison-select').addEventListener('change', event => this.compareOn = event.target.value)
+
     var tableRows = []
     var tableData = {};
 
@@ -72,7 +98,7 @@ class ImlsTable extends PolymerElement {
     tableData[ 'headings' ].unshift('');
     for (var h in this.rowData) {
       let res = this.rowData[h];
-      var tableRow = [ '<i class="user-compare-btn user-compare-remove" data-fscs="' + res[ "fscs_id" ] + '" data-action="remove"></i>', '<a data-name="' + res[ 'library_name' ] + '" href="details.html?fscs_id=' + res["fscs_id"] + '">' + res["library_name"] + ' (' + res[ "fscs_id" ] + ')' + '</a>' ];
+      var tableRow = [ '<i class="user-compare-btn" data-fscs="' + res[ "fscs_id" ] + '" data-action="remove"></i>', '<a data-name="' + res[ 'library_name' ] + '" href="details.html?fscs_id=' + res["fscs_id"] + '">' + res["library_name"] + ' (' + res[ "fscs_id" ] + ')' + '</a>' ];
       _.forEach( field_names, function(f) {
         tableRow.push(res[f].toLocaleString("en-US"));
       });
@@ -82,7 +108,10 @@ class ImlsTable extends PolymerElement {
     
     var page_url = window.location.href;
 
-    let comparisonGrid = new DataTable(this.querySelector('#data_table'), {
+    if (typeof this.comparisonGrid !== 'undefined') {
+      this.comparisonGrid.destroy();
+    }
+    this.comparisonGrid = new DataTable(this.querySelector('#data_table'), {
       perPage: 50,
       data: tableData,
       searchable: false,
@@ -100,10 +129,18 @@ class ImlsTable extends PolymerElement {
       }
       ]
     });
-    comparisonGrid.on('datatable.init', function() {
-        //setAddUserCompareHandler();
-    });
 
+    this.comparisonGrid.on('datatable.init', _ => { 
+      this.querySelectorAll('.user-compare-btn').forEach(el => {
+        if (this.userCompareList.includes(el.getAttribute('data-fscs'))) {
+          el.classList.add('user-compare-remove')
+        } else {
+          el.classList.add('user-compare-add')
+        }
+      })
+    })
+    
+    /* @TODO
     comparisonGrid.on('datatable.page', function() {
         //setAddUserCompareHandler();
     });
@@ -111,6 +148,7 @@ class ImlsTable extends PolymerElement {
     comparisonGrid.on('datatable.sort', function() {
         //setAddUserCompareHandler();
     });
+    */
 
   }
 
