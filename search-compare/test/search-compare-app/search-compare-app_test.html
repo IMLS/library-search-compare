@@ -9,43 +9,384 @@
     <script src="../../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
     <script src="../../node_modules/wct-browser-legacy/browser.js"></script>
 
+    <link rel="stylesheet" type="text/css" href="../../css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="../../css/icons.css">
+    <link rel="stylesheet" type="text/css" href="../../css/style.css">
+
+
+    <script src="https://cdn.jsdelivr.net/npm/vanilla-datatables@latest/dist/vanilla-dataTables.min.js" type="text/javascript"></script>
+    <link href="https://cdn.jsdelivr.net/npm/vanilla-datatables@latest/dist/vanilla-dataTables.min.css" rel="stylesheet" type="text/css">
     <script type="module" src="../../src/search-compare-app/search-compare-app.js"></script>
   </head>
   <body>
 
-    <test-fixture id="BasicTestFixture">
+    <test-fixture id="BasicContainerFixture">
       <template>
-        <search-compare-app></search-compare-app>
-      </template>
-    </test-fixture>
-
-    <test-fixture id="ChangedPropertyTestFixture">
-      <template>
-        <search-compare-app prop1="new-prop1"></search-compare-app>
+        <div></div>
       </template>
     </test-fixture>
 
     <script>
       suite('search-compare-app', function() {
 
-        test('instantiating the element with default properties works', function() {
-          var element = fixture('BasicTestFixture');
-          assert.equal(element.prop1, 'search-compare-app');
-          var elementShadowRoot = element.shadowRoot;
-          var elementHeader = elementShadowRoot.querySelector('h2');
-          assert.equal(elementHeader.innerHTML, 'Hello search-compare-app!');
+        test('imls-table should have rows', function() {
+          var container = fixture('BasicContainerFixture');
+          var imlsTableEl = document.createElement('imls-table');
+          imlsTableEl.rowData = window.stubSearchResult.hits;
+          imlsTableEl.compareOn = 'demographic';
+          container.appendChild(imlsTableEl)
+          assert.equal(container.querySelectorAll('tr').length, 3)
         });
 
-        test('setting a property on the element works', function() {
-          // Create a test fixture
-          var element = fixture('ChangedPropertyTestFixture');
-          assert.equal(element.prop1, 'new-prop1');
-          var elementShadowRoot = element.shadowRoot;
-          var elementHeader = elementShadowRoot.querySelector('h2');
-          assert.equal(elementHeader.innerHTML, 'Hello new-prop1!');
+        test('imls-table "compare on" should be selectable', function() {
+          var container = fixture('BasicContainerFixture');
+          var imlsTableEl = document.createElement('imls-table');
+          imlsTableEl.rowData = window.stubSearchResult.hits;
+          imlsTableEl.compareOn = 'demographic';
+          container.appendChild(imlsTableEl)
+          // Select the second option, staff.
+          imlsTableEl.querySelectorAll('#user-comparison-select option')[1].setAttribute('selected', '')
+          // We have to force the change event programatically.
+          imlsTableEl.querySelector('#user-comparison-select').dispatchEvent(new Event('change'))
+          // Make sure the headers are now different.
+          assert.equal(imlsTableEl.querySelectorAll('th a')[2].innerText, "ALA-MLS librarians")
+          // Make sure the previously selected option is still selected.
+          assert.equal(imlsTableEl.querySelector('#user-comparison-select').value, imlsTableEl.querySelectorAll('#user-comparison-select option')[1].value)
+        });
+
+        test('imls-table row should remove from user compare list', function(done) {
+          var container = fixture('BasicContainerFixture');
+          var imlsTableEl = document.createElement('imls-table');
+          imlsTableEl.rowData = window.stubSearchResult.hits;
+          imlsTableEl.userCompareList = ['PA0180'];
+          container.appendChild(imlsTableEl)
+          // Tragically dataTable is async, probably using setTimeout somewhere so we have to as well as long as our setTimeout is longer than their setTimeout. 
+          setTimeout(_ => {
+            assert.equal(imlsTableEl.querySelectorAll('.user-compare-btn')[0].classList.contains('user-compare-remove'), true)
+            imlsTableEl.querySelectorAll('.user-compare-btn')[0].click()
+            setTimeout(_ => {
+              assert.equal(imlsTableEl.querySelectorAll('.user-compare-btn')[0].classList.contains('user-compare-remove'), false)
+              assert.equal(imlsTableEl.querySelectorAll('.user-compare-btn')[0].classList.contains('user-compare-add'), true)
+              assert.equal(imlsTableEl.userCompareList.length, 0)
+              done()
+            }, 100)
+          }, 100)
         });
 
       });
+
+      window.stubSearchResult = {
+        "hits": [
+          {
+            "address": "32 MAIN STREET",
+            "address_change": "0",
+            "address_match_type": "PointAddress",
+            "administrative_structure": "SO",
+            "audio_downloads": "M",
+            "audio_materials": 495,
+            "bea_region": "2",
+            "benefits": "S",
+            "bookmobiles": 0,
+            "branch_libraries": 0,
+            "capital_expenditures": 0,
+            "cbsa": "49620",
+            "census_block": "2007",
+            "census_tract": "238.1",
+            "central_libraries": 1,
+            "city": "GLEN ROCK",
+            "computer_uses": 2361,
+            "computers": 8,
+            "congressional_district": "4204",
+            "county": "YORK",
+            "county_population": 443744,
+            "ebooks": "M",
+            "electronic_circulation": "0",
+            "electronic_content_uses": 3180,
+            "electronic_expenditures": 1000,
+            "electronic_info_retrievals": 3180,
+            "end_date": "2016-12-31T00:00:00.000",
+            "esri_match_status": "E",
+            "federal_capital_revenue": 0,
+            "federal_revenue": 0,
+            "fscs_definition": "Y",
+            "fscs_id": "PA0180",
+            "geocode_score": 100,
+            "geographic_code": "OTH",
+            "gnis_id": "29760",
+            "hours": 1887,
+            "incits_county_code": "133",
+            "incits_state_code": "42",
+            "interlibrary_relationship": "ME",
+            "kids_circulation": 13800,
+            "kids_program_audience": 2068,
+            "kids_programs": 100,
+            "legal_basis": "NP",
+            "librarian_staff": 0,
+            "library_id": "912670603",
+            "library_name": "A HUFNAGEL PUBLIC LIBRARY OF GLEN ROCK",
+            "loans_from": 6913,
+            "loans_to": 6455,
+            "local_capital_revenue": 0,
+            "local_databases": 0,
+            "local_revenue": 27164,
+            "locale": 31,
+            "longitude": {
+              "type": "Point",
+              "coordinates": [
+                -76.731133,
+                39.793888
+              ]
+            },
+            "lsabound": "N",
+            "mailing_address": "32 MAIN STREET",
+            "mailing_city": "GLEN ROCK",
+            "mailing_zip": "17327",
+            "metro_micro_area": "0",
+            "mls_librarian_staff": 0,
+            "name_change": "0",
+            "other_capital_revenue": 0,
+            "other_collection_expenditures": 0,
+            "other_expenditures": "S",
+            "other_revenue": 31967,
+            "other_staff": 1.63,
+            "phone": "7172351127",
+            "physical_item_circulation": 26961,
+            "print_expenditures": 9760,
+            "print_materials": 13685,
+            "print_serials": 45,
+            "program_audience": 2481,
+            "reap_locale": "4",
+            "references": 3640,
+            "reporting_status": "1",
+            "salaries": "S",
+            "service_area_population": 5821,
+            "start_date": "2016-01-01T00:00:00.000",
+            "state": "PA",
+            "state_capital_revenue": 0,
+            "state_databases": 22,
+            "state_revenue": 24771,
+            "structure_change": "0",
+            "total_capital_revenue": 0,
+            "total_circulation": 26961,
+            "total_circulation_retrievals": 30141,
+            "total_collection_expenditures": 10760,
+            "total_databases": 22,
+            "total_expenditures": 78002,
+            "total_programs": 159,
+            "total_revenue": 83902,
+            "total_staff": 1.63,
+            "total_staff_expenditures": "S",
+            "unduplicated_population": 5821,
+            "users": 3235,
+            "video_downloads": "M",
+            "video_materials": 154,
+            "visits": 25338,
+            "wifi_sessions": 8694,
+            "ya_program_audience": 0,
+            "ya_programs": 0,
+            "year": "2017",
+            "zip": "17327",
+            "locale_string": "Town",
+            "cluster_service": 204,
+            "cluster_staff": 203,
+            "cluster_finance": 203,
+            "cluster_collection": 207,
+            "total_staff_expenditures_mean": 55232,
+            "total_staff_expenditures_percentile": 38,
+            "objectID": "949797580",
+            "_highlightResult": {
+              "county": {
+                "value": "YORK",
+                "matchLevel": "none",
+                "matchedWords": []
+              },
+              "fscs_id": {
+                "value": "PA0180",
+                "matchLevel": "none",
+                "matchedWords": []
+              },
+              "library_name": {
+                "value": "A HUFNAGEL PUBLIC LIBRARY OF GLEN ROCK",
+                "matchLevel": "none",
+                "matchedWords": []
+              },
+              "mailing_address": {
+                "value": "32 MAIN STREET",
+                "matchLevel": "none",
+                "matchedWords": []
+              },
+              "mailing_city": {
+                "value": "GLEN ROCK",
+                "matchLevel": "none",
+                "matchedWords": []
+              },
+              "state": {
+                "value": "PA",
+                "matchLevel": "none",
+                "matchedWords": []
+              }
+            }
+          },
+          {
+            "address": "521 N MAIN STREET",
+            "address_change": "0",
+            "address_match_type": "StreetAddress",
+            "administrative_structure": "SO",
+            "audio_downloads": 4483,
+            "audio_materials": 1148,
+            "bea_region": "4",
+            "benefits": 15594,
+            "bookmobiles": 0,
+            "branch_libraries": 0,
+            "capital_expenditures": 0,
+            "cbsa": "-1",
+            "census_block": "4025",
+            "census_tract": "9652",
+            "central_libraries": 1,
+            "city": "MOBRIDGE",
+            "computer_uses": 15153,
+            "computers": 13,
+            "congressional_district": "4600",
+            "county": "WALWORTH",
+            "county_population": 5610,
+            "ebooks": 13523,
+            "electronic_circulation": "2217",
+            "electronic_content_uses": 3441,
+            "electronic_expenditures": 2025,
+            "electronic_info_retrievals": 1224,
+            "end_date": "2016-12-31T00:00:00.000",
+            "esri_match_status": "E",
+            "federal_capital_revenue": 0,
+            "federal_revenue": 0,
+            "fscs_definition": "Y",
+            "fscs_id": "SD0106",
+            "geocode_score": 100,
+            "geographic_code": "CI1",
+            "gnis_id": "43180",
+            "hours": 2403,
+            "incits_county_code": "129",
+            "incits_state_code": "46",
+            "interlibrary_relationship": "NO",
+            "kids_circulation": 1182,
+            "kids_program_audience": 790,
+            "kids_programs": 37,
+            "legal_basis": "CI",
+            "librarian_staff": 1.58,
+            "library_id": "FSCS 31",
+            "library_name": "A. H. BROWN PUBLIC LIBRARY",
+            "loans_from": 23,
+            "loans_to": 0,
+            "local_capital_revenue": 0,
+            "local_databases": 0,
+            "local_revenue": 139290,
+            "locale": 33,
+            "longitude": {
+              "type": "Point",
+              "coordinates": [
+                -100.433885,
+                45.5377
+              ]
+            },
+            "lsabound": "N",
+            "mailing_address": "521 N MAIN STREET",
+            "mailing_city": "MOBRIDGE",
+            "mailing_zip": "57601",
+            "metro_micro_area": "M",
+            "mls_librarian_staff": 0,
+            "name_change": "0",
+            "other_capital_revenue": 0,
+            "other_collection_expenditures": 0,
+            "other_expenditures": 39892,
+            "other_revenue": 7220,
+            "other_staff": 1.05,
+            "phone": "6058452808",
+            "physical_item_circulation": 17592,
+            "print_expenditures": 8252,
+            "print_materials": 22533,
+            "print_serials": 28,
+            "program_audience": 979,
+            "reap_locale": "6",
+            "references": 2052,
+            "reporting_status": "1",
+            "salaries": 73527,
+            "service_area_population": 3466,
+            "start_date": "2016-01-01T00:00:00.000",
+            "state": "SD",
+            "state_capital_revenue": 0,
+            "state_databases": 51,
+            "state_revenue": 0,
+            "structure_change": "0",
+            "total_capital_revenue": 0,
+            "total_circulation": 19809,
+            "total_circulation_retrievals": 21033,
+            "total_collection_expenditures": 10277,
+            "total_databases": 51,
+            "total_expenditures": 139290,
+            "total_programs": 47,
+            "total_revenue": 146510,
+            "total_staff": 2.63,
+            "total_staff_expenditures": 89121,
+            "unduplicated_population": 2127,
+            "users": 1882,
+            "video_downloads": 0,
+            "video_materials": 1141,
+            "visits": 18842,
+            "wifi_sessions": 2725,
+            "ya_program_audience": 18,
+            "ya_programs": 3,
+            "year": "2017",
+            "zip": "57601",
+            "locale_string": "Town",
+            "cluster_service": 204,
+            "cluster_staff": 206,
+            "cluster_finance": 203,
+            "cluster_collection": 201,
+            "total_staff_expenditures_mean": 55232,
+            "total_staff_expenditures_percentile": 88,
+            "objectID": "949803650",
+            "_highlightResult": {
+              "county": {
+                "value": "WALWORTH",
+                "matchLevel": "none",
+                "matchedWords": []
+              },
+              "fscs_id": {
+                "value": "SD0106",
+                "matchLevel": "none",
+                "matchedWords": []
+              },
+              "library_name": {
+                "value": "A. H. BROWN PUBLIC LIBRARY",
+                "matchLevel": "none",
+                "matchedWords": []
+              },
+              "mailing_address": {
+                "value": "521 N MAIN STREET",
+                "matchLevel": "none",
+                "matchedWords": []
+              },
+              "mailing_city": {
+                "value": "MOBRIDGE",
+                "matchLevel": "none",
+                "matchedWords": []
+              },
+              "state": {
+                "value": "SD",
+                "matchLevel": "none",
+                "matchedWords": []
+              }
+            }
+          }
+        ],
+        "nbHits": 2,
+        "page": 0,
+        "nbPages": 1,
+        "hitsPerPage": 1000,
+        "processingTimeMS": 1,
+        "exhaustiveNbHits": true,
+        "query": "",
+        "params": "query=&hitsPerPage=10000&facetFilters=%5B%5B%22fscs_id%3APA0180%22%2C%22fscs_id%3ASD0106%22%5D%5D"
+      }
     </script>
 
 
