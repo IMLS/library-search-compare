@@ -271,7 +271,7 @@ function displayOutlets( content ) {
     outletData["data"] = outletRows;
 
     outletTable = new DataTable("#outlets-table", {
-      perPage: 50,
+      perPage: 5,
       data: outletData,
       searchable: false,
       perPageSelect: false,
@@ -290,7 +290,7 @@ function displayOutlets( content ) {
     });
   } else {
     console.log( 'empty' );
-    jQuery( '#outlets-table-wrapper h2' ).after( '<div>There are no outlets for this library system</div>' );
+    jQuery( '#outlets-table-wrapper h3' ).after( '<div>There are no outlets for this library system</div>' );
   }
 };
 
