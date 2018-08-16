@@ -146,6 +146,44 @@
         });
       });
 
+      test('imls-table share url should not show up', function(done) {
+        var container = fixture('BasicContainerFixture');
+        var imlsTableEl = document.createElement('imls-table');
+        imlsTableEl.shareUrl = '';
+        container.appendChild(imlsTableEl)
+        imlsTableEl.addEventListener('imls-table-grid-render', _ => {
+          // And check again for good measure because we just rendered again.
+          assert.equal(imlsTableEl.querySelector('#user-share-btn'), undefined)
+          done()
+        }, {once: true})
+      })
+
+      test('imls-table share url should show up', function(done) {
+        var container = fixture('BasicContainerFixture');
+        var imlsTableEl = document.createElement('imls-table');
+        imlsTableEl.shareUrl = 'http://foo.com';
+        container.appendChild(imlsTableEl)
+        imlsTableEl.addEventListener('imls-table-grid-render', _ => {
+          // And check again for good measure because we just rendered again.
+          assert.notEqual(imlsTableEl.querySelector('#user-share-btn'), undefined)
+          done()
+        }, {once: true})
+      })
+
+      test('imls-table share url should be in share div when share button is clicked', function(done) {
+        var container = fixture('BasicContainerFixture');
+        var imlsTableEl = document.createElement('imls-table');
+        imlsTableEl.shareUrl = 'http://foo.com';
+        container.appendChild(imlsTableEl)
+        imlsTableEl.addEventListener('imls-table-grid-render', _ => {
+          // And check again for good measure because we just rendered again.
+          imlsTableEl.querySelector('#user-share-btn').click()
+          assert(imlsTableEl.querySelector('#shareDiv').getAttribute('class'), 'here')
+          assert(imlsTableEl.querySelector('#shareDiv input').value, 'http://foo.com')
+          done()
+        }, {once: true})
+      })
+
       window.stubSearchResult = {
         "hits": [
           {

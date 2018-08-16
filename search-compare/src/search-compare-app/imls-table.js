@@ -16,6 +16,12 @@ class ImlsTable extends PolymerElement {
   }
   static get properties() {
     return {
+      shareUrl: {
+        type: String,
+        value: '',
+        reflectToAttribute: true,
+        oberver: 'render'
+      },
       showUserCompareListButtons: {
         type: Boolean,
         value: true,
@@ -96,10 +102,10 @@ class ImlsTable extends PolymerElement {
               </div>
               <div class="col-sm-4 text-right">
               <span id="userCount"></span>
-              <button id="user-share-btn" class="btn btn-default btn-sm" type="button">Share These Results</button>
-              <div id="userShareDiv" class="closed">
+              ${this.shareUrl !== '' ? `<button id="user-share-btn" class="btn btn-default btn-sm" type="button">Share These Results</button>` : ``}
+              <div id="shareDiv" class="closed">
                   <p>This page has been copied to your clipboard. Paste somewhere to share!</p>
-                  <input type="text" id="userShareMe">
+                  <input type="text" value="${this.shareUrl}" id="userShareMe">
                   </div><!--end #shareDiv-->
                   <button id="download-user-csv" class="btn btn-default btn-sm"><i class="icon-file-excel"></i> Download</button>
               </div>
@@ -112,6 +118,7 @@ class ImlsTable extends PolymerElement {
       </div><!-- end user-comparison-results-wrapper -->
     `
 
+    if (this.shareUrl !== '') this.querySelector('#user-share-btn').addEventListener('click', this.showShareUrl.bind(this))
     this.querySelector('#download-user-csv').addEventListener('click', this.downloadCsv.bind(this))
     this.querySelector('#user-comparison-select').addEventListener('change', event => this.compareOn = event.target.value)
 
@@ -195,6 +202,10 @@ class ImlsTable extends PolymerElement {
       }
     })
     this.dispatchEvent(new CustomEvent('imls-table-grid-render'))
+  }
+
+  showShareUrl() {
+    this.querySelector('#shareDiv').setAttribute('class', 'here')
   }
 
   userCompareListChange() {
