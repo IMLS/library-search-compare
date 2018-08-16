@@ -382,6 +382,10 @@ input[type=number]::-webkit-outer-spin-button {
 	opacity: .9;
 }
 
+#outlets-table-wrapper .dataTable-top {
+	padding: 0;
+}
+
 /* User Table Things
    =========================*/
 
@@ -537,7 +541,8 @@ input[type=number]::-webkit-outer-spin-button {
 	content: url(../img/collection-icon.png);
 }
 
-#similar-libraries-wrapper .page-shadow {
+#similar-libraries-wrapper .page-shadow,
+#outlets-table-wrapper .box {
 	margin-bottom: 20px;
 }
 
