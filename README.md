@@ -163,3 +163,9 @@ search-compare directory:
 ### Canton-Dev branch 
 
 Place where Canton can push deployment issues
+
+## Helpful Docs
+- [Javascript Template Literals](https://gist.github.com/rjsteinert/795fcc4f6899a337bcc5a9967557dcf2)
+- [Working with Polymer Properties](https://www.polymer-project.org/3.0/docs/devguide/properties)
+- [Using ES6 Modules with Web Components](https://www.polymer-project.org/3.0/docs/es6)
+- [Test your Web Components](https://www.polymer-project.org/3.0/docs/tools/tests)
