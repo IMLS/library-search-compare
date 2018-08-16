@@ -16,6 +16,12 @@ class ImlsTable extends PolymerElement {
   }
   static get properties() {
     return {
+      showUserCompareListButtons: {
+        type: Boolean,
+        value: true,
+        reflectToAttribute: true,
+        observer: 'render'
+      },
       rowData: {
         type: Array,
         value: [],
@@ -115,11 +121,19 @@ class ImlsTable extends PolymerElement {
     var field_names = _.map( _.find( this._comparisonTableConfig, { 'name': this.compareOn } ).field_names );
 
     tableData[ 'headings' ] = _.map( _.find( this._comparisonTableConfig, { 'name': this.compareOn } ).headings );
-    tableData[ 'headings' ].unshift('');
+    if (this.showUserCompareListButtons) {
+      tableData[ 'headings' ].unshift('');
+    } else {
+      // Nothing.
+    }
     let rowData = (this.userCompareListOnly) ? this.rowData.filter(data => this.userCompareList.includes(data.fscs_id)) : this.rowData
     for (var h in rowData) {
       let res = rowData[h];
-      var tableRow = [ '<i class="user-compare-btn" data-fscs="' + res[ "fscs_id" ] + '" data-action="remove"></i>', '<a data-name="' + res[ 'library_name' ] + '" href="details.html?fscs_id=' + res["fscs_id"] + '">' + res["library_name"] + ' (' + res[ "fscs_id" ] + ')' + '</a>' ];
+      if (this.showUserCompareListButtons) {
+        var tableRow = [ '<i class="user-compare-btn" data-fscs="' + res[ "fscs_id" ] + '" data-action="remove"></i>', '<a data-name="' + res[ 'library_name' ] + '" href="details.html?fscs_id=' + res["fscs_id"] + '">' + res["library_name"] + ' (' + res[ "fscs_id" ] + ')' + '</a>' ];
+      } else {
+        var tableRow = [  '<a data-name="' + res[ 'library_name' ] + '" href="details.html?fscs_id=' + res["fscs_id"] + '">' + res["library_name"] + ' (' + res[ "fscs_id" ] + ')' + '</a>' ];
+      }
       _.forEach( field_names, function(f) {
         tableRow.push(res[f].toLocaleString("en-US"));
       });

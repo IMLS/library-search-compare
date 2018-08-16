@@ -117,6 +117,33 @@
           }, {once: true})
         });
 
+        test('imls-table should have add to user library buttons', function(done) {
+          var container = fixture('BasicContainerFixture');
+          var imlsTableEl = document.createElement('imls-table');
+          imlsTableEl.rowData = window.stubSearchResult.hits;
+          imlsTableEl.compareOn = 'demographic';
+          imlsTableEl.perPage = 2
+          imlsTableEl.showUserCompareListButtons = true 
+          container.appendChild(imlsTableEl)
+          setTimeout(_ => {
+            assert.equal(imlsTableEl.querySelectorAll('.user-compare-btn').length, 2)
+            done()
+          }, 100)
+        });
+
+        test('imls-table should not have add to user library buttons', function(done) {
+          var container = fixture('BasicContainerFixture');
+          var imlsTableEl = document.createElement('imls-table');
+          imlsTableEl.rowData = window.stubSearchResult.hits;
+          imlsTableEl.compareOn = 'demographic';
+          imlsTableEl.perPage = 2
+          imlsTableEl.showUserCompareListButtons = false 
+          container.appendChild(imlsTableEl)
+          setTimeout(_ => {
+            assert.equal(imlsTableEl.querySelectorAll('.user-compare-btn').length, 0)
+            done()
+          }, 100)
+        });
       });
 
       window.stubSearchResult = {
