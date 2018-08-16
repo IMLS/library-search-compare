@@ -95,7 +95,7 @@ class ImlsTable extends PolymerElement {
                   <p>This page has been copied to your clipboard. Paste somewhere to share!</p>
                   <input type="text" id="userShareMe">
                   </div><!--end #shareDiv-->
-                  <button id="download-user-csv" onclick="downloadCsv();" class="btn btn-default btn-sm"><i class="icon-file-excel"></i> Download</button>
+                  <button id="download-user-csv" class="btn btn-default btn-sm"><i class="icon-file-excel"></i> Download</button>
               </div>
           </div>              
           </div><!--end .actions-box-->
@@ -106,6 +106,7 @@ class ImlsTable extends PolymerElement {
       </div><!-- end user-comparison-results-wrapper -->
     `
 
+    this.querySelector('#download-user-csv').addEventListener('click', this.downloadCsv.bind(this))
     this.querySelector('#user-comparison-select').addEventListener('change', event => this.compareOn = event.target.value)
 
     var tableRows = []
@@ -185,6 +186,23 @@ class ImlsTable extends PolymerElement {
   userCompareListChange() {
     this.dispatchEvent(new CustomEvent('imls-table-user-compare-list-change'))
     this.render()
+  }
+
+  downloadCsv() {
+    prepareCsvData(this.rowData)
+    var filename = "imls_data"; 
+    var csvData = new Blob([csvContent], {type: 'text/csv;charset=utf-8;'});
+    if( msieversion()) {
+      navigator.msSaveBlob(csvData, 'pls_export.csv');
+    } else {
+      // window.open(encodedUri);
+      var link = document.createElement('a');
+      link.href = window.URL.createObjectURL(csvData);
+      link.setAttribute('download', 'pls_export.csv');
+      document.body.appendChild(link);    
+      link.click();
+      document.body.removeChild(link);
+    }
   }
 
   get _comparisonTableConfig() {
