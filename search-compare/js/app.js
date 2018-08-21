@@ -182,7 +182,7 @@ function displayDataGrid( content, comparisonSelect ) {
     });
     tableRows.push(tableRow);
   }
-  tableData[ 'data' ] = tableRows;
+  tableData[ 'rows' ] = tableRows;
   
   if (typeof dataGrid !== 'undefined') {
     dataGrid.destroy();
@@ -227,21 +227,20 @@ searchCompare.fscs_arr = [];
 function setAddUserCompareHandler() {
   // Click event for adding libraries to user-comparison table  
   $('.user-compare-btn').on('click', function( evt ) {
-    event.stopPropagation();
-    event.stopImmediatePropagation();
+    evt.stopPropagation();
+    evt.stopImmediatePropagation();
     if( evt.target.dataset.action === 'add' ) {
       searchCompare.fscs_arr.push( evt.target.dataset.fscs );
     } else {
       _.pull( searchCompare.fscs_arr, evt.target.dataset.fscs );
     }
-    document
-      .querySelectorAll('[data-fscs=' + evt.target.dataset.fscs + ']')
-      .forEach(function (userCompareBtnEl) {
-        $(userCompareBtnEl).toggleClass( 'user-compare-add user-compare-remove' );
-        if( userCompareBtnEl.dataset.action === 'add' ) {
-          $(userCompareBtnEl).attr( 'data-action', 'remove' );
+    $('[data-fscs=' + evt.target.dataset.fscs + ']')
+      .each(function (index) {
+        $(this).toggleClass( 'user-compare-add user-compare-remove' );
+        if( this.dataset.action === 'add' ) {
+          $(this).attr( 'data-action', 'remove' );
         } else {
-          $(userCompareBtnEl).attr( 'data-action', 'add' );
+          $(this).attr( 'data-action', 'add' );
         }
       })
     searchCompare.fscs_arr = _.uniq( searchCompare.fscs_arr );
@@ -301,7 +300,7 @@ function displayUserComparisonGrid ( content, comparisonSelect, el ) {
     });
     tableRows.push(tableRow);
   }
-  tableData[ 'data' ] = tableRows;
+  tableData[ 'rows' ] = tableRows;
   
   if (typeof comparisonGrid !== 'undefined') {
     comparisonGrid.destroy();
