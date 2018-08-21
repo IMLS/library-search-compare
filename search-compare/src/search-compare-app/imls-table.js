@@ -1,5 +1,4 @@
 import {html, PolymerElement} from '@polymer/polymer/polymer-element.js';
-import './vanilla-dataTables.js'
 /**
  * @customElement
  * @polymer
