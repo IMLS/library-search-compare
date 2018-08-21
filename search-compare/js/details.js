@@ -182,7 +182,7 @@ index.search({
       var serviceAreaPopulation = 'Service Area Population: ' + res.service_area_population.toLocaleFixed(0);
       document.getElementById("service-area-population").innerHTML = serviceAreaPopulation;
       var locale = 'Locale: ' + res.locale_string;
-      document.getElementById("locale").innerHTML = locale;
+      document.getElementById("locale").innerHTML = locale + ' (' + res.locale + ')';
 
       var centralLibraries = 'Central Libraries: ' + res.central_libraries;
       document.getElementById("central-libraries").innerHTML = centralLibraries;
@@ -245,6 +245,7 @@ index.search({
 outletsIndex.search({ 
     query: query,
     exactOnSingleWordQuery: 'attribute', 
+    hitsPerPage: 10000,
     typoTolerance: false
   }, function searchDone(err, content) {
     if (err) {
@@ -256,6 +257,12 @@ outletsIndex.search({
 
 });
 
+function pad(num, size) {
+    var s = num+"";
+    while (s.length < size) s = "0" + s;
+    return s;
+}
+
 function displayOutlets( content ) {
   if ( content.hits.length > 0 ) {
     var outletRows = [];
@@ -263,18 +270,18 @@ function displayOutlets( content ) {
 
     for ( var h in content.hits) {
       res = content.hits[h];
-      var outletRow = [ res['library_name'], res['outlet_type'], res['sq_feet'].toLocaleString("en-US"), res['hours'].toLocaleString("en-US"), res['weeks_open'].toLocaleString("en-US") ];
+      var outletRow = [ res['library_name'], pad( res['fscs_id_seq'], 3 ), res['locale'], res['outlet_type'], res['sq_feet'].toLocaleString("en-US"), res['hours'].toLocaleString("en-US"), res['weeks_open'].toLocaleString("en-US") ];
       outletRows.push( outletRow );
     }
 
-    outletData["headings"] = ["Name","Outlet Type","Square Feet","Hours","Weeks Open"];
+    outletData["headings"] = ["Name","fscs_id_seq","Locale Code","Outlet Type","Square Feet","Hours","Weeks Open"];
     outletData["data"] = outletRows;
 
     outletTable = new DataTable("#outlets-table", {
       perPage: 5,
+      perPageSelect: [ 5, 25, 50, 100 ],
       data: outletData,
       searchable: false,
-      perPageSelect: false,
       columns: [
         {
           select: 0,
