@@ -182,7 +182,7 @@ index.search({
       var serviceAreaPopulation = 'Service Area Population: ' + res.service_area_population.toLocaleFixed(0);
       document.getElementById("service-area-population").innerHTML = serviceAreaPopulation;
       var locale = 'Locale: ' + res.locale_string;
-      document.getElementById("locale").innerHTML = locale;
+      document.getElementById("locale").innerHTML = locale + ' (' + res.locale + ')';
 
       var centralLibraries = 'Central Libraries: ' + res.central_libraries;
       document.getElementById("central-libraries").innerHTML = centralLibraries;
