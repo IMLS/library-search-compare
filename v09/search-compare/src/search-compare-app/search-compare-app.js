@@ -1,10 +1,10 @@
 define(["../../node_modules/@polymer/polymer/polymer-element.js", "./imls-table.js"], function (_polymerElement, _imlsTable) {
   "use strict";
 
-  function _templateObject_1dbe4a90a55a11e884ad5f3f89357c5d() {
+  function _templateObject_37516d00a57511e8b59fd169fb3f8ef6() {
     var data = babelHelpers.taggedTemplateLiteral(["\n      <style>\n        :host {\n          display: block;\n        }\n      </style>\n      <h2>Hello [[prop1]]!</h2>\n    "]);
 
-    _templateObject_1dbe4a90a55a11e884ad5f3f89357c5d = function _templateObject_1dbe4a90a55a11e884ad5f3f89357c5d() {
+    _templateObject_37516d00a57511e8b59fd169fb3f8ef6 = function _templateObject_37516d00a57511e8b59fd169fb3f8ef6() {
       return data;
     };
 
@@ -28,7 +28,7 @@ define(["../../node_modules/@polymer/polymer/polymer-element.js", "./imls-table.
     babelHelpers.createClass(SearchCompareApp, null, [{
       key: "template",
       get: function get() {
-        return (0, _polymerElement.html)(_templateObject_1dbe4a90a55a11e884ad5f3f89357c5d());
+        return (0, _polymerElement.html)(_templateObject_37516d00a57511e8b59fd169fb3f8ef6());
       }
     }, {
       key: "properties",
