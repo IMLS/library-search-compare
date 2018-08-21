@@ -1,4 +1,5 @@
 import {html, PolymerElement} from '@polymer/polymer/polymer-element.js';
+import './vanilla-dataTables.js'
 /**
  * @customElement
  * @polymer
@@ -73,7 +74,7 @@ class ImlsTable extends PolymerElement {
     // quirk of dataTable.
     this.addEventListener('click', event => {
       if (event.target.classList.contains('user-compare-btn')) {
-        if (this.userCompareList.includes(event.target.getAttribute('data-fscs'))) {
+        if (this.userCompareList.indexOf(event.target.getAttribute('data-fscs') !== -1)) {
           this.userCompareList = this.userCompareList.filter(item => item !== event.target.getAttribute('data-fscs'))
         } else {
           this.userCompareList = [...this.userCompareList, event.target.getAttribute('data-fscs')]
@@ -133,7 +134,7 @@ class ImlsTable extends PolymerElement {
     } else {
       // Nothing.
     }
-    let rowData = (this.userCompareListOnly) ? this.rowData.filter(data => this.userCompareList.includes(data.fscs_id)) : this.rowData
+    let rowData = (this.userCompareListOnly) ? this.rowData.filter(data => this.userCompareList.indexOf(data.fscs_id) !== -1) : this.rowData
     for (var h in rowData) {
       let res = rowData[h];
       if (this.showUserCompareListButtons) {
@@ -146,7 +147,7 @@ class ImlsTable extends PolymerElement {
       });
       tableRows.push(tableRow);
     }
-    tableData[ 'data' ] = tableRows;
+    tableData[ 'rows' ] = tableRows;
     
     var page_url = window.location.href;
 
@@ -195,7 +196,7 @@ class ImlsTable extends PolymerElement {
 
   gridHasRendered() {
     this.querySelectorAll('.user-compare-btn').forEach(el => {
-      if (this.userCompareList.includes(el.getAttribute('data-fscs'))) {
+      if (this.userCompareList.indexOf(el.getAttribute('data-fscs')) !== -1) {
         el.classList.add('user-compare-remove')
       } else {
         el.classList.add('user-compare-add')
