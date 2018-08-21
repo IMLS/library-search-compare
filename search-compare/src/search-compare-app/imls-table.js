@@ -73,7 +73,7 @@ class ImlsTable extends PolymerElement {
     // quirk of dataTable.
     this.addEventListener('click', event => {
       if (event.target.classList.contains('user-compare-btn')) {
-        if (this.userCompareList.indexOf(event.target.getAttribute('data-fscs') !== -1)) {
+        if (this.userCompareList.indexOf(event.target.getAttribute('data-fscs')) !== -1) {
           this.userCompareList = this.userCompareList.filter(item => item !== event.target.getAttribute('data-fscs'))
         } else {
           this.userCompareList = [...this.userCompareList, event.target.getAttribute('data-fscs')]
