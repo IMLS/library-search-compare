@@ -3,7 +3,7 @@
   "scripts": {
     "start": "./node_modules/.bin/polymer serve",
     "test": "./node_modules/.bin/polymer test",
-    "build": "./node_modules/.bin/polymer build && cp node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js build/es5-bundled/node_modules/@webcomponents/webcomponentsjs"
+    "build": "./node_modules/.bin/polymer build"
   },
   "dependencies": {
     "@polymer/polymer": "^3.0.0"
