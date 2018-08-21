@@ -1,10 +1,10 @@
 define(["../../node_modules/@polymer/polymer/polymer-element.js"], function (_polymerElement) {
   "use strict";
 
-  function _templateObject_3765df60a57511e8b59fd169fb3f8ef6() {
+  function _templateObject_98acd6d0a57911e889d0a921897584ab() {
     var data = babelHelpers.taggedTemplateLiteral(["\n      <style>\n        :host {\n          display: block;\n        }\n      </style>\n      <slot></slot>\n    "]);
 
-    _templateObject_3765df60a57511e8b59fd169fb3f8ef6 = function _templateObject_3765df60a57511e8b59fd169fb3f8ef6() {
+    _templateObject_98acd6d0a57911e889d0a921897584ab = function _templateObject_98acd6d0a57911e889d0a921897584ab() {
       return data;
     };
 
@@ -257,7 +257,7 @@ define(["../../node_modules/@polymer/polymer/polymer-element.js"], function (_po
     }], [{
       key: "template",
       get: function get() {
-        return (0, _polymerElement.html)(_templateObject_3765df60a57511e8b59fd169fb3f8ef6());
+        return (0, _polymerElement.html)(_templateObject_98acd6d0a57911e889d0a921897584ab());
       }
     }, {
       key: "properties",
