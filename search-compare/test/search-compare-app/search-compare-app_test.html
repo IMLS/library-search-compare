@@ -14,7 +14,7 @@
     <link rel="stylesheet" type="text/css" href="../../css/style.css">
 
 
-    <script src="https://cdn.jsdelivr.net/npm/vanilla-datatables@latest/dist/vanilla-dataTables.min.js" type="text/javascript"></script>
+    <script src="../../src/search-compare-app/vanilla-dataTables.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/vanilla-datatables@latest/dist/vanilla-dataTables.min.css" rel="stylesheet" type="text/css">
     <script type="module" src="../../src/search-compare-app/search-compare-app.js"></script>
   </head>
@@ -34,6 +34,7 @@
           var imlsTableEl = document.createElement('imls-table');
           imlsTableEl.rowData = window.stubSearchResult.hits;
           imlsTableEl.compareOn = 'demographic';
+          imlsTableEl.perPage = 2
           container.appendChild(imlsTableEl)
           assert.equal(container.querySelectorAll('tr').length, 3)
         });
@@ -60,20 +61,128 @@
           imlsTableEl.rowData = window.stubSearchResult.hits;
           imlsTableEl.userCompareList = ['PA0180'];
           container.appendChild(imlsTableEl)
-          // Tragically dataTable is async, probably using setTimeout somewhere so we have to as well as long as our setTimeout is longer than their setTimeout. 
-          setTimeout(_ => {
+          // Tragically dataTable is async and not rendered at this point (probably using setTimeout somewhere) so we have to listen for events. 
+          imlsTableEl.addEventListener('imls-table-grid-render', _ => {
             assert.equal(imlsTableEl.querySelectorAll('.user-compare-btn')[0].classList.contains('user-compare-remove'), true)
             imlsTableEl.querySelectorAll('.user-compare-btn')[0].click()
-            setTimeout(_ => {
+            imlsTableEl.addEventListener('imls-table-grid-render', _ => {
               assert.equal(imlsTableEl.querySelectorAll('.user-compare-btn')[0].classList.contains('user-compare-remove'), false)
               assert.equal(imlsTableEl.querySelectorAll('.user-compare-btn')[0].classList.contains('user-compare-add'), true)
               assert.equal(imlsTableEl.userCompareList.length, 0)
               done()
-            }, 100)
+            }, {once: true})
+          }, {once: true})
+        });
+
+        test('imls-table row should remove from user compare list and then be hidden', function(done) {
+          var container = fixture('BasicContainerFixture');
+          var imlsTableEl = document.createElement('imls-table');
+          imlsTableEl.rowData = window.stubSearchResult.hits;
+          // The key to this test.
+          imlsTableEl.userCompareListOnly = true
+          imlsTableEl.userCompareList = ['PA0180', 'NH0027'];
+          container.appendChild(imlsTableEl)
+          imlsTableEl.addEventListener('imls-table-grid-render', _ => {
+            assert.equal(container.querySelectorAll('tr').length, 3)
+            imlsTableEl.querySelectorAll('.user-compare-btn')[0].click()
+            imlsTableEl.addEventListener('imls-table-grid-render', _ => {
+              // Table rows should be reduced from 3 to 2.
+              assert.equal(container.querySelectorAll('tr').length, 2)
+              done()
+            }, {once: true})
+          }, {once: true})
+        });
+
+        test('imls-table row should add to the user compare list on next page', function(done) {
+          var container = fixture('BasicContainerFixture');
+          var imlsTableEl = document.createElement('imls-table');
+          imlsTableEl.rowData = window.stubSearchResult.hits;
+          imlsTableEl.perPage = 2
+          container.appendChild(imlsTableEl)
+          imlsTableEl.addEventListener('imls-table-grid-render', _ => {
+            imlsTableEl.querySelectorAll('.dataTable-pagination a')[2].click()
+            imlsTableEl.addEventListener('imls-table-grid-render', _ => {
+              assert.equal(imlsTableEl.querySelectorAll('.user-compare-btn')[0].classList.contains('user-compare-remove'), false)
+              imlsTableEl.querySelectorAll('.user-compare-btn')[0].click()
+              imlsTableEl.addEventListener('imls-table-grid-render', _ => {
+                assert.equal(imlsTableEl.querySelectorAll('.user-compare-btn')[0].classList.contains('user-compare-remove'), true)
+                assert.equal(imlsTableEl.userCompareList.length, 1)
+                imlsTableEl.addEventListener('imls-table-grid-render', _ => {
+                  // And check again for good measure because we just rendered again.
+                  assert.equal(imlsTableEl.querySelectorAll('.user-compare-btn')[0].classList.contains('user-compare-remove'), true)
+                  done()
+                }, {once: true})
+              }, {once: true})
+            }, {once: true})
+          }, {once: true})
+        });
+
+        test('imls-table should have add to user library buttons', function(done) {
+          var container = fixture('BasicContainerFixture');
+          var imlsTableEl = document.createElement('imls-table');
+          imlsTableEl.rowData = window.stubSearchResult.hits;
+          imlsTableEl.compareOn = 'demographic';
+          imlsTableEl.perPage = 2
+          imlsTableEl.showUserCompareListButtons = true 
+          container.appendChild(imlsTableEl)
+          setTimeout(_ => {
+            assert.equal(imlsTableEl.querySelectorAll('.user-compare-btn').length, 2)
+            done()
           }, 100)
         });
 
+        test('imls-table should not have add to user library buttons', function(done) {
+          var container = fixture('BasicContainerFixture');
+          var imlsTableEl = document.createElement('imls-table');
+          imlsTableEl.rowData = window.stubSearchResult.hits;
+          imlsTableEl.compareOn = 'demographic';
+          imlsTableEl.perPage = 2
+          imlsTableEl.showUserCompareListButtons = false 
+          container.appendChild(imlsTableEl)
+          setTimeout(_ => {
+            assert.equal(imlsTableEl.querySelectorAll('.user-compare-btn').length, 0)
+            done()
+          }, 100)
+        });
       });
+
+      test('imls-table share url should not show up', function(done) {
+        var container = fixture('BasicContainerFixture');
+        var imlsTableEl = document.createElement('imls-table');
+        imlsTableEl.shareUrl = '';
+        container.appendChild(imlsTableEl)
+        imlsTableEl.addEventListener('imls-table-grid-render', _ => {
+          // And check again for good measure because we just rendered again.
+          assert.equal(imlsTableEl.querySelector('#user-share-btn'), undefined)
+          done()
+        }, {once: true})
+      })
+
+      test('imls-table share url should show up', function(done) {
+        var container = fixture('BasicContainerFixture');
+        var imlsTableEl = document.createElement('imls-table');
+        imlsTableEl.shareUrl = 'http://foo.com';
+        container.appendChild(imlsTableEl)
+        imlsTableEl.addEventListener('imls-table-grid-render', _ => {
+          // And check again for good measure because we just rendered again.
+          assert.notEqual(imlsTableEl.querySelector('#user-share-btn'), undefined)
+          done()
+        }, {once: true})
+      })
+
+      test('imls-table share url should be in share div when share button is clicked', function(done) {
+        var container = fixture('BasicContainerFixture');
+        var imlsTableEl = document.createElement('imls-table');
+        imlsTableEl.shareUrl = 'http://foo.com';
+        container.appendChild(imlsTableEl)
+        imlsTableEl.addEventListener('imls-table-grid-render', _ => {
+          // And check again for good measure because we just rendered again.
+          imlsTableEl.querySelector('#user-share-btn').click()
+          assert(imlsTableEl.querySelector('#shareDiv').getAttribute('class'), 'here')
+          assert(imlsTableEl.querySelector('#shareDiv input').value, 'http://foo.com')
+          done()
+        }, {once: true})
+      })
 
       window.stubSearchResult = {
         "hits": [
@@ -376,16 +485,1216 @@
                 "matchedWords": []
               }
             }
+          },
+          {
+            "address": "105 EAST ADAMS STREET",
+            "address_change": "0",
+            "address_match_type": "StreetName",
+            "administrative_structure": "SO",
+            "audio_downloads": 0,
+            "audio_materials": 0,
+            "bea_region": "3",
+            "benefits": "S",
+            "bookmobiles": 0,
+            "branch_libraries": 0,
+            "capital_expenditures": 6410,
+            "cbsa": "-1",
+            "census_block": "2029",
+            "census_tract": "9507",
+            "central_libraries": 1,
+            "city": "LODA",
+            "computer_uses": 286,
+            "computers": 1,
+            "congressional_district": "1716",
+            "county": "IROQUOIS",
+            "county_population": 28334,
+            "ebooks": 0,
+            "electronic_circulation": "0",
+            "electronic_content_uses": "M",
+            "electronic_expenditures": 440,
+            "electronic_info_retrievals": "M",
+            "end_date": "2016-03-31T00:00:00.000",
+            "esri_match_status": "E",
+            "federal_capital_revenue": 0,
+            "federal_revenue": 0,
+            "fscs_definition": "Y",
+            "fscs_id": "IL0294",
+            "geocode_score": 100,
+            "geographic_code": "CI1",
+            "gnis_id": "44264",
+            "hours": 1251,
+            "incits_county_code": "75",
+            "incits_state_code": "17",
+            "interlibrary_relationship": "ME",
+            "kids_circulation": 2362,
+            "kids_program_audience": 0,
+            "kids_programs": 0,
+            "legal_basis": "CI",
+            "librarian_staff": 0.63,
+            "library_id": "30001",
+            "library_name": "A. HERR SMITH & E.E. SMITH LODA TOWNSHIP LIBRARY",
+            "loans_from": 171,
+            "loans_to": 0,
+            "local_capital_revenue": 0,
+            "local_databases": 1,
+            "local_revenue": 57036,
+            "locale": 32,
+            "longitude": {
+              "type": "Point",
+              "coordinates": [
+                -88.06874,
+                40.517123
+              ]
+            },
+            "lsabound": "N",
+            "mailing_address": "105 EAST ADAMS STREET",
+            "mailing_city": "LODA",
+            "mailing_zip": "60948",
+            "metro_micro_area": "M",
+            "mls_librarian_staff": 0,
+            "name_change": "6",
+            "other_capital_revenue": 0,
+            "other_collection_expenditures": 0,
+            "other_expenditures": "S",
+            "other_revenue": 910,
+            "other_staff": 0,
+            "phone": "2173862783",
+            "physical_item_circulation": 7033,
+            "print_expenditures": 5419,
+            "print_materials": 5371,
+            "print_serials": 2,
+            "program_audience": 119,
+            "reap_locale": "7",
+            "references": 26,
+            "reporting_status": "1",
+            "salaries": "S",
+            "service_area_population": 1461,
+            "start_date": "2015-04-01T00:00:00.000",
+            "state": "IL",
+            "state_capital_revenue": 0,
+            "state_databases": 13,
+            "state_revenue": 2358,
+            "structure_change": "0",
+            "total_capital_revenue": 0,
+            "total_circulation": 7350,
+            "total_circulation_retrievals": "M",
+            "total_collection_expenditures": 5859,
+            "total_databases": 14,
+            "total_expenditures": 58083,
+            "total_programs": 4,
+            "total_revenue": 60304,
+            "total_staff": 0.63,
+            "total_staff_expenditures": "S",
+            "unduplicated_population": 1469,
+            "users": 564,
+            "video_downloads": "M",
+            "video_materials": 0,
+            "visits": 3178,
+            "wifi_sessions": 10,
+            "ya_program_audience": 0,
+            "ya_programs": 0,
+            "year": "2017",
+            "zip": "60948",
+            "locale_string": "Town",
+            "cluster_service": 104,
+            "cluster_staff": 102,
+            "cluster_finance": 101,
+            "cluster_collection": 108,
+            "total_staff_expenditures_mean": 27043,
+            "total_staff_expenditures_percentile": 65,
+            "objectID": "949765170",
+            "_highlightResult": {
+              "county": {
+                "value": "IROQUOIS",
+                "matchLevel": "none",
+                "matchedWords": []
+              },
+              "fscs_id": {
+                "value": "IL0294",
+                "matchLevel": "none",
+                "matchedWords": []
+              },
+              "library_name": {
+                "value": "A. HERR SMITH & E.E. SMITH LODA TOWNSHIP LIBRARY",
+                "matchLevel": "none",
+                "matchedWords": []
+              },
+              "mailing_address": {
+                "value": "105 EAST ADAMS STREET",
+                "matchLevel": "none",
+                "matchedWords": []
+              },
+              "mailing_city": {
+                "value": "LODA",
+                "matchLevel": "none",
+                "matchedWords": []
+              },
+              "state": {
+                "value": "IL",
+                "matchLevel": "none",
+                "matchedWords": []
+              }
+            }
+          },
+          {
+            "address": "125 W. VINE ST.",
+            "address_change": "0",
+            "address_match_type": "StreetAddress",
+            "administrative_structure": "SO",
+            "audio_downloads": 5458,
+            "audio_materials": 5402,
+            "bea_region": "8",
+            "benefits": 573367,
+            "bookmobiles": 0,
+            "branch_libraries": 0,
+            "capital_expenditures": 0,
+            "cbsa": "40140",
+            "census_block": "1040",
+            "census_tract": "81",
+            "central_libraries": 1,
+            "city": "REDLANDS",
+            "computer_uses": 25524,
+            "computers": 24,
+            "congressional_district": "631",
+            "county": "SAN BERNARDINO",
+            "county_population": 2140096,
+            "ebooks": 9036,
+            "electronic_circulation": "16171",
+            "electronic_content_uses": 53446,
+            "electronic_expenditures": 53470,
+            "electronic_info_retrievals": 37275,
+            "end_date": "2016-06-30T00:00:00.000",
+            "esri_match_status": "E",
+            "federal_capital_revenue": 0,
+            "federal_revenue": 0,
+            "fscs_definition": "Y",
+            "fscs_id": "CA0165",
+            "geocode_score": 100,
+            "geographic_code": "CI1",
+            "gnis_id": "59962",
+            "hours": 3303,
+            "incits_county_code": "71",
+            "incits_state_code": "6",
+            "interlibrary_relationship": "NO",
+            "kids_circulation": 127475,
+            "kids_program_audience": 19384,
+            "kids_programs": 497,
+            "legal_basis": "CI",
+            "librarian_staff": 5,
+            "library_id": "M815",
+            "library_name": "A. K. SMILEY PUBLIC LIBRARY",
+            "loans_from": 10,
+            "loans_to": 0,
+            "local_capital_revenue": 0,
+            "local_databases": 16,
+            "local_revenue": 1908545,
+            "locale": 13,
+            "longitude": {
+              "type": "Point",
+              "coordinates": [
+                -117.183983,
+                34.054639
+              ]
+            },
+            "lsabound": "N",
+            "mailing_address": "125 W. VINE ST.",
+            "mailing_city": "REDLANDS",
+            "mailing_zip": "92373",
+            "metro_micro_area": "0",
+            "mls_librarian_staff": 3,
+            "name_change": "0",
+            "other_capital_revenue": 0,
+            "other_collection_expenditures": 36362,
+            "other_expenditures": 415407,
+            "other_revenue": 680677,
+            "other_staff": 20,
+            "phone": "9097987565",
+            "physical_item_circulation": 221451,
+            "print_expenditures": 186151,
+            "print_materials": 174002,
+            "print_serials": 362,
+            "program_audience": 23826,
+            "reap_locale": "2",
+            "references": 37279,
+            "reporting_status": "1",
+            "salaries": 1276167,
+            "service_area_population": 68368,
+            "start_date": "2015-07-01T00:00:00.000",
+            "state": "CA",
+            "state_capital_revenue": 0,
+            "state_databases": 1,
+            "state_revenue": 0,
+            "structure_change": "0",
+            "total_capital_revenue": 0,
+            "total_circulation": 237622,
+            "total_circulation_retrievals": 274897,
+            "total_collection_expenditures": 275983,
+            "total_databases": 17,
+            "total_expenditures": 2540924,
+            "total_programs": 645,
+            "total_revenue": 2589222,
+            "total_staff": 25,
+            "total_staff_expenditures": 1849534,
+            "unduplicated_population": 68368,
+            "users": 59855,
+            "video_downloads": 30,
+            "video_materials": 2487,
+            "visits": 273723,
+            "wifi_sessions": 30758,
+            "ya_program_audience": 38,
+            "ya_programs": 5,
+            "year": "2017",
+            "zip": "92373",
+            "locale_string": "City",
+            "cluster_service": 403,
+            "cluster_staff": 403,
+            "cluster_finance": 402,
+            "cluster_collection": 404,
+            "total_staff_expenditures_mean": 2778132,
+            "total_staff_expenditures_percentile": 25,
+            "objectID": "949751900",
+            "_highlightResult": {
+              "county": {
+                "value": "SAN BERNARDINO",
+                "matchLevel": "none",
+                "matchedWords": []
+              },
+              "fscs_id": {
+                "value": "CA0165",
+                "matchLevel": "none",
+                "matchedWords": []
+              },
+              "library_name": {
+                "value": "A. K. SMILEY PUBLIC LIBRARY",
+                "matchLevel": "none",
+                "matchedWords": []
+              },
+              "mailing_address": {
+                "value": "125 W. VINE ST.",
+                "matchLevel": "none",
+                "matchedWords": []
+              },
+              "mailing_city": {
+                "value": "REDLANDS",
+                "matchLevel": "none",
+                "matchedWords": []
+              },
+              "state": {
+                "value": "CA",
+                "matchLevel": "none",
+                "matchedWords": []
+              }
+            }
+          },
+          {
+            "address": "269 CHARLES BANCROFT HIGHWAY",
+            "address_change": "0",
+            "address_match_type": "StreetAddress",
+            "administrative_structure": "SO",
+            "audio_downloads": 14889,
+            "audio_materials": 865,
+            "bea_region": "1",
+            "benefits": 11850,
+            "bookmobiles": 0,
+            "branch_libraries": 0,
+            "capital_expenditures": 0,
+            "cbsa": "31700",
+            "census_block": "1006",
+            "census_tract": "131",
+            "central_libraries": 1,
+            "city": "LITCHFIELD",
+            "computer_uses": 490,
+            "computers": 3,
+            "congressional_district": "3302",
+            "county": "HILLSBOROUGH",
+            "county_population": 407761,
+            "ebooks": 19462,
+            "electronic_circulation": "6804",
+            "electronic_content_uses": 9081,
+            "electronic_expenditures": 5216,
+            "electronic_info_retrievals": 2277,
+            "end_date": "2016-12-31T00:00:00.000",
+            "esri_match_status": "E",
+            "federal_capital_revenue": 0,
+            "federal_revenue": 0,
+            "fscs_definition": "Y",
+            "fscs_id": "NH0027",
+            "geocode_score": 100,
+            "geographic_code": "CI1",
+            "gnis_id": "M",
+            "hours": 1968,
+            "incits_county_code": "11",
+            "incits_state_code": "33",
+            "interlibrary_relationship": "NO",
+            "kids_circulation": 15202,
+            "kids_program_audience": 6278,
+            "kids_programs": 231,
+            "legal_basis": "CI",
+            "librarian_staff": 2.4,
+            "library_id": "NH89123",
+            "library_name": "AARON CUTLER MEMORIAL LIBRARY",
+            "loans_from": 1531,
+            "loans_to": 291,
+            "local_capital_revenue": 0,
+            "local_databases": 4,
+            "local_revenue": 217481,
+            "locale": 41,
+            "longitude": {
+              "type": "Point",
+              "coordinates": [
+                -71.479728,
+                42.84468
+              ]
+            },
+            "lsabound": "N",
+            "mailing_address": "269 CHARLES BANCROFT HIGHWAY",
+            "mailing_city": "LITCHFIELD",
+            "mailing_zip": "3052",
+            "metro_micro_area": "0",
+            "mls_librarian_staff": 0,
+            "name_change": "0",
+            "other_capital_revenue": 0,
+            "other_collection_expenditures": 2962,
+            "other_expenditures": 27313,
+            "other_revenue": 10573,
+            "other_staff": 1.3,
+            "phone": "6034244044",
+            "physical_item_circulation": 25395,
+            "print_expenditures": 11202,
+            "print_materials": 14352,
+            "print_serials": 40,
+            "program_audience": 7934,
+            "reap_locale": "8",
+            "references": 935,
+            "reporting_status": "1",
+            "salaries": 154901,
+            "service_area_population": 8395,
+            "start_date": "2016-01-01T00:00:00.000",
+            "state": "NH",
+            "state_capital_revenue": 0,
+            "state_databases": 22,
+            "state_revenue": 225,
+            "structure_change": "0",
+            "total_capital_revenue": 0,
+            "total_circulation": 32199,
+            "total_circulation_retrievals": 34476,
+            "total_collection_expenditures": 19380,
+            "total_databases": 26,
+            "total_expenditures": 213444,
+            "total_programs": 378,
+            "total_revenue": 228279,
+            "total_staff": 3.7,
+            "total_staff_expenditures": 166751,
+            "unduplicated_population": 7698,
+            "users": 3708,
+            "video_downloads": 1,
+            "video_materials": 1382,
+            "visits": 13628,
+            "wifi_sessions": 3136,
+            "ya_program_audience": 514,
+            "ya_programs": 58,
+            "year": "2017",
+            "zip": "3052",
+            "locale_string": "Rural",
+            "cluster_service": 204,
+            "cluster_staff": 206,
+            "cluster_finance": 201,
+            "cluster_collection": 207,
+            "total_staff_expenditures_mean": 127746,
+            "total_staff_expenditures_percentile": 84,
+            "objectID": "949793760",
+            "_highlightResult": {
+              "county": {
+                "value": "HILLSBOROUGH",
+                "matchLevel": "none",
+                "matchedWords": []
+              },
+              "fscs_id": {
+                "value": "NH0027",
+                "matchLevel": "none",
+                "matchedWords": []
+              },
+              "library_name": {
+                "value": "AARON CUTLER MEMORIAL LIBRARY",
+                "matchLevel": "none",
+                "matchedWords": []
+              },
+              "mailing_address": {
+                "value": "269 CHARLES BANCROFT HIGHWAY",
+                "matchLevel": "none",
+                "matchedWords": []
+              },
+              "mailing_city": {
+                "value": "LITCHFIELD",
+                "matchLevel": "none",
+                "matchedWords": []
+              },
+              "state": {
+                "value": "NH",
+                "matchLevel": "none",
+                "matchedWords": []
+              }
+            }
+          },
+          {
+            "address": "314 CHESTERFIELD STREET SW",
+            "address_change": "0",
+            "address_match_type": "StreetAddress",
+            "administrative_structure": "MO",
+            "audio_downloads": 975,
+            "audio_materials": 13901,
+            "bea_region": "5",
+            "benefits": 535337,
+            "bookmobiles": 1,
+            "branch_libraries": 14,
+            "capital_expenditures": 0,
+            "cbsa": "12260",
+            "census_block": "1134",
+            "census_tract": "213",
+            "central_libraries": 0,
+            "city": "AIKEN",
+            "computer_uses": 140556,
+            "computers": 167,
+            "congressional_district": "4502",
+            "county": "AIKEN",
+            "county_population": 167458,
+            "ebooks": 1956,
+            "electronic_circulation": "30492",
+            "electronic_content_uses": 30492,
+            "electronic_expenditures": 20789,
+            "electronic_info_retrievals": 0,
+            "end_date": "2016-06-30T00:00:00.000",
+            "esri_match_status": "E",
+            "federal_capital_revenue": 0,
+            "federal_revenue": 7600,
+            "fscs_definition": "Y",
+            "fscs_id": "SC0002",
+            "geocode_score": 100,
+            "geographic_code": "MC1",
+            "gnis_id": "550",
+            "hours": 24026,
+            "incits_county_code": "3",
+            "incits_state_code": "45",
+            "interlibrary_relationship": "HQ",
+            "kids_circulation": 179890,
+            "kids_program_audience": 15875,
+            "kids_programs": 575,
+            "legal_basis": "MJ",
+            "librarian_staff": 15,
+            "library_id": "ABBE",
+            "library_name": "ABBE REGIONAL LIBRARY SYSTEM",
+            "loans_from": 688,
+            "loans_to": 372,
+            "local_capital_revenue": 0,
+            "local_databases": 5,
+            "local_revenue": 2188168,
+            "locale": 21,
+            "longitude": {
+              "type": "Point",
+              "coordinates": [
+                -81.721412,
+                33.556345
+              ]
+            },
+            "lsabound": "N",
+            "mailing_address": "314 CHESTERFIELD STREET SW",
+            "mailing_city": "AIKEN",
+            "mailing_zip": "29801",
+            "metro_micro_area": "0",
+            "mls_librarian_staff": 12,
+            "name_change": "0",
+            "other_capital_revenue": 0,
+            "other_collection_expenditures": 49002,
+            "other_expenditures": 511897,
+            "other_revenue": 258241,
+            "other_staff": 39.5,
+            "phone": "8036427575",
+            "physical_item_circulation": 499048,
+            "print_expenditures": 151629,
+            "print_materials": 283378,
+            "print_serials": 187,
+            "program_audience": 19936,
+            "reap_locale": "4",
+            "references": 63258,
+            "reporting_status": "1",
+            "salaries": 1628372,
+            "service_area_population": 225692,
+            "start_date": "2015-07-01T00:00:00.000",
+            "state": "SC",
+            "state_capital_revenue": 0,
+            "state_databases": 50,
+            "state_revenue": 503236,
+            "structure_change": "0",
+            "total_capital_revenue": 0,
+            "total_circulation": 529540,
+            "total_circulation_retrievals": 529540,
+            "total_collection_expenditures": 221420,
+            "total_databases": 55,
+            "total_expenditures": 2897026,
+            "total_programs": 866,
+            "total_revenue": 2957245,
+            "total_staff": 54.5,
+            "total_staff_expenditures": 2163709,
+            "unduplicated_population": 225692,
+            "users": 59391,
+            "video_downloads": 38,
+            "video_materials": 32660,
+            "visits": 726174,
+            "wifi_sessions": 209564,
+            "ya_program_audience": 1300,
+            "ya_programs": 88,
+            "year": "2017",
+            "zip": "29801",
+            "locale_string": "Suburban",
+            "cluster_service": 406,
+            "cluster_staff": 401,
+            "cluster_finance": 402,
+            "cluster_collection": 407,
+            "total_staff_expenditures_mean": 2778132,
+            "total_staff_expenditures_percentile": 40,
+            "objectID": "949800780",
+            "_highlightResult": {
+              "county": {
+                "value": "AIKEN",
+                "matchLevel": "none",
+                "matchedWords": []
+              },
+              "fscs_id": {
+                "value": "SC0002",
+                "matchLevel": "none",
+                "matchedWords": []
+              },
+              "library_name": {
+                "value": "ABBE REGIONAL LIBRARY SYSTEM",
+                "matchLevel": "none",
+                "matchedWords": []
+              },
+              "mailing_address": {
+                "value": "314 CHESTERFIELD STREET SW",
+                "matchLevel": "none",
+                "matchedWords": []
+              },
+              "mailing_city": {
+                "value": "AIKEN",
+                "matchLevel": "none",
+                "matchedWords": []
+              },
+              "state": {
+                "value": "SC",
+                "matchLevel": "none",
+                "matchedWords": []
+              }
+            }
+          },
+          {
+            "address": "1407 NORTH MAIN STREET",
+            "address_change": "0",
+            "address_match_type": "PointAddress",
+            "administrative_structure": "MO",
+            "audio_downloads": 2263,
+            "audio_materials": 2944,
+            "bea_region": "5",
+            "benefits": 42589,
+            "bookmobiles": 0,
+            "branch_libraries": 2,
+            "capital_expenditures": 0,
+            "cbsa": "24940",
+            "census_block": "4036",
+            "census_tract": "9504",
+            "central_libraries": 1,
+            "city": "ABBEVILLE",
+            "computer_uses": 10984,
+            "computers": 25,
+            "congressional_district": "4503",
+            "county": "ABBEVILLE",
+            "county_population": 24872,
+            "ebooks": 18000,
+            "electronic_circulation": "3156",
+            "electronic_content_uses": 3156,
+            "electronic_expenditures": 1575,
+            "electronic_info_retrievals": 0,
+            "end_date": "2016-06-30T00:00:00.000",
+            "esri_match_status": "E",
+            "federal_capital_revenue": 0,
+            "federal_revenue": 1000,
+            "fscs_definition": "Y",
+            "fscs_id": "SC8003",
+            "geocode_score": 100,
+            "geographic_code": "CO1",
+            "gnis_id": "100",
+            "hours": 6448,
+            "incits_county_code": "1",
+            "incits_state_code": "45",
+            "interlibrary_relationship": "NO",
+            "kids_circulation": 17427,
+            "kids_program_audience": 0,
+            "kids_programs": 0,
+            "legal_basis": "CO",
+            "librarian_staff": 2,
+            "library_id": "ABBEVILLE",
+            "library_name": "ABBEVILLE COUNTY LIBRARY SYSTEM",
+            "loans_from": 463,
+            "loans_to": 0,
+            "local_capital_revenue": 0,
+            "local_databases": 0,
+            "local_revenue": 214676,
+            "locale": 32,
+            "longitude": {
+              "type": "Point",
+              "coordinates": [
+                -82.398054,
+                34.186576
+              ]
+            },
+            "lsabound": "N",
+            "mailing_address": "1407 NORTH MAIN STREET",
+            "mailing_city": "ABBEVILLE",
+            "mailing_zip": "29620",
+            "metro_micro_area": "1",
+            "mls_librarian_staff": 2,
+            "name_change": "0",
+            "other_capital_revenue": 0,
+            "other_collection_expenditures": 1798,
+            "other_expenditures": 77144,
+            "other_revenue": 18035,
+            "other_staff": 4,
+            "phone": "8644594009",
+            "physical_item_circulation": 38694,
+            "print_expenditures": 22698,
+            "print_materials": 56885,
+            "print_serials": 96,
+            "program_audience": 1336,
+            "reap_locale": "6",
+            "references": 10745,
+            "reporting_status": "1",
+            "salaries": 168458,
+            "service_area_population": 25417,
+            "start_date": "2015-07-01T00:00:00.000",
+            "state": "SC",
+            "state_capital_revenue": 0,
+            "state_databases": 50,
+            "state_revenue": 94396,
+            "structure_change": "0",
+            "total_capital_revenue": 0,
+            "total_circulation": 41850,
+            "total_circulation_retrievals": 41850,
+            "total_collection_expenditures": 26071,
+            "total_databases": 50,
+            "total_expenditures": 314262,
+            "total_programs": 76,
+            "total_revenue": 328107,
+            "total_staff": 6,
+            "total_staff_expenditures": 211047,
+            "unduplicated_population": 25417,
+            "users": 17768,
+            "video_downloads": 0,
+            "video_materials": 5002,
+            "visits": 33367,
+            "wifi_sessions": 4940,
+            "ya_program_audience": 8,
+            "ya_programs": 3,
+            "year": "2017",
+            "zip": "29620",
+            "locale_string": "Town",
+            "cluster_service": 403,
+            "cluster_staff": 403,
+            "cluster_finance": 403,
+            "cluster_collection": 403,
+            "total_staff_expenditures_mean": 713808,
+            "total_staff_expenditures_percentile": 7,
+            "objectID": "949798700",
+            "_highlightResult": {
+              "county": {
+                "value": "ABBEVILLE",
+                "matchLevel": "none",
+                "matchedWords": []
+              },
+              "fscs_id": {
+                "value": "SC8003",
+                "matchLevel": "none",
+                "matchedWords": []
+              },
+              "library_name": {
+                "value": "ABBEVILLE COUNTY LIBRARY SYSTEM",
+                "matchLevel": "none",
+                "matchedWords": []
+              },
+              "mailing_address": {
+                "value": "1407 NORTH MAIN STREET",
+                "matchLevel": "none",
+                "matchedWords": []
+              },
+              "mailing_city": {
+                "value": "ABBEVILLE",
+                "matchLevel": "none",
+                "matchedWords": []
+              },
+              "state": {
+                "value": "SC",
+                "matchLevel": "none",
+                "matchedWords": []
+              }
+            }
+          },
+          {
+            "address": "301 KIRKLAND STREET",
+            "address_change": "0",
+            "address_match_type": "StreetAddress",
+            "administrative_structure": "SO",
+            "audio_downloads": 5863,
+            "audio_materials": 828,
+            "bea_region": "5",
+            "benefits": 21457,
+            "bookmobiles": 0,
+            "branch_libraries": 0,
+            "capital_expenditures": 0,
+            "cbsa": "20020",
+            "census_block": "3009",
+            "census_tract": "302",
+            "central_libraries": 1,
+            "city": "ABBEVILLE",
+            "computer_uses": 9118,
+            "computers": 19,
+            "congressional_district": "102",
+            "county": "HENRY",
+            "county_population": 17164,
+            "ebooks": 28636,
+            "electronic_circulation": "721",
+            "electronic_content_uses": 3518,
+            "electronic_expenditures": 3000,
+            "electronic_info_retrievals": 2797,
+            "end_date": "2016-09-30T00:00:00.000",
+            "esri_match_status": "E",
+            "federal_capital_revenue": 0,
+            "federal_revenue": 13423,
+            "fscs_definition": "Y",
+            "fscs_id": "AL0022",
+            "geocode_score": 100,
+            "geographic_code": "CI1",
+            "gnis_id": "124",
+            "hours": 2080,
+            "incits_county_code": "67",
+            "incits_state_code": "1",
+            "interlibrary_relationship": "NO",
+            "kids_circulation": 5496,
+            "kids_program_audience": 468,
+            "kids_programs": 11,
+            "legal_basis": "CI",
+            "librarian_staff": 1,
+            "library_id": "999-033",
+            "library_name": "ABBEVILLE MEMORIAL LIBRARY",
+            "loans_from": 0,
+            "loans_to": 0,
+            "local_capital_revenue": 0,
+            "local_databases": 0,
+            "local_revenue": 116854,
+            "locale": 42,
+            "longitude": {
+              "type": "Point",
+              "coordinates": [
+                -85.250422,
+                31.567312
+              ]
+            },
+            "lsabound": "N",
+            "mailing_address": "301 KIRKLAND STREET",
+            "mailing_city": "ABBEVILLE",
+            "mailing_zip": "36310",
+            "metro_micro_area": "0",
+            "mls_librarian_staff": 0,
+            "name_change": "0",
+            "other_capital_revenue": 0,
+            "other_collection_expenditures": 1775,
+            "other_expenditures": 20372,
+            "other_revenue": 4306,
+            "other_staff": 1.65,
+            "phone": "3345852818",
+            "physical_item_circulation": 21471,
+            "print_expenditures": 6623,
+            "print_materials": 26254,
+            "print_serials": 34,
+            "program_audience": 1041,
+            "reap_locale": "8",
+            "references": 5423,
+            "reporting_status": "1",
+            "salaries": 65787,
+            "service_area_population": 7557,
+            "start_date": "2015-10-01T00:00:00.000",
+            "state": "AL",
+            "state_capital_revenue": 0,
+            "state_databases": 58,
+            "state_revenue": 6696,
+            "structure_change": "0",
+            "total_capital_revenue": 0,
+            "total_circulation": 22192,
+            "total_circulation_retrievals": 24989,
+            "total_collection_expenditures": 11398,
+            "total_databases": 58,
+            "total_expenditures": 119014,
+            "total_programs": 54,
+            "total_revenue": 141279,
+            "total_staff": 2.65,
+            "total_staff_expenditures": 87244,
+            "unduplicated_population": 7557,
+            "users": 6748,
+            "video_downloads": 169,
+            "video_materials": 757,
+            "visits": 25067,
+            "wifi_sessions": 3142,
+            "ya_program_audience": 30,
+            "ya_programs": 2,
+            "year": "2017",
+            "zip": "36310",
+            "locale_string": "Rural",
+            "cluster_service": 205,
+            "cluster_staff": 204,
+            "cluster_finance": 203,
+            "cluster_collection": 201,
+            "total_staff_expenditures_mean": 55232,
+            "total_staff_expenditures_percentile": 86,
+            "objectID": "949744510",
+            "_highlightResult": {
+              "county": {
+                "value": "HENRY",
+                "matchLevel": "none",
+                "matchedWords": []
+              },
+              "fscs_id": {
+                "value": "AL0022",
+                "matchLevel": "none",
+                "matchedWords": []
+              },
+              "library_name": {
+                "value": "ABBEVILLE MEMORIAL LIBRARY",
+                "matchLevel": "none",
+                "matchedWords": []
+              },
+              "mailing_address": {
+                "value": "301 KIRKLAND STREET",
+                "matchLevel": "none",
+                "matchedWords": []
+              },
+              "mailing_city": {
+                "value": "ABBEVILLE",
+                "matchLevel": "none",
+                "matchedWords": []
+              },
+              "state": {
+                "value": "AL",
+                "matchLevel": "none",
+                "matchedWords": []
+              }
+            }
+          },
+          {
+            "address": "439 MAIN STREET",
+            "address_change": "0",
+            "address_match_type": "PointAddress",
+            "administrative_structure": "SO",
+            "audio_downloads": 14889,
+            "audio_materials": 237,
+            "bea_region": "1",
+            "benefits": "S",
+            "bookmobiles": 0,
+            "branch_libraries": 0,
+            "capital_expenditures": 0,
+            "cbsa": "17200",
+            "census_block": "1058",
+            "census_tract": "9602",
+            "central_libraries": 1,
+            "city": "FRANCONIA",
+            "computer_uses": 1338,
+            "computers": 5,
+            "congressional_district": "3302",
+            "county": "GRAFTON",
+            "county_population": 88888,
+            "ebooks": 19462,
+            "electronic_circulation": "1505",
+            "electronic_content_uses": 1646,
+            "electronic_expenditures": 530,
+            "electronic_info_retrievals": 141,
+            "end_date": "2016-12-31T00:00:00.000",
+            "esri_match_status": "E",
+            "federal_capital_revenue": 0,
+            "federal_revenue": 0,
+            "fscs_definition": "Y",
+            "fscs_id": "NH0195",
+            "geocode_score": 100,
+            "geographic_code": "CI1",
+            "gnis_id": "M",
+            "hours": 1100,
+            "incits_county_code": "9",
+            "incits_state_code": "33",
+            "interlibrary_relationship": "NO",
+            "kids_circulation": 2412,
+            "kids_program_audience": 700,
+            "kids_programs": 50,
+            "legal_basis": "CI",
+            "librarian_staff": 0.88,
+            "library_id": "NH8970",
+            "library_name": "ABBIE GREENLEAF LIBRARY",
+            "loans_from": 565,
+            "loans_to": 430,
+            "local_capital_revenue": 0,
+            "local_databases": 3,
+            "local_revenue": 86312,
+            "locale": 42,
+            "longitude": {
+              "type": "Point",
+              "coordinates": [
+                -71.745225,
+                44.226496
+              ]
+            },
+            "lsabound": "N",
+            "mailing_address": "P.O. BOX 787",
+            "mailing_city": "FRANCONIA",
+            "mailing_zip": "3580",
+            "metro_micro_area": "1",
+            "mls_librarian_staff": 0,
+            "name_change": "0",
+            "other_capital_revenue": 0,
+            "other_collection_expenditures": 2000,
+            "other_expenditures": "S",
+            "other_revenue": 10907,
+            "other_staff": 0.68,
+            "phone": "6038238424",
+            "physical_item_circulation": 7946,
+            "print_expenditures": 7487,
+            "print_materials": 15000,
+            "print_serials": 40,
+            "program_audience": 1124,
+            "reap_locale": "7",
+            "references": 3200,
+            "reporting_status": "1",
+            "salaries": "S",
+            "service_area_population": 1118,
+            "start_date": "2016-01-01T00:00:00.000",
+            "state": "NH",
+            "state_capital_revenue": 0,
+            "state_databases": 22,
+            "state_revenue": 0,
+            "structure_change": "0",
+            "total_capital_revenue": 0,
+            "total_circulation": 9451,
+            "total_circulation_retrievals": 9592,
+            "total_collection_expenditures": 10017,
+            "total_databases": 25,
+            "total_expenditures": 94819,
+            "total_programs": 100,
+            "total_revenue": 97219,
+            "total_staff": 1.56,
+            "total_staff_expenditures": "S",
+            "unduplicated_population": 1025,
+            "users": 1023,
+            "video_downloads": 1,
+            "video_materials": 376,
+            "visits": 4500,
+            "wifi_sessions": 1338,
+            "ya_program_audience": 0,
+            "ya_programs": 0,
+            "year": "2017",
+            "zip": "3580",
+            "locale_string": "Rural",
+            "cluster_service": 104,
+            "cluster_staff": 103,
+            "cluster_finance": 104,
+            "cluster_collection": 107,
+            "total_staff_expenditures_mean": 84526,
+            "total_staff_expenditures_percentile": 28,
+            "objectID": "949830120",
+            "_highlightResult": {
+              "county": {
+                "value": "GRAFTON",
+                "matchLevel": "none",
+                "matchedWords": []
+              },
+              "fscs_id": {
+                "value": "NH0195",
+                "matchLevel": "none",
+                "matchedWords": []
+              },
+              "library_name": {
+                "value": "ABBIE GREENLEAF LIBRARY",
+                "matchLevel": "none",
+                "matchedWords": []
+              },
+              "mailing_address": {
+                "value": "P.O. BOX 787",
+                "matchLevel": "none",
+                "matchedWords": []
+              },
+              "mailing_city": {
+                "value": "FRANCONIA",
+                "matchLevel": "none",
+                "matchedWords": []
+              },
+              "state": {
+                "value": "NH",
+                "matchLevel": "none",
+                "matchedWords": []
+              }
+            }
+          },
+          {
+            "address": "235 PLEASANT STREET",
+            "address_change": "0",
+            "address_match_type": "PointAddress",
+            "administrative_structure": "SO",
+            "audio_downloads": 3096,
+            "audio_materials": 8512,
+            "bea_region": "1",
+            "benefits": 189070,
+            "bookmobiles": 0,
+            "branch_libraries": 0,
+            "capital_expenditures": 0,
+            "cbsa": "14460",
+            "census_block": "4009",
+            "census_tract": "2032",
+            "central_libraries": 1,
+            "city": "MARBLEHEAD",
+            "computer_uses": 12168,
+            "computers": 17,
+            "congressional_district": "2506",
+            "county": "ESSEX",
+            "county_population": 779018,
+            "ebooks": 11122,
+            "electronic_circulation": "11375",
+            "electronic_content_uses": 22645,
+            "electronic_expenditures": 31945,
+            "electronic_info_retrievals": 11270,
+            "end_date": "2016-06-30T00:00:00.000",
+            "esri_match_status": "E",
+            "federal_capital_revenue": 0,
+            "federal_revenue": 0,
+            "fscs_definition": "Y",
+            "fscs_id": "MA0167",
+            "geocode_score": 100,
+            "geographic_code": "OTH",
+            "gnis_id": "38435",
+            "hours": 2866,
+            "incits_county_code": "9",
+            "incits_state_code": "25",
+            "interlibrary_relationship": "ME",
+            "kids_circulation": 57739,
+            "kids_program_audience": 2198,
+            "kids_programs": 143,
+            "legal_basis": "CI",
+            "librarian_staff": 5.81,
+            "library_id": "MARBLEHEAD",
+            "library_name": "ABBOT PUBLIC LIBRARY",
+            "loans_from": 24126,
+            "loans_to": 15413,
+            "local_capital_revenue": 0,
+            "local_databases": 23,
+            "local_revenue": 1092539,
+            "locale": 21,
+            "longitude": {
+              "type": "Point",
+              "coordinates": [
+                -70.862619,
+                42.496288
+              ]
+            },
+            "lsabound": "N",
+            "mailing_address": "235 PLEASANT STREET",
+            "mailing_city": "MARBLEHEAD",
+            "mailing_zip": "1945",
+            "metro_micro_area": "0",
+            "mls_librarian_staff": 5.81,
+            "name_change": "0",
+            "other_capital_revenue": 1557,
+            "other_collection_expenditures": 29790,
+            "other_expenditures": 148143,
+            "other_revenue": 24919,
+            "other_staff": 10.51,
+            "phone": "7816319419",
+            "physical_item_circulation": 184549,
+            "print_expenditures": 99595,
+            "print_materials": 118414,
+            "print_serials": 190,
+            "program_audience": 4874,
+            "reap_locale": "3",
+            "references": 18239,
+            "reporting_status": "2",
+            "salaries": 756282,
+            "service_area_population": 20187,
+            "start_date": "2015-07-01T00:00:00.000",
+            "state": "MA",
+            "state_capital_revenue": 0,
+            "state_databases": 60,
+            "state_revenue": 20474,
+            "structure_change": "0",
+            "total_capital_revenue": 1557,
+            "total_circulation": 211233,
+            "total_circulation_retrievals": 207194,
+            "total_collection_expenditures": 161330,
+            "total_databases": 83,
+            "total_expenditures": 1254825,
+            "total_programs": 255,
+            "total_revenue": 1137932,
+            "total_staff": 16.32,
+            "total_staff_expenditures": 945352,
+            "unduplicated_population": 20042,
+            "users": 17304,
+            "video_downloads": 0,
+            "video_materials": 5910,
+            "visits": 133938,
+            "wifi_sessions": "M",
+            "ya_program_audience": 108,
+            "ya_programs": 35,
+            "year": "2017",
+            "zip": "1945",
+            "locale_string": "Suburban",
+            "cluster_service": 307,
+            "cluster_staff": 307,
+            "cluster_finance": 305,
+            "cluster_collection": 302,
+            "total_staff_expenditures_mean": 1053234,
+            "total_staff_expenditures_percentile": 34,
+            "objectID": "949777190",
+            "_highlightResult": {
+              "county": {
+                "value": "ESSEX",
+                "matchLevel": "none",
+                "matchedWords": []
+              },
+              "fscs_id": {
+                "value": "MA0167",
+                "matchLevel": "none",
+                "matchedWords": []
+              },
+              "library_name": {
+                "value": "ABBOT PUBLIC LIBRARY",
+                "matchLevel": "none",
+                "matchedWords": []
+              },
+              "mailing_address": {
+                "value": "235 PLEASANT STREET",
+                "matchLevel": "none",
+                "matchedWords": []
+              },
+              "mailing_city": {
+                "value": "MARBLEHEAD",
+                "matchLevel": "none",
+                "matchedWords": []
+              },
+              "state": {
+                "value": "MA",
+                "matchLevel": "none",
+                "matchedWords": []
+              }
+            }
           }
         ],
-        "nbHits": 2,
+        "nbHits": 10,
         "page": 0,
         "nbPages": 1,
         "hitsPerPage": 1000,
         "processingTimeMS": 1,
         "exhaustiveNbHits": true,
         "query": "",
-        "params": "query=&hitsPerPage=10000&facetFilters=%5B%5B%22fscs_id%3APA0180%22%2C%22fscs_id%3ASD0106%22%5D%5D"
+        "params": "query=&hitsPerPage=10000&facetFilters=%5B%5B%22fscs_id%3APA0180%22%2C%22fscs_id%3ASD0106%22%2C%22fscs_id%3AIL0294%22%2C%22fscs_id%3ACA0165%22%2C%22fscs_id%3ANH0027%22%2C%22fscs_id%3ASC0002%22%2C%22fscs_id%3ASC8003%22%2C%22fscs_id%3AAL0022%22%2C%22fscs_id%3ANH0195%22%2C%22fscs_id%3AMA0167%22%5D%5D"
       }
     </script>
 

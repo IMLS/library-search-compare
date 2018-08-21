@@ -16,21 +16,52 @@ class ImlsTable extends PolymerElement {
   }
   static get properties() {
     return {
+      shareUrl: {
+        type: String,
+        value: '',
+        reflectToAttribute: true,
+        oberver: 'render'
+      },
+      showUserCompareListButtons: {
+        type: Boolean,
+        value: true,
+        reflectToAttribute: true,
+        observer: 'render'
+      },
       rowData: {
         type: Array,
         value: [],
+        reflectToAttribute: true,
         observer: 'render'
       },
       userCompareList: {
         type: Array,
         value: [],
+        reflectToAttribute: true,
+        observer: 'userCompareListChange'
+      },
+      userCompareListOnly: {
+        type: Boolean,
+        value: false,
         observer: 'render'
       },
       compareOn: {
-          type: String,
-          value: 'demographic',
-          reflectToAttribute: true,
-          observer: 'render'
+        type: String,
+        value: 'demographic',
+        reflectToAttribute: true,
+        observer: 'render'
+      },
+      // Note currentPage is not tied to render because it would cause an infinite loop with dataTable.
+      currentPage: {
+        type: Number,
+        reflectToAttribute: true,
+        value: 1
+      },
+      perPage: {
+        type: Number,
+        value: 50,
+        reflectToAttribute: true,
+        observer: 'render'
       }
     };
   }
@@ -42,7 +73,7 @@ class ImlsTable extends PolymerElement {
     // quirk of dataTable.
     this.addEventListener('click', event => {
       if (event.target.classList.contains('user-compare-btn')) {
-        if (this.userCompareList.includes(event.target.getAttribute('data-fscs'))) {
+        if (this.userCompareList.indexOf(event.target.getAttribute('data-fscs')) !== -1) {
           this.userCompareList = this.userCompareList.filter(item => item !== event.target.getAttribute('data-fscs'))
         } else {
           this.userCompareList = [...this.userCompareList, event.target.getAttribute('data-fscs')]
@@ -71,12 +102,12 @@ class ImlsTable extends PolymerElement {
               </div>
               <div class="col-sm-4 text-right">
               <span id="userCount"></span>
-              <button id="user-share-btn" class="btn btn-default btn-sm" type="button">Share These Results</button>
-              <div id="userShareDiv" class="closed">
+              ${this.shareUrl !== '' ? `<button id="user-share-btn" class="btn btn-default btn-sm" type="button">Share These Results</button>` : ``}
+              <div id="shareDiv" class="closed">
                   <p>This page has been copied to your clipboard. Paste somewhere to share!</p>
-                  <input type="text" id="userShareMe">
+                  <input type="text" value="${this.shareUrl}" id="userShareMe">
                   </div><!--end #shareDiv-->
-                  <button id="download-user-csv" onclick="downloadCsv();" class="btn btn-default btn-sm"><i class="icon-file-excel"></i> Download</button>
+                  <button id="download-user-csv" class="btn btn-default btn-sm"><i class="icon-file-excel"></i> Download</button>
               </div>
           </div>              
           </div><!--end .actions-box-->
@@ -87,6 +118,8 @@ class ImlsTable extends PolymerElement {
       </div><!-- end user-comparison-results-wrapper -->
     `
 
+    if (this.shareUrl !== '') this.querySelector('#user-share-btn').addEventListener('click', this.showShareUrl.bind(this))
+    this.querySelector('#download-user-csv').addEventListener('click', this.downloadCsv.bind(this))
     this.querySelector('#user-comparison-select').addEventListener('change', event => this.compareOn = event.target.value)
 
     var tableRows = []
@@ -95,16 +128,25 @@ class ImlsTable extends PolymerElement {
     var field_names = _.map( _.find( this._comparisonTableConfig, { 'name': this.compareOn } ).field_names );
 
     tableData[ 'headings' ] = _.map( _.find( this._comparisonTableConfig, { 'name': this.compareOn } ).headings );
-    tableData[ 'headings' ].unshift('');
-    for (var h in this.rowData) {
-      let res = this.rowData[h];
-      var tableRow = [ '<i class="user-compare-btn" data-fscs="' + res[ "fscs_id" ] + '" data-action="remove"></i>', '<a data-name="' + res[ 'library_name' ] + '" href="details.html?fscs_id=' + res["fscs_id"] + '">' + res["library_name"] + ' (' + res[ "fscs_id" ] + ')' + '</a>' ];
+    if (this.showUserCompareListButtons) {
+      tableData[ 'headings' ].unshift('');
+    } else {
+      // Nothing.
+    }
+    let rowData = (this.userCompareListOnly) ? this.rowData.filter(data => this.userCompareList.indexOf(data.fscs_id) !== -1) : this.rowData
+    for (var h in rowData) {
+      let res = rowData[h];
+      if (this.showUserCompareListButtons) {
+        var tableRow = [ '<i class="user-compare-btn" data-fscs="' + res[ "fscs_id" ] + '" data-action="remove"></i>', '<a data-name="' + res[ 'library_name' ] + '" href="details.html?fscs_id=' + res["fscs_id"] + '">' + res["library_name"] + ' (' + res[ "fscs_id" ] + ')' + '</a>' ];
+      } else {
+        var tableRow = [  '<a data-name="' + res[ 'library_name' ] + '" href="details.html?fscs_id=' + res["fscs_id"] + '">' + res["library_name"] + ' (' + res[ "fscs_id" ] + ')' + '</a>' ];
+      }
       _.forEach( field_names, function(f) {
         tableRow.push(res[f].toLocaleString("en-US"));
       });
       tableRows.push(tableRow);
     }
-    tableData[ 'data' ] = tableRows;
+    tableData[ 'rows' ] = tableRows;
     
     var page_url = window.location.href;
 
@@ -112,7 +154,7 @@ class ImlsTable extends PolymerElement {
       this.comparisonGrid.destroy();
     }
     this.comparisonGrid = new DataTable(this.querySelector('#data_table'), {
-      perPage: 50,
+      perPage: this.perPage,
       data: tableData,
       searchable: false,
       perPageSelect: false,
@@ -130,21 +172,20 @@ class ImlsTable extends PolymerElement {
       ]
     });
 
-    this.comparisonGrid.on('datatable.init', _ => { 
-      this.querySelectorAll('.user-compare-btn').forEach(el => {
-        if (this.userCompareList.includes(el.getAttribute('data-fscs'))) {
-          el.classList.add('user-compare-remove')
-        } else {
-          el.classList.add('user-compare-add')
-        }
-      })
-    })
-    
-    /* @TODO
-    comparisonGrid.on('datatable.page', function() {
-        //setAddUserCompareHandler();
-    });
+    this.comparisonGrid.on('datatable.init', _ => {
 
+      this.comparisonGrid.page(this.currentPage)
+      this.gridHasRendered()
+    })
+    this.comparisonGrid.on('datatable.page', page => {
+      if(this.currentPage !== page) {
+        this.currentPage = page
+      } else {
+        this.gridHasRendered()
+      }
+    })
+
+    /* @TODO
     comparisonGrid.on('datatable.sort', function() {
         //setAddUserCompareHandler();
     });
@@ -152,11 +193,42 @@ class ImlsTable extends PolymerElement {
 
   }
 
-  bindRemoveButton(event) {
-    // @TODO
-    // this.dispatch(new CustomEvent('REMOVE_ITEM', {detail: { id: event.target.id }}))
+  gridHasRendered() {
+    this.querySelectorAll('.user-compare-btn').forEach(el => {
+      if (this.userCompareList.indexOf(el.getAttribute('data-fscs')) !== -1) {
+        el.classList.add('user-compare-remove')
+      } else {
+        el.classList.add('user-compare-add')
+      }
+    })
+    this.dispatchEvent(new CustomEvent('imls-table-grid-render'))
   }
- 
+
+  showShareUrl() {
+    this.querySelector('#shareDiv').setAttribute('class', 'here')
+  }
+
+  userCompareListChange() {
+    this.dispatchEvent(new CustomEvent('imls-table-user-compare-list-change'))
+    this.render()
+  }
+
+  downloadCsv() {
+    prepareCsvData(this.rowData)
+    var filename = "imls_data"; 
+    var csvData = new Blob([csvContent], {type: 'text/csv;charset=utf-8;'});
+    if( msieversion()) {
+      navigator.msSaveBlob(csvData, 'pls_export.csv');
+    } else {
+      // window.open(encodedUri);
+      var link = document.createElement('a');
+      link.href = window.URL.createObjectURL(csvData);
+      link.setAttribute('download', 'pls_export.csv');
+      document.body.appendChild(link);    
+      link.click();
+      document.body.removeChild(link);
+    }
+  }
 
   get _comparisonTableConfig() {
     return [

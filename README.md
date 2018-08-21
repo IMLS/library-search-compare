@@ -25,7 +25,7 @@ cd search-compare
 npm install
 npm run build 
 cd ..
-cp -r search-compare/build/default apps/$NEW_VERSION/search-compare 
+cp -r search-compare/build/es5-unbundled apps/$NEW_VERSION/search-compare 
 git add apps/$NEW_VERSION
 git commit -m "build $NEW_VERSION"
 git tag $NEW_VERSION
@@ -163,3 +163,9 @@ search-compare directory:
 ### Canton-Dev branch 
 
 Place where Canton can push deployment issues
+
+## Helpful Docs
+- [Javascript Template Literals](https://gist.github.com/rjsteinert/795fcc4f6899a337bcc5a9967557dcf2)
+- [Working with Polymer Properties](https://www.polymer-project.org/3.0/docs/devguide/properties)
+- [Using ES6 Modules with Web Components](https://www.polymer-project.org/3.0/docs/es6)
+- [Test your Web Components](https://www.polymer-project.org/3.0/docs/tools/tests)
