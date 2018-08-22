@@ -184,6 +184,30 @@
         }, {once: true})
       })
 
+      test('imls-table share url should be in share div when share button is clicked', function(done) {
+        var container = fixture('BasicContainerFixture');
+        var imlsTableEl = document.createElement('imls-table');
+        imlsTableEl.rowData = window.stubSearchResult.hits;
+        container.appendChild(imlsTableEl)
+        imlsTableEl.addEventListener('imls-table-grid-render', _ => {
+          // And check again for good measure because we just rendered again.
+          let csvContent = imlsTableEl.renderCsv()
+          assert.equal(csvContent, `service_area_population,unduplicated_population,central_libraries,branch_libraries,bookmobiles,interlibrary_relationship,legal_basis,administrative_structure,fscs_definition,geographic_code
+5821,5821,1,0,0,ME,NP,SO,Y,OTH
+3466,2127,1,0,0,NO,CI,SO,Y,CI1
+1461,1469,1,0,0,ME,CI,SO,Y,CI1
+68368,68368,1,0,0,NO,CI,SO,Y,CI1
+8395,7698,1,0,0,NO,CI,SO,Y,CI1
+225692,225692,0,14,1,HQ,MJ,MO,Y,MC1
+25417,25417,1,2,0,NO,CO,MO,Y,CO1
+7557,7557,1,0,0,NO,CI,SO,Y,CI1
+1118,1025,1,0,0,NO,CI,SO,Y,CI1
+20187,20042,1,0,0,ME,CI,SO,Y,OTH
+`)
+          done()
+        }, {once: true})
+      })
+
       window.stubSearchResult = {
         "hits": [
           {
