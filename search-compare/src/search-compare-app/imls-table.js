@@ -217,9 +217,9 @@ class ImlsTable extends PolymerElement {
 
   renderCsv() {
     return CSV.serialize({
-      fields: this._comparisonTableConfig
-        .find(config => config.name === this.compareOn).field_names
-        .map(field_name => {return {id: field_name}}),
+      fields: this.rowData
+        .reduce((acc, row) => [ ...new Set([...acc, ...Object.keys(row)]) ], [])
+        .map(key => { return {id: key} }),
       records: this.rowData
     })
   }
