@@ -35,35 +35,37 @@
       </div>
     </section><!--end #top-banner--><!--extra comment-->
     <section id="filters" class="container-fluid">
-		<div class="row filter-row">
+		<div class="row filter-row" id="min-max-wrapper">
 			<div class="col-sm-4">
 				<input id="search-input" placeholder="Search for library data">
+        <div class="row">
+          <div class="col-sm-6">
+                <div id="state-refinement" class="facet"></div>
+          </div>
+          <div class="col-sm-6">
+            <div id="locale-refinement" class="facet"></div>
+          </div>
+        </div>
 			</div>
-			<div class="col-sm-2">
-        		<div id="locale-refinement" class="facet"></div>
-			</div>
-			<div class="col-sm-2">
-        		<div id="state-refinement" class="facet"></div>
-			</div>
-		</div>
-		<div class="row filter-row" id="min-max-wrapper">
-			<div class="col-sm-3">
-    		<div id="circulation-input"></div>
-    		<div id="total-circulation-refinement" class="facet"></div>
-    	</div> 
-      <div class="col-sm-3">
-    		<div id="revenue-input"></div>
-    		<div id="total-revenue-refinement" class="facet"></div>
-    	</div>
-    	<div class="col-sm-3">
+      <div class="col-sm-2">
+            <div id="circulation-input"></div>
+            <div id="total-circulation-refinement" class="facet"></div>
+          </div>
+      <div class="col-sm-2">
+        <div id="revenue-input"></div>
+        <div id="total-revenue-refinement" class="facet"></div>
+      </div>
+      <div class="col-sm-2">
         <div id="staff-input"></div>
         <div id="total-staff-refinement" class="facet"></div>
-    	</div>
-    	<div class="col-sm-3">
+      </div>
+      <div class="col-sm-2">
         <div id="population-input"></div>
         <div id="service-area-population-refinement" class="facet"></div>
-    	</div>
-  	</div><!--end #min-max-wrapper-->
+      </div>
+		</div><!--end #min-max-wrapper-->
+		<div class="row filter-row">
+  	</div>
 		<div class="row filter-recap">
 			<div class="col-sm-9">
         <div class="row">
