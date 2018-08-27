@@ -495,6 +495,7 @@ search.once('render', function(){
 
   /* Make the checkbox lists into dropdowns */
   $('.ais-refinement-list--header').click(function(){
+    $('.ais-refinement-list--header').not(this).next('.ais-refinement-list--body').removeClass('show');
     $(this).next('.ais-refinement-list--body').toggleClass('show');
   });//end on dropdown click
   $(document).click(function(e){

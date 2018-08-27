@@ -160,6 +160,7 @@ header {
 .ais-root.ais-refinement-list {
 	position: relative;
 	cursor: pointer;
+	margin-top: 16px;
 }
 .ais-refinement-list--header.ais-header {
 	font-weight: normal;
@@ -253,8 +254,8 @@ input[type=number]::-webkit-outer-spin-button {
   display: none;
 }
 .ais-range-input--inputMin, .ais-range-input--inputMax {
-	width: 8em;
-	min-width: 8em;
+	width: 6em;
+	min-width: 6em;
 }
 .ais-range-input--submit {
 	color: #fff;
