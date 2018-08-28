@@ -35,6 +35,8 @@ main {
 
 button i {
 	vertical-align: middle;
+	font-size: 11px;
+	padding-right: 3px;
 }
 
 /* Header Things
@@ -138,6 +140,11 @@ header {
 	background-color: #003a63;
 	border-color: #9cc5ca;
 	text-decoration: none;
+}
+.ais-clear-all--link i {
+	vertical-align: middle;
+	padding-right: 3px;
+	font-size: 11px;
 }
 
 /* Algolia Things
@@ -287,6 +294,18 @@ input[type=number]::-webkit-outer-spin-button {
 	padding: 20px;
 	width: 95%;
 	margin: 0 auto;
+}
+
+.big-btn {
+	border: 0;
+	color: #fff;
+	background-color: #34715b;
+	border-radius: 0;
+	padding: 26px 12px;
+}
+.big-btn:hover, .big-btn:active, .big-btn:focus {
+	background-color: #003a63;
+	color: #fff;
 }
 
 #grid-results-wrapper, #comparison-select-wrapper {
@@ -683,6 +702,69 @@ footer .block.footer-links {
 	
 }/*end min-width: 1200px*/
 
+/* Tooltip Things
+   =========================*/
+i[rel="tooltip"] {
+	padding-left: 3px;
+	color: #333;
+	font-size: 14px;
+	text-decoration: none;
+	cursor: help;
+}
+i[rel="tooltip"] span {
+	position: absolute;
+	left: -10000px;
+	top: auto;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+}
+#tooltip {
+    text-align: left;
+    color: #fff;
+    background: #003a63;
+    position: absolute;
+    z-index: 105;
+    padding: 5px;
+    line-height: 1.3em;
+    /*border-radius: 2px;
+    -webkit-box-shadow: 0px 0px 7px 0px rgba(153,153,153,1);
+	-moz-box-shadow: 0px 0px 7px 0px rgba(153,153,153,1);
+	box-shadow: 0px 0px 7px 0px rgba(153,153,153,1);
+	border: 4px solid #fff;*/
+	max-width: 522px;
+}
+#tooltip:after {
+	/* triangle decoration */
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid #003a63;
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: -5px;
+    margin-left: -5px;
+}
+
+#tooltip.top:after {
+    border-top-color: transparent;
+    border-bottom: 10px solid #003a63;
+    top: -20px;
+    bottom: auto;
+}
+
+#tooltip.left:after {
+    left: 10px;
+    margin: 0;
+}
+
+#tooltip.right:after {
+    right: 10px;
+    left: auto;
+    margin: 0;
+}
 
 /* Helper Things
    =========================*/
@@ -711,4 +793,15 @@ footer .block.footer-links {
 
 .dataTable-pagination li.pager {
 	margin: 0;
+}
+
+.pad-0 {
+	padding: 0;
+}
+.pad-20 {
+	padding: 20px;
+}
+
+p.more {
+	display: none;
 }

@@ -79,3 +79,24 @@
 .icon-list-view:before {
   content: "\6b";
 }
+.icon-info-circle:before {
+  content: "\6c";
+}
+.icon-question-circle:before {
+  content: "\6e";
+}
+.icon-filter:before {
+  content: "\6f";
+}
+.icon-return:before {
+  content: "\71";
+}
+.icon-x:before {
+  content: "\74";
+}
+.icon-target:before {
+  content: "\76";
+}
+.icon-clear-all:before {
+  content: "\78";
+}
