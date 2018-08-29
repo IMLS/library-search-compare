@@ -552,10 +552,5 @@ function displaySimilarLibraries( baseLibrary, content, cluster_type, field_name
 
         });//end on similar-link click
 
-        /* Handle More... links */
-        $('.see-more').click(function(){
-          $(this).next('p.more').slideToggle('fast');
-        });//end click see-more
-
       });//end document ready
     });//dollar sign
