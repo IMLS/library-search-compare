@@ -351,7 +351,7 @@ search.addWidget(
   instantsearch.widgets.clearAll({
     container: '#clear-all',
     templates: {
-      link: 'Reset Filters'
+      link: '<i class="icon-x"></i> Clear All Filters'
     }
   })
 )
@@ -499,8 +499,10 @@ search.once('render', function(){
     $(this).next('.ais-refinement-list--body').toggleClass('show');
   });//end on dropdown click
   $(document).click(function(e){
-    if(!e.target.matches('.ais-refinement-list--header, .ais-refinement-list--checkbox, .ais-refinement-list--list, .ais-refinement-list--label, .ais-refinement-list--count')){
-      //click was somewhere outside of the dropdowns
+    if(!e.target.matches('.ais-refinement-list--header')){
+      /*click was somewhere outside of the dropdowns
+        When dropdowns were sticky, the following selectors were also a part of the matches:
+        , .ais-refinement-list--checkbox, .ais-refinement-list--list, .ais-refinement-list--label, .ais-refinement-list--count */
       $('.ais-refinement-list--body').each(function(){
         if($(this).hasClass('show')){
           //the dropdown is open; close it
@@ -509,6 +511,9 @@ search.once('render', function(){
       });//end check each dropdown
     }//end if click outside dropdown
   });//end if click document
+
+  /* Put tooltips onto ais-headers */
+  $('#circulation-input .ais-header').append('<i class="icon-info-circle" tabindex="0" aria-hidden="true" rel="tooltip" title="Test"><span>Test</span></i>');
 
 });//end render once
 
