@@ -35,35 +35,35 @@
       </div>
     </section><!--end #top-banner--><!--extra comment-->
     <section id="filters" class="container-fluid">
-		<div class="row filter-row">
+		<div class="row filter-row" id="min-max-wrapper">
 			<div class="col-sm-4">
 				<input id="search-input" placeholder="Search for library data">
+        <div class="row">
+          <div class="col-sm-6">
+                <div id="state-refinement" class="facet"></div>
+          </div>
+          <div class="col-sm-6">
+            <div id="locale-refinement" class="facet"></div>
+          </div>
+        </div>
 			</div>
-			<div class="col-sm-2">
-        		<div id="locale-refinement" class="facet"></div>
-			</div>
-			<div class="col-sm-2">
-        		<div id="state-refinement" class="facet"></div>
-			</div>
-		</div>
-		<div class="row filter-row" id="min-max-wrapper">
-			<div class="col-sm-3">
-    		<div id="circulation-input"></div>
-    		<div id="total-circulation-refinement" class="facet"></div>
-    	</div> 
-      <div class="col-sm-3">
-    		<div id="revenue-input"></div>
-    		<div id="total-revenue-refinement" class="facet"></div>
-    	</div>
-    	<div class="col-sm-3">
+      <div class="col-sm-2">
+            <div id="circulation-input"></div>
+            <div id="total-circulation-refinement" class="facet"></div>
+          </div>
+      <div class="col-sm-2">
+        <div id="revenue-input"></div>
+        <div id="total-revenue-refinement" class="facet"></div>
+      </div>
+      <div class="col-sm-2">
         <div id="staff-input"></div>
         <div id="total-staff-refinement" class="facet"></div>
-    	</div>
-    	<div class="col-sm-3">
+      </div>
+      <div class="col-sm-2">
         <div id="population-input"></div>
         <div id="service-area-population-refinement" class="facet"></div>
-    	</div>
-  	</div><!--end #min-max-wrapper-->
+      </div>
+		</div><!--end #min-max-wrapper-->
 		<div class="row filter-recap">
 			<div class="col-sm-9">
         <div class="row">
@@ -95,7 +95,7 @@
       </div><!--end col-sm-9 for current filters-->
 			<div class="col-sm-3 text-right">
 				<div id="clear-all"></div>
-				<button id="hide-filters" class="btn btn-primary btn-sm">Hide Filters</button>
+				<button id="hide-filters" class="btn btn-default btn-sm">Hide Filters</button>
 			</div>
 		</div>
   	</section><!--end #filters-->
@@ -106,27 +106,29 @@
   		<div class="row">
   			<div class="col-xs-12">
   				<div class="page-shadow" id="search-results-wrapper">
-  					<p>Enter a keyword in the search box above to search for libraries. From there, you can refine your search based on the other filters above. By clicking on a library name, you can view similar libraries based on Service, Staff, Finance and Collection data.</p>
-  					<div class="actions-box">
+  					<p>Enter a keyword in the search box above to search for libraries. From there, you can refine your search based on the other filters above. By clicking on a library name, you can view similar libraries based on Service, Staff, Finance and Collection data. <i class="icon-info-circle" tabindex="0" aria-hidden="true" rel="tooltip" title="Test"><span>Test</span></i></p>
+  					<div class="actions-box pad-0">
   						<div class="row">  						
-							<div class="col-sm-2">
-	  							<button type="button" class="btn btn-default btn-sm" id="viewToggle"><!--<img src="img/grid.png">--><i class="icon-grid-view"></i> <span>Compare Libraries</span></button>
+							  <div class="col-sm-2">
+	  							<button type="button" class="btn big-btn" id="viewToggle"><i class="icon-grid-view"></i> <span>Compare Libraries</span></button>
 	  						</div>
-	  						<div class="col-sm-6">
-	  							<div id="comparison-select-wrapper">
-									<span id="comparison-select-text">See variables related to: </span>
-									<select id="comparison-select"></select>
-								</div>
-	  						</div>
-	  						<div class="col-sm-4 text-right">
-	  							<span id="count"></span>
-	  							<button id="share-btn" class="btn btn-default btn-sm" type="button">Share These Results</button>
-	  							<div id="shareDiv" class="away">
-							        <p>This page has been copied to your clipboard. Paste somewhere to share!</p>
-							        <input type="text" id="shareMe">
-						        </div><!--end #shareDiv-->
-						        <button id="download-csv" onclick="downloadCsv();" class="btn btn-default btn-sm"><i class="icon-file-excel"></i> Download</button>
-	  						</div>
+                <div class="col-sm-10 pad-20">
+  	  						<div class="col-sm-7">
+  	  							<div id="comparison-select-wrapper">
+    									<span id="comparison-select-text">See variables related to: </span>
+    									<select id="comparison-select"></select>
+    								</div>
+  	  					  </div>
+  	  						<div class="col-sm-5 text-right">
+  	  							<span id="count"></span>
+  	  							<button id="share-btn" class="btn btn-default btn-sm" type="button">Share These Results</button>
+  	  							<div id="shareDiv" class="away">
+  							        <p>This page has been copied to your clipboard. Paste somewhere to share!</p>
+  							        <input type="text" id="shareMe">
+  						        </div><!--end #shareDiv-->
+  						        <button id="download-csv" onclick="downloadCsv();" class="btn btn-default btn-sm"><i class="icon-file-excel"></i> Download</button>
+  	  						</div>
+                </div><!--end col-sm-10-->
   						</div>  						
   					</div><!--end .actions-box-->
   					<div id="list-results">
@@ -231,6 +233,7 @@
     </div>
   </script>
   <script src="js/app.js"></script>
+  <script src="js/tooltips.min.js"></script>
   <script src="js/common.js"></script>
 	<!-- WEB COMPONENTS -->
   <script src="node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>

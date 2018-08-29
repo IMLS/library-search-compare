@@ -25,7 +25,7 @@
               <h1 class="header-text">Library Search &amp; Compare</h1>
         </div>
         <div class="col-sm-12 col-sm-6 text-right">
-          <small>Help IMLS improve this beta website by <a href="https://docs.google.com/forms/d/1UKswUEN0XAmZMwtPNyWBKLLcB_AaJb8GWvgUZpD_aBk/viewform" target="_blank">sending feedback here</a>. All data from IMLS FY2016 Public Libraries Survey (<a href="https://www.imls.gov/research-evaluation/data-collection/public-libraries-survey/explore-pls-data/pls-data" target="_blank">details</a>).</small>
+          <small>Help IMLS improve this beta website by <a href="https://docs.google.com/forms/d/e/1FAIpQLSfDZA97B2HTpspn50N1ptUx7fB0kobU5cdtHHxEU7rqeNblWQ/viewform" target="_blank">sending feedback here</a>. All data from IMLS FY2016 Public Libraries Survey (<a href="https://www.imls.gov/research-evaluation/data-collection/public-libraries-survey/explore-pls-data/pls-data" target="_blank">details</a>).</small>
         </div>
       </div>
     </section><!--end #top-banner-->
@@ -51,6 +51,7 @@
       </div>
       <div class="row">
         <div class="col-md-12 text-right">
+          <a onclick="window.history.back()" class="btn btn-primary btn-sm">Return to Search Results</a>
           <a href="index.html" class="btn btn-primary btn-sm">Go to Search Page</a>
           <button id="share-btn" class="btn btn-primary btn-sm" type="button">Share This Page</button>
           <div id="shareDiv" class="away">
@@ -65,7 +66,7 @@
         <div class="col-md-10 col-md-offset-1" id="outlets-table-wrapper">
           <div class="box">
             <h3>Outlets:</h3>
-            <div class="table-responsive" id="outlets-table-wrapper">
+            <div class="table-responsive">
               <table class="table table-striped" id="outlets-table"></table>
             </div>
           </div>          
@@ -127,7 +128,7 @@
             <div class="row" id="similar-links">
               <div class="col-md-3" id="compared-to">
                 <button class="similar-link" id="service-link" data-type="cluster_service">See Service</button>
-                <div><p>Similarities are based on users, circulation, references and hours data.</p></div>
+                <div><p>Similarities are based on users, circulation, references and hours data. <!--<span class="see-more">More....</span></p><p class="more">Here is more information about the service cluster.--></p></div>
               </div><!--end service column-->
               <div class="col-md-3">
                 <button class="similar-link" id="staff-link" data-type="cluster_staff">See Staff</button>
