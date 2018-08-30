@@ -402,7 +402,7 @@ input[type=number]::-webkit-outer-spin-button {
 	opacity: .9;
 }
 
-.dataTable-table tbody tr td:first-child, table#grid-results tbody tr td, div#user-comparison-results-wrapper td, .table-striped tbody tr th {
+.dataTable-table tbody tr td:first-child, table#grid-results tbody tr td, table#similar-table tbody tr td, div#user-comparison-results-wrapper td, .table-striped tbody tr th {
   text-align: left;
 }
 

@@ -507,6 +507,21 @@ search.addWidget(
   })
 );
 
+// branch libraries input  
+search.addWidget(
+  instantsearch.widgets.rangeInput({
+    container: '#branch-libraries-input',
+    attributeName: 'branch_libraries',
+    labels: {
+      separator: 'to',
+      submit: 'Go'
+    },
+    templates: {
+      header: 'Branch Libraries'
+    }
+  })
+);
+
 // visits slider  
 search.addWidget(
   instantsearch.widgets.rangeSlider({
@@ -517,6 +532,21 @@ search.addWidget(
   })
 );
 
+// visits input  
+search.addWidget(
+  instantsearch.widgets.rangeInput({
+    container: '#visits-input',
+    attributeName: 'visits',
+    labels: {
+      separator: 'to',
+      submit: 'Go'
+    },
+    templates: {
+      header: 'Visits'
+    }
+  })
+);
+
 // total programs slider  
 search.addWidget(
   instantsearch.widgets.rangeSlider({
@@ -524,6 +554,21 @@ search.addWidget(
     attributeName: 'total_programs',
     pips: false,
     tooltips: false,
+  })
+);
+
+// total programs input  
+search.addWidget(
+  instantsearch.widgets.rangeInput({
+    container: '#total-programs-input',
+    attributeName: 'total_programs',
+    labels: {
+      separator: 'to',
+      submit: 'Go'
+    },
+    templates: {
+      header: 'Total Programs'
+    }
   })
 );
 
