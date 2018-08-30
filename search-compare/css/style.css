@@ -291,7 +291,7 @@ input[type=number]::-webkit-outer-spin-button {
 .actions-box {
 	background-color: #ededed;
 	border: 1px solid #bababa;
-	padding: 20px;
+	padding: 10px;
 	width: 95%;
 	margin: 0 auto;
 }
@@ -301,7 +301,7 @@ input[type=number]::-webkit-outer-spin-button {
 	color: #fff;
 	background-color: #34715b;
 	border-radius: 0;
-	padding: 26px 12px;
+	padding: 16px 12px;
 }
 .big-btn:hover, .big-btn:active, .big-btn:focus {
 	background-color: #003a63;
@@ -710,6 +710,7 @@ i[rel="tooltip"] {
 	font-size: 14px;
 	text-decoration: none;
 	cursor: help;
+	vertical-align: middle;
 }
 i[rel="tooltip"] span {
 	position: absolute;
@@ -750,8 +751,8 @@ i[rel="tooltip"] span {
 
 #tooltip.top:after {
     border-top-color: transparent;
-    border-bottom: 10px solid #003a63;
-    top: -20px;
+    border-bottom: 5px solid #003a63;
+    top: -10px;
     bottom: auto;
 }
 
@@ -765,6 +766,80 @@ i[rel="tooltip"] span {
     left: auto;
     margin: 0;
 }
+
+/* Modal Things
+   =========================*/
+#modalOverlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height:100%;
+	overflow: auto;
+	z-index: 102;
+	background: rgba(0, 0, 0, 0.6);
+}
+
+#modal {
+	display: block;
+	width: 800px;
+	max-width: 100%;
+	height: 600px;
+	max-height: 100%;
+	position: fixed;
+	left: 50%;
+	top: 50%;
+	padding: 15px;
+	border: thin #000 solid;
+	background-color: #fff;
+	z-index: 113;
+	transform: translate(-50%, -50%);
+}
+.hidden {
+	display: none;
+}
+.modal-guts {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	overflow: auto;
+	padding: 20px;
+}
+#modalTitle {
+	font-size: 20px;
+}
+.modalCloseBtn {
+	position: absolute;
+	z-index: 1;
+	top: 10px;
+	right: 20px;
+	padding: 0 2px 0 5px;
+}
+.modalCloseBtn span {
+	position: absolute;
+	left: -9999px;
+	width: 1px;
+	height: 1px;
+	top: auto;
+}
+.def-list {
+	display: none;
+}
+#modal dd {
+	margin-bottom: 7px;
+	border-left: 3px solid #efefef;
+	padding-left: 5px;
+}
+#modal ul {
+	margin-bottom: 0;
+	padding-left: 10px;
+}
+#modal li {
+	list-style: none;
+}
+
 
 /* Helper Things
    =========================*/
@@ -798,8 +873,8 @@ i[rel="tooltip"] span {
 .pad-0 {
 	padding: 0;
 }
-.pad-20 {
-	padding: 20px;
+.pad-10 {
+	padding: 10px;
 }
 
 p.more {
