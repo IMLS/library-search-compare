@@ -1,4 +1,6 @@
 import {html, PolymerElement} from '@polymer/polymer/polymer-element.js';
+import { CSV } from './csv.js'
+
 /**
  * @customElement
  * @polymer
@@ -213,8 +215,17 @@ class ImlsTable extends PolymerElement {
     this.render()
   }
 
+  renderCsv() {
+    return CSV.serialize({
+      fields: this.rowData
+        .reduce((acc, row) => [ ...new Set([...acc, ...Object.keys(row)]) ], [])
+        .map(key => { return {id: key} }),
+      records: this.rowData
+    })
+  }
+
   downloadCsv() {
-    prepareCsvData(this.rowData)
+    const csvContent = this.renderCsv()
     var filename = "imls_data"; 
     var csvData = new Blob([csvContent], {type: 'text/csv;charset=utf-8;'});
     if( msieversion()) {

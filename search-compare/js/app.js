@@ -483,6 +483,50 @@ search.addWidget(
   })
 );
 
+// legal basis facet
+search.addWidget(
+  instantsearch.widgets.refinementList({
+    container: '#legal-basis-refinement',
+    attributeName: 'legal_basis',
+    limit: 65,
+    showMore: false,
+    sortBy: ['name:asc'],
+    templates: {
+      header: 'Legal Basis'
+    }
+  })
+);
+
+// branch libraries slider  
+search.addWidget(
+  instantsearch.widgets.rangeSlider({
+    container: '#branch-libraries-refinement',
+    attributeName: 'branch_libraries',
+    pips: false,
+    tooltips: false,
+  })
+);
+
+// visits slider  
+search.addWidget(
+  instantsearch.widgets.rangeSlider({
+    container: '#visits-refinement',
+    attributeName: 'visits',
+    pips: false,
+    tooltips: false,
+  })
+);
+
+// total programs slider  
+search.addWidget(
+  instantsearch.widgets.rangeSlider({
+    container: '#total-programs-refinement',
+    attributeName: 'total_programs',
+    pips: false,
+    tooltips: false,
+  })
+);
+
 // start the search UI
 search.start();
 
