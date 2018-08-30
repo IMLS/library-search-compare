@@ -513,7 +513,12 @@ search.once('render', function(){
   });//end if click document
 
   /* Put tooltips onto ais-headers */
-  $('#circulation-input .ais-header').append('<i class="icon-info-circle" tabindex="0" aria-hidden="true" rel="tooltip" title="Test"><span>Test</span></i>');
+  $('#circulation-input .ais-header').append('<i class="icon-info-circle" tabindex="0" aria-hidden="true" rel="tooltip" title="The total annual circulation of all library materials of all types, including renewals."><span>The total annual circulation of all library materials of all types, including renewals.</span></i>');
+  $('#revenue-input .ais-header').append('<i class="icon-info-circle" tabindex="0" aria-hidden="true" rel="tooltip" title="The sum of Local Government Revenue, State Government Revenue, Federal Government Revenue, and Other Operating Revenue."><span>The sum of Local Government Revenue, State Government Revenue, Federal Government Revenue, and Other Operating Revenue.</span></i>');
+  $('#staff-input .ais-header').append('<i class="icon-info-circle" tabindex="0" aria-hidden="true" rel="tooltip" title="Total paid employees."><span>Total paid employees.</span></i>');
+  $('#population-input .ais-header').append('<i class="icon-info-circle" tabindex="0" aria-hidden="true" rel="tooltip" title="The number of people in the geographic area for which a public library has been established to offer services and from which (or on behalf of which) the library derives revenue, plus any areas served under contract for which the library is the primary service provider."><span>The number of people in the geographic area for which a public library has been established to offer services and from which (or on behalf of which) the library derives revenue, plus any areas served under contract for which the library is the primary service provider.</span></i>');
+  //now...call it (from common.js)
+  doTooltips();
 
 });//end render once
 
@@ -579,4 +584,22 @@ $(document).ready(function() {
     }
   });//end on show-user-table click
 
+  /*returnButton();
+
+  $('#filters').click(function(){
+    returnButton();
+  });*/
+
+  window.addEventListener("beforeunload", function (e) {
+    var returnURL = window.location.href;
+    console.log('now returnURL = '+returnURL);
+    localStorage.setItem('returnURL', returnURL);
+  });
+
 });//end document ready
+
+function returnButton(){
+  var returnURL = window.location.href;
+  console.log('now returnURL = '+returnURL);
+  localStorage.setItem('returnURL', returnURL);
+}

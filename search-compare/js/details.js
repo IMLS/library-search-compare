@@ -480,6 +480,7 @@ function displaySimilarLibraries( baseLibrary, content, cluster_type, field_name
 
   document.getElementById( "similar-name" ).innerHTML = similarName;
   document.getElementById( "similar-number" ).innerHTML = similarNumber;
+  $('#expBtn').attr('data-cluster', similarName);
 
   for (var h in content.hits) {
     res = content.hits[h];
@@ -551,6 +552,19 @@ function displaySimilarLibraries( baseLibrary, content, cluster_type, field_name
           location.hash = 'compared-to';
 
         });//end on similar-link click
+
+        //tooltips
+        doTooltips();
+
+        /* Handle Return to Search Results button */
+        var myReturnURL = localStorage.getItem('returnURL');
+        $('#returnTo').attr("href", myReturnURL);
+        if(!myReturnURL){
+          $('#returnTo').hide();
+        }//if URL is null
+
+        /* Help Dialog stuff */
+        
 
       });//end document ready
     });//dollar sign
