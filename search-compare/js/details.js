@@ -274,7 +274,7 @@ function displayOutlets( content ) {
       outletRows.push( outletRow );
     }
 
-    outletData["headings"] = ["Name","fscs_id_seq","Locale Code","Outlet Type","Square Feet","Hours","Weeks Open"];
+    outletData["headings"] = ["Name","FSCS ID Seq","Locale Code","Outlet Type","Square Feet","Hours","Weeks Open"];
     outletData["data"] = outletRows;
 
     outletTable = new DataTable("#outlets-table", {
