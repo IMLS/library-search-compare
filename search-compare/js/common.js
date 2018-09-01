@@ -126,10 +126,15 @@ function currentFilters(){
 		return this.value;
 	}).get();//end map checked state checkboxes
 
+  //assemble checked legal
+  var selectedLegals = $('#legal-basis-refinement input:checked').map(function(){
+    return this.value;
+  }).get();//end map checked legal basis checkboxes
 
-	$('#min-max-wrapper .facet').each(function(){
+
+	$('.min-max').each(function(){
 		var currentSlider = $(this).attr('id').replace('-refinement','').replace('total-','');
-
+    
 		//get current lower position
 		var lowerPos = $(this).find('.ais-range-slider--handle-lower').attr('aria-valuenow');
 		var lowerPos = shortenLargeNumber(lowerPos,2);
@@ -144,7 +149,7 @@ function currentFilters(){
 	});//end each slider container
 
 
-	/* Fill in "current filters" for locale and state */
+	/* Fill in "current filters" for locale, state, and legal basis */
 	if(jQuery.isEmptyObject(selectedLocales)){
 		$('#current-locales').text('All');
 	}else{
@@ -156,6 +161,12 @@ function currentFilters(){
 	}else{
 		$('#current-states').text(selectedStates.join(', '));
 	}//end check if any states are selected
+
+  if(jQuery.isEmptyObject(selectedLegals)){
+    $('#current-legals').text('All');
+  }else{
+    $('#current-legals').text(selectedLegals.join(', '));
+  }//end check if any legals are selected
 
 	headRoom();
 

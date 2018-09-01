@@ -76,9 +76,9 @@ var clusters = [
     {field: "fscs_id", name: "FSCS_ID"},
     {field: "print_materials", name: "Printed Materials"},
     {field: "ebooks", name: "eBooks"},
-    {field: "audio_materials", name: "Audio Materials"},
-    {field: "video_materials", name: "Video Materials"},
-    {field: "total_databases", name: "Databases"},
+    {field: "audio_materials", name: "Audio Materials (Physical)"},
+    {field: "video_materials", name: "Video Materials (Physical)"},
+    {field: "total_databases", name: "Electronic Collections"},
     {field: "print_serials", name: "Print Serials"}
   ]}
 ]

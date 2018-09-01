@@ -95,14 +95,21 @@ header {
 #filters > .row {
 	margin-bottom: 20px;
 }
-#min-max-wrapper {
+#filters .row.filter-row + .row.filter-row {
 	border-bottom: 1px solid #5f6062;
 	margin-bottom: 10px;
 }
 #filters .filter-recap {
 	margin-bottom: 0;
 }
+.filter-recap .col-sm-10 .row:last-child {
+	margin-top: 10px;
+}
 .filter-recap h2 {
+	font-weight: bold;
+	font-size: 16px;
+}
+.filter-recap h3 {
 	font-weight: bold;
 	font-size: 14px;
 	border-bottom: 1px solid #5f6062;
@@ -308,7 +315,7 @@ input[type=number]::-webkit-outer-spin-button {
 	color: #fff;
 }
 
-#grid-results-wrapper, #comparison-select-wrapper {
+#grid-results-wrapper, #comparison-select-wrapper, #search-results-wrapper #expBtn {
 	display: none;
 }
 
@@ -402,12 +409,25 @@ input[type=number]::-webkit-outer-spin-button {
 	opacity: .9;
 }
 
-.dataTable-table tbody tr td:first-child, table#grid-results tbody tr td, table#similar-table tbody tr td, div#user-comparison-results-wrapper td, .table-striped tbody tr th {
-  text-align: left;
+#grid-results th:first-child a:before, #grid-results th:first-child a:after,
+#data_table th:first-child a:before, #data_table th:first-child a:after {
+	display: none;
 }
 
-.dataTable-table tbody tr td, .table-striped tbody tr td, .table-striped  th  {
-  text-align: right;
+.dataTable-container .table>tbody>tr>td {
+	padding-right: 22px;
+	text-align: right;
+}
+#comparison-data td,
+#comparison-mean td,
+#comparison-percentile td {
+	text-align: right;
+}
+.dataTable-container .table>tbody>tr>td:first-child,
+.dataTable-container #grid-results.table>tbody>tr>td:nth-child(2),
+.dataTable-container #data_table.table>tbody>tr>td:nth-child(2) {
+	padding-right: 8px;
+	text-align: left;
 }
 
 #outlets-table-wrapper .dataTable-top {
