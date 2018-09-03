@@ -128,19 +128,19 @@
             <div class="row" id="similar-links">
               <div class="col-md-3" id="compared-to">
                 <button class="similar-link" id="service-link" data-type="cluster_service">See Service</button>
-                <div><p>Similarities are based on users, circulation, references and hours data. <i class="icon-info-circle" tabindex="0" aria-hidden="true" rel="tooltip" title="Some more information about the service cluster here."><span>Some more information about the service cluster here.</span></i></p></div>
+                <div><p>Similarities are based on users, circulation, references and hours data. <i class="icon-info-circle" tabindex="0" aria-hidden="true" rel="tooltip" title="Four sets of groups of similar libraries were constructed based on different sets of variables and using a statistical method that minimizes variation within groups and maximizes variation between groups. The variables used for the Service Cluster are: population served, hours open, annual visits, reference transactions, registered borrowers, circulation, interlibrary loans, and programs and computers."><span>Four sets of groups of similar libraries were constructed based on different sets of variables and using a statistical method that minimizes variation within groups and maximizes variation between groups. The variables used for the Service Cluster are: population served, hours open, annual visits, reference transactions, registered borrowers, circulation, interlibrary loans, and programs and computers.</span></i></p></div>
               </div><!--end service column-->
               <div class="col-md-3">
                 <button class="similar-link" id="staff-link" data-type="cluster_staff">See Staff</button>
-                <div><p>Similarities are based on staffing data.  <i class="icon-info-circle" tabindex="0" aria-hidden="true" rel="tooltip" title="Some more information about the staff cluster here."><span>Some more information about the staff cluster here.</span></i></p></div>
+                <div><p>Similarities are based on staffing data.  <i class="icon-info-circle" tabindex="0" aria-hidden="true" rel="tooltip" title="Four sets of groups of similar libraries were constructed based on different sets of variables and using a statistical method that minimizes variation within groups and maximizes variation between groups. The variables used for the Staff Cluster are: MLS librarians, other librarians, and other staff."><span>Four sets of groups of similar libraries were constructed based on different sets of variables and using a statistical method that minimizes variation within groups and maximizes variation between groups. The variables used for the Staff Cluster are: MLS librarians, other librarians, and other staff.</span></i></p></div>
               </div>
               <div class="col-md-3">
                 <button class="similar-link" id="finance-link" data-type="cluster_finance">See Finance</button>
-                <div><p>Similarities are based on revenue and expenditures data.  <i class="icon-info-circle" tabindex="0" aria-hidden="true" rel="tooltip" title="Some more information about the finance cluster here."><span>Some more information about the finance cluster here.</span></i></p></div>
+                <div><p>Similarities are based on revenue and expenditures data.  <i class="icon-info-circle" tabindex="0" aria-hidden="true" rel="tooltip" title="Four sets of groups of similar libraries were constructed based on different sets of variables and using a statistical method that minimizes variation within groups and maximizes variation between groups. The variables used for the Finance Cluster are: revenue, staff expenditures, expenditure, capital revenue, and capital expenditure."><span>Four sets of groups of similar libraries were constructed based on different sets of variables and using a statistical method that minimizes variation within groups and maximizes variation between groups. The variables used for the Finance Cluster are: revenue, staff expenditures, expenditure, capital revenue, and capital expenditure.</span></i></p></div>
               </div>
               <div class="col-md-3">
                 <button class="similar-link" id="collection-link" data-type="cluster_collection">See Collection</button>
-                <div><p>Similarities are based on printed, audio, video and electronic materials data. <i class="icon-info-circle" tabindex="0" aria-hidden="true" rel="tooltip" title="Some more information about the collection cluster here."><span>Some more information about the collection cluster here.</span></i></p></div>
+                <div><p>Similarities are based on printed, audio, video and electronic materials data. <i class="icon-info-circle" tabindex="0" aria-hidden="true" rel="tooltip" title="Four sets of groups of similar libraries were constructed based on different sets of variables and using a statistical method that minimizes variation within groups and maximizes variation between groups. The variables used for the Collection Cluster are: books, e-books, audio materials, video materials, and electronic collections and subscriptions."><span>Four sets of groups of similar libraries were constructed based on different sets of variables and using a statistical method that minimizes variation within groups and maximizes variation between groups. The variables used for the Collection Cluster are: books, e-books, audio materials, video materials, and electronic collections and subscriptions.</span></i></p></div>
               </div>
             </div>
           </div>
@@ -176,8 +176,8 @@
             <div class="page-shadow">
               <h2><span class="library-name"></span> is similar to <span id="similar-number"></span> libraries for <span id="similar-name"></span> data</h2>
               <div class="actions-box text-right">
-                <button class="btn btn-default btn-small" id="expBtn" data-cluster="">Table Explanation</button>
-                <button onclick="downloadCsv();" class="btn btn-default btn-small"><i class="icon-file-excel"></i> Download</button>
+                <button class="btn btn-default btn-sm" id="expBtn" data-cluster="">Definitions</button>
+                <button onclick="downloadCsv();" class="btn btn-default btn-sm"><i class="icon-file-excel"></i> Download</button>
               </div>
               <div class="table-responsive">
                 <table class="table table-striped" id="similar-table"></table>
@@ -251,63 +251,59 @@
   <div id="modal" aria-hidden="true" aria-labelledby="modalTitle" aria-describedby="modalDescription" role="dialog" class="hidden">
     <button id="modalCloseBtn" class="btn btn-sm btn-primary modalCloseBtn" title="Close"><i class="icon-x"></i><span>Close</span></button>
     <div role="document" class="modal-guts">
-      <h1 id="modalTitle">Table Definitions</h1>
-      <p>For further description, please refer to the <a href="https://www.imls.gov/sites/default/files/pls_defs_fy2016.pdf" target="_blank">State Characteristics Data Element Definitions</a> or <a href="https://www.imls.gov/sites/default/files/fy2016_pls_data_file_documentation.pdf#%5B%7B%22num%22%3A27%2C%22gen%22%3A0%7D%2C%7B%22name%22%3A%22Fit%22%7D%5D" target="_blank">Appendix A of the Public Libraries Survey Data File Documentation and User's Guide</a>.</p>
+      <h1 id="modalTitle">Definitions</h1>
+      <p>For further description, please refer to the <a href="https://www.imls.gov/sites/default/files/pls_defs_fy2016.pdf" target="_blank">State Characteristics Data Element Definitions</a>.</p>
+      <div class="actions-box"><strong>S</strong> = Suppressed. <strong>M</strong> = Missing. <strong>N</strong> = Not Applicable.</div>
       <div id="exp-Service" class="def-list">
         <dl>
           <dt>Name</dt>
-          <dd>This is the legal name of the outlet.</dd>
+          <dd>Legal name of the library system.</dd>
           <dt>FSCS_ID</dt>
-          <dd>This is the identification code assigned by PLS Web Portal. Outlets are assigned the same FSCS ID as the administrative entity to which they belong, with a unique three-digit suffix added to distinguish each outlet.</dd>
+          <dd>Federal-State Cooperative System (FSCS) Identification code assigned by IMLS.</dd>
           <dt>Hours</dt>
-          <dd>This is the number of annual public service hours for outlets (reported individually by central, branch, bookmobile and Books-by-Mail Only).</dd>
+          <dd>Number of annual public service hours per year for outlets (reported individually by central, branch, bookmobile and Books-by-Mail Only).</dd>
           <dt>Visits</dt>
-          <dd>This is the total number of persons entering the library for whatever purpose during the year.</dd>
+          <dd>Ttal number of persons entering the library for whatever purpose during the year.</dd>
           <dt>References</dt>
-          <dd>RW: ???</dd>
+          <dd>Number of information consultations in which library staff recommend, interpret, evaluate, and/or use information resources to help others to meet particular information needs.</dd>
           <dt>Users</dt>
-          <dd>A registered user is a library user who has applied for and received an identification number or card from the public library that has established conditions under which the user may borrow library materials or gain access to other library resources.</dd>
+          <dd>Number of registered library users who have applied for and received an identification number or card from the public library.</dd>
           <dt>Circulation</dt>
-          <dd>The total annual circulation of all library materials of all types, including renewals.</dd>
+          <dd>Total annual circulation of all library materials of all types, including renewals.</dd>
           <dt>Interlibrary Loans To</dt>
-          <dd>These are library materials, or copies of materials, provided by one autonomous library to another upon request. The libraries involved in interlibrary loans are anot under the same library administration.</dd>
+          <dd>Number of library materials, or copies of materials, provided by one autonomous library to another upon request. The libraries involved in interlibrary loans are not under the same library administration.</dd>
           <dt>Programs</dt>
           <dd>Total number of library programs. A program is any planned event which introduces the group attending to any of the broad range of library services or activities or which directly provides information to participants.</dd>
           <dt>Computers</dt>
-          <dd>The number of the library's Internet computers [personal computers (PCs) and laptops], whether purchased, leased, or donated, used by the general public in the library.</dd>
+          <dd>Number of the library's Internet computers [personal computers and laptops], whether purchased, leased, or donated, used by the general public in the library.</dd>
         </dl>
       </div><!--end service-->
       <div id="exp-Staff" class="def-list">
         <dl>
           <dt>Name</dt>
-          <dd>This is the legal name of the outlet.</dd>
+          <dd>Legal name of the library system.</dd>
           <dt>FSCS_ID</dt>
-          <dd>This is the identification code assigned by PLS Web Portal. Outlets are assigned the same FSCS ID as the administrative entity to which they belong, with a unique three-digit suffix added to distinguish each outlet.</dd>
+          <dd>Federal-State Cooperative System (FSCS) Identification code assigned by IMLS.</dd>
           <dt>MLS Librarians</dt>
           <dd>Librarians with master's degrees from programs of library and information studies accredited by the American Library Association.</dd>
           <dt>Librarian Staff</dt>
-          <dd>Persons with the title of librarian who do paid work that usually requires professional training and skill in the theoretical or scientific aspects of library work, or both, as distinct from its mechanical or clerical aspect. This data element also includes MLS Librarians (above).</dd>
+          <dd>Persons with the title of librarian who do paid work that usually requires professional training and skill in the theoretical or scientific aspects of library work, or both, as distinct from its mechanical or clerical aspect. This data element also includes MLS Librarians.</dd>
           <dt>Other Staff</dt>
-          <dd>This includes all other FTE employees paid from the reporting unit budget, including plant operations, security, and maintenance staff.</dd>
+          <dd>All other FTE employees paid from the reporting unit budget, including plant operations, security, and maintenance staff.</dd>
         </dl>
       </div><!--end staff-->
       <div id="exp-Finance" class="def-list">
         <dl>
           <dt>Name</dt>
-          <dd>This is the legal name of the outlet.</dd>
+          <dd>Legal name of the library system.</dd>
           <dt>FSCS_ID</dt>
-          <dd>This is the identification code assigned by PLS Web Portal. Outlets are assigned the same FSCS ID as the administrative entity to which they belong, with a unique three-digit suffix added to distinguish each outlet.</dd>
+          <dd>Federal-State Cooperative System (FSCS) Identification code assigned by IMLS.</dd>
           <dt>Revenue</dt>
-          <dd>This is the sum of Local Government Revenue, State Government Revenue, Federal Government Revenue, and Other Operating Revenue.</dd>
+          <dd>Total Operating Revenue, including revenue from local, state, and federal government, and other operating revenue.</dd>
           <dt>Staff Expenditures</dt>
-          <dd>This is the sum of Salaries &amp; Wages Expenditures and Employee Benefits Expenditures.</dd>
+          <dd>Sum of Salaries &amp; Wages Expenditures and Employee Benefits Expenditures.</dd>
           <dt>Collection Expenditures</dt>
-          <dd>
-            This is the sum of Print Materials Expenditures, Electronic Materials Expenditures, and Other Materials Expenditures.
-            <ul>
-              <li><strong>S</strong>: RW: S means suppressed or something?</li>
-            </ul>
-          </dd>
+          <dd>Sum of Expenditures on Print Materials (e.g., books, current serial subscriptions), Electronic Materials (e.g., e-books, audio and video downloadables, e-serials and databases), and Other Materials (e.g., microform, audio and video physical units, DVDs).</dd>
           <dt>Capital Expenditures</dt>
           <dd>Major capital expenditures (the acquisition of or additions to fixed assets). Includes federal, state, local, or other revenue used for major capital expenditures.</dd>
         </dl>
@@ -315,19 +311,19 @@
       <div id="exp-Collection" class="def-list">
         <dl>
           <dt>Name</dt>
-          <dd>This is the legal name of the outlet.</dd>
+          <dd>Legal name of the library system.</dd>
           <dt>FSCS_ID</dt>
-          <dd>This is the identification code assigned by PLS Web Portal. Outlets are assigned the same FSCS ID as the administrative entity to which they belong, with a unique three-digit suffix added to distinguish each outlet.</dd>
+          <dd>Federal-State Cooperative System (FSCS) Identification code assigned by IMLS.</dd>
           <dt>Printed Materials</dt>
-          <dd>This is the number of physical units, including duplicates, of books in print and non-serial government documents.</dd>
+          <dd>Physical units, including duplicates, of books in print and non-serial government documents.</dd>
           <dt>eBooks</dt>
           <dd>E-books that have been purchased, leased or licensed by the library, a consortium, the state library, a donor or other person or entity. Does not include items that are freely available or permanently retained by the patron.</dd>
           <dt>Audio Materials</dt>
-          <dd>RW: Is this physical, downloadable, or both?</dd>
+          <dd>Materials circulated in a fixed, physical format on which sounds (only) are stored (recorded) and that can be reproduced (played back) mechanically, electronically, or both.</dd>
           <dt>Video Materials</dt>
-          <dd>RW: Is this physical, downloadable, or both?</dd>
-          <dt>Databases</dt>
-          <dd>RW: Is this total electronic collections?</dd>
+          <dd>Materials circulated in a fixed, physical format on which moving pictures are recorded, with or without sound.</dd>
+          <dt>Electronic Collections</dt>
+          <dd>Total electronic collections, such as unit records and databases. An electronic collection may be organized, curated and electronically shared by the library, or rights may be provided by a third party vendor. An electronic collection may be funded by the library, or provided through cooperative agreement with other libraries, or through the State Library.</dd>
           <dt>Print Serials</dt>
           <dd>This is the number of current print serial subscriptions, including duplicates, for all outlets.</dd>
         </dl>

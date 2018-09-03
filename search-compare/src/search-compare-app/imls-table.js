@@ -90,7 +90,7 @@ class ImlsTable extends PolymerElement {
     this.innerHTML = `
       <div class="actions-box"> 
           <div class="row"> 
-              <div class="col-sm-6 col-sm-offset-2">
+              <div class="col-sm-8">
               <div id="user-comparison-select-wrapper">
                   <span id="user-comparison-select-text">See variables related to: </span>
                   <select id="user-comparison-select">
