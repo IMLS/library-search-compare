@@ -6,7 +6,7 @@ var comparisonData = {};
 comparisonData = [{
   name: 'demographic',
   display_name: 'Demographic',
-  headings: ['Name', 'Population of Legal Service Area (LSA)', 'Total unduplicated population of LSA', 'Number of central libraries', 'Number of branch libraries', 'Number of bookmobiles', 'Interlibrary relationship code', 'Legal basis code', 'Administrative structure code', 'FSCS public library definition', 'Geographic code'],
+  headings: ['Name', 'Population of Legal Service Area (LSA)', 'Total unduplicated population of LSA', 'Central libraries', 'Branch libraries', 'Bookmobiles', 'Interlibrary relationship code', 'Legal basis code', 'Administrative structure code', 'FSCS public library definition', 'Geographic code'],
   field_names: ['service_area_population', 'unduplicated_population', 'central_libraries', 'branch_libraries', 'bookmobiles', 'interlibrary_relationship', 'legal_basis', 'administrative_structure', 'fscs_definition', 'geographic_code'],
   field_types: ['number', 'number', 'number', 'number', 'number', 'string', 'string', 'string', 'string', 'string']
 }, {
@@ -42,7 +42,7 @@ comparisonData = [{
 }, {
   name: 'services',
   display_name: 'Services',
-  headings: ['Name', 'Public service hours/year', 'Library visits', 'Reference transactions', 'Number of registered users', 'Total circulation of materials', 'Circulation of kid\'s materials', 'Use of electronic material', 'Physical item circulation', 'Electronic information retrievals', 'Electronic content use', 'Total collection use'],
+  headings: ['Name', 'Public service hours/year', 'Library visits', 'Reference transactions', 'Registered users', 'Total circulation of materials', 'Circulation of kid\'s materials', 'Use of electronic material', 'Physical item circulation', 'Electronic information retrievals', 'Electronic content use', 'Total collection use'],
   field_names: ['hours', 'visits', 'references', 'users', 'total_circulation', 'kids_circulation', 'electronic_content_uses', 'physical_item_circulation', 'electronic_info_retrievals', 'electronic_content_uses', 'total_circulation_retrievals'],
   field_types: ['number', 'number', 'number', 'number', 'number', 'number', 'number', 'number', 'number', 'number', 'number']
 }, {
@@ -75,8 +75,10 @@ function handleDataSelection(target) {
 
   if (targetID === 'comparison-select') {
     displayDataGrid(searchCompare.globalContent, comparisonSelect);
+    $('#expBtn').attr('data-cluster', $('#comparison-select').val());
   } else if (targetID === 'user-comparison-select') {
     getUserComparisonData();
+    $('#userExpBtn').attr('data-cluster', $('#user-comparison-select').val());
   }
 }
 
@@ -370,7 +372,7 @@ search.addWidget(instantsearch.widgets.refinementList({
   showMore: false,
   sortBy: ['name:asc'],
   templates: {
-    header: 'State'
+    header: 'Select state(s)...'
   }
 })); // locale facet
 
@@ -379,7 +381,7 @@ search.addWidget(instantsearch.widgets.refinementList({
   attributeName: 'locale_string',
   sortBy: ['name:asc'],
   templates: {
-    header: 'Locale'
+    header: 'Select Locale(s)...'
   }
 })); // total circulation input  
 
@@ -466,7 +468,7 @@ search.addWidget(instantsearch.widgets.refinementList({
   showMore: false,
   sortBy: ['name:asc'],
   templates: {
-    header: 'Legal Basis'
+    header: 'Select Legal Basis...'
   }
 })); // branch libraries slider  
 
@@ -475,6 +477,18 @@ search.addWidget(instantsearch.widgets.rangeSlider({
   attributeName: 'branch_libraries',
   pips: false,
   tooltips: false
+})); // branch libraries input  
+
+search.addWidget(instantsearch.widgets.rangeInput({
+  container: '#branch-libraries-input',
+  attributeName: 'branch_libraries',
+  labels: {
+    separator: 'to',
+    submit: 'Go'
+  },
+  templates: {
+    header: 'Branch Libraries'
+  }
 })); // visits slider  
 
 search.addWidget(instantsearch.widgets.rangeSlider({
@@ -482,6 +496,18 @@ search.addWidget(instantsearch.widgets.rangeSlider({
   attributeName: 'visits',
   pips: false,
   tooltips: false
+})); // visits input  
+
+search.addWidget(instantsearch.widgets.rangeInput({
+  container: '#visits-input',
+  attributeName: 'visits',
+  labels: {
+    separator: 'to',
+    submit: 'Go'
+  },
+  templates: {
+    header: 'Visits'
+  }
 })); // total programs slider  
 
 search.addWidget(instantsearch.widgets.rangeSlider({
@@ -489,6 +515,18 @@ search.addWidget(instantsearch.widgets.rangeSlider({
   attributeName: 'total_programs',
   pips: false,
   tooltips: false
+})); // total programs input  
+
+search.addWidget(instantsearch.widgets.rangeInput({
+  container: '#total-programs-input',
+  attributeName: 'total_programs',
+  labels: {
+    separator: 'to',
+    submit: 'Go'
+  },
+  templates: {
+    header: 'Total Programs'
+  }
 })); // start the search UI
 
 search.start(); //tell when the widgets are rendered the first time
@@ -522,12 +560,18 @@ search.once('render', function () {
 
   /* Put tooltips onto ais-headers */
 
-  $('#circulation-input .ais-header').append('<i class="icon-info-circle" tabindex="0" aria-hidden="true" rel="tooltip" title="The total annual circulation of all library materials of all types, including renewals."><span>The total annual circulation of all library materials of all types, including renewals.</span></i>');
-  $('#revenue-input .ais-header').append('<i class="icon-info-circle" tabindex="0" aria-hidden="true" rel="tooltip" title="The sum of Local Government Revenue, State Government Revenue, Federal Government Revenue, and Other Operating Revenue."><span>The sum of Local Government Revenue, State Government Revenue, Federal Government Revenue, and Other Operating Revenue.</span></i>');
+  $('#circulation-input .ais-header').append('<i class="icon-info-circle" tabindex="0" aria-hidden="true" rel="tooltip" title="Total annual circulation of all library materials of all types, including renewals."><span>Total annual circulation of all library materials of all types, including renewals.</span></i>');
+  $('#revenue-input .ais-header').append('<i class="icon-info-circle" tabindex="0" aria-hidden="true" rel="tooltip" title="Sum of Local Government Revenue, State Government Revenue, Federal Government Revenue, and Other Operating Revenue."><span>Sum of Local Government Revenue, State Government Revenue, Federal Government Revenue, and Other Operating Revenue.</span></i>');
   $('#staff-input .ais-header').append('<i class="icon-info-circle" tabindex="0" aria-hidden="true" rel="tooltip" title="Total paid employees."><span>Total paid employees.</span></i>');
-  $('#population-input .ais-header').append('<i class="icon-info-circle" tabindex="0" aria-hidden="true" rel="tooltip" title="The number of people in the geographic area for which a public library has been established to offer services and from which (or on behalf of which) the library derives revenue, plus any areas served under contract for which the library is the primary service provider."><span>The number of people in the geographic area for which a public library has been established to offer services and from which (or on behalf of which) the library derives revenue, plus any areas served under contract for which the library is the primary service provider.</span></i>'); //now...call it (from common.js)
+  $('#population-input .ais-header').append('<i class="icon-info-circle" tabindex="0" aria-hidden="true" rel="tooltip" title="Number of people in the geographic area for which a public library has been established to offer services and from which (or on behalf of which) the library derives revenue, plus any areas served under contract for which the library is the primary service provider."><span>Number of people in the geographic area for which a public library has been established to offer services and from which (or on behalf of which) the library derives revenue, plus any areas served under contract for which the library is the primary service provider.</span></i>');
+  $('#branch-libraries-input .ais-header').append('<i class="icon-info-circle" tabindex="0" aria-hidden="true" rel="tooltip" title="A branch library is an auxiliary unit of an administrative entity which has at least all of the following: separate quarters; an organized collection of library materials; paid staff; and regularly scheduled hours for being open to the public."><span>A branch library is an auxiliary unit of an administrative entity which has at least all of the following: separate quarters; an organized collection of library materials; paid staff; and regularly scheduled hours for being open to the public.</span></i>');
+  $('#visits-input .ais-header').append('<i class="icon-info-circle" tabindex="0" aria-hidden="true" rel="tooltip" title="Total number of persons entering the library for whatever purpose during the year."><span>Total number of persons entering the library for whatever purpose during the year.</span></i>');
+  $('#total-programs-input .ais-header').append('<i class="icon-info-circle" tabindex="0" aria-hidden="true" rel="tooltip" title="Number of planned events which introduce the group attending to any of the broad range of library services or activities or which directly provides information to participants."><span>Number of planned events which introduce the group attending to any of the broad range of library services or activities or which directly provides information to participants.</span></i>'); //now...call it (from common.js)
 
   doTooltips();
+  /* Change labels on 'Legal Basis' dropdowns */
+
+  changeLegalLabels();
 }); //end render once
 //tell when the widgets are re-rendered
 
@@ -537,6 +581,9 @@ search.on('render', function () {
   /* Assemble the 'current filters' list and stick it in */
 
   currentFilters();
+  /* Change labels on 'Legal Basis' dropdowns */
+
+  changeLegalLabels();
 }); //end on render
 
 $(document).ready(function () {
@@ -571,12 +618,14 @@ $(document).ready(function () {
       $('#list-results').hide();
       $('#grid-results-wrapper').show();
       $('#comparison-select-wrapper').show();
+      $('#expBtn').show();
       $('#viewToggle i').toggleClass('icon-list-view icon-grid-view');
       $('#viewToggle span').text('List Libraries');
     } else {
       $('#list-results').show();
       $('#grid-results-wrapper').hide();
       $('#comparison-select-wrapper').hide();
+      $('#expBtn').hide();
       $('#viewToggle i').toggleClass('icon-list-view icon-grid-view');
       $('#viewToggle span').text('Compare Libraries');
     } //end if list is shown
@@ -604,15 +653,65 @@ $(document).ready(function () {
     returnButton();
   });*/
 
+  /* Add their current URL to local storage before they leave the page */
+
   window.addEventListener("beforeunload", function (e) {
     var returnURL = window.location.href;
     console.log('now returnURL = ' + returnURL);
     localStorage.setItem('returnURL', returnURL);
   });
+  /* Set up the definitions buttons */
+
+  $('#expBtn').attr('data-cluster', $('#comparison-select').val());
+  $('#userExpBtn').attr('data-cluster', $('#user-comparison-select').val());
 }); //end document ready
 
 function returnButton() {
   var returnURL = window.location.href;
   console.log('now returnURL = ' + returnURL);
   localStorage.setItem('returnURL', returnURL);
+}
+
+function changeLegalLabels() {
+  $('#legal-basis-refinement .ais-refinement-list--label').each(function () {
+    $(this).contents().filter(function () {
+      switch ($.trim(this.textContent)) {
+        case 'CC':
+          this.textContent = this.textContent.replace('CC', 'City/County');
+          break;
+
+        case 'CI':
+          this.textContent = this.textContent.replace('CI', 'Municipal Gov\'t');
+          break;
+
+        case 'CO':
+          this.textContent = this.textContent.replace('CO', 'County/Parish');
+          break;
+
+        case 'LD':
+          this.textContent = this.textContent.replace('LD', 'Library District');
+          break;
+
+        case 'MJ':
+          this.textContent = this.textContent.replace('MJ', 'Multi-jurisdictional');
+          break;
+
+        case 'NL':
+          this.textContent = this.textContent.replace('NL', 'NA Tribal Gov\'t');
+          break;
+
+        case 'NP':
+          this.textContent = this.textContent.replace('NP', 'Non-Profit');
+          break;
+
+        case 'OT':
+          this.textContent = this.textContent.replace('OT', 'School District');
+          break;
+
+        case 'SD':
+          this.textContent = this.textContent.replace('SD', 'Other');
+      } //end switch
+
+    }); //end filter label contents
+  }); //end each label
 }
