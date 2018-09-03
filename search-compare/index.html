@@ -36,91 +36,112 @@
           <small>Help IMLS improve this beta website by <a href="https://docs.google.com/forms/d/e/1FAIpQLSfDZA97B2HTpspn50N1ptUx7fB0kobU5cdtHHxEU7rqeNblWQ/viewform" target="_blank">sending feedback here</a>. All data from IMLS FY2016 Public Libraries Survey (<a href="https://www.imls.gov/research-evaluation/data-collection/public-libraries-survey/explore-pls-data/pls-data" target="_blank">details</a>).</small>
         </div>
       </div>
-    </section><!--end #top-banner--><!--extra comment-->
+    </section><!--end #top-banner-->
     <section id="filters" class="container-fluid">
-		<div class="row filter-row" id="min-max-wrapper">
-			<div class="col-sm-4">
-				<input id="search-input" placeholder="Search for library data">
-        <div class="row">
-          <div class="col-sm-6">
-                <div id="state-refinement" class="facet"></div>
-          </div>
-          <div class="col-sm-6">
-            <div id="locale-refinement" class="facet"></div>
-          </div>
-        </div>
-			</div>
+    <div class="row filter-row">
+      <div class="col-sm-4">
+        <input id="search-input" placeholder="Search for library data">
+        <div>Enter a keyword in the search box above to search for libraries. From there, you can refine your search based on the other filters. By clicking on a library name in the search results below, you can view similar libraries based on Service, Staff, Finance and Collection data.</div>
+      </div>
       <div class="col-sm-2">
             <div id="circulation-input"></div>
-            <div id="total-circulation-refinement" class="facet"></div>
+            <div id="total-circulation-refinement" class="facet min-max"></div>
           </div>
       <div class="col-sm-2">
         <div id="revenue-input"></div>
-        <div id="total-revenue-refinement" class="facet"></div>
+        <div id="total-revenue-refinement" class="facet min-max"></div>
       </div>
       <div class="col-sm-2">
         <div id="staff-input"></div>
-        <div id="total-staff-refinement" class="facet"></div>
+        <div id="total-staff-refinement" class="facet min-max"></div>
       </div>
       <div class="col-sm-2">
         <div id="population-input"></div>
-        <div id="service-area-population-refinement" class="facet"></div>
+        <div id="service-area-population-refinement" class="facet min-max"></div>
       </div>
-		</div><!--end #min-max-wrapper-->
-
-		<div class="row filter-row">
-			<div class="col-sm-3">
-        <div id="legal-basis-refinement" class="facet"></div>
-			</div>
-      <div class="col-sm-3">
+    </div><!--end 1st row of facets-->
+    <div class="row filter-row">
+      <div class="col-sm-2">
         <div id="branch-libraries-input">Branch Libraries</div>
-        <div id="branch-libraries-refinement" class="facet"></div>
+        <div id="branch-libraries-refinement" class="facet min-max"></div>
       </div>
-      <div class="col-sm-3">
-        <div id="visits-input">Visits</div>
-        <div id="visits-refinement" class="facet"></div>
+      <div class="col-sm-2">
+        <div id="visits-input"></div>
+        <div id="visits-refinement" class="facet min-max"></div>
       </div>
-      <div class="col-sm-3">
-        <div id="total-programs-input">Total Programs</div>
-        <div id="total-programs-refinement" class="facet"></div>
+      <div class="col-sm-2">
+        <div id="total-programs-input"></div>
+        <div id="total-programs-refinement" class="facet min-max"></div>
       </div>
-		</div><!--end 2nd row of facets -->
-
-		<div class="row filter-recap">
-			<div class="col-sm-9">
+      <div class="col-sm-2">
+        <div class="ais-range-input--header ais-header">State</div>
+        <div id="state-refinement" class="facet"></div>
+      </div>
+      <div class="col-sm-2">
+        <div class="ais-range-input--header ais-header">Locale</div>
+        <div id="locale-refinement" class="facet"></div>
+      </div>
+      <div class="col-sm-2">
+        <div class="ais-range-input--header ais-header">Legal Basis</div>
+        <div id="legal-basis-refinement" class="facet"></div>
+      </div>      
+    </div><!--end 2nd row of facets -->
+    <div class="row filter-recap">
+      <div class="col-sm-10">
         <div class="row">
-          <div class="col-md-2 col-xs-4">
-            <h2>Locales:</h2>
-            <div id="current-locales"></div>
+          <div class="col-md-2 hidden-xs">
+            <h2>Current Filters:</h2>
           </div>
           <div class="col-md-2 col-xs-4">
-            <h2>States:</h2>
-            <div id="current-states"></div>
-          </div>
-          <div class="col-md-2 col-xs-4">
-            <h2>Circulation:</h2>
+            <h3>Circulation:</h3>
             <div id="circulation"></div>
           </div>
           <div class="col-md-2 col-xs-4">
-            <h2>Revenue:</h2>
+            <h3>Revenue:</h3>
             <div id="revenue"></div>
           </div>
           <div class="col-md-2 col-xs-4">
-            <h2>Staff:</h2>
+            <h3>Staff:</h3>
             <div id="staff"></div>
           </div>
           <div class="col-md-2 col-xs-4">
-            <h2>Service Area Pop:</h2>
+            <h3>Service Area Pop:</h3>
             <div id="service-area-population"></div>
+          </div>
+          <div class="col-md-2 col-xs-4">
+            <h3>Branch Libraries:</h3>
+            <div id="branch-libraries"></div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-2 col-xs-4 col-md-offset-2">
+            <h3>Visits:</h3>
+            <div id="visits"></div>
+          </div>
+          <div class="col-md-2 col-xs-4">
+            <h3>Total Programs:</h3>
+            <div id="programs"></div>
+          </div>
+          <div class="col-md-2 col-xs-4">
+            <h3>Locales:</h3>
+            <div id="current-locales"></div>
+          </div>
+          <div class="col-md-2 col-xs-4">
+            <h3>States:</h3>
+            <div id="current-states"></div>
+          </div>
+          <div class="col-md-2 col-xs-4">
+            <h3>Legal Bases:</h3>
+            <div id="current-legals"></div>
           </div>
         </div>
       </div><!--end col-sm-9 for current filters-->
-			<div class="col-sm-3 text-right">
-				<div id="clear-all"></div>
-				<button id="hide-filters" class="btn btn-default btn-sm">Hide Filters</button>
-			</div>
-		</div>
-  	</section><!--end #filters-->
+      <div class="col-sm-2 text-right">
+        <div id="clear-all"></div>
+        <button id="hide-filters" class="btn btn-default btn-sm">Hide Filters</button>
+      </div>
+    </div>
+    </section><!--end #filters-->
   </header>
   <main>
     <div id="show-user-table">Show My Libraries</div>
@@ -128,12 +149,9 @@
   		<div class="row">
   			<div class="col-xs-12">
   				<div class="page-shadow" id="search-results-wrapper">
-  					<p>Enter a keyword in the search box above to search for libraries. From there, you can refine your search based on the other filters above. By clicking on a library name, you can view similar libraries based on Service, Staff, Finance and Collection data.</p>
+  					<!--<p>Enter a keyword in the search box above to search for libraries. From there, you can refine your search based on the other filters above. By clicking on a library name, you can view similar libraries based on Service, Staff, Finance and Collection data.</p>-->
   					<div class="actions-box pad-0">
-  						<div class="row">  						
-							  <div class="col-sm-2">
-	  							<button type="button" class="btn big-btn" id="viewToggle"><i class="icon-grid-view"></i> <span>Compare Libraries</span></button>
-	  						</div>
+  						<div class="row">
                 <div class="col-sm-10 pad-10">
   	  						<div class="col-sm-7">
   	  							<div id="comparison-select-wrapper">
@@ -148,14 +166,18 @@
   							        <p>This page has been copied to your clipboard. Paste somewhere to share!</p>
   							        <input type="text" id="shareMe">
   						        </div><!--end #shareDiv-->
+                      <button class="btn btn-default btn-sm" id="expBtn" data-cluster="">Definitions</button>
   						        <button id="download-csv" onclick="downloadCsv();" class="btn btn-default btn-sm"><i class="icon-file-excel"></i> Download</button>
   	  						</div>
                 </div><!--end col-sm-10-->
+                <div class="col-sm-2 text-right">
+                  <button type="button" class="btn big-btn" id="viewToggle"><i class="icon-grid-view"></i> <span>Compare Libraries</span></button>
+                </div>
   						</div>  						
   					</div><!--end .actions-box-->
   					<div id="list-results">
   						<div id="hits"></div>
-          				<div id="pagination"></div>
+          		<div id="pagination"></div>
   					</div><!--end #list-results-->
   					<div id="grid-results-wrapper">
 						<div class="table-responsive">
@@ -234,6 +256,255 @@
       </div>
     </div>
   </div></footer>
+
+  <div id="modal" aria-hidden="true" aria-labelledby="modalTitle" aria-describedby="modalDescription" role="dialog" class="hidden">
+    <button id="modalCloseBtn" class="btn btn-sm btn-primary modalCloseBtn" title="Close"><i class="icon-x"></i><span>Close</span></button>
+    <div role="document" class="modal-guts">
+      <h1 id="modalTitle">Definitions</h1>
+      <p>For further description, please refer to the <a href="https://www.imls.gov/sites/default/files/pls_defs_fy2016.pdf" target="_blank">State Characteristics Data Element Definitions</a>.</p>
+      <div class="actions-box"><strong>S</strong> = Suppressed. <strong>M</strong> = Missing. <strong>N</strong> = Not Applicable.</div>
+      <div id="exp-demographic" class="def-list">
+        <dl>
+          <dt>Name</dt>
+          <dd>Legal name of the library system.</dd>
+          <dt>Population of Legal Service Area (LSA)</dt>
+          <dd>The number of people in the geographic area for which a public library has been established to offer services and from which (or on behalf of which) the library derives revenue, plus any areas served under contract for which the library is the primary service provider.</dd>
+          <dt>Total Unduplicated Population of LSA</dt>
+          <dd>Total unduplicated population of those areas in your state that receive library services. The population of unserved areas is not included in this figure.</dd>
+          <dt>Central Libraries</dt>
+          <dd>Synonymous with main library.</dd>
+          <dt>Branch Libraries</dt>
+          <dd>A branch library is an auxiliary unit of an administrative entity which has at least all of the following: separate quarters; an organized collection of library materials; paid staff; and regularly scheduled hours for being open to the public.</dd>
+          <dt>Number of Bookmobiles</dt>
+          <dd>A bookmobile is a traveling branch library that consists of at least all of the following: a truck or van that carries an organized collection of library materials; paid staff; and regularly scheduled hours (bookmobile stops) for being open to the public.</dd>
+          <dt>Interlibrary Relationship Code</dt>
+          <dd>
+            <ul>
+              <li><strong>HQ:</strong> Headquarters of a Federation or Cooperative.</li>
+              <li><strong>ME:</strong> Member of a Federation or Cooperative.</li>
+              <li><strong>NO:</strong> Not a Member of a Federation or Cooperative.</li>
+            </ul>
+          </dd>
+          <dt>Legal Basis Code</dt>
+          <dd>
+            The legal basis is the type of local government structure within which the entity functions. It reflects the state or local law, which authorizes the library.
+            <ul>
+              <li><strong>CC:</strong> City/County.</li>
+              <li><strong>CI:</strong> Municipal Government (city, town or village).</li>
+              <li><strong>CO:</strong> County/Parish.</li>
+              <li><strong>LD:</strong> Library District.</li>
+              <li><strong>MJ:</strong> Multi-jurisdictional.</li>
+              <li><strong>NL:</strong> Native American Tribal Government.</li>
+              <li><strong>NP:</strong> Non-profit Association or Agency.</li>
+              <li><strong>SD:</strong> School District.</li>
+              <li><strong>OT:</strong> Other.</li>
+            </ul>
+          </dd>
+          <dt>Administrative Structure Code</dt>
+          <dd>
+            <ul>
+              <li><strong>MA:</strong> Administrative Entity with Multiple Direct Service Outlets where Administrative Offices are separate.</li>
+              <li><strong>MO:</strong> Administrative Entity with Multiple Direct Service Outlets where Administrative Offices are Not Separate.</li>
+              <li><strong>SO:</strong> Administrative Entity with a Single Direct Service Outlet.
+            </li></ul>
+          </dd>
+          <dt>FSCS Public Library Definition</dt>
+          <dd>
+            Library meets all the criteria of the FSCS public library definition.
+            <ul>
+              <li><strong>Y:</strong> Yes.</li>
+              <li><strong>N:</strong> No.</li>
+            </ul>
+          </dd>
+          <dt>Geographic Code</dt>
+          <dd>
+            Type of Census geography that either exactly or most nearly describes the geographic area for which the public library has been established to offer services and from which (or on behalf of which) the library derives revenue, plus any areas served under contract for which the library is the primary service provider.
+            <ul>
+              <li><strong>CI1:</strong> Municipal Government (city, town or village) (exactly)</li>
+              <li><strong>CI2:</strong> Municipal Government (city, town or village) (most nearly)</li>
+              <li><strong>CO1:</strong> County/Parish (exactly)</li>
+              <li><strong>CO2:</strong> County/Parish (most nearly)</li>
+              <li><strong>MA1:</strong> Metropolitan Area (exactly)</li>
+              <li><strong>MA2:</strong> Metropolitan Area (most nearly)</li>
+              <li><strong>MC1:</strong> Multi-County (exactly)</li>
+              <li><strong>MC2:</strong> Multi-County (most nearly)</li>
+              <li><strong>SD1:</strong> School District (exactly)</li>
+              <li><strong>SD2:</strong> School District (most nearly)</li>
+              <li><strong>OTH:</strong> Other</li>
+            </ul>
+          </dd>
+        </dl>
+      </div><!--end demographic-->
+      <div id="exp-staff" class="def-list">
+        <dl>
+          <dt>Name</dt>
+          <dd>Legal name of the library system.</dd>
+          <dt>ALA-MLS Librarians</dt>
+          <dd>Librarians with master's degrees from programs of library and information studies accredited by the American Library Association.</dd>
+          <dt>Total Librarians</dt>
+          <dd>Persons with the title of librarian who do paid work that usually requires professional training and skill in the theoretical or scientific aspects of library work, or both, as distinct from its mechanical or clerical aspect. Includes ALA-MLS Librarians.</dd>
+          <dt>All Other Paid Staff</dt>
+          <dd>All other FTE employees paid from the reporting unit budget, including plant operations, security, and maintenance staff.</dd>
+          <dt>Total Paid Staff</dt>
+          <dd>Sum of Total Librarians and All Other Paid Staff.</dd>
+        </dl>        
+      </div><!--end staff-->
+      <div id="exp-revenue" class="def-list">
+        <dl>
+          <dt>Name</dt>
+          <dd>Legal name of the library system.</dd>
+          <dt>Local Revenue</dt>
+          <dd>Local government funds designated by the community, district, or region and available for expenditure by the public library.</dd>
+          <dt>State Revenue</dt>
+          <dd>Funds distributed to public libraries by state government for expenditure by the public libraries, except for federal money distributed by the state.</dd>
+          <dt>Federal Revenue</dt>
+          <dd>Federal government funds distributed to public libraries for expenditure by the public libraries, including federal money distributed by the state.</dd>
+          <dt>Other Revenue</dt>
+          <dd>Operating revenue other than that reported under local, state, and federal (above).</dd>
+          <dt>Total Revenue</dt>
+          <dd>Sum of Local, State, Federal, and Other Revenue.</dd>
+        </dl>
+      </div><!--end revenue-->
+      <div id="exp-expenditures" class="def-list">
+        <dl>
+          <dt>Name</dt>
+          <dd>Legal name of the library system.</dd>
+          <dt>Salaries &amp; Wages</dt>
+          <dd>Salaries and wages for all library staff (including plant operations, security, and maintenance staff) for the fiscal year. Includes salaries and wages before deductions but excludes employee benefits.</dd>
+          <dt>Employee Benefits</dt>
+          <dd>Benefits outside of salaries and wages paid and accruing to employees (including plant operations, security, and maintenance staff), regardless of whether the benefits or equivalent cash options are available to all employees. Includes amounts for direct paid employee benefits.</dd>
+          <dt>Total Staff Expenditures</dt>
+          <dd>Sum of Salaries &amp; Wages and Employee Benefits.</dd>
+          <dt>Print Materials Expenditures</dt>
+          <dd>All operating expenditures for the following print materials: books, current serial subscriptions, government documents, and any other print acquisitions.</dd>
+          <dt>Electronic Materials Expenditures</dt>
+          <dd>All operating expenditures for electronic (digital) materials.</dd>
+          <dt>Other Material Expenditures</dt>
+          <dd>All operating expenditures for other materials, such as microform, audio and video physical units, DVD, and materials in new formats.</dd>
+          <dt>Total Collection Expenditures</dt>
+          <dd>Sum of Expenditures on Print, Electronic, and Other Materials.</dd>
+          <dt>Other Operating Expenditures</dt>
+          <dd>All expenditures other than those reported for Total Staff Expenditures and Total Collection Expenditures.</dd>
+          <dt>Total Operating Expenditures</dt>
+          <dd>Sum of Total Staff, Collection, and Other Operating Expenditures.</dd>
+        </dl>        
+      </div><!--end expenditures-->
+      <div id="exp-capital" class="def-list">
+        <dl>
+          <dt>Name</dt>
+          <dd>Legal name of the library system.</dd>
+          <dt>Local Capital Revenue</dt>
+          <dd>All governmental funds designated by the community, district, or region and available to the public library for the purpose of major capital expenditures, except for state and/or federal money distributed by the local government.</dd>
+          <dt>State Capital Revenue</dt>
+          <dd>Funds distributed to public libraries by state government for expenditure by the public libraries for the purpose of major capital expenditures, except for federal money distributed by the state.</dd>
+          <dt>Federal Capital Revenue</dt>
+          <dd>Federal governmental funds, including federal funds distributed by the state or locality, and grants and aid received by the library for the purpose of major capital expenditures.</dd>
+          <dt>Other Capital Revenue</dt>
+          <dd>Private (non-governmental funds), including grants received by the library for the purpose of major capital expenditures.</dd>
+          <dt>Total Capital Revenue</dt>
+          <dd>Sum of Local, State, Federal, and Other Capital Revenue.</dd>
+          <dt>Total Capital Expenditures</dt>
+          <dd>Major capital expenditures (the acquisition of or additions to fixed assets), including federal, state, local, or other revenue used for major capital expenditures.</dd>
+        </dl>
+      </div><!--end capital-->
+      <div id="exp-collection" class="def-list">
+        <dl>
+          <dt>Name</dt>
+          <dd>Legal name of the library system.</dd>
+          <dt>Print Materials</dt>
+          <dd>Physical units, including duplicates, of books in print and non-serial government documents.</dd>
+          <dt>Electronic Books</dt>
+          <dd>E-books that have been purchased, leased or licensed by the library, a consortium, the state library, a donor or other person or entity.</dd>
+          <dt>Audio - Physical Units</dt>
+          <dd>Materials circulated in a fixed, physical format on which sounds (only) are stored (recorded) and that can be reproduced (played back) mechanically, electronically, or both.</dd>
+          <dt>Audio - Downloadable Units</dt>
+          <dd>Downloadable electronic files on which sounds (only) are stored (recorded) and that can be reproduced (played back) electronically. These may be loaned to users on portable devices or by transmitting the contents to the user's personal computer for a limited time. Includes those held locally and remote units for which permanent or temporary access rights have been acquired.</dd>
+          <dt>Video - Physical Units</dt>
+          <dd>Materials circulated in a fixed, physical format on which moving pictures are recorded, with or without sound.</dd>
+          <dt>Video - Downloadable Units</dt>
+          <dd>Downloadable electronic files on which moving pictures are recorded, with or without sound. Electronic playback uses a television receiver, computer monitor, or video-enabled mobile device. These may be loaned to users on portable devices or by transmitting the contents to the user's personal computer for a limited time. Includes those held locally and remove units for which permanent or temporary access rights have been acquired.</dd>
+          <dt>Local Databases</dt>
+          <dd>Collections of electronically stored data or unit records with a common user interface and software for the retrieval and use of data funded by the library, or provided through cooperative agreement with other libraries.</dd>
+          <dt>State Databases</dt>
+          <dd>Collections of electronically stored data or unit records with a common user interface and software for the retrieval and use of data provided through the State Library.</dd>
+          <dt>Total Databases</dt>
+          <dd>Sum of Local/Other cooperative agreement- and State-licensed databases.</dd>
+          <dt>Print Serial Subscriptions</dt>
+          <dd>Number of current print serial subscriptions, including duplicates, for all outlets.</dd>
+        </dl>        
+      </div><!--end collection-->
+      <div id="exp-services" class="def-list">
+        <dl>
+          <dt>Name</dt>
+          <dd>Legal name of the library system.</dd>
+          <dt>Public Service Hours/Year</dt>
+          <dd>Sum of annual public service hours for outlets.</dd>
+          <dt>Library Visits</dt>
+          <dd>Total number of persons entering the library for whatever purpose during the year.</dd>
+          <dt>Reference Transactions</dt>
+          <dd>Number of information consultations in which library staff recommend, interpret, evaluate, and/or use information resources to help others to meet particular information needs.</dd>
+          <dt>Registered Users</dt>
+          <dd>Number of registered library users who have applied for and received an identification number or card from the public library that has established conditions under which the user may borrow library materials or gain access to other library resources.</dd>
+          <dt>Total Circulation of Materials</dt>
+          <dd>Total annual circulation of all library materials of all types, including renewals.</dd>
+          <dt>Circulation of Kid's Materials</dt>
+          <dd>Total annual circulation of all children's materials in all formats to all users, including renewals.</dd>
+          <dt>Use of Electronic Material</dt>
+          <dd>Total annual circulation of all electronic materials</dd>
+          <dt>Physical Item Circulation</dt>
+          <dd>Total annual circulation of all physical library materials of all types, including renewals.</dd>
+          <dt>Electronic Information Retrievals</dt>
+          <dd>Number of full-content units or descriptive records examined, downloaded, or otherwise supplied to user, from online library resources that require user authentication but do not have a circulation period.</dd>
+          <dt>Electronic Content Use</dt>
+          <dd>Total annual count of the circulation of electronic materials and the successful retrieval of electronic information.</dd>
+          <dt>Total Collection Use</dt>
+          <dd>Total annual count of physical item circulation, circulation of electronic material and successful retrieval of electronic information.</dd>
+        </dl>
+      </div><!--end services-->
+      <div id="exp-inter-library" class="def-list">
+        <dl>
+          <dt>Name</dt>
+          <dd>Legal name of the library system.</dd>
+          <dt>Provided To</dt>
+          <dd>Number of library materials, or copies of the materials, provided by one autonomous library to another upon request. The libraries involved in interlibrary loans are not under the same Administrative Entity.</dd>
+          <dt>Received From</dt>
+          <dd>Number of library materials, or copies of the materials, received by one autonomous library from another upon request. The libraries involved in interlibrary loans are not under the same Administrative Entity.</dd>
+        </dl>
+      </div><!--end inter-library-->
+      <div id="exp-programs" class="def-list">
+        <dl>
+          <dt>Name</dt>
+          <dd>Legal name of the library system.</dd>
+          <dt>Total Library Programs</dt>
+          <dd>Number of planned events which introduce the group attending to any of the broad range of library services or activities or which directly provides information to participants. Includes all programs, whether held on- or off-site, that are sponsored or co-sponsored by the library.</dd>
+          <dt>Children's Programs</dt>
+          <dd>Number of planned events for which the primary audience is children and which introduce the group of children attending to any of the broad range of library services or activities for children or which directly provides information to participants. Includes all children's programs, whether held on- or off-site, that are sponsored or co-sponsored by the library.</dd>
+          <dt>Young Adult Programs</dt>
+          <dd>Number of planned events for which the primary audience is young adult and which introduce the group of young adults attending to any of the broad range of library services or activities for young adults or which directly provides information to participants. Includes all young adult programs, whether held on- or off-site, that are sponsored or co-sponsored by the library.</dd>
+          <dt>Total Attendance at Library Programs</dt>
+          <dd>Count of the audience at all library programs during the fiscal year.</dd>
+          <dt>Children's Program Attendance</dt>
+          <dd>Count of the audience at all programs for which the primary audience is children 11 years and under. Includes adults who attend programs intended primarily for children.</dd>
+          <dt>Young Adult Program Attendance</dt>
+          <dd>Count of the audience at all programs for which the primary audience is young adults 12 to 18 years and includes 18 year olds. Include adults who attend programs intended primarily for young adults.</dd>
+        </dl>
+      </div><!--end programs-->
+      <div id="exp-other_electronic" class="def-list">
+        <dl>
+          <dt>Name</dt>
+          <dd>Legal name of the library system.</dd>
+          <dt>Computers Used by General Public</dt>
+          <dd>Number of the library's Internet computers [personal computers (PCs) and laptops], whether purchased, leased, or donated, used by the general public in the library.</dd>
+          <dt>Computer Uses</dt>
+          <dd>Number of uses (sessions) of the library's Internet computers in the library during the last year.</dd>
+          <dt>Wireless Sessions</dt>
+          <dd>Number of wireless sessions provided by the library wireless service annually.</dd>
+        </dl>
+      </div><!--other_electronic-->
+    </div>
+  </div><!--end modal-->
+  <div id="modalOverlay" tabindex="-1" class="hidden"></div>
+
   <script src="https://cdn.jsdelivr.net/npm/instantsearch.js@2.7.2/dist/instantsearch.min.js"></script>
   <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
   <script type="type/html" id="hit-template">
@@ -256,6 +527,7 @@
   </script>
   <script src="js/app.js"></script>
   <script src="js/common.js"></script>
+  <script src="js/modal.js"></script>
 	<!-- WEB COMPONENTS -->
   
     <script>if (!window.customElements) {

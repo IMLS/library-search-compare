@@ -1,10 +1,10 @@
 define(["../../node_modules/@polymer/polymer/polymer-element.js", "./csv.js"], function (_polymerElement, _csv) {
   "use strict";
 
-  function _templateObject_6afaee10ac6e11e8850c03cbfacd43ee() {
+  function _templateObject_0c0d5210afae11e8a1e2f7ec9a1d356b() {
     var data = babelHelpers.taggedTemplateLiteral(["\n      <style>\n        :host {\n          display: block;\n        }\n      </style>\n      <slot></slot>\n    "]);
 
-    _templateObject_6afaee10ac6e11e8850c03cbfacd43ee = function _templateObject_6afaee10ac6e11e8850c03cbfacd43ee() {
+    _templateObject_0c0d5210afae11e8a1e2f7ec9a1d356b = function _templateObject_0c0d5210afae11e8a1e2f7ec9a1d356b() {
       return data;
     };
 
@@ -52,7 +52,7 @@ define(["../../node_modules/@polymer/polymer/polymer-element.js", "./csv.js"], f
       value: function render() {
         var _this2 = this;
 
-        this.innerHTML = "\n      <div class=\"actions-box\"> \n          <div class=\"row\"> \n              <div class=\"col-sm-6 col-sm-offset-2\">\n              <div id=\"user-comparison-select-wrapper\">\n                  <span id=\"user-comparison-select-text\">See variables related to: </span>\n                  <select id=\"user-comparison-select\">\n                  ".concat(this._comparisonTableConfig.map(function (option) {
+        this.innerHTML = "\n      <div class=\"actions-box\"> \n          <div class=\"row\"> \n              <div class=\"col-sm-8\">\n              <div id=\"user-comparison-select-wrapper\">\n                  <span id=\"user-comparison-select-text\">See variables related to: </span>\n                  <select id=\"user-comparison-select\">\n                  ".concat(this._comparisonTableConfig.map(function (option) {
           return "\n                    <option value=\"".concat(option.name, "\" ").concat(option.name === _this2.compareOn ? 'selected' : '', ">\n                      ").concat(option.display_name, "\n                    </option>\n                  ");
         }).join(''), "\n                  </select>\n              </div>\n              </div>\n              <div class=\"col-sm-4 text-right\">\n              <span id=\"userCount\"></span>\n              ").concat(this.shareUrl !== '' ? "<button id=\"user-share-btn\" class=\"btn btn-default btn-sm\" type=\"button\">Share These Results</button>" : "", "\n              <div id=\"shareDiv\" class=\"closed\">\n                  <p>This page has been copied to your clipboard. Paste somewhere to share!</p>\n                  <input type=\"text\" value=\"").concat(this.shareUrl, "\" id=\"userShareMe\">\n                  </div><!--end #shareDiv-->\n                  <button id=\"download-user-csv\" class=\"btn btn-default btn-sm\"><i class=\"icon-file-excel\"></i> Download</button>\n              </div>\n          </div>              \n          </div><!--end .actions-box-->\n          <div id=\"user-comparison-results-wrapper\">\n          <div class=\"table-responsive\">\n              <table class=\"table table-striped\" id=\"data_table\"></table>\n          </div>\n      </div><!-- end user-comparison-results-wrapper -->\n    ");
         if (this.shareUrl !== '') this.querySelector('#user-share-btn').addEventListener('click', this.showShareUrl.bind(this));
@@ -271,7 +271,7 @@ define(["../../node_modules/@polymer/polymer/polymer-element.js", "./csv.js"], f
     }], [{
       key: "template",
       get: function get() {
-        return (0, _polymerElement.html)(_templateObject_6afaee10ac6e11e8850c03cbfacd43ee());
+        return (0, _polymerElement.html)(_templateObject_0c0d5210afae11e8a1e2f7ec9a1d356b());
       }
     }, {
       key: "properties",

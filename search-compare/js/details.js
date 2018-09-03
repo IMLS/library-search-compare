@@ -130,13 +130,13 @@ var clusters = [{
     name: "eBooks"
   }, {
     field: "audio_materials",
-    name: "Audio Materials"
+    name: "Audio Materials (Physical)"
   }, {
     field: "video_materials",
-    name: "Video Materials"
+    name: "Video Materials (Physical)"
   }, {
     field: "total_databases",
-    name: "Databases"
+    name: "Electronic Collections"
   }, {
     field: "print_serials",
     name: "Print Serials"
@@ -328,7 +328,7 @@ function displayOutlets(content) {
       outletRows.push(outletRow);
     }
 
-    outletData["headings"] = ["Name", "fscs_id_seq", "Locale Code", "Outlet Type", "Square Feet", "Hours", "Weeks Open"];
+    outletData["headings"] = ["Name", "FSCS ID Seq", "Locale Code", "Outlet Type", "Square Feet", "Hours", "Weeks Open"];
     outletData["data"] = outletRows;
     outletTable = new DataTable("#outlets-table", {
       perPage: 5,
