@@ -89,8 +89,17 @@ class ImlsTable extends PolymerElement {
   render() {
     this.innerHTML = `
       <div class="actions-box"> 
-          <div class="row"> 
-              <div class="col-sm-8">
+          <div class="row">
+              <div class="col-sm-4">
+              <span id="userCount"></span>
+              ${this.shareUrl !== '' ? `<button id="user-share-btn" class="btn btn-default btn-sm" type="button">Share These Results</button>` : ``}
+              <div id="shareDiv" class="closed">
+                  <p>This page has been copied to your clipboard. Paste somewhere to share!</p>
+                  <input type="text" value="${this.shareUrl}" id="userShareMe">
+                  </div><!--end #shareDiv-->
+                  <button id="download-user-csv" class="btn btn-default btn-sm"><i class="icon-file-excel"></i> Download</button>
+              </div>
+              <div class="col-sm-8 text-right">
               <div id="user-comparison-select-wrapper">
                   <span id="user-comparison-select-text">See variables related to: </span>
                   <select id="user-comparison-select">
@@ -101,15 +110,6 @@ class ImlsTable extends PolymerElement {
                   `).join('')}
                   </select>
               </div>
-              </div>
-              <div class="col-sm-4 text-right">
-              <span id="userCount"></span>
-              ${this.shareUrl !== '' ? `<button id="user-share-btn" class="btn btn-default btn-sm" type="button">Share These Results</button>` : ``}
-              <div id="shareDiv" class="closed">
-                  <p>This page has been copied to your clipboard. Paste somewhere to share!</p>
-                  <input type="text" value="${this.shareUrl}" id="userShareMe">
-                  </div><!--end #shareDiv-->
-                  <button id="download-user-csv" class="btn btn-default btn-sm"><i class="icon-file-excel"></i> Download</button>
               </div>
           </div>              
           </div><!--end .actions-box-->

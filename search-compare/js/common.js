@@ -116,6 +116,8 @@ function shortenLargeNumber(num, digits) {
 /* Handle the "Current Filters" section */
 function currentFilters(){
 
+  console.log('now in currentFilters function');
+
 	//assemble checked locales
 	var selectedLocales = $('#locale-refinement input:checked').map(function(){
 		return this.value;
