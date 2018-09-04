@@ -152,14 +152,11 @@
   					<!--<p>Enter a keyword in the search box above to search for libraries. From there, you can refine your search based on the other filters above. By clicking on a library name, you can view similar libraries based on Service, Staff, Finance and Collection data.</p>-->
   					<div class="actions-box pad-0">
   						<div class="row">
+                <div class="col-sm-2">
+                  <button type="button" class="btn big-btn" id="viewToggle"><i class="icon-grid-view"></i> <span>Compare Libraries</span></button>
+                </div>
                 <div class="col-sm-10 pad-10">
-  	  						<div class="col-sm-7">
-  	  							<div id="comparison-select-wrapper">
-    									<span id="comparison-select-text">See variables related to: </span>
-    									<select id="comparison-select"></select>
-    								</div>
-  	  					  </div>
-  	  						<div class="col-sm-5 text-right">
+  	  						<div class="col-sm-5">
   	  							<span id="count"></span>
   	  							<button id="share-btn" class="btn btn-default btn-sm" type="button">Share These Results</button>
   	  							<div id="shareDiv" class="away">
@@ -169,10 +166,13 @@
                       <button class="btn btn-default btn-sm" id="expBtn" data-cluster="">Definitions</button>
   						        <button id="download-csv" onclick="downloadCsv();" class="btn btn-default btn-sm"><i class="icon-file-excel"></i> Download</button>
   	  						</div>
+                  <div class="col-sm-7 text-right">
+                    <div id="comparison-select-wrapper">
+                      <span id="comparison-select-text">See variables related to: </span>
+                      <select id="comparison-select"></select>
+                    </div>
+                  </div>
                 </div><!--end col-sm-10-->
-                <div class="col-sm-2 text-right">
-                  <button type="button" class="btn big-btn" id="viewToggle"><i class="icon-grid-view"></i> <span>Compare Libraries</span></button>
-                </div>
   						</div>  						
   					</div><!--end .actions-box-->
   					<div id="list-results">
