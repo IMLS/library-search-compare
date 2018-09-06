@@ -544,7 +544,7 @@ search.once('render', function () {
   }); //end on dropdown click
 
   $(document).click(function (e) {
-    if (!e.target.matches('.ais-refinement-list--header')) {
+    if (!$(e.target).hasClass('ais-refinement-list--header')) {
       /*click was somewhere outside of the dropdowns
         When dropdowns were sticky, the following selectors were also a part of the matches:
         , .ais-refinement-list--checkbox, .ais-refinement-list--list, .ais-refinement-list--label, .ais-refinement-list--count */
