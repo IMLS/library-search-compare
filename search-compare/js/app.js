@@ -627,7 +627,7 @@ search.once('render', function(){
 });//end render once
 
 //tell when the widgets are re-rendered
-search.on('render', function(){
+var updateSearchUI = function() {
   /* Make sure the content is still in the right place */
   headRoom();
   
@@ -637,7 +637,9 @@ search.on('render', function(){
   /* Change labels on 'Legal Basis' dropdowns */
   changeLegalLabels();
 
-});//end on render
+}
+search.on('render', updateSearchUI)
+search.on('error', updateSearchUI)
 
 $(document).ready(function() {
   // fill in data grid variable selector
