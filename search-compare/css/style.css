@@ -158,7 +158,8 @@ header {
    =========================*/
 /*search box*/
 .ais-search-box {
-	max-width: 100%;
+	max-width: 80%;
+	display: inline-block;
 }
 .ais-search-box--input {
 	height: 2.5em;
@@ -168,6 +169,15 @@ header {
 }
 .ais-search-box--reset {
 	top: 11px;
+}
+#searchGo {
+	width: 20%;
+	overflow: hidden;
+	display: inline-block;
+	border-radius: 0 4px 4px 0;
+	height: 35px;
+	vertical-align: top;
+	padding: 5px;
 }
 
 /*checkbox dropdowns*/

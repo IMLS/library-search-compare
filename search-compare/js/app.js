@@ -91,7 +91,9 @@ var search = instantsearch({
 // search input widget  
 search.addWidget(
   instantsearch.widgets.searchBox({
-    container: '#search-input'
+    container: '#search-input',
+    loadingIndicator: true,
+    searchOnEnterKeyPressOnly: true
   })
 );
 
@@ -579,7 +581,6 @@ search.start();
 
 //tell when the widgets are rendered the first time
 search.once('render', function(){
-  //$('#search-intro').closest('.row').css('margin-top', $('#min-max-wrapper').outerHeight(true));
   
   /* Make space for fixed header once filters are loaded */
   headRoom();
@@ -616,6 +617,12 @@ search.once('render', function(){
 
   /* Change labels on 'Legal Basis' dropdowns */
   changeLegalLabels();
+
+  /* Make the search button work */
+  $('#searchGo').on('click', function(){
+    var query = $('#search-input').val().trim();
+    search.helper.setQuery(query).search();
+  });//end on click searchGo
 
 });//end render once
 
