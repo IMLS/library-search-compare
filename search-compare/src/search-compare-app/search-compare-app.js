@@ -1,5 +1,7 @@
 import {html, PolymerElement} from '@polymer/polymer/polymer-element.js';
+import 'paper-range-slider/paper-range-slider.js'
 import './imls-table.js'
+
 
 /**
  * @customElement

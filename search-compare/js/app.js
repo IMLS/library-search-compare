@@ -174,6 +174,7 @@ function displayDataGrid( content, comparisonSelect ) {
   var tableData = {};
 
   var field_names = _.map( _.find( comparisonData, { 'name': comparisonSelect } ).field_names );
+  //console.log(field_names);
 
   tableData[ 'headings' ] = _.map( _.find( comparisonData, { 'name': comparisonSelect } ).headings );
   tableData[ 'headings' ].unshift('');
@@ -354,6 +355,7 @@ search.addWidget(
 search.addWidget(
   instantsearch.widgets.clearAll({
     container: '#clear-all',
+    clearsQuery: true,
     templates: {
       link: '<i class="icon-x"></i> Clear All Filters'
     }
@@ -401,7 +403,7 @@ search.addWidget(
   })
 );
 
-// total circulation slider  
+/* total circulation slider  
 search.addWidget(
   instantsearch.widgets.rangeSlider({
     container: '#total-circulation-refinement',
@@ -409,7 +411,7 @@ search.addWidget(
     pips: false,
     tooltips: false
   })
-);
+);*/
 
 // total revenue input  
 search.addWidget(
@@ -427,7 +429,7 @@ search.addWidget(
 );
 
 
-// total revenue slider  
+/* total revenue slider  
 search.addWidget(
   instantsearch.widgets.rangeSlider({
     container: '#total-revenue-refinement',
@@ -435,7 +437,7 @@ search.addWidget(
     pips: false,
     tooltips: false
   })
-);
+);*/
 
 // total staff input  
 search.addWidget(
@@ -452,7 +454,7 @@ search.addWidget(
   })
 );
 
-// total staff slider  
+/* total staff slider  
 search.addWidget(
   instantsearch.widgets.rangeSlider({
     container: '#total-staff-refinement',
@@ -460,7 +462,7 @@ search.addWidget(
     tooltips: false,
     pips: false
   })
-);
+);*/
 
 // total population input  
 search.addWidget(
@@ -477,7 +479,7 @@ search.addWidget(
   })
 );
 
-// service area population slider  
+/* service area population slider  
 search.addWidget(
   instantsearch.widgets.rangeSlider({
     container: '#service-area-population-refinement',
@@ -485,7 +487,7 @@ search.addWidget(
     pips: false,
     tooltips: false,
   })
-);
+);*/
 
 // legal basis facet
 search.addWidget(
@@ -501,7 +503,7 @@ search.addWidget(
   })
 );
 
-// branch libraries slider  
+/* branch libraries slider  
 search.addWidget(
   instantsearch.widgets.rangeSlider({
     container: '#branch-libraries-refinement',
@@ -509,7 +511,7 @@ search.addWidget(
     pips: false,
     tooltips: false,
   })
-);
+);*/
 
 // branch libraries input  
 search.addWidget(
@@ -526,7 +528,7 @@ search.addWidget(
   })
 );
 
-// visits slider  
+/* visits slider  
 search.addWidget(
   instantsearch.widgets.rangeSlider({
     container: '#visits-refinement',
@@ -534,7 +536,7 @@ search.addWidget(
     pips: false,
     tooltips: false,
   })
-);
+);*/
 
 // visits input  
 search.addWidget(
@@ -551,7 +553,7 @@ search.addWidget(
   })
 );
 
-// total programs slider  
+/* total programs slider  
 search.addWidget(
   instantsearch.widgets.rangeSlider({
     container: '#total-programs-refinement',
@@ -559,7 +561,7 @@ search.addWidget(
     pips: false,
     tooltips: false,
   })
-);
+);*/
 
 // total programs input  
 search.addWidget(
@@ -624,10 +626,20 @@ search.once('render', function(){
     search.helper.setQuery(query).search();
   });//end on click searchGo
 
+  /*document.querySelector('[id$="-slider"]').addEventListener('mouseup', function(e){
+    console.log('mouse is released and the current min/max values are: ',this.valueMin,this.valueMax);
+    updateRangeInputs(this, this.valueMin, this.valueMax);
+  });*/
+  $('[id$="-slider"]').mouseup(function(e){
+    console.log('mouse is released and the current min/max values are: ',this.valueMin,this.valueMax);
+    updateRangeInputs(this, this.valueMin, this.valueMax);
+  });
+
 });//end render once
 
 //tell when the widgets are re-rendered
 var updateSearchUI = function() {
+  console.log('now inside updateSearchUI');
   /* Make sure the content is still in the right place */
   headRoom();
   
@@ -636,6 +648,9 @@ var updateSearchUI = function() {
 
   /* Change labels on 'Legal Basis' dropdowns */
   changeLegalLabels();
+
+  /* Update "artificial" sliders */
+  updateSliders();
 
 }
 search.on('render', updateSearchUI)
@@ -712,6 +727,9 @@ $(document).ready(function() {
   $('#expBtn').attr('data-cluster', $('#comparison-select').val());
   $('#userExpBtn').attr('data-cluster', $('#user-comparison-select').val());
 
+  /* Update "artificial" sliders */
+  updateSliders();
+
 });//end document ready
 
 function returnButton(){
@@ -754,3 +772,64 @@ function changeLegalLabels(){
     });//end filter label contents
   });//end each label
 }
+
+function updateSliders(){
+  console.log('inside updateSliders');
+
+  $('.ais-range-input').each(function(){
+    //find out which one we're on
+    var whichRange = $(this).parent().parent().attr('id').replace('-input','');
+
+    //gather the data about it
+    var currentMin = $('#'+whichRange+'-input .ais-range-input--inputMin').attr('min');
+    var currentMax = $('#'+whichRange+'-input .ais-range-input--inputMax').attr('max');
+    var currentMinValue = $('#'+whichRange+'-input .ais-range-input--inputMin').val();
+    var currentMaxValue = $('#'+whichRange+'-input .ais-range-input--inputMax').val();
+
+    //if the input is empty or if it's out of bounds, use its min/max value
+    if(!currentMinValue){
+      currentMinValue = currentMin;
+    }
+    if(!currentMaxValue){
+      currentMaxValue = currentMax;
+    }
+
+    console.log('slider to update: #'+whichRange+'-slider; its min is '+currentMin+'; its max is '+currentMax+'; and the current low value is '+currentMinValue+' and current high value is '+currentMaxValue);
+
+    var temp1 = $('#'+whichRange+'-slider').attr('value-min');
+    var temp2 = $('#'+whichRange+'-slider').attr('value-max');
+    console.log('testing.... '+temp1+' and '+temp2);
+
+    //now update the slider
+    $('#'+whichRange+'-slider').attr('value-min',currentMinValue);
+    $('#'+whichRange+'-slider').attr('value-max',currentMaxValue);
+    $('#'+whichRange+'-slider').attr('min',currentMin);
+    $('#'+whichRange+'-slider').attr('max',currentMax);
+
+    //also, why not, update the actual handle value.
+    $('#'+whichRange+'-slider #sliderMin').attr('value',currentMinValue);
+    $('#'+whichRange+'-slider #sliderMin .slider-knob-inner.paper-single-range-slider').attr('value',currentMinValue);
+    $('#'+whichRange+'-slider #sliderMax').attr('value',currentMaxValue);
+    $('#'+whichRange+'-slider #sliderMax .slider-knob-inner.paper-single-range-slider').attr('value',currentMaxValue);
+
+    temp1 = $('#'+whichRange+'-slider').attr('value-min');
+    temp2 = $('#'+whichRange+'-slider').attr('value-max');
+    console.log('...again, testing.... '+temp1+' and '+temp2);
+
+  });//end each range input
+
+}//end updateSliders
+
+function updateRangeInputs(whichSlider,sliderMin,sliderMax){
+
+  var whichRange = $(whichSlider).attr('id').replace('-slider','');
+  console.log('range is: '+whichRange+' & sliderMin: '+sliderMin+' & sliderMax: '+sliderMax);
+  $('#'+whichRange+'-input').find('.ais-range-input--inputMin').val(sliderMin);
+  $('#'+whichRange+'-input').find('.ais-range-input--inputMax').val(sliderMax);
+
+  document.querySelector('#'+whichRange+'-input .ais-range-input--inputMin').dispatchEvent(new Event('input'));
+  document.querySelector('#'+whichRange+'-input .ais-range-input--inputMax').dispatchEvent(new Event('input'));
+  //mash the button
+  $('#'+whichRange+'-input .ais-range-input--submit').click();
+
+}//end updateRangeInputs

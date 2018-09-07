@@ -72,7 +72,7 @@ function prepareCsvData( content ) {
   }
 
   csvRows.unshift( csvHeadings );
-
+  //console.log('csvRows = '+csvRows);
   csvContent = "";
   csvRows.forEach(function(rowArray){
      var row = rowArray.join(",");
