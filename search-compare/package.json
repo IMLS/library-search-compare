@@ -6,7 +6,8 @@
     "build": "./node_modules/.bin/polymer build"
   },
   "dependencies": {
-    "@polymer/polymer": "^3.0.0"
+    "@polymer/polymer": "^3.0.0",
+    "paper-range-slider": "git+https://github.com/kennethklee/paper-range-slider.git#master"
   },
   "devDependencies": {
     "@webcomponents/webcomponentsjs": "^2.0.0",
