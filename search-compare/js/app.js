@@ -394,14 +394,11 @@ search.addWidget(
     labels: {
       separator: 'to',
       submit: 'Go'
-    },
-    templates: {
-      header: 'Total Circulation'
     }
   })
 );
 
-// total circulation slider  
+/* total circulation slider  
 search.addWidget(
   instantsearch.widgets.rangeSlider({
     container: '#total-circulation-refinement',
@@ -409,7 +406,7 @@ search.addWidget(
     pips: false,
     tooltips: false
   })
-);
+);*/
 
 // total revenue input  
 search.addWidget(
@@ -419,15 +416,12 @@ search.addWidget(
     labels: {
       separator: 'to',
       submit: 'Go'
-    },
-    templates: {
-      header: 'Total Revenue'
     }
   })
 );
 
 
-// total revenue slider  
+/* total revenue slider  
 search.addWidget(
   instantsearch.widgets.rangeSlider({
     container: '#total-revenue-refinement',
@@ -435,7 +429,7 @@ search.addWidget(
     pips: false,
     tooltips: false
   })
-);
+);*/
 
 // total staff input  
 search.addWidget(
@@ -445,14 +439,11 @@ search.addWidget(
     labels: {
       separator: 'to',
       submit: 'Go'
-    },
-    templates: {
-      header: 'Total Staff'
     }
   })
 );
 
-// total staff slider  
+/* total staff slider  
 search.addWidget(
   instantsearch.widgets.rangeSlider({
     container: '#total-staff-refinement',
@@ -460,7 +451,7 @@ search.addWidget(
     tooltips: false,
     pips: false
   })
-);
+);*/
 
 // total population input  
 search.addWidget(
@@ -470,14 +461,11 @@ search.addWidget(
     labels: {
       separator: 'to',
       submit: 'Go'
-    },
-    templates: {
-      header: 'Service Area Population'
     }
   })
 );
 
-// service area population slider  
+/* service area population slider  
 search.addWidget(
   instantsearch.widgets.rangeSlider({
     container: '#service-area-population-refinement',
@@ -485,7 +473,7 @@ search.addWidget(
     pips: false,
     tooltips: false,
   })
-);
+);*/
 
 // legal basis facet
 search.addWidget(
@@ -501,7 +489,7 @@ search.addWidget(
   })
 );
 
-// branch libraries slider  
+/* branch libraries slider  
 search.addWidget(
   instantsearch.widgets.rangeSlider({
     container: '#branch-libraries-refinement',
@@ -509,7 +497,7 @@ search.addWidget(
     pips: false,
     tooltips: false,
   })
-);
+);*/
 
 // branch libraries input  
 search.addWidget(
@@ -519,14 +507,11 @@ search.addWidget(
     labels: {
       separator: 'to',
       submit: 'Go'
-    },
-    templates: {
-      header: 'Branch Libraries'
     }
   })
 );
 
-// visits slider  
+/* visits slider  
 search.addWidget(
   instantsearch.widgets.rangeSlider({
     container: '#visits-refinement',
@@ -534,7 +519,7 @@ search.addWidget(
     pips: false,
     tooltips: false,
   })
-);
+);*/
 
 // visits input  
 search.addWidget(
@@ -544,14 +529,11 @@ search.addWidget(
     labels: {
       separator: 'to',
       submit: 'Go'
-    },
-    templates: {
-      header: 'Visits'
     }
   })
 );
 
-// total programs slider  
+/* total programs slider  
 search.addWidget(
   instantsearch.widgets.rangeSlider({
     container: '#total-programs-refinement',
@@ -559,7 +541,7 @@ search.addWidget(
     pips: false,
     tooltips: false,
   })
-);
+);*/
 
 // total programs input  
 search.addWidget(
@@ -569,9 +551,6 @@ search.addWidget(
     labels: {
       separator: 'to',
       submit: 'Go'
-    },
-    templates: {
-      header: 'Total Programs'
     }
   })
 );
@@ -604,7 +583,7 @@ search.once('render', function(){
     }//end if click outside dropdown
   });//end if click document
   
-  /* Put tooltips onto ais-headers */
+  /* Put tooltips onto ais-headers 
   $('#circulation-input .ais-header').append('<i class="icon-info-circle" tabindex="0" aria-hidden="true" rel="tooltip" title="Total annual circulation of all library materials of all types, including renewals."><span>Total annual circulation of all library materials of all types, including renewals.</span></i>');
   $('#revenue-input .ais-header').append('<i class="icon-info-circle" tabindex="0" aria-hidden="true" rel="tooltip" title="Sum of Local Government Revenue, State Government Revenue, Federal Government Revenue, and Other Operating Revenue."><span>Sum of Local Government Revenue, State Government Revenue, Federal Government Revenue, and Other Operating Revenue.</span></i>');
   $('#staff-input .ais-header').append('<i class="icon-info-circle" tabindex="0" aria-hidden="true" rel="tooltip" title="Total paid employees."><span>Total paid employees.</span></i>');
@@ -612,6 +591,7 @@ search.once('render', function(){
   $('#branch-libraries-input .ais-header').append('<i class="icon-info-circle" tabindex="0" aria-hidden="true" rel="tooltip" title="A branch library is an auxiliary unit of an administrative entity which has at least all of the following: separate quarters; an organized collection of library materials; paid staff; and regularly scheduled hours for being open to the public."><span>A branch library is an auxiliary unit of an administrative entity which has at least all of the following: separate quarters; an organized collection of library materials; paid staff; and regularly scheduled hours for being open to the public.</span></i>');
   $('#visits-input .ais-header').append('<i class="icon-info-circle" tabindex="0" aria-hidden="true" rel="tooltip" title="Total number of persons entering the library for whatever purpose during the year."><span>Total number of persons entering the library for whatever purpose during the year.</span></i>');
   $('#total-programs-input .ais-header').append('<i class="icon-info-circle" tabindex="0" aria-hidden="true" rel="tooltip" title="Number of planned events which introduce the group attending to any of the broad range of library services or activities or which directly provides information to participants."><span>Number of planned events which introduce the group attending to any of the broad range of library services or activities or which directly provides information to participants.</span></i>');
+  */
   //now...call it (from common.js)
   doTooltips();
 
@@ -636,6 +616,15 @@ var updateSearchUI = function() {
 
   /* Change labels on 'Legal Basis' dropdowns */
   changeLegalLabels();
+
+  //if an input refinement is empty, display a message.
+  $('.ais-root').each(function(){
+    if ($(this).parent().css('display') == 'none'){
+      $(this).parent().parent().append('<span class="none-avail">No refinement available.</span>');
+    }else{
+      $(this).parent().parent().remove('.none-avail');
+    }
+  });//end check each input
 
 }
 search.on('render', updateSearchUI)
