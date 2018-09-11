@@ -134,7 +134,8 @@ function currentFilters(){
   }).get();//end map checked legal basis checkboxes
 
 
-	$('.min-max').each(function(){
+	/* Code to get values from sliders:
+  $('.min-max').each(function(){
 		var currentSlider = $(this).attr('id').replace('-refinement','').replace('total-','');
     
 		//get current lower position
@@ -148,7 +149,35 @@ function currentFilters(){
 		//stick it in the right hole
 		$('#'+currentSlider).text(lowerPos+' - '+upperPos);
 
-	});//end each slider container
+	});//end each slider container*/
+
+  /* Code to get values from inputs: */
+  $('.ais-range-input').each(function(){
+    //find out which one we're on
+    var whichRange = $(this).parent().parent().attr('id').replace('-input','');
+
+    //gather the data about it
+    var lowerPos = $('#'+whichRange+'-input .ais-range-input--inputMin').val();
+    var upperPos = $('#'+whichRange+'-input .ais-range-input--inputMax').val();
+
+    //if the input is empty or if it's out of bounds, use its min/max value
+    if(!lowerPos){
+      lowerPos = $('#'+whichRange+'-input .ais-range-input--inputMin').attr('placeholder');
+    }
+    if(!upperPos){
+      upperPos = $('#'+whichRange+'-input .ais-range-input--inputMax').attr('placeholder');
+    }
+
+    //console.log('summary to update: #'+whichRange+'; its min is '+lowerPos+' and its max is '+upperPos);
+
+    //shorten 'em up
+    upperPos = shortenLargeNumber(upperPos,2);
+    lowerPos = shortenLargeNumber(lowerPos,2);
+
+    //stick it in the right hole
+    $('#'+whichRange).text(lowerPos+' - '+upperPos);
+  
+  });//end each range input
 
 
 	/* Fill in "current filters" for locale, state, and legal basis */

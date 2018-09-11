@@ -4,6 +4,7 @@
   
   <title>Library Search &amp; Compare</title>
 
+  <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=default,Array.prototype.includes"></script>
   <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.5/lodash.min.js"></script>
   <script src="src/search-compare-app/vanilla-dataTables.js"></script>
   <script src="https://cdn.jsdelivr.net/algoliasearch/3.25.1/algoliasearch.min.js"></script>
@@ -41,34 +42,34 @@
         <div>Enter a keyword in the search box above to search for libraries. From there, you can refine your search based on the other filters. By clicking on a library name in the search results below, you can view similar libraries based on Service, Staff, Finance and Collection data.</div>
       </div>
       <div class="col-sm-2">
-            <div id="circulation-input"></div>
-            <div id="total-circulation-refinement" class="facet min-max"></div>
-          </div>
+        <div class="ais-range-input--header ais-header">Total Circulation<i class="icon-info-circle" tabindex="0" aria-hidden="true" rel="tooltip" title="Total annual circulation of all library materials of all types, including renewals."><span>Total annual circulation of all library materials of all types, including renewals.</span></i></div>
+          <div id="circulation-input"></div>
+        </div>
       <div class="col-sm-2">
+        <div class="ais-range-input--header ais-header">Total Revenue<i class="icon-info-circle" tabindex="0" aria-hidden="true" rel="tooltip" title="Sum of Local Government Revenue, State Government Revenue, Federal Government Revenue, and Other Operating Revenue."><span>Sum of Local Government Revenue, State Government Revenue, Federal Government Revenue, and Other Operating Revenue.</span></i></div>
         <div id="revenue-input"></div>
-        <div id="total-revenue-refinement" class="facet min-max"></div>
       </div>
       <div class="col-sm-2">
+        <div class="ais-range-input--header ais-header">Total Staff<i class="icon-info-circle" tabindex="0" aria-hidden="true" rel="tooltip" title="Total paid employees."><span>Total paid employees.</span></i></div>
         <div id="staff-input"></div>
-        <div id="total-staff-refinement" class="facet min-max"></div>
       </div>
       <div class="col-sm-2">
+        <div class="ais-range-input--header ais-header">Service Area Population<i class="icon-info-circle" tabindex="0" aria-hidden="true" rel="tooltip" title="Number of people in the geographic area for which a public library has been established to offer services and from which (or on behalf of which) the library derives revenue, plus any areas served under contract for which the library is the primary service provider."><span>Number of people in the geographic area for which a public library has been established to offer services and from which (or on behalf of which) the library derives revenue, plus any areas served under contract for which the library is the primary service provider.</span></i></div>
         <div id="population-input"></div>
-        <div id="service-area-population-refinement" class="facet min-max"></div>
       </div>
     </div><!--end 1st row of facets-->
     <div class="row filter-row">
       <div class="col-sm-2">
-        <div id="branch-libraries-input">Branch Libraries</div>
-        <div id="branch-libraries-refinement" class="facet min-max"></div>
+        <div class="ais-range-input--header ais-header">Branch Libraries<i class="icon-info-circle" tabindex="0" aria-hidden="true" rel="tooltip" title="A branch library is an auxiliary unit of an administrative entity which has at least all of the following: separate quarters; an organized collection of library materials; paid staff; and regularly scheduled hours for being open to the public."><span>A branch library is an auxiliary unit of an administrative entity which has at least all of the following: separate quarters; an organized collection of library materials; paid staff; and regularly scheduled hours for being open to the public.</span></i></div>
+        <div id="branch-libraries-input"></div>
       </div>
       <div class="col-sm-2">
+        <div class="ais-range-input--header ais-header">Visits<i class="icon-info-circle" tabindex="0" aria-hidden="true" rel="tooltip" title="Total number of persons entering the library for whatever purpose during the year."><span>Total number of persons entering the library for whatever purpose during the year.</span></i></div>
         <div id="visits-input"></div>
-        <div id="visits-refinement" class="facet min-max"></div>
       </div>
       <div class="col-sm-2">
+        <div class="ais-range-input--header ais-header">Total Programs<i class="icon-info-circle" tabindex="0" aria-hidden="true" rel="tooltip" title="Number of planned events which introduce the group attending to any of the broad range of library services or activities or which directly provides information to participants."><span>Number of planned events which introduce the group attending to any of the broad range of library services or activities or which directly provides information to participants.</span></i></div>
         <div id="total-programs-input"></div>
-        <div id="total-programs-refinement" class="facet min-max"></div>
       </div>
       <div class="col-sm-2">
         <div class="ais-range-input--header ais-header">State</div>
@@ -103,7 +104,7 @@
           </div>
           <div class="col-md-2 col-xs-4">
             <h3>Service Area Pop:</h3>
-            <div id="service-area-population"></div>
+            <div id="population"></div>
           </div>
           <div class="col-md-2 col-xs-4">
             <h3>Branch Libraries:</h3>
@@ -117,7 +118,7 @@
           </div>
           <div class="col-md-2 col-xs-4">
             <h3>Total Programs:</h3>
-            <div id="programs"></div>
+            <div id="total-programs"></div>
           </div>
           <div class="col-md-2 col-xs-4">
             <h3>Locales:</h3>

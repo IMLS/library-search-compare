@@ -98,6 +98,7 @@ header {
 #filters .row.filter-row + .row.filter-row {
 	border-bottom: 1px solid #5f6062;
 	margin-bottom: 10px;
+	padding-bottom: 10px;
 }
 #filters .filter-recap {
 	margin-bottom: 0;
