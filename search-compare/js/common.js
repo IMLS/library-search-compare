@@ -59,7 +59,7 @@ function prepareCsvData( content ) {
   for (var h in content.hits) {
     var res = content.hits[h];
     var csvHeadings = [ 'Name', 'fscs_id', 'City', 'State', 'Locale code' ];
-    var library_name = _.replace( res[ 'library_name' ], ',', '' );
+    var library_name = _.replace( res[ 'library_name' ], /,/g, '' );
     var csvRow = [ library_name, res[ 'fscs_id' ], res[ 'mailing_city' ], res[ 'state' ], res[ 'locale' ] ];
 
     _.forEach( comparisonData, function( value, key) {
