@@ -154,16 +154,80 @@ header {
 	padding-right: 3px;
 	font-size: 11px;
 }
+.filter-dropdown {
+	display: inline-block;
+	position: relative;
+}
+.filter-dropdown > button {
+	background-color: #fff;
+	border: 1px solid #ccc;
+	color: #333;
+	cursor: pointer;
+	vertical-align: middle;
+	white-space: nowrap;
+	padding: 7px 15px;
+	border-radius: 4px;
+	transition: all .15s ease-in-out;
+	position: relative;
+	text-align: left;
+}
+.filter-dropdown > button > div {
+	overflow: hidden;
+	width: 100%;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	margin-right: 15px;
+}
+.filter-dropdown > button:after {
+	content: "\75";
+	font-family: "icon-font" !important;
+	font-style: normal !important;
+	font-weight: normal !important;
+	font-variant: normal !important;
+	text-transform: none !important;
+	speak: none;
+	line-height: 1;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	position: absolute;
+	right: 5px;
+	top: 10px;
+	color: #333;
+}
+.filter-dropdown > button:hover, .filter-dropdown > button:active {
+	background-color: #d4d4d4;
+	border-color: #8c8c8c;
+	transition: all .15s ease-in-out;
+}
+.filter-dropdown > button + div {
+	position: absolute;
+	top: 100%;
+	right: 0;
+	z-index: 1000;
+	float: left;
+	min-width: 160px;
+	max-width: 400px;
+	padding: 0;
+	margin: 2px 0 0;
+	text-align: left;
+	background-color: #fff;
+	border: 1px solid rgba(0, 0, 0, .15);
+	border-radius: 4px;
+	box-shadow: 0 6px 12px rgba(0,0,0,.175);
+	display: none;
+}
 
 /* Algolia Things
    =========================*/
 /*search box*/
 .ais-search-box {
-	max-width: 80%;
-	display: inline-block;
+	width: 100%;
+	padding-right: 3em;
+	max-width: 100%;
 }
 .ais-search-box--input {
 	height: 2.5em;
+	width: 100%;
 }
 .ais-search-box--magnifier {
 	top: 10px;
@@ -172,20 +236,44 @@ header {
 	top: 11px;
 }
 #searchGo {
-	width: 20%;
-	overflow: hidden;
-	display: inline-block;
+	width: 3em;
 	border-radius: 0 4px 4px 0;
 	height: 35px;
 	vertical-align: top;
 	padding: 5px;
+	font-size: 14px;
+	position: absolute;
+	top: 0;
+	right: 15px;
+}
+@media only screen and (max-width: 1380px) {
+    .ais-search-box {
+		padding-right: 0;
+	}
+	#searchGo {
+		width: 100%;
+		border-radius: 4px;
+		position: relative;
+		right: auto;
+	}
+}
+@media only screen and (max-width : 768px) {
+	.ais-search-box {
+		padding-right: 3em;
+	}
+	#searchGo {
+		width: 3em;
+		border-radius: 0 4px 4px 0;
+		position: absolute;
+		right: 15px;
+	}
 }
 
-/*checkbox dropdowns*/
+
+/*checkbox lists*/
 .ais-root.ais-refinement-list {
 	position: relative;
 	cursor: pointer;
-	margin-top: 16px;
 }
 .ais-refinement-list--header.ais-header {
 	font-weight: normal;
@@ -208,14 +296,14 @@ header {
 }
 .ais-body.ais-refinement-list--body {
 	background-color: #fff;
-	border: 1px solid #5f6062;
-	display: none;
-	position: absolute;
 	width: 100%;
 	min-width: 150px;
 	overflow: auto;
 	max-height: 300px;
 	z-index: 151;
+}
+#legal-basis-refinement .ais-body.ais-refinement-list--body {
+	min-width: 200px;
 }
 .ais-refinement-list--label {
 	font-weight: normal;
@@ -240,6 +328,9 @@ header {
 	float: right;
 	position: relative;
 	top: 3px;
+}
+.ais-refinement-list--item:hover, .ais-refinement-list--item:focus {
+	background-color: #d4d4d4;
 }
 
 /*slider elements*/
@@ -268,6 +359,10 @@ header {
 	border-bottom: 1px solid #5f6062;
 	margin-bottom: 1em;
 }
+.ais-root.ais-range-input {
+	margin: 10px 10px 5px;
+	min-width: 16em;
+}
 input[type=number] {
 	font-weight: normal;
 	-moz-appearance: textfield;
@@ -288,6 +383,9 @@ input[type=number]::-webkit-outer-spin-button {
 	border: 0;
 	border-radius: 4px;
 	padding: 3px 5px;
+}
+.none-avail {
+	padding: 10px;
 }
 
 /* Results Things

@@ -100,3 +100,9 @@
 .icon-clear-all:before {
   content: "\78";
 }
+.icon-chevron-down:before {
+  content: "\73";
+}
+.icon-caret-down:before {
+  content: "\75";
+}

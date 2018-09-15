@@ -367,10 +367,7 @@ search.addWidget(
     attributeName: 'state',
     limit: 65,
     showMore: false,
-    sortBy: ['name:asc'],
-    templates: {
-      header: 'Select state(s)...'
-    }
+    sortBy: ['name:asc']
   })
 );
 
@@ -379,10 +376,7 @@ search.addWidget(
   instantsearch.widgets.refinementList({
     container: '#locale-refinement',
     attributeName: 'locale_string',
-    sortBy: ['name:asc'],
-    templates: {
-      header: 'Select Locale(s)...'
-    }
+    sortBy: ['name:asc']
   })
 );
 
@@ -482,10 +476,7 @@ search.addWidget(
     attributeName: 'legal_basis',
     limit: 65,
     showMore: false,
-    sortBy: ['name:asc'],
-    templates: {
-      header: 'Select Legal Basis...'
-    }
+    sortBy: ['name:asc']
   })
 );
 
@@ -563,36 +554,7 @@ search.once('render', function(){
   
   /* Make space for fixed header once filters are loaded */
   headRoom();
-
-  /* Make the checkbox lists into dropdowns */
-  $('.ais-refinement-list--header').click(function(){
-    $('.ais-refinement-list--header').not(this).next('.ais-refinement-list--body').removeClass('show');
-    $(this).next('.ais-refinement-list--body').toggleClass('show');
-  });//end on dropdown click
-  $(document).click(function(e){
-    if(!$(e.target).hasClass('ais-refinement-list--header')){
-      /*click was somewhere outside of the dropdowns
-        When dropdowns were sticky, the following selectors were also a part of the matches:
-        , .ais-refinement-list--checkbox, .ais-refinement-list--list, .ais-refinement-list--label, .ais-refinement-list--count */
-      $('.ais-refinement-list--body').each(function(){
-        if($(this).hasClass('show')){
-          //the dropdown is open; close it
-          $(this).removeClass('show');
-        }
-      });//end check each dropdown
-    }//end if click outside dropdown
-  });//end if click document
   
-  /* Put tooltips onto ais-headers 
-  $('#circulation-input .ais-header').append('<i class="icon-info-circle" tabindex="0" aria-hidden="true" rel="tooltip" title="Total annual circulation of all library materials of all types, including renewals."><span>Total annual circulation of all library materials of all types, including renewals.</span></i>');
-  $('#revenue-input .ais-header').append('<i class="icon-info-circle" tabindex="0" aria-hidden="true" rel="tooltip" title="Sum of Local Government Revenue, State Government Revenue, Federal Government Revenue, and Other Operating Revenue."><span>Sum of Local Government Revenue, State Government Revenue, Federal Government Revenue, and Other Operating Revenue.</span></i>');
-  $('#staff-input .ais-header').append('<i class="icon-info-circle" tabindex="0" aria-hidden="true" rel="tooltip" title="Total paid employees."><span>Total paid employees.</span></i>');
-  $('#population-input .ais-header').append('<i class="icon-info-circle" tabindex="0" aria-hidden="true" rel="tooltip" title="Number of people in the geographic area for which a public library has been established to offer services and from which (or on behalf of which) the library derives revenue, plus any areas served under contract for which the library is the primary service provider."><span>Number of people in the geographic area for which a public library has been established to offer services and from which (or on behalf of which) the library derives revenue, plus any areas served under contract for which the library is the primary service provider.</span></i>');
-  $('#branch-libraries-input .ais-header').append('<i class="icon-info-circle" tabindex="0" aria-hidden="true" rel="tooltip" title="A branch library is an auxiliary unit of an administrative entity which has at least all of the following: separate quarters; an organized collection of library materials; paid staff; and regularly scheduled hours for being open to the public."><span>A branch library is an auxiliary unit of an administrative entity which has at least all of the following: separate quarters; an organized collection of library materials; paid staff; and regularly scheduled hours for being open to the public.</span></i>');
-  $('#visits-input .ais-header').append('<i class="icon-info-circle" tabindex="0" aria-hidden="true" rel="tooltip" title="Total number of persons entering the library for whatever purpose during the year."><span>Total number of persons entering the library for whatever purpose during the year.</span></i>');
-  $('#total-programs-input .ais-header').append('<i class="icon-info-circle" tabindex="0" aria-hidden="true" rel="tooltip" title="Number of planned events which introduce the group attending to any of the broad range of library services or activities or which directly provides information to participants."><span>Number of planned events which introduce the group attending to any of the broad range of library services or activities or which directly provides information to participants.</span></i>');
-  */
-  //now...call it (from common.js)
   doTooltips();
 
   /* Change labels on 'Legal Basis' dropdowns */
@@ -618,9 +580,9 @@ var updateSearchUI = function() {
   changeLegalLabels();
 
   //if an input refinement is empty, display a message.
-  $('.ais-root').each(function(){
+  $('.filter-row .ais-root').each(function(){
     if ($(this).parent().css('display') == 'none'){
-      $(this).parent().parent().append('<span class="none-avail">No refinement available.</span>');
+      $(this).parent().parent().append('<div class="none-avail">No refinement available.</div>');
     }else{
       $(this).parent().parent().remove('.none-avail');
     }
@@ -684,12 +646,6 @@ $(document).ready(function() {
     }
   });//end on show-user-table click
 
-  /*returnButton();
-
-  $('#filters').click(function(){
-    returnButton();
-  });*/
-
   /* Add their current URL to local storage before they leave the page */
   window.addEventListener("beforeunload", function (e) {
     var returnURL = window.location.href;
@@ -700,6 +656,22 @@ $(document).ready(function() {
   /* Set up the definitions buttons */
   $('#expBtn').attr('data-cluster', $('#comparison-select').val());
   $('#userExpBtn').attr('data-cluster', $('#user-comparison-select').val());
+
+  /* Handle filter dropdowns */
+  $('.filter-dropdown button').click(function(){
+    $('.filter-dropdown button').not(this).next('div').removeClass('show');
+    $(this).next('div').toggleClass('show');
+  });//end filter-dropdown button click
+  $(document).click(function(e){
+    if((!$(e.target).closest('.filter-dropdown > div').length) && (!$(e.target).closest('.filter-dropdown > button').length)) {
+      $('.filter-dropdown > div').each(function(){
+        if($(this).hasClass('show')){
+          //the dropdown is open; close it
+          $(this).removeClass('show');
+        }
+      });//end check each dropdown
+    }
+  });//end if click document
 
 });//end document ready
 
