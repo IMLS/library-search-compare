@@ -170,60 +170,19 @@ function getFullData( results ) {
 }
 
 function displayDataGrid( content, comparisonSelect ) {
-  var tableRows = []
-  var tableData = {};
-
-  var field_names = _.map( _.find( comparisonData, { 'name': comparisonSelect } ).field_names );
-
-  tableData[ 'headings' ] = _.map( _.find( comparisonData, { 'name': comparisonSelect } ).headings );
-  tableData[ 'headings' ].unshift('');
-
-  for (var h in content.hits) {
-    res = content.hits[h];
-    var tableRow = [ '<i class="user-compare-btn user-compare-add" data-fscs="' + res[ "fscs_id" ] + '" data-action="add"></i>', '<a data-name="' + res[ 'library_name' ] + '" href="details.html?fscs_id=' + res["fscs_id"] + '">' + res["library_name"] + ' (' + res[ "fscs_id" ] + ')' + '</a>' ];
-    _.forEach( field_names, function(f) {
-      tableRow.push(res[f].toLocaleString("en-US"));
-    });
-    tableRows.push(tableRow);
+  var imlsTableEl = document.createElement('imls-table')
+  imlsTableEl.rowData = content.hits
+  if (comparisonSelect) {
+    imlsTableEl.compareOn = comparisonSelect
   }
-  tableData[ 'rows' ] = tableRows;
-  
-  if (typeof dataGrid !== 'undefined') {
-    dataGrid.destroy();
-  }
-
-  var page_url = window.location.href;
-
-  dataGrid = new DataTable("#grid-results", {
-    perPage: 50,
-    data: tableData,
-    searchable: false,
-    perPageSelect: false,
-    columns: [
-      {
-        select: 0,
-        sortable: false
-      },
-      {
-        select: 1,
-        render: function( data, cell, row) {
-          return data;
-        }
-      }
-    ]
-  });
-
-  dataGrid.on('datatable.init', function() {
-    setAddUserCompareHandler();
-  });
-
-  dataGrid.on('datatable.page', function() {
-    setAddUserCompareHandler();
-  });
-
-  dataGrid.on('datatable.sort', function() {
-    setAddUserCompareHandler();
-  });
+  imlsTableEl.userCompareListOnly = false
+  imlsTableEl.userCompareList = searchCompare.fscs_arr
+  imlsTableEl.shareUrl = window.location.href
+  document.querySelector('#grid-results-wrapper').innerHTML = ''
+  document.querySelector('#grid-results-wrapper').appendChild(imlsTableEl)
+  imlsTableEl.addEventListener('imls-table-user-compare-list-change', function(event) {
+    searchCompare.fscs_arr = event.target.userCompareList
+  })
 }
 
 searchCompare.fscs_arr = [];
