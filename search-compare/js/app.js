@@ -178,6 +178,7 @@ function displayDataGrid( content, comparisonSelect ) {
   imlsTableEl.userCompareListOnly = false
   imlsTableEl.userCompareList = searchCompare.fscs_arr
   imlsTableEl.shareUrl = window.location.href
+  imlsTableEl.hideActions = true
   document.querySelector('#grid-results-wrapper').innerHTML = ''
   document.querySelector('#grid-results-wrapper').appendChild(imlsTableEl)
   imlsTableEl.addEventListener('imls-table-user-compare-list-change', function(event) {

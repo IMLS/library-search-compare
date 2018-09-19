@@ -24,6 +24,12 @@ class ImlsTable extends PolymerElement {
         reflectToAttribute: true,
         oberver: 'render'
       },
+      hideActions: {
+        type: Boolean,
+        value: false,
+        reflectToAttribute: true,
+        observer: 'render'
+      },
       showUserCompareListButtons: {
         type: Boolean,
         value: true,
@@ -88,41 +94,45 @@ class ImlsTable extends PolymerElement {
 
   render() {
     this.innerHTML = `
-      <div class="actions-box"> 
+      ${this.hideActions ? '' : `
+        <div class="actions-box"> 
           <div class="row">
-              <div class="col-sm-4">
+            <div class="col-sm-4">
               <span id="userCount"></span>
               ${this.shareUrl !== '' ? `<button id="user-share-btn" class="btn btn-default btn-sm" type="button">Share These Results</button>` : ``}
               <div id="shareDiv" class="closed">
-                  <p>This page has been copied to your clipboard. Paste somewhere to share!</p>
-                  <input type="text" value="${this.shareUrl}" id="userShareMe">
-                  </div><!--end #shareDiv-->
-                  <button id="download-user-csv" class="btn btn-default btn-sm"><i class="icon-file-excel"></i> Download</button>
+                <p>This page has been copied to your clipboard. Paste somewhere to share!</p>
+                <input type="text" value="${this.shareUrl}" id="userShareMe">
               </div>
-              <div class="col-sm-8 text-right">
+              <button id="download-user-csv" class="btn btn-default btn-sm"><i class="icon-file-excel"></i> Download</button>
+            </div>
+            <div class="col-sm-8 text-right">
               <div id="user-comparison-select-wrapper">
-                  <span id="user-comparison-select-text">See variables related to: </span>
-                  <select id="user-comparison-select">
+                <span id="user-comparison-select-text">See variables related to: </span>
+                <select id="user-comparison-select">
                   ${this._comparisonTableConfig.map(option => `
                     <option value="${option.name}" ${option.name === this.compareOn ? 'selected' : ''}>
                       ${option.display_name}
                     </option>
                   `).join('')}
-                  </select>
+                </select>
               </div>
-              </div>
+            </div>
           </div>              
-          </div><!--end .actions-box-->
-          <div id="user-comparison-results-wrapper">
-          <div class="table-responsive">
-              <table class="table table-striped" id="data_table"></table>
-          </div>
+        </div>
+      `}
+      <div id="user-comparison-results-wrapper">
+        <div class="table-responsive">
+          <table class="table table-striped" id="data_table"></table>
+        </div>
       </div><!-- end user-comparison-results-wrapper -->
     `
 
-    if (this.shareUrl !== '') this.querySelector('#user-share-btn').addEventListener('click', this.showShareUrl.bind(this))
-    this.querySelector('#download-user-csv').addEventListener('click', this.downloadCsv.bind(this))
-    this.querySelector('#user-comparison-select').addEventListener('change', event => this.compareOn = event.target.value)
+    if (!this.hideActions) {
+      if (this.shareUrl !== '') this.querySelector('#user-share-btn').addEventListener('click', this.showShareUrl.bind(this))
+      this.querySelector('#download-user-csv').addEventListener('click', this.downloadCsv.bind(this))
+      this.querySelector('#user-comparison-select').addEventListener('change', event => this.compareOn = event.target.value)
+    }
 
     var tableRows = []
     var tableData = {};
