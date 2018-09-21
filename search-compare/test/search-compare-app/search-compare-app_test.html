@@ -74,6 +74,21 @@
           }, {once: true})
         });
 
+        test('imls-table row should have add/remove buttons after datatable sort', function(done) {
+          var container = fixture('BasicContainerFixture');
+          var imlsTableEl = document.createElement('imls-table');
+          imlsTableEl.rowData = window.stubSearchResult.hits;
+          imlsTableEl.userCompareList = ['PA0180'];
+          container.appendChild(imlsTableEl)
+          // Tragically dataTable is async and not rendered at this point (probably using setTimeout somewhere) so we have to listen for events. 
+          imlsTableEl.addEventListener('imls-table-grid-render', _ => {
+            imlsTableEl.querySelectorAll('a.dataTable-sorter')[3].click()
+            assert.equal(imlsTableEl.querySelectorAll('.user-compare-btn')[3].classList.contains('user-compare-remove'), true)
+            assert.equal(imlsTableEl.querySelectorAll('.user-compare-btn')[3].classList.contains('user-compare-add'), false)
+            done()
+          }, {once: true})
+        });
+
         test('imls-table row should remove from user compare list and then be hidden', function(done) {
           var container = fixture('BasicContainerFixture');
           var imlsTableEl = document.createElement('imls-table');
