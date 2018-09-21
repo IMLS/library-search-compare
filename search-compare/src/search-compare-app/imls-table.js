@@ -186,11 +186,10 @@ class ImlsTable extends PolymerElement {
       }
     })
 
-    /* @TODO
-    comparisonGrid.on('datatable.sort', function() {
-        //setAddUserCompareHandler();
+    this.comparisonGrid.on('datatable.sort', _ => {
+      console.log('sort event called')
+      this.gridHasRendered()
     });
-    */
 
   }
 
