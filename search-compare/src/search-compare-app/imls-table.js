@@ -20,56 +20,40 @@ class ImlsTable extends PolymerElement {
     return {
       shareUrl: {
         type: String,
-        value: '',
-        reflectToAttribute: true,
-        oberver: 'render'
+        value: ''
       },
       hideActions: {
         type: Boolean,
-        value: false,
-        reflectToAttribute: true,
-        observer: 'render'
+        value: false
       },
       showUserCompareListButtons: {
         type: Boolean,
-        value: true,
-        reflectToAttribute: true,
-        observer: 'render'
+        value: true
       },
       rowData: {
         type: Array,
-        value: [],
-        reflectToAttribute: true,
-        observer: 'render'
+        value: []
       },
       userCompareList: {
         type: Array,
-        value: [],
-        reflectToAttribute: true,
-        observer: 'userCompareListChange'
+        value: []
       },
       userCompareListOnly: {
         type: Boolean,
-        value: false,
-        observer: 'render'
+        value: false
       },
       compareOn: {
         type: String,
-        value: 'demographic',
-        reflectToAttribute: true,
-        observer: 'render'
+        value: 'demographic'
       },
       // Note currentPage is not tied to render because it would cause an infinite loop with dataTable.
       currentPage: {
         type: Number,
-        reflectToAttribute: true,
         value: 1
       },
       perPage: {
         type: Number,
-        value: 50,
-        reflectToAttribute: true,
-        observer: 'render'
+        value: 50
       }
     };
   }
@@ -86,6 +70,8 @@ class ImlsTable extends PolymerElement {
         } else {
           this.userCompareList = [...this.userCompareList, event.target.getAttribute('data-fscs')]
         }
+        this.dispatchEvent(new CustomEvent('imls-table-user-compare-list-change'))
+        this.render()
       }
     });
 
@@ -218,11 +204,6 @@ class ImlsTable extends PolymerElement {
 
   showShareUrl() {
     this.querySelector('#shareDiv').setAttribute('class', 'here')
-  }
-
-  userCompareListChange() {
-    this.dispatchEvent(new CustomEvent('imls-table-user-compare-list-change'))
-    this.render()
   }
 
   renderCsv() {
