@@ -117,7 +117,10 @@ class ImlsTable extends PolymerElement {
     if (!this.hideActions) {
       if (this.shareUrl !== '') this.querySelector('#user-share-btn').addEventListener('click', this.showShareUrl.bind(this))
       this.querySelector('#download-user-csv').addEventListener('click', this.downloadCsv.bind(this))
-      this.querySelector('#user-comparison-select').addEventListener('change', event => this.compareOn = event.target.value)
+      this.querySelector('#user-comparison-select').addEventListener('change', event => {
+        this.compareOn = event.target.value
+        this.render()
+      })
     }
 
     var tableRows = []
