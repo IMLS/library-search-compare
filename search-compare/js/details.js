@@ -263,6 +263,69 @@ function pad(num, size) {
     return s;
 }
 
+// trends data prototype
+function handleTrendSelection(target) {
+  var comparisonSelect = target.value;
+  console.log( comparisonSelect );
+
+  displayTrendsGrid( comparisonSelect );
+}
+
+function displayTrendsGrid( comparisonSelect ) {
+  var trendTableRows = [];
+  var trendTableData = {};
+
+  var field_names = _.map(_.find(comparisonData, {
+    'name': comparisonSelect
+  }).field_names);
+
+  trendTableData['headings'] = _.map(_.find(comparisonData, {
+    'name': comparisonSelect
+  }).headings);
+  trendTableData[ 'headings' ][0] = 'Time Period';
+
+  var rows = [ '1 year change', '5 year change', '10 year change' ];
+  _.forEach( rows, function ( row ) {
+    var trendTableRow = [ row ];
+
+    _.forEach(field_names, function (f) {
+      var num = Math.random()*25;
+      num *= Math.floor(Math.random()*2) == 1 ? 1 : -1;
+      trendTableRow.push( num.toFixed( 2 ) + '%' );
+    });
+
+    trendTableRows.push(trendTableRow);
+  } );
+
+  trendTableData['data'] = trendTableRows;
+
+  if (typeof trendGrid !== 'undefined') {
+    trendGrid.destroy();
+  }
+
+  trendGrid = new DataTable("#trends-table", {
+    perPage: 50,
+    data: trendTableData,
+    searchable: false,
+    sortable: false,
+    perPageSelect: false,
+    columns: [ { 
+      select: 0,
+      render: function render( data, cell, row ) {
+        return data;
+      }
+    } ]
+  });
+
+
+  trendGrid.on('datatable.init', function () {
+  });
+  trendGrid.on('datatable.page', function () {
+  });
+  trendGrid.on('datatable.sort', function () {
+  });
+}
+
 function displayOutlets( content ) {
   if ( content.hits.length > 0 ) {
     var outletRows = [];
@@ -534,6 +597,20 @@ function displaySimilarLibraries( baseLibrary, content, cluster_type, field_name
 //add to URL on button click
     jQuery(function($){
       $(document).ready(function(){
+
+        // Call display of trends data prototype table  
+        displayTrendsGrid( 'demographic' );
+
+        _.forEach(comparisonData, function (value, key) {
+          $('#trends-select').append($('<option></option>').attr('value', value.name).text(value.display_name));
+        }); 
+
+        $('#trends-select').change(function ( event ) {
+          var comparisonSelect = event.target.value
+          displayTrendsGrid( comparisonSelect );
+        });
+
+        //end trends data prototype
 
         //first, make room for header
         headRoom();

@@ -446,7 +446,7 @@ input[type=number]::-webkit-outer-spin-button {
 	background-color: #34715b;
 }
 
-#comparison-select, #count, #userCount {
+#comparison-select, #trends-select, #count, #userCount {
 	display: inline-block;
 }
 
@@ -699,7 +699,8 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 #similar-libraries-wrapper .page-shadow,
-#outlets-table-wrapper .box {
+#outlets-table-wrapper .box,
+#trends-table-wrapper .box {
 	margin-bottom: 20px;
 }
 
