@@ -91,9 +91,7 @@ var search = instantsearch({
 // search input widget  
 search.addWidget(
   instantsearch.widgets.searchBox({
-    container: '#search-input',
-    loadingIndicator: true,
-    searchOnEnterKeyPressOnly: true
+    container: '#search-input'
   })
 );
 
@@ -314,6 +312,7 @@ search.addWidget(
 search.addWidget(
   instantsearch.widgets.clearAll({
     container: '#clear-all',
+    clearsQuery: true,
     templates: {
       link: '<i class="icon-x"></i> Clear All Filters'
     }
@@ -520,12 +519,6 @@ search.once('render', function(){
   /* Change labels on 'Legal Basis' dropdowns */
   changeLegalLabels();
 
-  /* Make the search button work */
-  $('#searchGo').on('click', function(){
-    var query = $('#search-input').val().trim();
-    search.helper.setQuery(query).search();
-  });//end on click searchGo
-
 });//end render once
 
 //tell when the widgets are re-rendered
@@ -540,14 +533,13 @@ var updateSearchUI = function() {
   changeLegalLabels();
 
   //if an input refinement is empty, display a message.
-  $('.filter-row .ais-root').each(function(){
+  $('.filter-dropdown .ais-root').each(function(){
     if ($(this).parent().css('display') == 'none'){
       $(this).parent().parent().append('<div class="none-avail">No refinement available.</div>');
     }else{
       $(this).parent().parent().remove('.none-avail');
     }
   });//end check each input
-
 }
 search.on('render', updateSearchUI)
 search.on('error', updateSearchUI)
@@ -561,18 +553,6 @@ $(document).ready(function() {
       .attr( 'value', value.name )
       .text( value.display_name ));
   });//end forEach
-
-    /* Hide and show filters section */
-    $('#hide-filters').click(function(){
-      if($('.filter-row').is(':visible')){
-        $('.filter-row').hide();
-        $('#hide-filters').text('Show Filters');
-      }else{
-        $('.filter-row').show();
-        $('#hide-filters').text('Hide Filters');
-      }
-      headRoom();
-    });//end hide-filters click
 
     /* Toggle between list and grid view for results */
   $('#viewToggle').on('click', function(){
@@ -621,6 +601,9 @@ $(document).ready(function() {
   $('.filter-dropdown button').click(function(){
     $('.filter-dropdown button').not(this).next('div').removeClass('show');
     $(this).next('div').toggleClass('show');
+    if($('.show').length){
+      isElementInViewport();
+    }    
   });//end filter-dropdown button click
   $(document).click(function(e){
     if((!$(e.target).closest('.filter-dropdown > div').length) && (!$(e.target).closest('.filter-dropdown > button').length)) {
