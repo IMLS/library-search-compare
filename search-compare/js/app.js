@@ -589,7 +589,7 @@ $(document).ready(function() {
   /* Add their current URL to local storage before they leave the page */
   window.addEventListener("beforeunload", function (e) {
     var returnURL = window.location.href;
-    console.log('now returnURL = '+returnURL);
+    //console.log('now returnURL = '+returnURL);
     localStorage.setItem('returnURL', returnURL);
   });
 
@@ -606,7 +606,8 @@ $(document).ready(function() {
     }    
   });//end filter-dropdown button click
   $(document).click(function(e){
-    if((!$(e.target).closest('.filter-dropdown > div').length) && (!$(e.target).closest('.filter-dropdown > button').length)) {
+    if((!$(e.target).closest('.filter-dropdown > div input[type="number"]').length) && (!$(e.target).closest('.filter-dropdown > button').length)) {
+      //document was clicked and it wasn't a dropdown button or a range input
       $('.filter-dropdown > div').each(function(){
         if($(this).hasClass('show')){
           //the dropdown is open; close it
