@@ -1,6 +1,10 @@
 var client = algoliasearch('CDUMM9WVUG', '3cc392a5d139bd9131e42a5abb75d4ee');
 var index = client.initIndex('imls_v04');
 var outletsIndex = client.initIndex('imls_v08_outlets');
+var longitudinalIndex = client.initIndex('longitudinal');
+
+// comparison data grid labels and field names  
+var searchCompare = {};
 
 // comparison data grid labels and field names  
 var comparisonData = {};
@@ -45,6 +49,51 @@ comparisonData = [
     display_name: 'Other Electronic Information', 
     headings: [ 'Name', 'Computers used by general public', 'Computer uses', 'Wireless sessions' ],
     field_names: [ 'computers', 'computer_uses', 'wifi_sessions' ] }
+];
+
+// comparison data grid labels and field names  
+var longitudinalData = {};
+longitudinalData = [
+  { name: 'demographic',
+    display_name: 'Demographic', 
+    headings: [ 'Time Period', 'Population of Legal Service Area (LSA)', 'Total unduplicated population of LSA', 'Number of central libraries', 'Number of branch libraries', 'Number of bookmobiles' ],
+    field_names: [ 'POPU_LSA', 'POPU_UND', 'CENTLIB', 'BRANLIB', 'BKMOB' ] },
+  { name: 'staff',
+    display_name: 'Paid Staff (FTE)', 
+    headings: [ 'Time Period', 'ALA-MLS librarians', 'Total librarians', 'All other paid staff', 'Total paid staff' ],
+    field_names: [ 'MASTER', 'LIBRARIA', 'OTHPAID', 'TOTSTAFF' ] },
+  { name: 'revenue',
+    display_name: 'Operating Revenue', 
+    headings: [ 'Time Period', 'Local Revenue ($)', 'State Revenue ($)', 'Federal Revenue ($)', 'Other Revenue ($)', 'Total Revenue ($)' ],
+    field_names: [ 'LOCGVT', 'STGVT', 'FEDGVT', 'OTHINCM', 'TOTINCM' ] },
+  { name: 'expenditures',
+    display_name: 'Operating Expenditures', 
+    headings: [ 'Time Period', 'Salaries & wages ($)', 'Employee benefits ($)', 'Total staff expenditures ($)', 'Print materials expenditures ($)', 'Electronic materials expenditures ($)', 'Other material expenditures ($)', 'Total collection expenditures ($)', 'Other operating expenditures ($)', 'Total operating expenditures ($)' ],
+    field_names: [ 'SALARIES', 'BENEFIT', 'STAFFEXP', 'PRMATEXP', 'ELMATEXP', 'OTHMATEX', 'TOTEXPCO', 'OTHOPEXP', 'TOTOPEXP' ] },
+  { name: 'capital',
+    display_name: 'Capital Revenue and Expenditures', 
+    headings: [ 'Time Period', 'Local capital revenue ($)', 'State capital revenue ($)', 'Federal capital revenue ($)', 'Other capital revenue ($)', 'Total capital revenue ($)', 'Total capital expenditures ($)' ],
+    field_names: [ 'LCAP_REV', 'SCAP_REV', 'FCAP_REV', 'OCAP_REV', 'CAP_REV', 'CAPITAL' ] },
+  { name: 'collection',
+    display_name: 'Library Collection', 
+    headings: [ 'Time Period', 'Print materials', 'Electronic books', 'Audio-physical units', 'Audio-downloadable units', 'Video-physical units', 'Video-downloadable units', 'Local databases', 'State databases', 'Total databases', 'Print serial subscriptions' ],
+    field_names: [ 'BKVOL', 'EBOOK', 'AUDIO_PH', 'AUDIO_DL', 'VIDEO_PH', 'VIDEO_DL', 'DB_LOC', 'DB_ST', 'DATABASE', 'SUBSCRIP' ] },
+  { name: 'services',
+    display_name: 'Services', 
+    headings: [ 'Time Period', 'Public service hours/year', 'Library visits', 'Reference transactions', 'Number of registered users', 'Total circulation of materials', 'Circulation of kid\'s materials', 'Use of electronic material' ],
+    field_names: [ 'HRS_OPEN', 'VISITS', 'REFERENC', 'REGBOR', 'TOTCIR', 'KIDCIRCL', 'ELMATCIR' ] },
+  { name: 'inter-library',
+    display_name: 'Inter-Library Loans', 
+    headings: [ 'Time Period', 'Provided to', 'Received from' ],
+    field_names: [ 'LOANTO', 'LOANFM' ] },
+  { name: 'programs',
+    display_name: 'Library Programs', 
+    headings: [ 'Time Period', 'Total library programs', 'Children\'s programs', 'Young adult programs', 'Total attendance at library programs', 'Children\'s program attendance', 'Young adult program attendance' ],
+    field_names: [ 'TOTPRO', 'KIDPRO', 'YAPRO', 'TOTATTEN', 'KIDATTEN', 'YAATTEN' ] },
+  { name: 'other_electronic',
+    display_name: 'Other Electronic Information', 
+    headings: [ 'Time Period', 'Computers used by general public', 'Computer uses', 'Wireless sessions' ],
+    field_names: [ 'GPTERMS', 'PITUSR', 'WIFISESS' ] }
 ];
 
 var clusters = [
@@ -257,6 +306,23 @@ outletsIndex.search({
 
 });
 
+var longitudinalQuery = 'FSCSKEY ' + fscs_id_param;
+longitudinalIndex.search({ 
+    query: longitudinalQuery,
+    exactOnSingleWordQuery: 'attribute', 
+    hitsPerPage: 1000,
+    typoTolerance: false
+  }, function searchDone(err, content) {
+    if (err) {
+      console.error(err);
+      return;
+    } else {
+      searchCompare.longitudinalContent = content;
+      displayTrendsGrid( searchCompare.longitudinalContent, 'demographic' );
+    }
+
+});
+
 function pad(num, size) {
     var s = num+"";
     while (s.length < size) s = "0" + s;
@@ -266,32 +332,38 @@ function pad(num, size) {
 // trends data prototype
 function handleTrendSelection(target) {
   var comparisonSelect = target.value;
-  console.log( comparisonSelect );
 
-  displayTrendsGrid( comparisonSelect );
+  displayTrendsGrid( searchCompare.longitudinalContent, comparisonSelect );
 }
 
-function displayTrendsGrid( comparisonSelect ) {
+function displayTrendsGrid( content, comparisonSelect ) {
+  console.log( comparisonSelect );
   var trendTableRows = [];
   var trendTableData = {};
 
-  var field_names = _.map(_.find(comparisonData, {
+  var field_names = _.map(_.find(longitudinalData, {
     'name': comparisonSelect
   }).field_names);
 
-  trendTableData['headings'] = _.map(_.find(comparisonData, {
+  trendTableData['headings'] = _.map(_.find(longitudinalData, {
     'name': comparisonSelect
   }).headings);
-  trendTableData[ 'headings' ][0] = 'Time Period';
 
-  var rows = [ '1 year change', '5 year change', '10 year change' ];
-  _.forEach( rows, function ( row ) {
-    var trendTableRow = [ row ];
+  var hit = searchCompare.longitudinalContent.hits;
 
-    _.forEach(field_names, function (f) {
-      var num = Math.random()*25;
-      num *= Math.floor(Math.random()*2) == 1 ? 1 : -1;
-      trendTableRow.push( num.toFixed( 2 ) + '%' );
+  var rows = { '2016 value': '_2016', '2015 value': '_2015', '1 year change': '_1_year', '2011 value': '_2011', '5 year change': '_5_year', '2006 value': '_2006', '10 year change': '_10_year' };
+  _.forEach( rows, function ( suffix, label, rows ) {
+    var trendTableRow = [ label ];
+
+    _.forEach(field_names, function ( field_name ) {
+      var cell_value = hit[0][ field_name + suffix ];
+
+      // test for undefined value from index  
+      cell_value = ( typeof cell_value === 'undefined' ) ? '' :  cell_value;
+      cell_value = ( isNaN( cell_value ) || isNaN( parseInt( cell_value ) ) ) ? cell_value : parseFloat( cell_value ).toLocaleString( 'en-US' );
+
+      var string_end = ( _.includes( label, 'year' ) && isNaN( cell_value ) === false ) ? '%' : '';
+      trendTableRow.push( cell_value + string_end );
     });
 
     trendTableRows.push(trendTableRow);
@@ -599,15 +671,15 @@ function displaySimilarLibraries( baseLibrary, content, cluster_type, field_name
       $(document).ready(function(){
 
         // Call display of trends data prototype table  
-        displayTrendsGrid( 'demographic' );
+        // displayTrendsGrid( 'demographic' );
 
-        _.forEach(comparisonData, function (value, key) {
+        _.forEach(longitudinalData, function (value, key) {
           $('#trends-select').append($('<option></option>').attr('value', value.name).text(value.display_name));
         }); 
 
         $('#trends-select').change(function ( event ) {
           var comparisonSelect = event.target.value
-          displayTrendsGrid( comparisonSelect );
+          displayTrendsGrid( searchCompare.longitudinalData, comparisonSelect );
         });
 
         //end trends data prototype
