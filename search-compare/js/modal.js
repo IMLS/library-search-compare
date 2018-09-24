@@ -134,6 +134,5 @@ function hideModal() {
     focusedElementBeforeModal.focus();
 
     //re-hide definition list
-    var whichCluster = $('#expBtn').attr('data-cluster');
-    $('#exp-'+whichCluster).hide();
+    $('.def-list').hide();
 }

@@ -37,118 +37,108 @@
     </section><!--end #top-banner-->
     <section id="filters" class="container-fluid">
       <div class="row filter-row">
-        <div class="col-sm-2">
-          <input id="search-input" placeholder="Search for library data"><button class="btn btn-primary btn-sm" id="searchGo">Go</button>
+        <div class="col-sm-4 col-md-2 text-right">
+          <input id="search-input" placeholder="Search for library data">
+          <div id="clear-all"></div>
         </div>
-        <div class="col-sm-10">
+        <div class="col-xs-4 col-md-2 col-lg-1">
           <div class="filter-dropdown">
             <button><div>State</div></button>
             <div>
               <div id="state-refinement" class="facet"></div>
             </div>
+            <span id="current-states"></span>
           </div>
+        </div>
+        <div class="col-xs-4 col-md-2 col-lg-1">
           <div class="filter-dropdown">
             <button><div>Locale</div></button>
             <div>
               <div id="locale-refinement" class="facet"></div>
             </div>
+            <span id="current-locales"></span>
           </div>
+        </div>
+        <div class="col-xs-4 col-md-2 col-lg-1">
           <div class="filter-dropdown">
             <button><div>Legal Basis</div></button>
             <div>
               <div id="legal-basis-refinement" class="facet"></div>
             </div>
+            <span id="current-legals"></span>
           </div>
+        </div>
+        <div class="col-xs-4 col-md-2 col-lg-1">
           <div class="filter-dropdown">
             <button><div>Branch Libraries</div></button>
             <div>
               <div id="branch-libraries-input"></div>
             </div>
+            <span id="branch-libraries"></span>
+            <i class="icon-info-circle" tabindex="0" aria-hidden="true" rel="tooltip" title="A branch library is an auxiliary unit of an administrative entity which has at least all of the following: separate quarters; an organized collection of library materials; paid staff; and regularly scheduled hours for being open to the public."><span>A branch library is an auxiliary unit of an administrative entity which has at least all of the following: separate quarters; an organized collection of library materials; paid staff; and regularly scheduled hours for being open to the public.</span></i>
           </div>
+        </div>
+        <div class="col-xs-4 col-md-2 col-lg-1">
           <div class="filter-dropdown">
             <button><div>Circulation</div></button>
             <div>
               <div id="circulation-input"></div>
             </div>
+            <span id="circulation"></span>
+            <i class="icon-info-circle" tabindex="0" aria-hidden="true" rel="tooltip" title="Total annual circulation of all library materials of all types, including renewals."><span>Total annual circulation of all library materials of all types, including renewals.</span></i>
           </div>
+        </div>
+        <div class="col-xs-4 col-md-2 col-lg-1">
           <div class="filter-dropdown">
             <button><div>Revenue</div></button>
             <div>
               <div id="revenue-input"></div>
             </div>
+            <span id="revenue"></span>
+            <i class="icon-info-circle" tabindex="0" aria-hidden="true" rel="tooltip" title="Sum of Local Government Revenue, State Government Revenue, Federal Government Revenue, and Other Operating Revenue."><span>Sum of Local Government Revenue, State Government Revenue, Federal Government Revenue, and Other Operating Revenue.</span></i>
           </div>
+        </div>
+        <div class="col-xs-4 col-md-2 col-lg-1">
           <div class="filter-dropdown">
             <button><div>Staff</div></button>
             <div>
               <div id="staff-input"></div>
             </div>
+            <span id="staff"></span>
+            <i class="icon-info-circle" tabindex="0" aria-hidden="true" rel="tooltip" title="Total paid employees."><span>Total paid employees.</span></i>
           </div>
+        </div>
+        <div class="col-xs-4 col-md-2 col-lg-1">
           <div class="filter-dropdown">
             <button><div>Service Population</div></button>
             <div>
               <div id="population-input"></div>
             </div>
+            <span id="population"></span>
+            <i class="icon-info-circle" tabindex="0" aria-hidden="true" rel="tooltip" title="Number of people in the geographic area for which a public library has been established to offer services and from which (or on behalf of which) the library derives revenue, plus any areas served under contract for which the library is the primary service provider."><span>Number of people in the geographic area for which a public library has been established to offer services and from which (or on behalf of which) the library derives revenue, plus any areas served under contract for which the library is the primary service provider.</span></i>
           </div>
+        </div>
+        <div class="col-xs-4 col-md-2 col-lg-1">
           <div class="filter-dropdown">
             <button><div>Visits</div></button>
             <div>
               <div id="visits-input"></div>
             </div>
+            <span id="visits"></span>
+            <i class="icon-info-circle" tabindex="0" aria-hidden="true" rel="tooltip" title="Total number of persons entering the library for whatever purpose during the year."><span>Total number of persons entering the library for whatever purpose during the year.</span></i>
           </div>
+        </div>
+        <div class="col-xs-4 col-md-2 col-lg-1">
           <div class="filter-dropdown">
             <button><div>Programs</div></button>
             <div>
               <div id="total-programs-input"></div>
             </div>
+            <span id="total-programs"></span>
+            <i class="icon-info-circle" tabindex="0" aria-hidden="true" rel="tooltip" title="Number of planned events which introduce the group attending to any of the broad range of library services or activities or which directly provides information to participants."><span>Number of planned events which introduce the group attending to any of the broad range of library services or activities or which directly provides information to participants.</span></i>
           </div>
         </div>
       </div><!--end facets row -->
-      <div class="row filter-recap">
-        <div class="col-sm-1">
-          <h3>Circ.<i class="icon-info-circle" tabindex="0" aria-hidden="true" rel="tooltip" title="Total annual circulation of all library materials of all types, including renewals."><span>Total annual circulation of all library materials of all types, including renewals.</span></i></h3>
-          <div id="circulation"></div>
-        </div>
-        <div class="col-sm-1">
-          <h3>Revenue<i class="icon-info-circle" tabindex="0" aria-hidden="true" rel="tooltip" title="Sum of Local Government Revenue, State Government Revenue, Federal Government Revenue, and Other Operating Revenue."><span>Sum of Local Government Revenue, State Government Revenue, Federal Government Revenue, and Other Operating Revenue.</span></i></h3>
-          <div id="revenue"></div>
-        </div>
-        <div class="col-sm-1">
-          <h3>Staff<i class="icon-info-circle" tabindex="0" aria-hidden="true" rel="tooltip" title="Total paid employees."><span>Total paid employees.</span></i></h3>
-          <div id="staff"></div>
-        </div>
-        <div class="col-sm-1">
-          <h3>Pop.<i class="icon-info-circle" tabindex="0" aria-hidden="true" rel="tooltip" title="Number of people in the geographic area for which a public library has been established to offer services and from which (or on behalf of which) the library derives revenue, plus any areas served under contract for which the library is the primary service provider."><span>Number of people in the geographic area for which a public library has been established to offer services and from which (or on behalf of which) the library derives revenue, plus any areas served under contract for which the library is the primary service provider.</span></i></h3>
-          <div id="population"></div>
-        </div>
-        <div class="col-sm-1">
-          <h3>Branches<i class="icon-info-circle" tabindex="0" aria-hidden="true" rel="tooltip" title="A branch library is an auxiliary unit of an administrative entity which has at least all of the following: separate quarters; an organized collection of library materials; paid staff; and regularly scheduled hours for being open to the public."><span>A branch library is an auxiliary unit of an administrative entity which has at least all of the following: separate quarters; an organized collection of library materials; paid staff; and regularly scheduled hours for being open to the public.</span></i></h3>
-          <div id="branch-libraries"></div>
-        </div>
-        <div class="col-sm-1">
-          <h3>Visits<i class="icon-info-circle" tabindex="0" aria-hidden="true" rel="tooltip" title="Total number of persons entering the library for whatever purpose during the year."><span>Total number of persons entering the library for whatever purpose during the year.</span></i></h3>
-          <div id="visits"></div>
-        </div>
-        <div class="col-sm-1">
-          <h3>Programs<i class="icon-info-circle" tabindex="0" aria-hidden="true" rel="tooltip" title="Number of planned events which introduce the group attending to any of the broad range of library services or activities or which directly provides information to participants."><span>Number of planned events which introduce the group attending to any of the broad range of library services or activities or which directly provides information to participants.</span></i></h3>
-          <div id="total-programs"></div>
-        </div>
-        <div class="col-sm-1">
-          <h3>Locales</h3>
-          <div id="current-locales"></div>
-        </div>
-        <div class="col-sm-1">
-          <h3>States</h3>
-          <div id="current-states"></div>
-        </div>
-        <div class="col-sm-1">
-          <h3>Legal</h3>
-          <div id="current-legals"></div>
-        </div>
-        <div class="col-sm-2 text-right">
-          <div id="clear-all"></div>
-          <button id="hide-filters" class="btn btn-default btn-sm">Hide Filters</button>
-        </div>
-      </div><!--end .filter-recap-->
     </section><!--end #filters-->
   </header>
   <main>
@@ -160,11 +150,11 @@
             <p>Enter a keyword in the search box above to search for libraries. From there, you can refine your search based on the other filters above. By clicking on a library name, you can view similar libraries based on Service, Staff, Finance and Collection data.</p>
             <div class="actions-box pad-0">
               <div class="row">
-                <div class="col-sm-2">
+                <div class="col-xs-4 col-sm-2">
                   <button type="button" class="btn big-btn" id="viewToggle"><i class="icon-grid-view"></i> <span>Compare Libraries</span></button>
                 </div>
-                <div class="col-sm-10 pad-10">
-                  <div class="col-sm-5">
+                <div class="col-xs-8 col-sm-10 pad-10">
+                  <div class="col-xs-12 col-sm-5 pad-0">
                     <span id="count"></span>
                     <button id="share-btn" class="btn btn-default btn-sm" type="button">Share These Results</button>
                     <div id="shareDiv" class="away">
@@ -174,7 +164,7 @@
                       <button class="btn btn-default btn-sm" id="expBtn" data-cluster="">Definitions</button>
                       <button id="download-csv" onclick="downloadCsv();" class="btn btn-default btn-sm"><i class="icon-file-excel"></i> Download</button>
                   </div>
-                  <div class="col-sm-7 text-right">
+                  <div class="col-xs-12 col-sm-7 text-right">
                     <div id="comparison-select-wrapper">
                       <span id="comparison-select-text">See variables related to: </span>
                       <select id="comparison-select"></select>

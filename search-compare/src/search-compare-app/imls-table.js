@@ -90,6 +90,7 @@ class ImlsTable extends PolymerElement {
                 <p>This page has been copied to your clipboard. Paste somewhere to share!</p>
                 <input type="text" value="${this.shareUrl}" id="userShareMe">
               </div>
+              <button class="btn btn-default btn-sm" id="userExpBtn" data-cluster="">Definitions</button>
               <button id="download-user-csv" class="btn btn-default btn-sm"><i class="icon-file-excel"></i> Download</button>
             </div>
             <div class="col-sm-8 text-right">
@@ -117,6 +118,7 @@ class ImlsTable extends PolymerElement {
     if (!this.hideActions) {
       if (this.shareUrl !== '') this.querySelector('#user-share-btn').addEventListener('click', this.showShareUrl.bind(this))
       this.querySelector('#download-user-csv').addEventListener('click', this.downloadCsv.bind(this))
+      this.querySelector('#userExpBtn').addEventListener('click', this.shadowDefinitions.bind(this))
       this.querySelector('#user-comparison-select').addEventListener('change', event => {
         this.compareOn = event.target.value
         this.render()
@@ -233,6 +235,11 @@ class ImlsTable extends PolymerElement {
       document.body.removeChild(link);
     }
   }
+
+  shadowDefinitions() {
+    console.log('shadowDefinitions');
+  }
+
 
   get _comparisonTableConfig() {
     return [
