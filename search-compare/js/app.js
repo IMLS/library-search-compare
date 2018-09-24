@@ -168,19 +168,28 @@ function getFullData( results ) {
 }
 
 function displayDataGrid( content, comparisonSelect ) {
+  var state = window.app.store.getState()
   var imlsTableEl = document.createElement('imls-table')
   imlsTableEl.rowData = content.hits
   if (comparisonSelect) {
     imlsTableEl.compareOn = comparisonSelect
   }
   imlsTableEl.userCompareListOnly = false
-  imlsTableEl.userCompareList = searchCompare.fscs_arr
+  imlsTableEl.userCompareList = state.myLibraries
   imlsTableEl.shareUrl = window.location.href
   imlsTableEl.hideActions = true
   document.querySelector('#grid-results-wrapper').innerHTML = ''
   document.querySelector('#grid-results-wrapper').appendChild(imlsTableEl)
-  imlsTableEl.addEventListener('imls-table-user-compare-list-change', function(event) {
-    searchCompare.fscs_arr = event.target.userCompareList
+  imlsTableEl.addEventListener('remove-library', function(event) {
+    window.app.store.dispatch({type: 'REMOVE_LIBRARY', id: event.detail})
+  })
+  imlsTableEl.addEventListener('add-library', function(event) {
+    window.app.store.dispatch({type: 'ADD_LIBRARY', id: event.detail})
+  })
+  window.app.store.subscribe(function() {
+    state = window.app.store.getState()
+    imlsTableEl.userCompareList = state.myLibraries
+    imlsTableEl.render()
   })
 }
 
@@ -212,9 +221,10 @@ function setAddUserCompareHandler() {
 }
 
 function getUserComparisonData() {
-  if( searchCompare.fscs_arr.length !== 0 ) {
+  var state = window.app.store.getState()
+  if( state.myLibraries !== 0 ) {
     var filterParam = []
-    _.forEach( searchCompare.fscs_arr, function(id) {
+    _.forEach( state.myLibraries, function(id) {
       var filterString = "fscs_id:" + id;
       filterParam.push( filterString );
     } );
@@ -232,11 +242,19 @@ function getUserComparisonData() {
         imlsTableEl.rowData = content.hits
         imlsTableEl.compareOn = comparisonSelect
         imlsTableEl.userCompareListOnly = true
-        imlsTableEl.userCompareList = searchCompare.fscs_arr
+        imlsTableEl.userCompareList = state.myLibraries 
         document.querySelector('#userTable .page-shadow').innerHTML = ''
         document.querySelector('#userTable .page-shadow').appendChild(imlsTableEl)
-        imlsTableEl.addEventListener('imls-table-user-compare-list-change', function(event) {
-          searchCompare.fscs_arr = event.target.userCompareList
+        imlsTableEl.addEventListener('remove-library', function(event) {
+          window.app.store.dispatch({type: 'REMOVE_LIBRARY', id: event.detail})
+        })
+        imlsTableEl.addEventListener('add-library', function(event) {
+          window.app.store.dispatch({type: 'ADD_LIBRARY', id: event.detail})
+        })
+        window.app.store.subscribe(function() {
+          state = window.app.store.getState()
+          imlsTableEl.userCompareList = state.myLibraries
+          imlsTableEl.render()
         })
       };
     })
@@ -545,6 +563,7 @@ search.on('render', updateSearchUI)
 search.on('error', updateSearchUI)
 
 $(document).ready(function() {
+  window.app = document.createElement('search-compare-app')
   // fill in data grid variable selector
   var selectLabels = _.map( comparisonData, 'display_name' );
   var selectValues = _.map( comparisonData, 'name' );

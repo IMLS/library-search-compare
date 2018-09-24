@@ -66,12 +66,10 @@ class ImlsTable extends PolymerElement {
     this.addEventListener('click', event => {
       if (event.target.classList.contains('user-compare-btn')) {
         if (this.userCompareList.indexOf(event.target.getAttribute('data-fscs')) !== -1) {
-          this.userCompareList = this.userCompareList.filter(item => item !== event.target.getAttribute('data-fscs'))
+          this.dispatchEvent(new CustomEvent('remove-library', {detail: event.target.getAttribute('data-fscs')}))
         } else {
-          this.userCompareList = [...this.userCompareList, event.target.getAttribute('data-fscs')]
+          this.dispatchEvent(new CustomEvent('add-library', {detail: event.target.getAttribute('data-fscs')}))
         }
-        this.dispatchEvent(new CustomEvent('imls-table-user-compare-list-change'))
-        this.render()
       }
     });
 

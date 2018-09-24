@@ -1,11 +1,18 @@
 import {html, PolymerElement} from '@polymer/polymer/polymer-element.js';
 import './imls-table.js'
+import { searchCompareAppReducer } from './search-compare-app-reducer.js'
 
 /**
  * @customElement
  * @polymer
  */
 class SearchCompareApp extends PolymerElement {
+  constructor() {
+    super()
+    const initialState = localStorage.getItem('search-compare-app-state') ? JSON.parse(localStorage.getItem('search-compare-app-state')) : { myLibraries: []}
+    this.store = Redux.createStore(searchCompareAppReducer, initialState)
+    this.store.subscribe(() => localStorage.setItem('search-compare-app-state', JSON.stringify(this.store.getState())))
+  }
   static get template() {
     return html`
       <style>
