@@ -243,10 +243,20 @@ function getFullData( results ) {
     filters: '( state:NY OR state:CA ) AND (locale_string:rural) AND ( legal_basis:CI OR legal_basis:NP)'
   });
 
-  */
+  numericFilters example of total_staff > 10 and < 100
+  decodeURIComponent : index.html?range[total_staff]=10:100
   var browser = index.browseAll({ 
     query:'',
-    filters: '( state:NY OR state:CA ) AND (locale_string:rural) AND ( legal_basis:CI OR legal_basis:NP)'
+    numericFilters: [
+      'total_staff:10 TO 100'
+    ]
+  });
+
+
+  */
+  var browser = index.browseAll({ 
+    query:'Hum',
+    filters: '(state:CA OR state:CO) AND (legal_basis:CI OR legal_basis:CO) AND total_staff >= 10 AND total_staff <= 100 AND branch_libraries >= 10 AND total_programs <= 1000'
   });
 
   var myHits = [];
