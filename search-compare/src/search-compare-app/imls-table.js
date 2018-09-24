@@ -54,6 +54,10 @@ class ImlsTable extends PolymerElement {
       perPage: {
         type: Number,
         value: 50
+      },
+      showModal: {
+        type: Boolean,
+        value: false
       }
     };
   }
@@ -114,11 +118,10 @@ class ImlsTable extends PolymerElement {
         </div>
       </div><!-- end user-comparison-results-wrapper -->
     `
-
     if (!this.hideActions) {
       if (this.shareUrl !== '') this.querySelector('#user-share-btn').addEventListener('click', this.showShareUrl.bind(this))
       this.querySelector('#download-user-csv').addEventListener('click', this.downloadCsv.bind(this))
-      this.querySelector('#userExpBtn').addEventListener('click', this.shadowDefinitions.bind(this))
+      this.querySelector('#userExpBtn').addEventListener('click', this.onDefinitionsClick.bind(this))
       this.querySelector('#user-comparison-select').addEventListener('change', event => {
         this.compareOn = event.target.value
         this.render()
@@ -236,8 +239,9 @@ class ImlsTable extends PolymerElement {
     }
   }
 
-  shadowDefinitions() {
-    console.log('shadowDefinitions');
+  onDefinitionsClick() {
+    var content = this.compareOn;
+    this.dispatchEvent(new CustomEvent('show-modal', {detail:content}));
   }
 
 

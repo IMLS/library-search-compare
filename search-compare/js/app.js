@@ -238,6 +238,10 @@ function getUserComparisonData() {
         imlsTableEl.addEventListener('imls-table-user-compare-list-change', function(event) {
           searchCompare.fscs_arr = event.target.userCompareList
         })
+        imlsTableEl.addEventListener('show-modal', function(event){
+          $('#exp-'+event.detail).show();
+          showModal($('#modal'));
+        })
       };
     })
   } else {
