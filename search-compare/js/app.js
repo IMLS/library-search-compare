@@ -1,4 +1,4 @@
-var client = algoliasearch('CDUMM9WVUG', '3cc392a5d139bd9131e42a5abb75d4ee');
+var client = algoliasearch('CDUMM9WVUG', '4ed0ae66adc167ec909a431c46a7897c');
 var index = client.initIndex('imls_v04');
 
 // comparison data grid labels and field names  
@@ -136,6 +136,7 @@ search.addWidget(
 })();
 
 function getFullData( results ) {
+  /*
   var query = _.split( results[0].params, "&", 1);
   var query = _.split(query, "=")[1];
   var filters = _.split( results[0].params, 'tagFilters=&');
@@ -166,6 +167,102 @@ function getFullData( results ) {
       displayDataGrid( searchCompare.globalContent, comparisonSelect )
       prepareCsvData( searchCompare.globalContent, comparisonSelect );
     }
+  });
+  */
+  /* 
+  Set query to 'brown' (63 hits)
+  decodeURIComponent : index.html?query=brown
+  var browser = index.browseAll('brown');
+
+  Set query to 'brown' and state facet to SD (4 hits)
+  decodeURIComponent : index.html?query=brown&refinementList[state][0]=SD
+  var browser = index.browseAll({ 
+    query:'brown',
+    facetFilters: [
+      'state:SD'
+    ]
+  });
+
+  Set query to 'brown' and state facet as if SD and KS were selected - an OR filter (9 hits)
+  decodeURIComponent : index.html?query=brown&refinementList[state][0]=SD&refinementList[state][1]=KS
+  var browser = index.browseAll({ 
+    query:'brown',
+    facetFilters: [
+      [ 'state:SD', 'state:KS' ]
+    ]
+  });
+
+  Query gets all records, filtered by state NY and total_staff > 100 (7 hits)
+  var browser = index.browseAll({ 
+    query:'',
+    facetFilters: [
+      [ 'state:NY' ]
+    ],
+    filters: 'total_staff > 100'
+  });
+
+  Same as above just handled all in filters string (7 hits)
+  decodeURIComponent : index.html?refinementList[state][0]=NY&range[total_staff]=100:
+  var browser = index.browseAll({ 
+    query:'',
+    filters: 'state:NY AND total_staff > 100'
+  });
+  
+  State is NY or CA and total_staff > 100 (31 hits)
+  decodeURIComponent : index.html?refinementList[state][0]=CA&refinementList[state][1]=NY&range[total_staff]=100:
+  var browser = index.browseAll({ 
+    query:'',
+    filters: '( state:NY OR state:CA ) AND total_staff > 100'
+  });
+
+  State is NY or CA and total_staff > 100 and < 500 (25 hits)
+  decodeURIComponent : index.html?refinementList[state][0]=CA&refinementList[state][1]=NY&range[total_staff]=100:500
+  var browser = index.browseAll({ 
+    query:'',
+    filters: '( state:NY OR state:CA ) AND total_staff > 100 AND total_staff < 500'
+  });
+
+  State is NY or CA and Total staff > 100 and branch libraries > 30 (11 hits)
+  decodeURIComponent : index.html?refinementList[state][0]=CA&refinementList[state][1]=NY&range[total_staff]=100:&range[branch_libraries]=30:
+  var browser = index.browseAll({ 
+    query:'',
+    filters: '( state:NY OR state:CA ) AND total_staff > 100 AND branch_libraries > 30'
+  });
+  
+  State is NY or CA and locale_string is rural and legal_basis is CI or NP (these are different in the ui) (290 hits)
+  decodeURIComponent : index.html?refinementList[state][0]=CA&refinementList[state][1]=NY&refinementList[locale_string][0]=Rural&refinementList[legal_basis][0]=NP&refinementList[legal_basis][1]=CI
+  var browser = index.browseAll({ 
+    query:'',
+    filters: '( state:NY OR state:CA ) AND (locale_string:rural) AND ( legal_basis:CI OR legal_basis:NP)'
+  });
+
+  State is NY or CA and locale is rural and legal basis is CI or NP (290 hits)
+  decodeURIComponent : index.html?refinementList[state][0]=CA&refinementList[state][1]=NY&refinementList[locale_string][0]=Rural&refinementList[legal_basis][0]=NP&refinementList[legal_basis][1]=CI
+  var browser = index.browseAll({ 
+    query:'',
+    filters: '( state:NY OR state:CA ) AND (locale_string:rural) AND ( legal_basis:CI OR legal_basis:NP)'
+  });
+
+  */
+  var browser = index.browseAll({ 
+    query:'',
+    filters: '( state:NY OR state:CA ) AND (locale_string:rural) AND ( legal_basis:CI OR legal_basis:NP)'
+  });
+
+  var myHits = [];
+
+  browser.on('result', function onResult(content) {
+    myHits = myHits.concat(content.hits);
+  });
+
+  browser.on('end', function onEnd() {
+    console.log('Finished!');
+    console.log('We got %d hits', myHits.length);
+    console.log(myHits[0]);
+  });
+
+  browser.on('error', function onError(err) {
+    throw err;
   });
 }
 
