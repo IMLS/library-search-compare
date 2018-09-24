@@ -351,7 +351,7 @@ function displayTrendsGrid( content, comparisonSelect ) {
 
   var hit = searchCompare.longitudinalContent.hits;
 
-  var rows = { '2016 value': '_2016', '2015 value': '_2015', '1 year change': '_1_year', '2011 value': '_2011', '5 year change': '_5_year', '2006 value': '_2006', '10 year change': '_10_year' };
+  var rows = {  '1 year change': '_1_year', '5 year change': '_5_year', '10 year change': '_10_year', '2016 value': '_2016', '2015 value': '_2015', '2011 value': '_2011', '2006 value': '_2006' };
   _.forEach( rows, function ( suffix, label, rows ) {
     var trendTableRow = [ label ];
 
