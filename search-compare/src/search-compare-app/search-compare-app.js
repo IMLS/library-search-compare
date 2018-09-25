@@ -9,10 +9,18 @@ import { searchCompareAppReducer } from './search-compare-app-reducer.js'
 class SearchCompareApp extends PolymerElement {
   constructor() {
     super()
-    const initialState = localStorage.getItem('search-compare-app-state') ? JSON.parse(localStorage.getItem('search-compare-app-state')) : { myLibraries: []}
-    this.store = Redux.createStore(searchCompareAppReducer, initialState)
-    this.store.subscribe(() => localStorage.setItem('search-compare-app-state', JSON.stringify(this.store.getState())))
+    if (localStorage.getItem('search-compare-app-state')) {
+      this.store = Redux.createStore(searchCompareAppReducer, JSON.parse(localStorage.getItem('search-compare-app-state')))
+    } else {
+      this.store = Redux.createStore(searchCompareAppReducer)
+    } 
+    this.store.subscribe(() => this.onStateUpdate(this.store.getState()))
   }
+
+  onStateUpdate(state) {
+    localStorage.setItem('search-compare-app-state', JSON.stringify(state))
+  }
+
   static get template() {
     return html`
       <style>
