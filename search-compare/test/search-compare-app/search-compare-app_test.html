@@ -55,7 +55,23 @@
           assert.equal(imlsTableEl.querySelector('#user-comparison-select').value, imlsTableEl.querySelectorAll('#user-comparison-select option')[1].value)
         });
 
-        test('imls-table row should remove from user compare list', function(done) {
+        test('imls-table should emit remove-library event', function(done) {
+          var container = fixture('BasicContainerFixture');
+          var imlsTableEl = document.createElement('imls-table');
+          imlsTableEl.rowData = window.stubSearchResult.hits;
+          imlsTableEl.userCompareList = [];
+          container.appendChild(imlsTableEl)
+          // Tragically dataTable is async and not rendered at this point (probably using setTimeout somewhere) so we have to listen for events. 
+          imlsTableEl.addEventListener('imls-table-grid-render', _ => {
+            imlsTableEl.addEventListener('add-library', _ => {
+              assert.equal(_.detail, 'PA0180')
+              done()
+            }, {once: true})
+            imlsTableEl.querySelectorAll('.user-compare-btn')[0].click()
+          }, {once: true})
+        });
+
+        test('imls-table should emit remove-library event', function(done) {
           var container = fixture('BasicContainerFixture');
           var imlsTableEl = document.createElement('imls-table');
           imlsTableEl.rowData = window.stubSearchResult.hits;
@@ -64,13 +80,11 @@
           // Tragically dataTable is async and not rendered at this point (probably using setTimeout somewhere) so we have to listen for events. 
           imlsTableEl.addEventListener('imls-table-grid-render', _ => {
             assert.equal(imlsTableEl.querySelectorAll('.user-compare-btn')[0].classList.contains('user-compare-remove'), true)
-            imlsTableEl.querySelectorAll('.user-compare-btn')[0].click()
-            imlsTableEl.addEventListener('imls-table-grid-render', _ => {
-              assert.equal(imlsTableEl.querySelectorAll('.user-compare-btn')[0].classList.contains('user-compare-remove'), false)
-              assert.equal(imlsTableEl.querySelectorAll('.user-compare-btn')[0].classList.contains('user-compare-add'), true)
-              assert.equal(imlsTableEl.userCompareList.length, 0)
+            imlsTableEl.addEventListener('remove-library', _ => {
+              assert.equal(_.detail, 'PA0180')
               done()
             }, {once: true})
+            imlsTableEl.querySelectorAll('.user-compare-btn')[0].click()
           }, {once: true})
         });
 
@@ -86,49 +100,6 @@
             assert.equal(imlsTableEl.querySelectorAll('.user-compare-btn')[3].classList.contains('user-compare-remove'), true)
             assert.equal(imlsTableEl.querySelectorAll('.user-compare-btn')[3].classList.contains('user-compare-add'), false)
             done()
-          }, {once: true})
-        });
-
-        test('imls-table row should remove from user compare list and then be hidden', function(done) {
-          var container = fixture('BasicContainerFixture');
-          var imlsTableEl = document.createElement('imls-table');
-          imlsTableEl.rowData = window.stubSearchResult.hits;
-          // The key to this test.
-          imlsTableEl.userCompareListOnly = true
-          imlsTableEl.userCompareList = ['PA0180', 'NH0027'];
-          container.appendChild(imlsTableEl)
-          imlsTableEl.addEventListener('imls-table-grid-render', _ => {
-            assert.equal(container.querySelectorAll('tr').length, 3)
-            imlsTableEl.querySelectorAll('.user-compare-btn')[0].click()
-            imlsTableEl.addEventListener('imls-table-grid-render', _ => {
-              // Table rows should be reduced from 3 to 2.
-              assert.equal(container.querySelectorAll('tr').length, 2)
-              done()
-            }, {once: true})
-          }, {once: true})
-        });
-
-        test('imls-table row should add to the user compare list on next page', function(done) {
-          var container = fixture('BasicContainerFixture');
-          var imlsTableEl = document.createElement('imls-table');
-          imlsTableEl.rowData = window.stubSearchResult.hits;
-          imlsTableEl.perPage = 2
-          container.appendChild(imlsTableEl)
-          imlsTableEl.addEventListener('imls-table-grid-render', _ => {
-            imlsTableEl.querySelectorAll('.dataTable-pagination a')[2].click()
-            imlsTableEl.addEventListener('imls-table-grid-render', _ => {
-              assert.equal(imlsTableEl.querySelectorAll('.user-compare-btn')[0].classList.contains('user-compare-remove'), false)
-              imlsTableEl.querySelectorAll('.user-compare-btn')[0].click()
-              imlsTableEl.addEventListener('imls-table-grid-render', _ => {
-                assert.equal(imlsTableEl.querySelectorAll('.user-compare-btn')[0].classList.contains('user-compare-remove'), true)
-                assert.equal(imlsTableEl.userCompareList.length, 1)
-                imlsTableEl.addEventListener('imls-table-grid-render', _ => {
-                  // And check again for good measure because we just rendered again.
-                  assert.equal(imlsTableEl.querySelectorAll('.user-compare-btn')[0].classList.contains('user-compare-remove'), true)
-                  done()
-                }, {once: true})
-              }, {once: true})
-            }, {once: true})
           }, {once: true})
         });
 

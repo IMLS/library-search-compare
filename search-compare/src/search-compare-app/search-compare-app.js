@@ -1,5 +1,6 @@
 import {html, PolymerElement} from '@polymer/polymer/polymer-element.js';
 import './imls-table.js'
+import { searchCompareAppReducer } from './search-compare-app-reducer.js'
 
 /**
  * @customElement
@@ -8,7 +9,16 @@ import './imls-table.js'
 class SearchCompareApp extends PolymerElement {
   constructor() {
     super()
+    if (localStorage.getItem('search-compare-app-state')) {
+      this.store = Redux.createStore(searchCompareAppReducer, JSON.parse(localStorage.getItem('search-compare-app-state')), window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
+    } else {
+      this.store = Redux.createStore(searchCompareAppReducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
+    } 
+    this.store.subscribe(() => this.onStateUpdate(this.store.getState()))
     window.startAppJs()
+  }
+  onStateUpdate(state) {
+    localStorage.setItem('search-compare-app-state', JSON.stringify(state))
   }
   static get template() {
     return html`
