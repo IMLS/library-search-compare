@@ -56,8 +56,8 @@ var longitudinalData = {};
 longitudinalData = [
   { name: 'demographic',
     display_name: 'Demographic', 
-    headings: [ 'Time Period', 'Population of Legal Service Area (LSA)', 'Total unduplicated population of LSA', 'Number of central libraries', 'Number of branch libraries', 'Number of bookmobiles' ],
-    field_names: [ 'POPU_LSA', 'POPU_UND', 'CENTLIB', 'BRANLIB', 'BKMOB' ] },
+    headings: [ 'Time Period', 'Population of Legal Service Area (LSA)', 'Number of central libraries', 'Number of branch libraries', 'Number of bookmobiles' ],
+    field_names: [ 'POPU_LSA', 'CENTLIB', 'BRANLIB', 'BKMOB' ] },
   { name: 'staff',
     display_name: 'Paid Staff (FTE)', 
     headings: [ 'Time Period', 'ALA-MLS librarians', 'Total librarians', 'All other paid staff', 'Total paid staff' ],
@@ -70,18 +70,14 @@ longitudinalData = [
     display_name: 'Operating Expenditures', 
     headings: [ 'Time Period', 'Salaries & wages ($)', 'Employee benefits ($)', 'Total staff expenditures ($)', 'Print materials expenditures ($)', 'Electronic materials expenditures ($)', 'Other material expenditures ($)', 'Total collection expenditures ($)', 'Other operating expenditures ($)', 'Total operating expenditures ($)' ],
     field_names: [ 'SALARIES', 'BENEFIT', 'STAFFEXP', 'PRMATEXP', 'ELMATEXP', 'OTHMATEX', 'TOTEXPCO', 'OTHOPEXP', 'TOTOPEXP' ] },
-  { name: 'capital',
-    display_name: 'Capital Revenue and Expenditures', 
-    headings: [ 'Time Period', 'Local capital revenue ($)', 'State capital revenue ($)', 'Federal capital revenue ($)', 'Other capital revenue ($)', 'Total capital revenue ($)', 'Total capital expenditures ($)' ],
-    field_names: [ 'LCAP_REV', 'SCAP_REV', 'FCAP_REV', 'OCAP_REV', 'CAP_REV', 'CAPITAL' ] },
   { name: 'collection',
     display_name: 'Library Collection', 
-    headings: [ 'Time Period', 'Print materials', 'Electronic books', 'Audio-physical units', 'Audio-downloadable units', 'Video-physical units', 'Video-downloadable units', 'Local databases', 'State databases', 'Total databases', 'Print serial subscriptions' ],
-    field_names: [ 'BKVOL', 'EBOOK', 'AUDIO_PH', 'AUDIO_DL', 'VIDEO_PH', 'VIDEO_DL', 'DB_LOC', 'DB_ST', 'DATABASE', 'SUBSCRIP' ] },
+    headings: [ 'Time Period', 'Print materials', 'Electronic books', 'Audio-physical units', 'Audio-downloadable units', 'Video-physical units', 'Video-downloadable units', 'Total databases', 'Print serial subscriptions' ],
+    field_names: [ 'BKVOL', 'EBOOK', 'AUDIO_PH', 'AUDIO_DL', 'VIDEO_PH', 'VIDEO_DL', 'DATABASE', 'SUBSCRIP' ] },
   { name: 'services',
     display_name: 'Services', 
-    headings: [ 'Time Period', 'Public service hours/year', 'Library visits', 'Reference transactions', 'Number of registered users', 'Total circulation of materials', 'Circulation of kid\'s materials', 'Use of electronic material' ],
-    field_names: [ 'HRS_OPEN', 'VISITS', 'REFERENC', 'REGBOR', 'TOTCIR', 'KIDCIRCL', 'ELMATCIR' ] },
+    headings: [ 'Time Period', 'Public service hours/year', 'Library visits', 'Reference transactions', 'Number of registered users', 'Total circulation of materials', 'Circulation of kid\'s materials' ],
+    field_names: [ 'HRS_OPEN', 'VISITS', 'REFERENC', 'REGBOR', 'TOTCIR', 'KIDCIRCL' ] },
   { name: 'inter-library',
     display_name: 'Inter-Library Loans', 
     headings: [ 'Time Period', 'Provided to', 'Received from' ],
@@ -92,8 +88,8 @@ longitudinalData = [
     field_names: [ 'TOTPRO', 'KIDPRO', 'YAPRO', 'TOTATTEN', 'KIDATTEN', 'YAATTEN' ] },
   { name: 'other_electronic',
     display_name: 'Other Electronic Information', 
-    headings: [ 'Time Period', 'Computers used by general public', 'Computer uses', 'Wireless sessions' ],
-    field_names: [ 'GPTERMS', 'PITUSR', 'WIFISESS' ] }
+    headings: [ 'Time Period', 'Computers used by general public', 'Computer uses' ],
+    field_names: [ 'GPTERMS', 'PITUSR' ] }
 ];
 
 var clusters = [
