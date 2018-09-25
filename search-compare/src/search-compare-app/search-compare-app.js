@@ -8,16 +8,15 @@ import './imls-table.js'
 class SearchCompareApp extends PolymerElement {
   constructor() {
     super()
-    startAppJs()
+    window.startAppJs()
   }
   static get template() {
     return html`
       <style>
         :host {
-          display: block;
+          display: hidden;
         }
       </style>
-      <h2>Hello [[prop1]]!</h2>
     `;
   }
   static get properties() {

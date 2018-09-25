@@ -665,4 +665,5 @@ function startAppJs() {
 
 $(document).ready(function() {
   window.app = document.createElement('search-compare-app')
+  document.body.appendChild(window.app)
 });
