@@ -117,8 +117,11 @@ function showModal(obj) {
     setFocusToFirstItemInModal(obj);
 
     //show appropriate definition list
-    var whichCluster = $('#expBtn').attr('data-cluster');
-    $('#exp-'+whichCluster).show();
+    if($('#results').hasClass('open')){
+        var whichCluster = $('#expBtn').attr('data-cluster');
+        $('#exp-'+whichCluster).show();
+    }//end check if it's the compare table
+    
 }
 
 function hideModal() {
