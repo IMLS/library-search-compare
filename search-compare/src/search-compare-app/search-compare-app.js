@@ -6,6 +6,10 @@ import './imls-table.js'
  * @polymer
  */
 class SearchCompareApp extends PolymerElement {
+  constructor() {
+    super()
+    startAppJs()
+  }
   static get template() {
     return html`
       <style>
