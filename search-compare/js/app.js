@@ -71,15 +71,10 @@ function handleDataSelection( target ) {
   }
 }
 
-function getJsonFromUrl(hashBased) {
-  var query;
-  if(hashBased) {
-    var pos = location.href.indexOf("?");
-    if(pos==-1) return [];
-    query = location.href.substr(pos+1);
-  } else {
-    query = location.search.substr(1);
-  }
+function getJsonFromUrl(url) {
+  var url_arr = url.split('?');
+  var query = url_arr[1];
+  query = typeof query != 'undefined' ? query : '';
   var result = {};
   query.split("&").forEach(function(part) {
     if(!part) return;
@@ -101,8 +96,8 @@ function getJsonFromUrl(hashBased) {
   return result;
 }
 
-function getFullData( results ) {
-  var url_params = getJsonFromUrl();
+function getFullData() {
+  var url_params = getJsonFromUrl( searchCompare.instantSearchURL );
   var params_obj = {};
 
   _.mapKeys( url_params, function( value, key ) { 
@@ -160,7 +155,6 @@ function getFullData( results ) {
   browser.on('end', function onEnd() {
     console.log('Finished!');
     console.log('We got %d hits', myHits.length);
-    console.log(myHits[0]);
     myContent.hits = myHits;
     searchCompare.globalContent = myContent;
     var comparisonSelect = $( '#comparison-select' ).val();
@@ -697,6 +691,10 @@ function startAppJs() {
     /* Change labels on 'Legal Basis' dropdowns */
     changeLegalLabels();
 
+    // call second search to populate comparison table
+    searchCompare.instantSearchURL = search.createURL();
+    getFullData()
+
     //if an input refinement is empty, display a message.
     $('.filter-dropdown .ais-root').each(function(){
       if ($(this).parent().css('display') == 'none'){
@@ -787,18 +785,4 @@ $(document).ready(function() {
   window.app = document.createElement('search-compare-app')
   document.body.appendChild(window.app)
   
-  // Polling method to detect URL changes
-  // store url on load
-  var currentPage = window.location.href;
-
-  // listen for URL changes
-  setInterval(function()
-  {
-    if (currentPage != window.location.href)
-    {
-      // page has changed, set new page as 'current'
-      currentPage = window.location.href;
-      getFullData();
-    }
-  }, 500);
 });
