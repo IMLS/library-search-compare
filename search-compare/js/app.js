@@ -3,6 +3,7 @@ var index = client.initIndex('imls_v04');
 
 // comparison data grid labels and field names  
 var searchCompare = {};
+searchCompare.fscs_arr = [];
 var comparisonData = {};
 
 comparisonData = [
@@ -58,11 +59,6 @@ comparisonData = [
     field_types: [ 'number', 'number', 'number' ] }
 ];
 
-// Comparison data selector event handler
-$( '#comparison-select, #user-comparison-select' ).change( function() { 
-  handleDataSelection( this );
-});
-
 function handleDataSelection( target ) {
   var comparisonSelect = target.value;
   var targetID = $( target ).attr( 'id' );
@@ -74,64 +70,6 @@ function handleDataSelection( target ) {
     $('#userExpBtn').attr('data-cluster', $('#user-comparison-select').val());
   }
 }
-
-var search = instantsearch({
-  // Replace with your own values
-  appId: 'CDUMM9WVUG',
-  apiKey: '3cc392a5d139bd9131e42a5abb75d4ee', // search only API key, no ADMIN key
-  indexName: 'imls_v04',
-  numberLocale: 'en-US',
-  stalledSearchDelay: 5000,
-  routing: true,
-  searchParameters: {
-    hitsPerPage: 50
-  }
-});
-
-// search input widget  
-search.addWidget(
-  instantsearch.widgets.searchBox({
-    container: '#search-input'
-  })
-);
-
-// number of hits
-search.addWidget(
-  instantsearch.widgets.stats({
-    container: '#count',
-    templates: {
-      body: function(data) {
-        var result = data.hasOneResult ? "result" : "results";
-        return data.nbHits + ' ' + result;
-      }
-    }
-  })
-);
-
-// display results
-search.addWidget(
-  instantsearch.widgets.hits({
-    container: '#hits',
-    templates: {
-      item: document.getElementById('hit-template').innerHTML,
-      empty: "We didn't find any results for the search <em>\"{{query}}\"</em>"
-    }
-  })
-);
-
-// search.on( 'render', getFullData );
-(function() {
-    var origOpen = XMLHttpRequest.prototype.open;
-    XMLHttpRequest.prototype.open = function() {
-        this.addEventListener('load', function() {
-          var res = JSON.parse(this.responseText);
-          if ( typeof res.results !== "undefined" ) {
-            getFullData( res.results );
-          }
-        });
-        origOpen.apply(this, arguments);
-    };
-})();
 
 function getFullData( results ) {
   var query = _.split( results[0].params, "&", 1);
@@ -183,8 +121,6 @@ function displayDataGrid( content, comparisonSelect ) {
     searchCompare.fscs_arr = event.target.userCompareList
   })
 }
-
-searchCompare.fscs_arr = [];
 
 function setAddUserCompareHandler() {
   // Click event for adding libraries to user-comparison table  
@@ -305,250 +241,355 @@ function displayUserComparisonGrid ( content, comparisonSelect, el ) {
   });
 }
 
-// pagination
-search.addWidget(
-  instantsearch.widgets.pagination({
-    container: '#pagination'
-  })
-);
-
-// clear all filters
-search.addWidget(
-  instantsearch.widgets.clearAll({
-    container: '#clear-all',
-    clearsQuery: true,
-    templates: {
-      link: '<i class="icon-x"></i> Clear All Filters'
-    }
-  })
-)
-
-// state facet
-search.addWidget(
-  instantsearch.widgets.refinementList({
-    container: '#state-refinement',
-    attributeName: 'state',
-    limit: 65,
-    showMore: false,
-    sortBy: ['name:asc']
-  })
-);
-
-// locale facet
-search.addWidget(
-  instantsearch.widgets.refinementList({
-    container: '#locale-refinement',
-    attributeName: 'locale_string',
-    sortBy: ['name:asc']
-  })
-);
-
-// total circulation input  
-search.addWidget(
-  instantsearch.widgets.rangeInput({
-    container: '#circulation-input',
-    attributeName: 'total_circulation',
-    labels: {
-      separator: 'to',
-      submit: 'Go'
-    }
-  })
-);
-
-/* total circulation slider  
-search.addWidget(
-  instantsearch.widgets.rangeSlider({
-    container: '#total-circulation-refinement',
-    attributeName: 'total_circulation',
-    pips: false,
-    tooltips: false
-  })
-);*/
-
-// total revenue input  
-search.addWidget(
-  instantsearch.widgets.rangeInput({
-    container: '#revenue-input',
-    attributeName: 'total_revenue',
-    labels: {
-      separator: 'to',
-      submit: 'Go'
-    }
-  })
-);
-
-
-/* total revenue slider  
-search.addWidget(
-  instantsearch.widgets.rangeSlider({
-    container: '#total-revenue-refinement',
-    attributeName: 'total_revenue',
-    pips: false,
-    tooltips: false
-  })
-);*/
-
-// total staff input  
-search.addWidget(
-  instantsearch.widgets.rangeInput({
-    container: '#staff-input',
-    attributeName: 'total_staff',
-    labels: {
-      separator: 'to',
-      submit: 'Go'
-    }
-  })
-);
-
-/* total staff slider  
-search.addWidget(
-  instantsearch.widgets.rangeSlider({
-    container: '#total-staff-refinement',
-    attributeName: 'total_staff',
-    tooltips: false,
-    pips: false
-  })
-);*/
-
-// total population input  
-search.addWidget(
-  instantsearch.widgets.rangeInput({
-    container: '#population-input',
-    attributeName: 'service_area_population',
-    labels: {
-      separator: 'to',
-      submit: 'Go'
-    }
-  })
-);
-
-/* service area population slider  
-search.addWidget(
-  instantsearch.widgets.rangeSlider({
-    container: '#service-area-population-refinement',
-    attributeName: 'service_area_population',
-    pips: false,
-    tooltips: false,
-  })
-);*/
-
-// legal basis facet
-search.addWidget(
-  instantsearch.widgets.refinementList({
-    container: '#legal-basis-refinement',
-    attributeName: 'legal_basis',
-    limit: 65,
-    showMore: false,
-    sortBy: ['name:asc']
-  })
-);
-
-/* branch libraries slider  
-search.addWidget(
-  instantsearch.widgets.rangeSlider({
-    container: '#branch-libraries-refinement',
-    attributeName: 'branch_libraries',
-    pips: false,
-    tooltips: false,
-  })
-);*/
-
-// branch libraries input  
-search.addWidget(
-  instantsearch.widgets.rangeInput({
-    container: '#branch-libraries-input',
-    attributeName: 'branch_libraries',
-    labels: {
-      separator: 'to',
-      submit: 'Go'
-    }
-  })
-);
-
-/* visits slider  
-search.addWidget(
-  instantsearch.widgets.rangeSlider({
-    container: '#visits-refinement',
-    attributeName: 'visits',
-    pips: false,
-    tooltips: false,
-  })
-);*/
-
-// visits input  
-search.addWidget(
-  instantsearch.widgets.rangeInput({
-    container: '#visits-input',
-    attributeName: 'visits',
-    labels: {
-      separator: 'to',
-      submit: 'Go'
-    }
-  })
-);
-
-/* total programs slider  
-search.addWidget(
-  instantsearch.widgets.rangeSlider({
-    container: '#total-programs-refinement',
-    attributeName: 'total_programs',
-    pips: false,
-    tooltips: false,
-  })
-);*/
-
-// total programs input  
-search.addWidget(
-  instantsearch.widgets.rangeInput({
-    container: '#total-programs-input',
-    attributeName: 'total_programs',
-    labels: {
-      separator: 'to',
-      submit: 'Go'
-    }
-  })
-);
-
-// start the search UI
-search.start();
-
-//tell when the widgets are rendered the first time
-search.once('render', function(){
-  
-  /* Make space for fixed header once filters are loaded */
-  headRoom();
-  
-  doTooltips();
-
-  /* Change labels on 'Legal Basis' dropdowns */
-  changeLegalLabels();
-
-});//end render once
-
-//tell when the widgets are re-rendered
-var updateSearchUI = function() {
-  /* Make sure the content is still in the right place */
-  headRoom();
-  
-  /* Assemble the 'current filters' list and stick it in */
-  currentFilters();
-
-  /* Change labels on 'Legal Basis' dropdowns */
-  changeLegalLabels();
-
-  //if an input refinement is empty, display a message.
-  $('.filter-dropdown .ais-root').each(function(){
-    if ($(this).parent().css('display') == 'none'){
-      $(this).parent().parent().append('<div class="none-avail">No refinement available.</div>');
-    }else{
-      $(this).parent().parent().remove('.none-avail');
-    }
-  });//end check each input
+function returnButton(){
+  var returnURL = window.location.href;
+  console.log('now returnURL = '+returnURL);
+  localStorage.setItem('returnURL', returnURL);
 }
-search.on('render', updateSearchUI)
-search.on('error', updateSearchUI)
 
-$(document).ready(function() {
+function changeLegalLabels(){
+  $('#legal-basis-refinement .ais-refinement-list--label').each(function(){
+    $(this).contents().filter(function(){
+      switch($.trim(this.textContent)){
+        case 'CC':
+          this.textContent = this.textContent.replace('CC','City/County');
+          break;
+        case 'CI':
+          this.textContent = this.textContent.replace('CI','Municipal Gov\'t');
+          break;
+        case 'CO':
+          this.textContent = this.textContent.replace('CO','County/Parish');
+          break;
+        case 'LD':
+          this.textContent = this.textContent.replace('LD','Library District');
+          break;
+        case 'MJ':
+          this.textContent = this.textContent.replace('MJ','Multi-jurisdictional');
+          break;
+        case 'NL':
+          this.textContent = this.textContent.replace('NL','NA Tribal Gov\'t');
+          break;
+        case 'NP':
+          this.textContent = this.textContent.replace('NP','Non-Profit');
+          break;
+        case 'OT':
+          this.textContent = this.textContent.replace('OT','School District');
+          break;
+        case 'SD':
+          this.textContent = this.textContent.replace('SD','Other');
+      }//end switch
+    });//end filter label contents
+  });//end each label
+}
+
+function startAppJs() {
+  // Comparison data selector event handler
+  $( '#comparison-select, #user-comparison-select' ).change( function() { 
+    handleDataSelection( this );
+  });
+
+  var search = instantsearch({
+    // Replace with your own values
+    appId: 'CDUMM9WVUG',
+    apiKey: '3cc392a5d139bd9131e42a5abb75d4ee', // search only API key, no ADMIN key
+    indexName: 'imls_v04',
+    numberLocale: 'en-US',
+    stalledSearchDelay: 5000,
+    routing: true,
+    searchParameters: {
+      hitsPerPage: 50
+    }
+  });
+
+  // search input widget  
+  search.addWidget(
+    instantsearch.widgets.searchBox({
+      container: '#search-input'
+    })
+  );
+
+  // number of hits
+  search.addWidget(
+    instantsearch.widgets.stats({
+      container: '#count',
+      templates: {
+        body: function(data) {
+          var result = data.hasOneResult ? "result" : "results";
+          return data.nbHits + ' ' + result;
+        }
+      }
+    })
+  );
+
+  // display results
+  search.addWidget(
+    instantsearch.widgets.hits({
+      container: '#hits',
+      templates: {
+        item: document.getElementById('hit-template').innerHTML,
+        empty: "We didn't find any results for the search <em>\"{{query}}\"</em>"
+      }
+    })
+  );
+
+  // search.on( 'render', getFullData );
+  (function() {
+      var origOpen = XMLHttpRequest.prototype.open;
+      XMLHttpRequest.prototype.open = function() {
+          this.addEventListener('load', function() {
+            var res = JSON.parse(this.responseText);
+            if ( typeof res.results !== "undefined" ) {
+              getFullData( res.results );
+            }
+          });
+          origOpen.apply(this, arguments);
+      };
+  })();
+
+
+  // pagination
+  search.addWidget(
+    instantsearch.widgets.pagination({
+      container: '#pagination'
+    })
+  );
+
+  // clear all filters
+  search.addWidget(
+    instantsearch.widgets.clearAll({
+      container: '#clear-all',
+      clearsQuery: true,
+      templates: {
+        link: '<i class="icon-x"></i> Clear All Filters'
+      }
+    })
+  )
+
+  // state facet
+  search.addWidget(
+    instantsearch.widgets.refinementList({
+      container: '#state-refinement',
+      attributeName: 'state',
+      limit: 65,
+      showMore: false,
+      sortBy: ['name:asc']
+    })
+  );
+
+  // locale facet
+  search.addWidget(
+    instantsearch.widgets.refinementList({
+      container: '#locale-refinement',
+      attributeName: 'locale_string',
+      sortBy: ['name:asc']
+    })
+  );
+
+  // total circulation input  
+  search.addWidget(
+    instantsearch.widgets.rangeInput({
+      container: '#circulation-input',
+      attributeName: 'total_circulation',
+      labels: {
+        separator: 'to',
+        submit: 'Go'
+      }
+    })
+  );
+
+  /* total circulation slider  
+  search.addWidget(
+    instantsearch.widgets.rangeSlider({
+      container: '#total-circulation-refinement',
+      attributeName: 'total_circulation',
+      pips: false,
+      tooltips: false
+    })
+  );*/
+
+  // total revenue input  
+  search.addWidget(
+    instantsearch.widgets.rangeInput({
+      container: '#revenue-input',
+      attributeName: 'total_revenue',
+      labels: {
+        separator: 'to',
+        submit: 'Go'
+      }
+    })
+  );
+
+
+  /* total revenue slider  
+  search.addWidget(
+    instantsearch.widgets.rangeSlider({
+      container: '#total-revenue-refinement',
+      attributeName: 'total_revenue',
+      pips: false,
+      tooltips: false
+    })
+  );*/
+
+  // total staff input  
+  search.addWidget(
+    instantsearch.widgets.rangeInput({
+      container: '#staff-input',
+      attributeName: 'total_staff',
+      labels: {
+        separator: 'to',
+        submit: 'Go'
+      }
+    })
+  );
+
+  /* total staff slider  
+  search.addWidget(
+    instantsearch.widgets.rangeSlider({
+      container: '#total-staff-refinement',
+      attributeName: 'total_staff',
+      tooltips: false,
+      pips: false
+    })
+  );*/
+
+  // total population input  
+  search.addWidget(
+    instantsearch.widgets.rangeInput({
+      container: '#population-input',
+      attributeName: 'service_area_population',
+      labels: {
+        separator: 'to',
+        submit: 'Go'
+      }
+    })
+  );
+
+  /* service area population slider  
+  search.addWidget(
+    instantsearch.widgets.rangeSlider({
+      container: '#service-area-population-refinement',
+      attributeName: 'service_area_population',
+      pips: false,
+      tooltips: false,
+    })
+  );*/
+
+  // legal basis facet
+  search.addWidget(
+    instantsearch.widgets.refinementList({
+      container: '#legal-basis-refinement',
+      attributeName: 'legal_basis',
+      limit: 65,
+      showMore: false,
+      sortBy: ['name:asc']
+    })
+  );
+
+  /* branch libraries slider  
+  search.addWidget(
+    instantsearch.widgets.rangeSlider({
+      container: '#branch-libraries-refinement',
+      attributeName: 'branch_libraries',
+      pips: false,
+      tooltips: false,
+    })
+  );*/
+
+  // branch libraries input  
+  search.addWidget(
+    instantsearch.widgets.rangeInput({
+      container: '#branch-libraries-input',
+      attributeName: 'branch_libraries',
+      labels: {
+        separator: 'to',
+        submit: 'Go'
+      }
+    })
+  );
+
+  /* visits slider  
+  search.addWidget(
+    instantsearch.widgets.rangeSlider({
+      container: '#visits-refinement',
+      attributeName: 'visits',
+      pips: false,
+      tooltips: false,
+    })
+  );*/
+
+  // visits input  
+  search.addWidget(
+    instantsearch.widgets.rangeInput({
+      container: '#visits-input',
+      attributeName: 'visits',
+      labels: {
+        separator: 'to',
+        submit: 'Go'
+      }
+    })
+  );
+
+  /* total programs slider  
+  search.addWidget(
+    instantsearch.widgets.rangeSlider({
+      container: '#total-programs-refinement',
+      attributeName: 'total_programs',
+      pips: false,
+      tooltips: false,
+    })
+  );*/
+
+  // total programs input  
+  search.addWidget(
+    instantsearch.widgets.rangeInput({
+      container: '#total-programs-input',
+      attributeName: 'total_programs',
+      labels: {
+        separator: 'to',
+        submit: 'Go'
+      }
+    })
+  );
+
+  // start the search UI
+  search.start();
+
+  //tell when the widgets are rendered the first time
+  search.once('render', function(){
+    
+    /* Make space for fixed header once filters are loaded */
+    headRoom();
+    
+    doTooltips();
+
+    /* Change labels on 'Legal Basis' dropdowns */
+    changeLegalLabels();
+
+  });//end render once
+
+  //tell when the widgets are re-rendered
+  var updateSearchUI = function() {
+    /* Make sure the content is still in the right place */
+    headRoom();
+    
+    /* Assemble the 'current filters' list and stick it in */
+    currentFilters();
+
+    /* Change labels on 'Legal Basis' dropdowns */
+    changeLegalLabels();
+
+    //if an input refinement is empty, display a message.
+    $('.filter-dropdown .ais-root').each(function(){
+      if ($(this).parent().css('display') == 'none'){
+        $(this).parent().parent().append('<div class="none-avail">No refinement available.</div>');
+      }else{
+        $(this).parent().parent().remove('.none-avail');
+      }
+    });//end check each input
+  }
+  search.on('render', updateSearchUI)
+  search.on('error', updateSearchUI)
+
   // fill in data grid variable selector
   var selectLabels = _.map( comparisonData, 'display_name' );
   var selectValues = _.map( comparisonData, 'name' );
@@ -620,46 +661,9 @@ $(document).ready(function() {
       });//end check each dropdown
     }
   });//end if click document
-
-});//end document ready
-
-function returnButton(){
-  var returnURL = window.location.href;
-  console.log('now returnURL = '+returnURL);
-  localStorage.setItem('returnURL', returnURL);
 }
 
-function changeLegalLabels(){
-  $('#legal-basis-refinement .ais-refinement-list--label').each(function(){
-    $(this).contents().filter(function(){
-      switch($.trim(this.textContent)){
-        case 'CC':
-          this.textContent = this.textContent.replace('CC','City/County');
-          break;
-        case 'CI':
-          this.textContent = this.textContent.replace('CI','Municipal Gov\'t');
-          break;
-        case 'CO':
-          this.textContent = this.textContent.replace('CO','County/Parish');
-          break;
-        case 'LD':
-          this.textContent = this.textContent.replace('LD','Library District');
-          break;
-        case 'MJ':
-          this.textContent = this.textContent.replace('MJ','Multi-jurisdictional');
-          break;
-        case 'NL':
-          this.textContent = this.textContent.replace('NL','NA Tribal Gov\'t');
-          break;
-        case 'NP':
-          this.textContent = this.textContent.replace('NP','Non-Profit');
-          break;
-        case 'OT':
-          this.textContent = this.textContent.replace('OT','School District');
-          break;
-        case 'SD':
-          this.textContent = this.textContent.replace('SD','Other');
-      }//end switch
-    });//end filter label contents
-  });//end each label
-}
+$(document).ready(function() {
+  window.app = document.createElement('search-compare-app')
+  document.body.appendChild(window.app)
+});
