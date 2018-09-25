@@ -128,14 +128,13 @@ search.addWidget(
         this.addEventListener('load', function() {
           var res = JSON.parse(this.responseText);
           if ( typeof res.results !== "undefined" ) {
-            getFullData( res.results );
+            // getFullData();
           }
         });
         origOpen.apply(this, arguments);
     };
 })();
 
-function getFullData( results ) {
   /*
   var query = _.split( results[0].params, "&", 1);
   var query = _.split(query, "=")[1];
@@ -254,9 +253,87 @@ function getFullData( results ) {
 
 
   */
+function getJsonFromUrl(hashBased) {
+  var query;
+  if(hashBased) {
+    var pos = location.href.indexOf("?");
+    if(pos==-1) return [];
+    query = location.href.substr(pos+1);
+  } else {
+    query = location.search.substr(1);
+  }
+  var result = {};
+  query.split("&").forEach(function(part) {
+    if(!part) return;
+    part = part.split("+").join(" "); // replace every + with space, regexp-free version
+    var eq = part.indexOf("=");
+    var key = eq>-1 ? part.substr(0,eq) : part;
+    var val = eq>-1 ? decodeURIComponent(part.substr(eq+1)) : "";
+    var from = key.indexOf("[");
+    if(from==-1) result[decodeURIComponent(key)] = val;
+    else {
+      var to = key.indexOf("]",from);
+      var index = decodeURIComponent(key.substring(from+1,to));
+      key = decodeURIComponent(key.substring(0,from));
+      if(!result[key]) result[key] = [];
+      if(!index) result[key].push(val);
+      else result[key][index] = val;
+    }
+  });
+  return result;
+}
+
+function getFullData() {
+
+  var url_params = getJsonFromUrl();
+  var params_obj = {};
+
+  _.mapKeys( url_params, function( value, key ) { 
+    _.set(params_obj, key, value);
+  } );
+  console.log( params_obj );
+
+  // Get query string
+  var query = params_obj['query'];  
+
+  // Create array of refinementList (facet) statements
+  var rl_arr = [];
+
+  _.forEach(params_obj['refinementList'], function(value, key) {
+    var rl_query_string = '(';
+    _.forEach(params_obj['refinementList'][key], function(value) {
+      rl_query_string = rl_query_string + key + ':' + value + ' OR ';
+    });
+    rl_query_string = rl_query_string.slice(0, -4);
+    rl_query_string = rl_query_string + ')';
+    rl_arr.push(rl_query_string);
+  });
+
+  // Create array of range input statements
+  var range_arr = [];
+
+  _.forEach(params_obj['range'], function(value, key) {
+    _.forEach(params_obj['range'][key].split(':'), function(value, inner_key) {
+      if(value !== '') {
+        var range_string = '';
+        var comparator = inner_key === 0 ? ' >= ' : ' <= ';
+        range_string = range_string + key + comparator + value;
+        range_arr.push(range_string);
+      }
+    })
+  });
+  console.log( rl_arr );
+
+  var rl_string = rl_arr.join( ' AND ');  
+  var range_string = range_arr.join( ' AND ');  
+
+  filter_string = rl_string.length > 0 && range_string.length > 0 ? rl_string + ' AND ' + range_string : rl_string + range_string;
+
+  console.log( filter_string);
+
   var browser = index.browseAll({ 
-    query:'Hum',
-    filters: '(state:CA OR state:CO) AND (legal_basis:CI OR legal_basis:CO) AND total_staff >= 10 AND total_staff <= 100 AND branch_libraries >= 10 AND total_programs <= 1000'
+    query: query,
+    filters: filter_string
   });
 
   var myHits = [];
@@ -740,6 +817,20 @@ $(document).ready(function() {
     }
   });//end if click document
 
+  // Polling method to detect URL changes
+  // store url on load
+  var currentPage = window.location.href;
+
+  // listen for changes
+  setInterval(function()
+  {
+    if (currentPage != window.location.href)
+    {
+      // page has changed, set new page as 'current'
+      currentPage = window.location.href;
+      getFullData();
+    }
+  }, 500);
 });//end document ready
 
 function returnButton(){
