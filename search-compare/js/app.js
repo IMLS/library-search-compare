@@ -97,7 +97,8 @@ function getJsonFromUrl(url) {
 }
 
 function getFullData() {
-  if ( window.app.store.getState().searchMode === 'table' ) {
+  //if ( window.app.store.getState().searchMode === 'table' ) {
+  if($('#list-results').is(':visible') === false ){
     var url_params = getJsonFromUrl( searchCompare.instantSearchURL );
     var params_obj = {};
 
@@ -722,15 +723,15 @@ function startAppJs() {
 
     /* Toggle between list and grid view for results */
   $('#viewToggle').on('click', function(){
-    window.app.store.dispatch({type:'TOGGLE_SEARCH_MODE'})
+    // window.app.store.dispatch({type:'TOGGLE_SEARCH_MODE'})
     if($('#list-results').is(':visible')){
-      getFullData();
       $('#list-results').hide();
       $('#grid-results-wrapper').show();
       $('#comparison-select-wrapper').show();
       $('#expBtn').show();
       $('#viewToggle i').toggleClass('icon-list-view icon-grid-view');
       $('#viewToggle span').text('List Libraries');
+      getFullData();
     }else{
       $('#list-results').show();
       $('#grid-results-wrapper').hide();
