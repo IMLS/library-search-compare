@@ -506,6 +506,8 @@ function startAppJs() {
     instantsearch.widgets.rangeInput({
       container: '#circulation-input',
       attributeName: 'total_circulation',
+      min: 0,
+      max: 22665133,
       labels: {
         separator: 'to',
         submit: 'Go'
@@ -528,6 +530,8 @@ function startAppJs() {
     instantsearch.widgets.rangeInput({
       container: '#revenue-input',
       attributeName: 'total_revenue',
+      min: 0,
+      max: 312078526,
       labels: {
         separator: 'to',
         submit: 'Go'
@@ -575,6 +579,8 @@ function startAppJs() {
     instantsearch.widgets.rangeInput({
       container: '#population-input',
       attributeName: 'service_area_population',
+      min: 0,
+      max: 4137076,
       labels: {
         separator: 'to',
         submit: 'Go'
@@ -618,6 +624,8 @@ function startAppJs() {
     instantsearch.widgets.rangeInput({
       container: '#branch-libraries-input',
       attributeName: 'branch_libraries',
+      min: 0,
+      max: 92,
       labels: {
         separator: 'to',
         submit: 'Go'
@@ -640,6 +648,8 @@ function startAppJs() {
     instantsearch.widgets.rangeInput({
       container: '#visits-input',
       attributeName: 'visits',
+      min: 0,
+      max: 17420607,
       labels: {
         separator: 'to',
         submit: 'Go'
@@ -662,6 +672,8 @@ function startAppJs() {
     instantsearch.widgets.rangeInput({
       container: '#total-programs-input',
       attributeName: 'total_programs',
+      min: 0,
+      max: 104226,
       labels: {
         separator: 'to',
         submit: 'Go'
