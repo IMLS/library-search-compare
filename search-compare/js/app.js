@@ -97,74 +97,76 @@ function getJsonFromUrl(url) {
 }
 
 function getFullData() {
-  var url_params = getJsonFromUrl( searchCompare.instantSearchURL );
-  var params_obj = {};
+  if ( window.app.store.getState().searchMode === 'table' ) {
+    var url_params = getJsonFromUrl( searchCompare.instantSearchURL );
+    var params_obj = {};
 
-  _.mapKeys( url_params, function( value, key ) { 
-    _.set(params_obj, key, value);
-  } );
+    _.mapKeys( url_params, function( value, key ) { 
+      _.set(params_obj, key, value);
+    } );
 
-  // Get query string
-  var query = params_obj['query'];  
+    // Get query string
+    var query = params_obj['query'];  
 
-  // Create array of refinementList (facet) statements
-  var rl_arr = [];
+    // Create array of refinementList (facet) statements
+    var rl_arr = [];
 
-  _.forEach(params_obj['refinementList'], function(value, key) {
-    var rl_query_string = '(';
-    _.forEach(params_obj['refinementList'][key], function(value) {
-      rl_query_string = rl_query_string + key + ':' + value + ' OR ';
+    _.forEach(params_obj['refinementList'], function(value, key) {
+      var rl_query_string = '(';
+      _.forEach(params_obj['refinementList'][key], function(value) {
+        rl_query_string = rl_query_string + key + ':' + value + ' OR ';
+      });
+      rl_query_string = rl_query_string.slice(0, -4);
+      rl_query_string = rl_query_string + ')';
+      rl_arr.push(rl_query_string);
     });
-    rl_query_string = rl_query_string.slice(0, -4);
-    rl_query_string = rl_query_string + ')';
-    rl_arr.push(rl_query_string);
-  });
 
-  // Create array of range input statements
-  var range_arr = [];
+    // Create array of range input statements
+    var range_arr = [];
 
-  _.forEach(params_obj['range'], function(value, key) {
-    _.forEach(params_obj['range'][key].split(':'), function(value, inner_key) {
-      if(value !== '') {
-        var range_string = '';
-        var comparator = inner_key === 0 ? ' >= ' : ' <= ';
-        range_string = range_string + key + comparator + value;
-        range_arr.push(range_string);
-      }
-    })
-  });
+    _.forEach(params_obj['range'], function(value, key) {
+      _.forEach(params_obj['range'][key].split(':'), function(value, inner_key) {
+        if(value !== '') {
+          var range_string = '';
+          var comparator = inner_key === 0 ? ' >= ' : ' <= ';
+          range_string = range_string + key + comparator + value;
+          range_arr.push(range_string);
+        }
+      })
+    });
 
-  var rl_string = rl_arr.join( ' AND ');  
-  var range_string = range_arr.join( ' AND ');  
+    var rl_string = rl_arr.join( ' AND ');  
+    var range_string = range_arr.join( ' AND ');  
 
-  filter_string = rl_string.length > 0 && range_string.length > 0 ? rl_string + ' AND ' + range_string : rl_string + range_string;
+    filter_string = rl_string.length > 0 && range_string.length > 0 ? rl_string + ' AND ' + range_string : rl_string + range_string;
 
 
-  var browser = index.browseAll({ 
-    query: query,
-    filters: filter_string
-  });
+    var browser = index.browseAll({ 
+      query: query,
+      filters: filter_string
+    });
 
-  var myHits = [];
-  var myContent = {};
+    var myHits = [];
+    var myContent = {};
 
-  browser.on('result', function onResult(content) {
-    myHits = myHits.concat(content.hits);
-  });
+    browser.on('result', function onResult(content) {
+      myHits = myHits.concat(content.hits);
+    });
 
-  browser.on('end', function onEnd() {
-    console.log('Finished!');
-    console.log('We got %d hits', myHits.length);
-    myContent.hits = myHits;
-    searchCompare.globalContent = myContent;
-    var comparisonSelect = $( '#comparison-select' ).val();
-    displayDataGrid( searchCompare.globalContent, comparisonSelect );
-    prepareCsvData( searchCompare.globalContent, comparisonSelect );
-  });
+    browser.on('end', function onEnd() {
+      console.log('Finished!');
+      console.log('We got %d hits', myHits.length);
+      myContent.hits = myHits;
+      searchCompare.globalContent = myContent;
+      var comparisonSelect = $( '#comparison-select' ).val();
+      displayDataGrid( searchCompare.globalContent, comparisonSelect );
+      prepareCsvData( searchCompare.globalContent, comparisonSelect );
+    });
 
-  browser.on('error', function onError(err) {
-    throw err;
-  });
+    browser.on('error', function onError(err) {
+      throw err;
+    });
+  }
   /*
   var query = _.split( results[0].params, "&", 1);
   var query = _.split(query, "=")[1];
@@ -720,6 +722,7 @@ function startAppJs() {
   $('#viewToggle').on('click', function(){
     window.app.store.dispatch({type:'TOGGLE_SEARCH_MODE'})
     if($('#list-results').is(':visible')){
+      getFullData();
       $('#list-results').hide();
       $('#grid-results-wrapper').show();
       $('#comparison-select-wrapper').show();
@@ -784,5 +787,4 @@ function startAppJs() {
 $(document).ready(function() {
   window.app = document.createElement('search-compare-app')
   document.body.appendChild(window.app)
-  
 });
