@@ -453,6 +453,8 @@ function startAppJs() {
     instantsearch.widgets.rangeInput({
       container: '#staff-input',
       attributeName: 'total_staff',
+      min: 0,
+      max: 2209,
       labels: {
         separator: 'to',
         submit: 'Go'
