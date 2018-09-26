@@ -335,7 +335,7 @@ function handleTrendSelection(target) {
 function displayTrendsGrid( content, comparisonSelect ) {
   console.log( comparisonSelect );
   var trendTableRows = [];
-  var trendTableData = {};
+  window.trendTableData = {};
 
   var field_names = _.map(_.find(longitudinalData, {
     'name': comparisonSelect
@@ -660,6 +660,45 @@ function displaySimilarLibraries( baseLibrary, content, cluster_type, field_name
   similarTable.on('similarTable.init', function() {
   });
 }
+
+function oknRenderCsv(tableData) {
+  var fields = []
+  var records = []
+  _.forEach(tableData.headings, function (value, key) {
+    fields.push({id: value})
+  })
+  _.forEach(tableData.data, function (row, rowNumber) {
+    records[rowNumber] = {}
+    _.forEach(row, function (column, columnNumber) {
+      records[rowNumber][tableData.headings[columnNumber]] = column 
+    })
+  })
+  return CSV.serialize({
+    fields: fields,
+      //.reduce((acc, row) => [ ...new Set([...acc, ...Object.keys(row)]) ], [])
+      //.map(key => { return {id: key} }),
+    records: records 
+  })
+}
+
+function oknDownloadCsv(tableData) {
+  var csvContent = oknRenderCsv(tableData)
+  var filename = "imls_data"; 
+  var csvData = new Blob([csvContent], {type: 'text/csv;charset=utf-8;'});
+  if( msieversion()) {
+    navigator.msSaveBlob(csvData, 'pls_export.csv');
+  } else {
+    // window.open(encodedUri);
+    var link = document.createElement('a');
+    link.href = window.URL.createObjectURL(csvData);
+    link.setAttribute('download', 'pls_export.csv');
+    document.body.appendChild(link);    
+    link.click();
+    document.body.removeChild(link);
+  }
+}
+
+
 
 
 //add to URL on button click
