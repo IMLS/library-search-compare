@@ -1,4 +1,4 @@
-var client = algoliasearch('CDUMM9WVUG', '3cc392a5d139bd9131e42a5abb75d4ee');
+var client = algoliasearch('CDUMM9WVUG', '4ed0ae66adc167ec909a431c46a7897c');
 var index = client.initIndex('imls_v04');
 
 // comparison data grid labels and field names  
@@ -71,7 +71,103 @@ function handleDataSelection( target ) {
   }
 }
 
-function getFullData( results ) {
+function getJsonFromUrl(url) {
+  var url_arr = url.split('?');
+  var query = url_arr[1];
+  query = typeof query != 'undefined' ? query : '';
+  var result = {};
+  query.split("&").forEach(function(part) {
+    if(!part) return;
+    part = part.split("+").join(" "); // replace every + with space, regexp-free version
+    var eq = part.indexOf("=");
+    var key = eq>-1 ? part.substr(0,eq) : part;
+    var val = eq>-1 ? decodeURIComponent(part.substr(eq+1)) : "";
+    var from = key.indexOf("[");
+    if(from==-1) result[decodeURIComponent(key)] = val;
+    else {
+      var to = key.indexOf("]",from);
+      var index = decodeURIComponent(key.substring(from+1,to));
+      key = decodeURIComponent(key.substring(0,from));
+      if(!result[key]) result[key] = [];
+      if(!index) result[key].push(val);
+      else result[key][index] = val;
+    }
+  });
+  return result;
+}
+
+function getFullData() {
+  if ( window.app.store.getState().searchMode === 'table' ) {
+    var url_params = getJsonFromUrl( searchCompare.instantSearchURL );
+    var params_obj = {};
+
+    _.mapKeys( url_params, function( value, key ) { 
+      _.set(params_obj, key, value);
+    } );
+
+    // Get query string
+    var query = params_obj['query'];  
+
+    // Create array of refinementList (facet) statements
+    var rl_arr = [];
+
+    _.forEach(params_obj['refinementList'], function(value, key) {
+      var rl_query_string = '(';
+      _.forEach(params_obj['refinementList'][key], function(value) {
+        rl_query_string = rl_query_string + key + ':' + value + ' OR ';
+      });
+      rl_query_string = rl_query_string.slice(0, -4);
+      rl_query_string = rl_query_string + ')';
+      rl_arr.push(rl_query_string);
+    });
+
+    // Create array of range input statements
+    var range_arr = [];
+
+    _.forEach(params_obj['range'], function(value, key) {
+      _.forEach(params_obj['range'][key].split(':'), function(value, inner_key) {
+        if(value !== '') {
+          var range_string = '';
+          var comparator = inner_key === 0 ? ' >= ' : ' <= ';
+          range_string = range_string + key + comparator + value;
+          range_arr.push(range_string);
+        }
+      })
+    });
+
+    var rl_string = rl_arr.join( ' AND ');  
+    var range_string = range_arr.join( ' AND ');  
+
+    filter_string = rl_string.length > 0 && range_string.length > 0 ? rl_string + ' AND ' + range_string : rl_string + range_string;
+
+
+    var browser = index.browseAll({ 
+      query: query,
+      filters: filter_string
+    });
+
+    var myHits = [];
+    var myContent = {};
+
+    browser.on('result', function onResult(content) {
+      myHits = myHits.concat(content.hits);
+    });
+
+    browser.on('end', function onEnd() {
+      console.log('Finished!');
+      console.log('We got %d hits', myHits.length);
+      myContent.hits = myHits;
+      searchCompare.globalContent = myContent;
+      var comparisonSelect = $( '#comparison-select' ).val();
+      displayDataGrid( searchCompare.globalContent, comparisonSelect );
+      prepareCsvData( searchCompare.globalContent, comparisonSelect );
+    });
+
+    browser.on('error', function onError(err) {
+      throw err;
+    });
+  }
+  /*
   var query = _.split( results[0].params, "&", 1);
   var query = _.split(query, "=")[1];
   var filters = _.split( results[0].params, 'tagFilters=&');
@@ -103,6 +199,7 @@ function getFullData( results ) {
       prepareCsvData( searchCompare.globalContent, comparisonSelect );
     }
   });
+  */
 }
 
 function displayDataGrid( content, comparisonSelect ) {
@@ -357,7 +454,7 @@ function startAppJs() {
           this.addEventListener('load', function() {
             var res = JSON.parse(this.responseText);
             if ( typeof res.results !== "undefined" ) {
-              getFullData( res.results );
+               // getFullData( res.results );
             }
           });
           origOpen.apply(this, arguments);
@@ -598,6 +695,10 @@ function startAppJs() {
     /* Change labels on 'Legal Basis' dropdowns */
     changeLegalLabels();
 
+    // call second search to populate comparison table
+    searchCompare.instantSearchURL = search.createURL();
+    getFullData()
+
     //if an input refinement is empty, display a message.
     $('.filter-dropdown .ais-root').each(function(){
       if ($(this).parent().css('display') == 'none'){
@@ -623,6 +724,7 @@ function startAppJs() {
   $('#viewToggle').on('click', function(){
     window.app.store.dispatch({type:'TOGGLE_SEARCH_MODE'})
     if($('#list-results').is(':visible')){
+      getFullData();
       $('#list-results').hide();
       $('#grid-results-wrapper').show();
       $('#comparison-select-wrapper').show();
