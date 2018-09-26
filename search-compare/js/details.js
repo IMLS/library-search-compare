@@ -333,8 +333,6 @@ function handleTrendSelection(target) {
 }
 
 function displayTrendsGrid( content, comparisonSelect ) {
-  console.log( comparisonSelect );
-  console.log( content );
   window.trendData = content.hits[0]
   var trendTableRows = [];
   window.trendTableData = {};
