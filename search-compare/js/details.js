@@ -334,6 +334,7 @@ function handleTrendSelection(target) {
 
 function displayTrendsGrid( content, comparisonSelect ) {
   console.log( comparisonSelect );
+  window.trendData = content.hits[0]
   var trendTableRows = [];
   window.trendTableData = {};
 
@@ -661,28 +662,55 @@ function displaySimilarLibraries( baseLibrary, content, cluster_type, field_name
   });
 }
 
-function oknRenderCsv(tableData) {
-  var fields = []
+function renderTrendsCsv(trendData) {
+  var fields = [{
+    id: 'time_period',
+    name: 'Time Period'
+  }]
   var records = []
-  _.forEach(tableData.headings, function (value, key) {
-    fields.push({id: value})
-  })
-  _.forEach(tableData.data, function (row, rowNumber) {
-    records[rowNumber] = {}
-    _.forEach(row, function (column, columnNumber) {
-      records[rowNumber][tableData.headings[columnNumber]] = column 
+  _.forEach(longitudinalData, function (longitudinalCategory, key) {
+    _.forEach(longitudinalCategory.headings, function (longitudinalHeading, key) {
+      // skip the name column that does not match corresponding field_names array.
+      if (key === 0) return
+      fields.push({
+        name: longitudinalCategory.headings[key],
+        id: longitudinalCategory.field_names[key-1]
+      })
     })
   })
+  var field_names = []
+  _.forEach(fields, function(field, key) {
+    field_names.push(field.id)
+  })
+  var trendTableRows = []
+  var rows = {  '1 year change': '_1_year', '5 year change': '_5_year', '10 year change': '_10_year', '2016 value': '_2016', '2015 value': '_2015', '2011 value': '_2011', '2006 value': '_2006' };
+  _.forEach( rows, function ( suffix, label, rows ) {
+    var trendTableRow = {
+      time_period: label
+    }
+    _.forEach(field_names, function ( field_name ) {
+      if (trendData[field_name + suffix]) {
+        var cell_value = trendData[ field_name + suffix ];
+        // test for undefined value from index  
+        cell_value = ( typeof cell_value === 'undefined' ) ? '' :  cell_value;
+        cell_value = ( isNaN( cell_value ) || isNaN( parseInt( cell_value ) ) ) ? cell_value : parseFloat( cell_value ).toLocaleString( 'en-US' );
+        var string_end = ( _.includes( label, 'year' ) && isNaN( cell_value ) === false ) ? '%' : '';
+        trendTableRow[field_name.replace(suffix, '')] = cell_value + string_end
+      }
+    });
+    trendTableRows.push(trendTableRow);
+  } );
+
   return CSV.serialize({
     fields: fields,
       //.reduce((acc, row) => [ ...new Set([...acc, ...Object.keys(row)]) ], [])
       //.map(key => { return {id: key} }),
-    records: records 
+    records: trendTableRows 
   })
 }
 
-function oknDownloadCsv(tableData) {
-  var csvContent = oknRenderCsv(tableData)
+function downloadTrendsCsv(tableData) {
+  var csvContent = renderTrendsCsv(window.trendData)
   var filename = "imls_data"; 
   var csvData = new Blob([csvContent], {type: 'text/csv;charset=utf-8;'});
   if( msieversion()) {
