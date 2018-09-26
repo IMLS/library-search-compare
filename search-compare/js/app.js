@@ -743,6 +743,11 @@ function startAppJs() {
       $('#expBtn').show();
       $('#viewToggle i').toggleClass('icon-list-view icon-grid-view');
       $('#viewToggle span').text('List Libraries');
+      $('header, main, footer').attr('aria-hidden', 'true');
+      $('#modalOverlay').toggleClass('hidden');
+      $('#loading-spinner').toggleClass('paused');
+      $('#loading-spinner span').text('Content is loading...');
+      $('#loading-spinner').focus();
       getFullData();
     }else{
       $('#list-results').show();
