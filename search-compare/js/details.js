@@ -334,6 +334,7 @@ function handleTrendSelection(target) {
 
 function displayTrendsGrid( content, comparisonSelect ) {
   console.log( comparisonSelect );
+  console.log( content );
   window.trendData = content.hits[0]
   var trendTableRows = [];
   window.trendTableData = {};
@@ -742,7 +743,7 @@ function downloadTrendsCsv(tableData) {
 
         $('#trends-select').change(function ( event ) {
           var comparisonSelect = event.target.value
-          displayTrendsGrid( searchCompare.longitudinalData, comparisonSelect );
+          displayTrendsGrid( searchCompare.longitudinalContent, comparisonSelect );
         });
 
         //end trends data prototype
