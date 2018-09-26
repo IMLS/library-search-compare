@@ -54,14 +54,16 @@ comparisonData = [
 // comparison data grid labels and field names  
 var longitudinalData = {};
 longitudinalData = [
+  /*
   { name: 'demographic',
     display_name: 'Demographic', 
     headings: [ 'Time Period', 'Population of Legal Service Area (LSA)', 'Number of central libraries', 'Number of branch libraries', 'Number of bookmobiles' ],
     field_names: [ 'POPU_LSA', 'CENTLIB', 'BRANLIB', 'BKMOB' ] },
+    */
   { name: 'staff',
-    display_name: 'Paid Staff (FTE)', 
-    headings: [ 'Time Period', 'ALA-MLS librarians', 'Total librarians', 'All other paid staff', 'Total paid staff' ],
-    field_names: [ 'MASTER', 'LIBRARIA', 'OTHPAID', 'TOTSTAFF' ] },
+    display_name: 'Demographics and Paid Staff (FTE)', 
+    headings: [ 'Time Period', 'Population of Legal Service Area (LSA)', 'ALA-MLS librarians', 'Total librarians', 'All other paid staff', 'Total paid staff' ],
+    field_names: [ 'POPU_LSA', 'MASTER', 'LIBRARIA', 'OTHPAID', 'TOTSTAFF' ] },
   { name: 'revenue',
     display_name: 'Operating Revenue', 
     headings: [ 'Time Period', 'Local Revenue ($)', 'State Revenue ($)', 'Federal Revenue ($)', 'Other Revenue ($)', 'Total Revenue ($)' ],
@@ -314,7 +316,7 @@ longitudinalIndex.search({
       return;
     } else {
       searchCompare.longitudinalContent = content;
-      displayTrendsGrid( searchCompare.longitudinalContent, 'demographic' );
+      displayTrendsGrid( searchCompare.longitudinalContent, 'staff' );
     }
 
 });
@@ -333,7 +335,6 @@ function handleTrendSelection(target) {
 }
 
 function displayTrendsGrid( content, comparisonSelect ) {
-  console.log( comparisonSelect );
   window.trendData = content.hits[0]
   var trendTableRows = [];
   window.trendTableData = {};
@@ -388,6 +389,7 @@ function displayTrendsGrid( content, comparisonSelect ) {
 
 
   trendGrid.on('datatable.init', function () {
+    $('#trends-table th:not(:first)').css( 'text-align', 'right' );
   });
   trendGrid.on('datatable.page', function () {
   });
@@ -742,7 +744,7 @@ function downloadTrendsCsv(tableData) {
 
         $('#trends-select').change(function ( event ) {
           var comparisonSelect = event.target.value
-          displayTrendsGrid( searchCompare.longitudinalData, comparisonSelect );
+          displayTrendsGrid( searchCompare.longitudinalContent, comparisonSelect );
         });
 
         //end trends data prototype
@@ -776,7 +778,6 @@ function downloadTrendsCsv(tableData) {
         }//if URL is null
 
         /* Help Dialog stuff */
-        
 
       });//end document ready
     });//dollar sign
