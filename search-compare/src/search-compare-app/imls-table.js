@@ -141,7 +141,7 @@ class ImlsTable extends PolymerElement {
     for (var h in rowData) {
       let res = rowData[h];
       if (this.showUserCompareListButtons) {
-        var tableRow = [ '<i class="user-compare-btn" data-fscs="' + res[ "fscs_id" ] + '" data-action="remove"></i>', '<a data-name="' + res[ 'library_name' ] + '" href="details.html?fscs_id=' + res["fscs_id"] + '">' + res["library_name"] + ' (' + res[ "fscs_id" ] + ')' + '</a>' ];
+        var tableRow = [ `<i class="user-compare-btn ${this.userCompareList.indexOf(rowData[h].fscs_id) !== -1 ? 'user-compare-remove' : 'user-compare-add'}" data-fscs="${res[ "fscs_id" ]}" data-action="remove"></i>`, '<a data-name="' + res[ 'library_name' ] + '" href="details.html?fscs_id=' + res["fscs_id"] + '">' + res["library_name"] + ' (' + res[ "fscs_id" ] + ')' + '</a>' ];
       } else {
         var tableRow = [  '<a data-name="' + res[ 'library_name' ] + '" href="details.html?fscs_id=' + res["fscs_id"] + '">' + res["library_name"] + ' (' + res[ "fscs_id" ] + ')' + '</a>' ];
       }
@@ -197,13 +197,6 @@ class ImlsTable extends PolymerElement {
   }
 
   gridHasRendered() {
-    this.querySelectorAll('.user-compare-btn').forEach(el => {
-      if (this.userCompareList.indexOf(el.getAttribute('data-fscs')) !== -1) {
-        el.classList.add('user-compare-remove')
-      } else {
-        el.classList.add('user-compare-add')
-      }
-    })
     this.dispatchEvent(new CustomEvent('imls-table-grid-render'))
   }
 
