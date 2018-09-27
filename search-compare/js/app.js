@@ -481,8 +481,6 @@ function startAppJs() {
     instantsearch.widgets.rangeInput({
       container: '#circulation-input',
       attributeName: 'total_circulation',
-      min: 0,
-      max: 22665133,
       labels: {
         separator: 'to',
         submit: 'Go'
