@@ -898,7 +898,7 @@ i[rel="tooltip"] span {
 	height:100%;
 	overflow: auto;
 	z-index: 102;
-	background: rgba(0, 0, 0, 0.6);
+	background: rgba(0, 0, 0, 0.8);
 }
 
 #modal {
@@ -967,12 +967,10 @@ i[rel="tooltip"] span {
 	position: fixed;
 	top: 50%;
 	left: 50%;
-	margin-top: -10px;
-	margin-left: -80px;
-	width: 160px;
-	height: 20px;
-	background-image: url('../img/loading.svg');
-	background-repeat: no-repeat;
+	margin-top: -50px;
+	margin-left: -200px;
+	width: 400px;
+	height: 100px;
 	opacity: 1;
 	z-index: 103;
 }
@@ -980,6 +978,12 @@ i[rel="tooltip"] span {
 	left: -10000px;
 	opacity: 0;
 	transition: opacity linear 0.1s;
+}
+#loading-spinner span {
+	font-weight: bold;
+	color: #fff;
+	font-size: 16px;
+	text-align: center;
 }
 
 

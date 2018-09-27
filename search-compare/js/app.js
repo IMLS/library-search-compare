@@ -97,8 +97,16 @@ function getJsonFromUrl(url) {
 }
 
 function getFullData() {
+  console.log('getFullData');
+
   //if ( window.app.store.getState().searchMode === 'table' ) {
   if($('#list-results').is(':visible') === false ){
+    //start the loading notice
+    $('header, main, footer').attr('aria-hidden', 'true');
+    $('#modalOverlay').toggleClass('hidden');
+    $('#loading-spinner').removeClass('paused');
+    $('#loading-spinner span').html('Content is loading....<br>This could take several moments for larger result sets.');
+
     var url_params = getJsonFromUrl( searchCompare.instantSearchURL );
     var params_obj = {};
 
@@ -149,7 +157,7 @@ function getFullData() {
 
     var myHits = [];
     var myContent = {};
-
+    
     browser.on('result', function onResult(content) {
       myHits = myHits.concat(content.hits);
     });
@@ -168,39 +176,6 @@ function getFullData() {
       throw err;
     });
   }
-  /*
-  var query = _.split( results[0].params, "&", 1);
-  var query = _.split(query, "=")[1];
-  var filters = _.split( results[0].params, 'tagFilters=&');
-  filters = decodeURIComponent( filters[1] );
-  filters = _.split( filters, "&" );
-  asFf = "";
-  asNf = "";
-  _.forEach( filters, function( value ) {
-    if( _.startsWith( value, 'facetFilters' ) ) {
-      eqIndex = value.indexOf('=') + 1;
-      asFf = value.substring( eqIndex );
-    } else if( _.startsWith( value, 'numericFilters' ) ) {
-      eqIndex = value.indexOf('=') + 1;
-      asNf = value.substring( eqIndex );
-    }
-  });
-  index.search({
-    query: query,
-    hitsPerPage: 10000,
-    facetFilters: asFf,
-    numericFilters: asNf
-  }, function searchDone( err, content ) {
-    if ( err ) {
-      console.error( err );
-    } else {
-      searchCompare.globalContent = content;
-      var comparisonSelect = $( '#comparison-select' ).val();
-      displayDataGrid( searchCompare.globalContent, comparisonSelect )
-      prepareCsvData( searchCompare.globalContent, comparisonSelect );
-    }
-  });
-  */
 }
 
 function displayDataGrid( content, comparisonSelect ) {
@@ -515,16 +490,6 @@ function startAppJs() {
     })
   );
 
-  /* total circulation slider  
-  search.addWidget(
-    instantsearch.widgets.rangeSlider({
-      container: '#total-circulation-refinement',
-      attributeName: 'total_circulation',
-      pips: false,
-      tooltips: false
-    })
-  );*/
-
   // total revenue input  
   search.addWidget(
     instantsearch.widgets.rangeInput({
@@ -538,17 +503,6 @@ function startAppJs() {
       }
     })
   );
-
-
-  /* total revenue slider  
-  search.addWidget(
-    instantsearch.widgets.rangeSlider({
-      container: '#total-revenue-refinement',
-      attributeName: 'total_revenue',
-      pips: false,
-      tooltips: false
-    })
-  );*/
 
   // total staff input  
   search.addWidget(
@@ -564,16 +518,6 @@ function startAppJs() {
     })
   );
 
-  /* total staff slider  
-  search.addWidget(
-    instantsearch.widgets.rangeSlider({
-      container: '#total-staff-refinement',
-      attributeName: 'total_staff',
-      tooltips: false,
-      pips: false
-    })
-  );*/
-
   // total population input  
   search.addWidget(
     instantsearch.widgets.rangeInput({
@@ -588,16 +532,6 @@ function startAppJs() {
     })
   );
 
-  /* service area population slider  
-  search.addWidget(
-    instantsearch.widgets.rangeSlider({
-      container: '#service-area-population-refinement',
-      attributeName: 'service_area_population',
-      pips: false,
-      tooltips: false,
-    })
-  );*/
-
   // legal basis facet
   search.addWidget(
     instantsearch.widgets.refinementList({
@@ -608,16 +542,6 @@ function startAppJs() {
       sortBy: ['name:asc']
     })
   );
-
-  /* branch libraries slider  
-  search.addWidget(
-    instantsearch.widgets.rangeSlider({
-      container: '#branch-libraries-refinement',
-      attributeName: 'branch_libraries',
-      pips: false,
-      tooltips: false,
-    })
-  );*/
 
   // branch libraries input  
   search.addWidget(
@@ -633,16 +557,6 @@ function startAppJs() {
     })
   );
 
-  /* visits slider  
-  search.addWidget(
-    instantsearch.widgets.rangeSlider({
-      container: '#visits-refinement',
-      attributeName: 'visits',
-      pips: false,
-      tooltips: false,
-    })
-  );*/
-
   // visits input  
   search.addWidget(
     instantsearch.widgets.rangeInput({
@@ -656,16 +570,6 @@ function startAppJs() {
       }
     })
   );
-
-  /* total programs slider  
-  search.addWidget(
-    instantsearch.widgets.rangeSlider({
-      container: '#total-programs-refinement',
-      attributeName: 'total_programs',
-      pips: false,
-      tooltips: false,
-    })
-  );*/
 
   // total programs input  
   search.addWidget(
@@ -743,11 +647,6 @@ function startAppJs() {
       $('#expBtn').show();
       $('#viewToggle i').toggleClass('icon-list-view icon-grid-view');
       $('#viewToggle span').text('List Libraries');
-      $('header, main, footer').attr('aria-hidden', 'true');
-      $('#modalOverlay').toggleClass('hidden');
-      $('#loading-spinner').toggleClass('paused');
-      $('#loading-spinner span').text('Content is loading...');
-      $('#loading-spinner').focus();
       getFullData();
     }else{
       $('#list-results').show();
