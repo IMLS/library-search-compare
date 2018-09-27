@@ -182,7 +182,7 @@ class ImlsTable extends PolymerElement {
       this.gridHasRendered()
       $('#loading-spinner').addClass('paused');
       $('#loading-spinner span').html('Content has loaded.');
-      $('#modalOverlay').toggleClass('hidden');
+      $('#modalOverlay').addClass('hidden');
       $('header, main, footer').attr('aria-hidden', 'false');
     })
     this.comparisonGrid.on('datatable.page', page => {
