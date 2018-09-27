@@ -898,7 +898,7 @@ i[rel="tooltip"] span {
 	height:100%;
 	overflow: auto;
 	z-index: 102;
-	background: rgba(0, 0, 0, 0.6);
+	background: rgba(0, 0, 0, 0.8);
 }
 
 #modal {
@@ -961,6 +961,31 @@ i[rel="tooltip"] span {
 	list-style: none;
 }
 
+/* Loading Spinner Things
+   =========================*/
+#loading-spinner {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	margin-top: -50px;
+	margin-left: -200px;
+	width: 400px;
+	height: 100px;
+	opacity: 1;
+	z-index: 103;
+}
+#loading-spinner.paused {
+	left: -10000px;
+	opacity: 0;
+	transition: opacity linear 0.1s;
+}
+#loading-spinner span {
+	font-weight: bold;
+	color: #fff;
+	font-size: 16px;
+	text-align: center;
+}
+
 
 /* Helper Things
    =========================*/
@@ -1005,4 +1030,12 @@ p.more {
 .left {
 	left: 0;
 	right: auto;
+}
+.sr-only {
+	position: absolute;
+	left: -10000px;
+	top: auto;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
 }
