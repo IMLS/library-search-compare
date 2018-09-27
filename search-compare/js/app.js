@@ -97,7 +97,7 @@ function getJsonFromUrl(url) {
 }
 
 function getFullData() {
-  console.log('getFullData');
+  //console.log('getFullData');
 
   //if ( window.app.store.getState().searchMode === 'table' ) {
   if($('#list-results').is(':visible') === false ){
