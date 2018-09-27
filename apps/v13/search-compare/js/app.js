@@ -109,7 +109,7 @@ function getFullData() {
   if ($('#list-results').is(':visible') === false) {
     //start the loading notice
     $('header, main, footer').attr('aria-hidden', 'true');
-    $('#modalOverlay').toggleClass('hidden');
+    $('#modalOverlay').removeClass('hidden');
     $('#loading-spinner').removeClass('paused');
     $('#loading-spinner span').html('Content is loading....<br>This could take several moments for larger result sets.');
     var url_params = getJsonFromUrl(searchCompare.instantSearchURL);

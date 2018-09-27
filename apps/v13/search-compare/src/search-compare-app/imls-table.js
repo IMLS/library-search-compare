@@ -1,10 +1,10 @@
 define(["../../node_modules/@polymer/polymer/polymer-element.js", "./csv.js"], function (_polymerElement, _csv) {
   "use strict";
 
-  function _templateObject_0c85d420c28b11e882246bc3c657a41a() {
+  function _templateObject_5e026110c29511e8ac09cd2af31d7f09() {
     var data = babelHelpers.taggedTemplateLiteral(["\n      <style>\n        :host {\n          display: block;\n        }\n      </style>\n      <slot></slot>\n    "]);
 
-    _templateObject_0c85d420c28b11e882246bc3c657a41a = function _templateObject_0c85d420c28b11e882246bc3c657a41a() {
+    _templateObject_5e026110c29511e8ac09cd2af31d7f09 = function _templateObject_5e026110c29511e8ac09cd2af31d7f09() {
       return data;
     };
 
@@ -141,7 +141,7 @@ define(["../../node_modules/@polymer/polymer/polymer-element.js", "./csv.js"], f
 
           $('#loading-spinner').addClass('paused');
           $('#loading-spinner span').html('Content has loaded.');
-          $('#modalOverlay').toggleClass('hidden');
+          $('#modalOverlay').addClass('hidden');
           $('header, main, footer').attr('aria-hidden', 'false');
         });
         this.comparisonGrid.on('datatable.page', function (page) {
@@ -278,7 +278,7 @@ define(["../../node_modules/@polymer/polymer/polymer-element.js", "./csv.js"], f
     }], [{
       key: "template",
       get: function get() {
-        return (0, _polymerElement.html)(_templateObject_0c85d420c28b11e882246bc3c657a41a());
+        return (0, _polymerElement.html)(_templateObject_5e026110c29511e8ac09cd2af31d7f09());
       }
     }, {
       key: "properties",
