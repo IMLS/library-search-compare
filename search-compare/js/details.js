@@ -390,6 +390,15 @@ function displayTrendsGrid( content, comparisonSelect ) {
 
   trendGrid.on('datatable.init', function () {
     $('#trends-table th:not(:first)').css( 'text-align', 'right' );
+    var comparisonSelect = $('#trends-select').val();
+    //add the footnote if needed
+    if(comparisonSelect === 'revenue' || comparisonSelect === 'expenditures'){
+      //it's a money one; show the footnote
+      $('#trends-table-wrapper .dataTable-bottom .dataTable-info').html('The 1, 5, and 10 year change percentages for financial variables are represented in <em>constant dollars</em>. Constant dollars are an adjusted value of currency that accounts for inflation. The displayed values are not adjusted, and are the values that were reported for that year.')
+    }else{
+      //it doesn't need the footnote; clear that area out
+      $('#trends-table-wrapper .dataTable-bottom .dataTable-info').html('');
+    }//end if revenue or expenditures
   });
   trendGrid.on('datatable.page', function () {
   });
@@ -776,8 +785,6 @@ function downloadTrendsCsv(tableData) {
         if(!myReturnURL){
           $('#returnTo').hide();
         }//if URL is null
-
-        /* Help Dialog stuff */
 
       });//end document ready
     });//dollar sign
