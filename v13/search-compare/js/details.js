@@ -815,20 +815,20 @@ function renderTrendsCsv(trendData) {
 }
 
 function downloadTrendsCsv(tableData) {
-  console.log(window.trendData);
   var csvContent = renderTrendsCsv(window.trendData);
+  csvContent = csvContent + '\n\"The 1, 5, and 10 year change percentages for financial variables are represented in constant dollars. Constant dollars are an adjusted value of currency that accounts for inflation. The displayed values are not adjusted, and are the values that were reported for that year.\",';
   var filename = "imls_data";
   var csvData = new Blob([csvContent], {
     type: 'text/csv;charset=utf-8;'
   });
 
   if (msieversion()) {
-    navigator.msSaveBlob(csvData, 'pls_export.csv');
+    navigator.msSaveBlob(csvData, 'pls_trends_' + searchCompare.longitudinalContent.hits[0].FSCSKEY + '.csv');
   } else {
     // window.open(encodedUri);
     var link = document.createElement('a');
     link.href = window.URL.createObjectURL(csvData);
-    link.setAttribute('download', 'pls_export.csv');
+    link.setAttribute('download', 'pls_trends_' + searchCompare.longitudinalContent.hits[0].FSCSKEY + '.csv');
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
