@@ -496,7 +496,7 @@ input[type=number]::-webkit-outer-spin-button {
 
 /* datatables */
 .dataTable-sorter {
-	padding-right: 14px;
+	padding-right: 18px;
 }
 .dataTable-sorter::before {
 	bottom: 0;
@@ -514,7 +514,8 @@ input[type=number]::-webkit-outer-spin-button {
 	display: none;
 }
 
-.dataTable-container .table>tbody>tr>td {
+.dataTable-container .table>tbody>tr>td,
+.dataTable-container .table>thead>tr>th {
 	padding-right: 22px;
 	text-align: right;
 }
@@ -524,6 +525,8 @@ input[type=number]::-webkit-outer-spin-button {
 	text-align: right;
 }
 .dataTable-container .table>tbody>tr>td:first-child,
+.dataTable-container .table>thead>tr>th:first-child,
+.dataTable-container .table>thead>tr>th:nth-child(2)>a.dataTable-sorter,
 .dataTable-container #grid-results.table>tbody>tr>td:nth-child(2),
 .dataTable-container #data_table.table>tbody>tr>td:nth-child(2) {
 	padding-right: 8px;
