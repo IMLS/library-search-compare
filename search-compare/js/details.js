@@ -389,7 +389,7 @@ function displayTrendsGrid( content, comparisonSelect ) {
 
 
   trendGrid.on('datatable.init', function () {
-    $('#trends-table th:not(:first)').css( 'text-align', 'right' );
+    // $('#trends-table th:not(:first)').css( 'text-align', 'right' );
   });
   trendGrid.on('datatable.page', function () {
   });
@@ -416,6 +416,7 @@ function displayOutlets( content ) {
       perPageSelect: [ 5, 25, 50, 100 ],
       data: outletData,
       searchable: false,
+      sortable: true,
       columns: [
         {
           select: 0,
@@ -712,6 +713,7 @@ function renderTrendsCsv(trendData) {
 }
 
 function downloadTrendsCsv(tableData) {
+  console.log( window.trendData );
   var csvContent = renderTrendsCsv(window.trendData)
   var filename = "imls_data"; 
   var csvData = new Blob([csvContent], {type: 'text/csv;charset=utf-8;'});
