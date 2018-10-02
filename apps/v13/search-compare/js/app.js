@@ -620,6 +620,7 @@ function startAppJs() {
     // window.app.store.dispatch({type:'TOGGLE_SEARCH_MODE'})
     if ($('#list-results').is(':visible')) {
       $('#list-results').hide();
+      $('#download-csv').show();
       $('#grid-results-wrapper').show();
       $('#comparison-select-wrapper').show();
       $('#expBtn').show();
@@ -628,6 +629,7 @@ function startAppJs() {
       getFullData();
     } else {
       $('#list-results').show();
+      $('#download-csv').hide();
       $('#grid-results-wrapper').hide();
       $('#comparison-select-wrapper').hide();
       $('#expBtn').hide();
@@ -691,4 +693,6 @@ function startAppJs() {
 $(document).ready(function () {
   window.app = document.createElement('search-compare-app');
   document.body.appendChild(window.app);
+  $('#csvBtnWrapper').html('<button id="download-csv" onclick="downloadCsv();" class="btn btn-deault btn-sm"><i class="icon-file-excel"></i> Download</button>');
+  $('#download-csv').hide();
 });
