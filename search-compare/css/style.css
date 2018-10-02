@@ -521,7 +521,8 @@ input[type=number]::-webkit-outer-spin-button {
 }
 #comparison-data td,
 #comparison-mean td,
-#comparison-percentile td {
+#comparison-percentile td,
+#comparison-headers th {
 	text-align: right;
 }
 .dataTable-container .table>tbody>tr>td:first-child,
