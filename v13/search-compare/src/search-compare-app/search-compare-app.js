@@ -1,10 +1,10 @@
 define(["../../node_modules/@polymer/polymer/polymer-element.js", "./imls-table.js", "./search-compare-app-reducer.js"], function (_polymerElement, _imlsTable, _searchCompareAppReducer) {
   "use strict";
 
-  function _templateObject_6f13ee40c68411e8a3729949f85b566f() {
+  function _templateObject_4cb2f330c68b11e8ae13d9216f91a61a() {
     var data = babelHelpers.taggedTemplateLiteral(["\n      <style>\n        :host {\n          display: hidden;\n        }\n      </style>\n    "]);
 
-    _templateObject_6f13ee40c68411e8a3729949f85b566f = function _templateObject_6f13ee40c68411e8a3729949f85b566f() {
+    _templateObject_4cb2f330c68b11e8ae13d9216f91a61a = function _templateObject_4cb2f330c68b11e8ae13d9216f91a61a() {
       return data;
     };
 
@@ -48,7 +48,7 @@ define(["../../node_modules/@polymer/polymer/polymer-element.js", "./imls-table.
     }], [{
       key: "template",
       get: function get() {
-        return (0, _polymerElement.html)(_templateObject_6f13ee40c68411e8a3729949f85b566f());
+        return (0, _polymerElement.html)(_templateObject_4cb2f330c68b11e8ae13d9216f91a61a());
       }
     }, {
       key: "properties",
