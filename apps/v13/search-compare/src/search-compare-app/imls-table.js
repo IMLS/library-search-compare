@@ -1,10 +1,10 @@
 define(["../../node_modules/@polymer/polymer/polymer-element.js", "./csv.js"], function (_polymerElement, _csv) {
   "use strict";
 
-  function _templateObject_4cab2b00c68b11e8ae13d9216f91a61a() {
+  function _templateObject_cbcaa370c8de11e894de356775519fd9() {
     var data = babelHelpers.taggedTemplateLiteral(["\n      <style>\n        :host {\n          display: block;\n        }\n      </style>\n      <slot></slot>\n    "]);
 
-    _templateObject_4cab2b00c68b11e8ae13d9216f91a61a = function _templateObject_4cab2b00c68b11e8ae13d9216f91a61a() {
+    _templateObject_cbcaa370c8de11e894de356775519fd9 = function _templateObject_cbcaa370c8de11e894de356775519fd9() {
       return data;
     };
 
@@ -278,7 +278,7 @@ define(["../../node_modules/@polymer/polymer/polymer-element.js", "./csv.js"], f
     }], [{
       key: "template",
       get: function get() {
-        return (0, _polymerElement.html)(_templateObject_4cab2b00c68b11e8ae13d9216f91a61a());
+        return (0, _polymerElement.html)(_templateObject_cbcaa370c8de11e894de356775519fd9());
       }
     }, {
       key: "properties",

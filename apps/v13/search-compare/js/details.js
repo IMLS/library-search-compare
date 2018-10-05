@@ -359,21 +359,24 @@ outletsIndex.search({
     displayOutlets(content);
   }
 });
+/*
 var longitudinalQuery = 'FSCSKEY ' + fscs_id_param;
-longitudinalIndex.search({
-  query: longitudinalQuery,
-  exactOnSingleWordQuery: 'attribute',
-  hitsPerPage: 1000,
-  typoTolerance: false
-}, function searchDone(err, content) {
-  if (err) {
-    console.error(err);
-    return;
-  } else {
-    searchCompare.longitudinalContent = content;
-    displayTrendsGrid(searchCompare.longitudinalContent, 'staff');
-  }
+longitudinalIndex.search({ 
+    query: longitudinalQuery,
+    exactOnSingleWordQuery: 'attribute', 
+    hitsPerPage: 1000,
+    typoTolerance: false
+  }, function searchDone(err, content) {
+    if (err) {
+      console.error(err);
+      return;
+    } else {
+      searchCompare.longitudinalContent = content;
+      displayTrendsGrid( searchCompare.longitudinalContent, 'staff' );
+    }
+
 });
+*/
 
 function pad(num, size) {
   var s = num + "";
