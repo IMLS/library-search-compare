@@ -304,7 +304,6 @@ outletsIndex.search({
 
 });
 
-/*
 var longitudinalQuery = 'FSCSKEY ' + fscs_id_param;
 longitudinalIndex.search({ 
     query: longitudinalQuery,
@@ -321,7 +320,6 @@ longitudinalIndex.search({
     }
 
 });
-*/
 
 function pad(num, size) {
     var s = num+"";
