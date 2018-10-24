@@ -153,7 +153,40 @@ class ImlsTable extends PolymerElement {
     tableData[ 'rows' ] = tableRows;
     
     var page_url = window.location.href;
+    
+    var options = {
+      enableCellNavigation: true,
+      enableColumnReorder: false,
+      multiColumnSort: false
+    };
+    
+    var columns = [
+      {id: "title", name: "Title", field: "title", sortable: true},
+      {id: "duration", name: "Duration", field: "duration", sortable: true},
+      {id: "%", name: "% Complete", field: "percentComplete", sortable: true},
+      {id: "start", name: "Start", field: "start", sortable: true},
+      {id: "finish", name: "Finish", field: "finish", sortable: true},
+      {id: "effort-driven", name: "Effort Driven", field: "effortDriven", sortable: true}
+    ];
 
+    $(function () {
+      var data = [];
+      for (var i = 0; i < 50; i++) {
+        data[i] = {
+          title: "Task " + i,
+          duration: "5 days",
+          percentComplete: Math.round(Math.random() * 100),
+          start: "01/01/2009",
+          finish: "01/05/2009",
+          effortDriven: (i % 5 == 0)
+        };
+      }
+      var grid = new Slick.Grid("#slick-grid", data, columns, options);
+    })
+
+    // var slickgrid = new Slick.Grid( "#slick-grid", tableRows, tableData['headings'], options);
+
+    /*
     if (typeof this.comparisonGrid !== 'undefined') {
       this.comparisonGrid.destroy();
     }
@@ -197,6 +230,7 @@ class ImlsTable extends PolymerElement {
       console.log('sort event called')
       this.gridHasRendered()
     });
+    */
 
   }
 

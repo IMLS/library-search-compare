@@ -97,15 +97,17 @@ function getJsonFromUrl(url) {
 }
 
 function getFullData() {
-  //console.log('getFullData');
+  console.log('getFullData');
 
   //if ( window.app.store.getState().searchMode === 'table' ) {
   if($('#list-results').is(':visible') === false ){
     //start the loading notice
+    /*
     $('header, main, footer').attr('aria-hidden', 'true');
     $('#modalOverlay').removeClass('hidden');
     $('#loading-spinner').removeClass('paused');
     $('#loading-spinner span').html('Content is loading....<br>This could take several moments for larger result sets.');
+    */
 
     var url_params = getJsonFromUrl( searchCompare.instantSearchURL );
     var params_obj = {};
