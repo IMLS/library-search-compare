@@ -141,9 +141,9 @@ class ImlsTable extends PolymerElement {
     for (var h in rowData) {
       let res = rowData[h];
       if (this.showUserCompareListButtons) {
-        var tableRow = [ `<i class="user-compare-btn ${this.userCompareList.indexOf(rowData[h].fscs_id) !== -1 ? 'user-compare-remove' : 'user-compare-add'}" data-fscs="${res[ "fscs_id" ]}" data-action="remove"></i>`, '<a data-name="' + res[ 'library_name' ] + '" href="details.html?fscs_id=' + res["fscs_id"] + '">' + res["library_name"] + ' (' + res[ "fscs_id" ] + ')' + '</a>' ];
+        var tableRow = [ `<i class="user-compare-btn ${this.userCompareList.indexOf(rowData[h].fscs_id) !== -1 ? 'user-compare-remove' : 'user-compare-add'}" data-fscs="${res[ "fscs_id" ]}" data-action="remove"></i>`,   "<a data-name='" + res[ "library_name" ] + "' href='details.html?fscs_id=" + res['fscs_id'] + "'>" + res['library_name'] + " (" + res[ 'fscs_id' ] + ")" + "</a>" ];
       } else {
-        var tableRow = [  '<a data-name="' + res[ 'library_name' ] + '" href="details.html?fscs_id=' + res["fscs_id"] + '">' + res["library_name"] + ' (' + res[ "fscs_id" ] + ')' + '</a>' ];
+        var tableRow = [  "<a data-name='" + res[ "library_name" ] + "' href='details.html?fscs_id=" + res['fscs_id'] + "'>" + res['library_name'] + " (" + res[ 'fscs_id' ] + ")" + "</a>" ];
       }
       _.forEach( field_names, function(f) {
         tableRow.push(res[f].toLocaleString("en-US"));
@@ -153,38 +153,57 @@ class ImlsTable extends PolymerElement {
     tableData[ 'rows' ] = tableRows;
     
     var page_url = window.location.href;
-    
+
     var options = {
       enableCellNavigation: true,
       enableColumnReorder: false,
       multiColumnSort: false
     };
-    
-    var columns = [
-      {id: "title", name: "Title", field: "title", sortable: true},
-      {id: "duration", name: "Duration", field: "duration", sortable: true},
-      {id: "%", name: "% Complete", field: "percentComplete", sortable: true},
-      {id: "start", name: "Start", field: "start", sortable: true},
-      {id: "finish", name: "Finish", field: "finish", sortable: true},
-      {id: "effort-driven", name: "Effort Driven", field: "effortDriven", sortable: true}
-    ];
+
+    // a standard formatter returns a string 
+    var htmlFormatter = function(row, cell, value, columnDef, dataContext) {
+        return value;
+    }   
 
     $(function () {
-      var data = [];
-      for (var i = 0; i < 50; i++) {
-        data[i] = {
-          title: "Task " + i,
-          duration: "5 days",
-          percentComplete: Math.round(Math.random() * 100),
-          start: "01/01/2009",
-          finish: "01/05/2009",
-          effortDriven: (i % 5 == 0)
-        };
-      }
-      var grid = new Slick.Grid("#slick-grid", data, columns, options);
+      var slickColumns = [
+        {id: "compare_button", name: "", field: "compare_button", formatter: htmlFormatter},
+        {id: "name", name: "Name", field: "name", formatter: htmlFormatter}
+      ];
+
+      _.forEach( field_names, function(header, i) {
+        var colObj = { id: header, name: tableData['headings'][i + 2], field: header }
+        slickColumns.push( colObj );
+      });
+
+      var slickRows = [];
+      _.forEach( tableRows, function( row, i ) {
+        var rowObj = {};
+        _.forEach( row, function( value, row_i ) {
+          var key = slickColumns[row_i].field;
+          rowObj[key] = value;
+        });
+        slickRows.push( rowObj );
+      });
+
+      var slickgrid = new Slick.Grid( "#slick-grid", slickRows, slickColumns, options);
+
+      slickgrid.onSort.subscribe(function(e, args){ // args: sort information. 
+        var field = args.sortCol.field;
+        
+        tableRows.sort(function(a, b){
+          var result = 
+            a[field] > b[field] ? 1 :
+            a[field] < b[field] ? -1 :
+            0;
+            
+          return args.sortAsc ? result : -result;
+        });
+        
+        slickgrid.invalidate();			
+      });
     })
 
-    // var slickgrid = new Slick.Grid( "#slick-grid", tableRows, tableData['headings'], options);
 
     /*
     if (typeof this.comparisonGrid !== 'undefined') {
