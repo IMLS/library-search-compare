@@ -694,6 +694,7 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 #similar-libraries-wrapper .page-shadow,
+#lib-details .box,
 #outlets-table-wrapper .box,
 #trends-table-wrapper .box {
 	margin-bottom: 20px;
