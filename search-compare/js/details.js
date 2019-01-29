@@ -59,11 +59,6 @@ longitudinalData = [
     display_name: 'Demographic', 
     headings: [ 'Time Period', 'Population of Legal Service Area (LSA)', 'Number of central libraries', 'Number of branch libraries', 'Number of bookmobiles' ],
     field_names: [ 'POPU_LSA', 'CENTLIB', 'BRANLIB', 'BKMOB' ] },
-    */
-  { name: 'staff',
-    display_name: 'Demographics and Paid Staff (FTE)', 
-    headings: [ 'Time Period', 'Population of Legal Service Area (LSA)', 'ALA-MLS librarians', 'Total librarians', 'All other paid staff', 'Total paid staff' ],
-    field_names: [ 'POPU_LSA', 'MASTER', 'LIBRARIA', 'OTHPAID', 'TOTSTAFF' ] },
   { name: 'revenue',
     display_name: 'Operating Revenue', 
     headings: [ 'Time Period', 'Local Revenue ($)', 'State Revenue ($)', 'Federal Revenue ($)', 'Other Revenue ($)', 'Total Revenue ($)' ],
@@ -72,26 +67,31 @@ longitudinalData = [
     display_name: 'Operating Expenditures', 
     headings: [ 'Time Period', 'Salaries & wages ($)', 'Employee benefits ($)', 'Total staff expenditures ($)', 'Print materials expenditures ($)', 'Electronic materials expenditures ($)', 'Other material expenditures ($)', 'Total collection expenditures ($)', 'Other operating expenditures ($)', 'Total operating expenditures ($)' ],
     field_names: [ 'SALARIES', 'BENEFIT', 'STAFFEXP', 'PRMATEXP', 'ELMATEXP', 'OTHMATEX', 'TOTEXPCO', 'OTHOPEXP', 'TOTOPEXP' ] },
-  { name: 'collection',
-    display_name: 'Library Collection', 
-    headings: [ 'Time Period', 'Print materials', 'Electronic books', 'Audio-physical units', 'Audio-downloadable units', 'Video-physical units', 'Video-downloadable units', 'Print serial subscriptions' ],
-    field_names: [ 'BKVOL', 'EBOOK', 'AUDIO_PH', 'AUDIO_DL', 'VIDEO_PH', 'VIDEO_DL', 'SUBSCRIP' ] },
-  { name: 'services',
-    display_name: 'Services', 
-    headings: [ 'Time Period', 'Public service hours/year', 'Library visits', 'Reference transactions', 'Number of registered users', 'Total circulation of materials', 'Circulation of kid\'s materials' ],
-    field_names: [ 'HRS_OPEN', 'VISITS', 'REFERENC', 'REGBOR', 'TOTCIR', 'KIDCIRCL' ] },
   { name: 'inter-library',
     display_name: 'Inter-Library Loans', 
     headings: [ 'Time Period', 'Provided to', 'Received from' ],
     field_names: [ 'LOANTO', 'LOANFM' ] },
-  { name: 'programs',
-    display_name: 'Library Programs', 
-    headings: [ 'Time Period', 'Total library programs', 'Children\'s programs', 'Young adult programs', 'Total attendance at library programs', 'Children\'s program attendance', 'Young adult program attendance' ],
-    field_names: [ 'TOTPRO', 'KIDPRO', 'YAPRO', 'TOTATTEN', 'KIDATTEN', 'YAATTEN' ] },
   { name: 'other_electronic',
     display_name: 'Other Electronic Information', 
     headings: [ 'Time Period', 'Computers used by general public', 'Computer uses' ],
     field_names: [ 'GPTERMS', 'PITUSR' ] }
+    */
+  { name: 'staff',
+    display_name: 'Staff, Revenue and Expenditures', 
+    headings: [ 'Time Period', 'All other paid staff', 'Total paid staff', 'Total librarians', 'Total Revenue ($)', 'Total operating expenditures ($)' ],
+    field_names: [ 'OTHPAID', 'TOTSTAFF', 'LIBRARIA', 'TOTINCM', 'TOTOPEXP' ] },
+  { name: 'collection',
+    display_name: 'Library Collection', 
+    headings: [ 'Time Period', 'Print materials', 'Electronic books', 'Audio-physical units', 'Audio-downloadable units', 'Video-physical units', 'Video-downloadable units' ],
+    field_names: [ 'BKVOL', 'EBOOK', 'AUDIO_PH', 'AUDIO_DL', 'VIDEO_PH', 'VIDEO_DL' ] },
+  { name: 'services',
+    display_name: 'Services', 
+    headings: [ 'Time Period', 'Library visits', 'Reference transactions', 'Total circulation of materials', 'Circulation of kid\'s materials' ],
+    field_names: [ 'VISITS', 'REFERENC', 'TOTCIR', 'KIDCIRCL' ] },
+  { name: 'programs',
+    display_name: 'Library Programs and Electronic Information', 
+    headings: [ 'Time Period', 'Total library programs', 'Total attendance at library programs', 'Computers used by general public', 'Computer uses' ],
+    field_names: [ 'TOTPRO', 'TOTATTEN', 'GPTERMS', 'PITUSR' ] }
 ];
 
 var clusters = [
@@ -349,7 +349,7 @@ function displayTrendsGrid( content, comparisonSelect ) {
 
   var hit = searchCompare.longitudinalContent.hits;
 
-  var rows = {  '1 year change': '_1_year', '5 year change': '_5_year', '10 year change': '_10_year', '2016 value': '_2016', '2015 value': '_2015', '2011 value': '_2011', '2006 value': '_2006' };
+  var rows = { '2016 value': '_2016', '2015 value': '_2015', '2011 value': '_2011', '2006 value': '_2006' };
   _.forEach( rows, function ( suffix, label, rows ) {
     var trendTableRow = [ label ];
 
@@ -394,7 +394,7 @@ function displayTrendsGrid( content, comparisonSelect ) {
     //add the footnote if needed
     if(comparisonSelect === 'revenue' || comparisonSelect === 'expenditures'){
       //it's a money one; show the footnote
-      $('#trends-table-wrapper .dataTable-bottom .dataTable-info').html('The 1, 5, and 10 year change percentages for financial variables are represented in <em>constant dollars</em>. Constant dollars are an adjusted value of currency that accounts for inflation. The displayed values are not adjusted, and are the values that were reported for that year.')
+      $('#trends-table-wrapper .dataTable-bottom .dataTable-info').html('The displayed financial values are not adjusted for inflation, they are the values that were reported for that year.')
     }else{
       //it doesn't need the footnote; clear that area out
       $('#trends-table-wrapper .dataTable-bottom .dataTable-info').html('');
@@ -695,7 +695,7 @@ function renderTrendsCsv(trendData) {
     field_names.push(field.id)
   })
   var trendTableRows = []
-  var rows = {  '1 year change': '_1_year', '5 year change': '_5_year', '10 year change': '_10_year', '2016 value': '_2016', '2015 value': '_2015', '2011 value': '_2011', '2006 value': '_2006' };
+  var rows = {  '2016 value': '_2016', '2015 value': '_2015', '2011 value': '_2011', '2006 value': '_2006' };
   _.forEach( rows, function ( suffix, label, rows ) {
     var trendTableRow = {
       time_period: label
@@ -723,7 +723,7 @@ function renderTrendsCsv(trendData) {
 
 function downloadTrendsCsv(tableData) {
   var csvContent = renderTrendsCsv(window.trendData)
-  csvContent = csvContent + '\n\"The 1, 5, and 10 year change percentages for financial variables are represented in constant dollars. Constant dollars are an adjusted value of currency that accounts for inflation. The displayed values are not adjusted, and are the values that were reported for that year.\",'
+  csvContent = csvContent + '\n\"The financial values are not adjusted for inflation, they are the values that were reported for that year.\",'
   var filename = "imls_data"; 
   var csvData = new Blob([csvContent], {type: 'text/csv;charset=utf-8;'});
   if( msieversion()) {
