@@ -43,8 +43,8 @@ comparisonData = [{
 }, {
   name: 'services',
   display_name: 'Services',
-  headings: ['Name', 'Public service hours/year', 'Library visits', 'Reference transactions', 'Registered users', 'Total circulation of materials', 'Circulation of kid\'s materials', 'Use of electronic material', 'Physical item circulation', 'Electronic information retrievals', 'Electronic content use', 'Total collection use'],
-  field_names: ['hours', 'visits', 'references', 'users', 'total_circulation', 'kids_circulation', 'electronic_content_uses', 'physical_item_circulation', 'electronic_info_retrievals', 'electronic_content_uses', 'total_circulation_retrievals'],
+  headings: ['Name', 'Public service hours/year', 'Library visits', 'Reference transactions', 'Registered users', 'Total circulation of materials', 'Circulation of kid\'s materials', 'Electronic Circulation', 'Physical item circulation', 'Electronic information retrievals', 'Electronic content use', 'Total collection use'],
+  field_names: ['hours', 'visits', 'references', 'users', 'total_circulation', 'kids_circulation', 'electronic_circulation', 'physical_item_circulation', 'electronic_info_retrievals', 'electronic_content_uses', 'total_circulation_retrievals'],
   field_types: ['number', 'number', 'number', 'number', 'number', 'number', 'number', 'number', 'number', 'number', 'number']
 }, {
   name: 'inter-library',
