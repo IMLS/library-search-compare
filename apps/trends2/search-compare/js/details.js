@@ -85,22 +85,22 @@ longitudinalData = [
 {
   name: 'staff',
   display_name: 'Staff, Revenue and Expenditures',
-  headings: ['Time Period', 'All other paid staff', 'Total paid staff', 'Total librarians', 'Total Revenue ($)', 'Total operating expenditures ($)'],
+  headings: ['Time Period', 'All Other Paid Staff', 'Total Paid Staff', 'Total Librarians', 'Total Revenue ($)', 'Total Operating Expenditures ($)'],
   field_names: ['OTHPAID', 'TOTSTAFF', 'LIBRARIA', 'TOTINCM', 'TOTOPEXP']
 }, {
   name: 'collection',
   display_name: 'Library Collection',
-  headings: ['Time Period', 'Print materials', 'Electronic books', 'Audio-physical units', 'Audio-downloadable units', 'Video-physical units', 'Video-downloadable units'],
+  headings: ['Time Period', 'Print Materials', 'Electronic Books', 'Audio-Physical Units', 'Audio-Downloadable Units', 'Video-Physical Units', 'Video-Downloadable Units'],
   field_names: ['BKVOL', 'EBOOK', 'AUDIO_PH', 'AUDIO_DL', 'VIDEO_PH', 'VIDEO_DL']
 }, {
   name: 'services',
   display_name: 'Services',
-  headings: ['Time Period', 'Library visits', 'Reference transactions', 'Total circulation of materials', 'Circulation of kid\'s materials'],
+  headings: ['Time Period', 'Library Visits', 'Reference Transactions', 'Total Circulation of Materials', 'Circulation of Kid\'s Materials'],
   field_names: ['VISITS', 'REFERENC', 'TOTCIR', 'KIDCIRCL']
 }, {
   name: 'programs',
   display_name: 'Library Programs and Electronic Information',
-  headings: ['Time Period', 'Total library programs', 'Total attendance at library programs', 'Computers used by general public', 'Computer uses'],
+  headings: ['Time Period', 'Total Library Programs', 'Total Attendance at Library Programs', 'Computers Used by General Public', 'Computer Uses'],
   field_names: ['TOTPRO', 'TOTATTEN', 'GPTERMS', 'PITUSR']
 }];
 var clusters = [{
