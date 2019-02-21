@@ -157,7 +157,7 @@ class ImlsTable extends PolymerElement {
     var options = {
       enableCellNavigation: true,
       enableColumnReorder: false,
-      multiColumnSort: false
+      multiColumnSort: true
     };
 
     // a standard formatter returns a string 
@@ -167,12 +167,12 @@ class ImlsTable extends PolymerElement {
 
     $(function () {
       var slickColumns = [
-        {id: "compare_button", name: "", field: "compare_button", formatter: htmlFormatter},
-        {id: "name", name: "Name", field: "name", formatter: htmlFormatter}
+        { id: "compare_button", name: "", field: "compare_button", formatter: htmlFormatter, sortable: false },
+        { id: "name", name: "Name", field: "name", formatter: htmlFormatter, sortable: true }
       ];
 
       _.forEach( field_names, function(header, i) {
-        var colObj = { id: header, name: tableData['headings'][i + 2], field: header }
+        var colObj = { id: header, name: tableData['headings'][i + 2], field: header, sortable: true }
         slickColumns.push( colObj );
       });
 
@@ -187,21 +187,28 @@ class ImlsTable extends PolymerElement {
       });
 
       var slickgrid = new Slick.Grid( "#slick-grid", slickRows, slickColumns, options);
+      console.log( slickRows );
 
       slickgrid.onSort.subscribe(function(e, args){ // args: sort information. 
-        var field = args.sortCol.field;
+        var cols = args.sortCols;
         
-        tableRows.sort(function(a, b){
-          var result = 
-            a[field] > b[field] ? 1 :
-            a[field] < b[field] ? -1 :
-            0;
-            
-          return args.sortAsc ? result : -result;
+        slickRows.sort(function (dataRow1, dataRow2) {
+          for (var i = 0, l = cols.length; i < l; i++) {
+            var field = cols[i].sortCol.field;
+            var sign = cols[i].sortAsc ? 1 : -1;
+            var value1 = dataRow1[field], value2 = dataRow2[field];
+            var result = (value1 == value2 ? 0 : (value1 > value2 ? 1 : -1)) * sign;
+            if (result != 0) {
+              return result;
+            }
+          }
+          return 0;
         });
         
         slickgrid.invalidate();			
+        slickgrid.render();			
       });
+
     })
 
 
