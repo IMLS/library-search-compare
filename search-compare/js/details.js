@@ -78,55 +78,55 @@ longitudinalData = [
     */
   { name: 'staff',
     display_name: 'Staff, Revenue and Expenditures', 
-    headings: [ 'Time Period', 'All Other Paid Staff', 'Total Paid Staff', 'Total Librarians', 'Total Revenue ($)', 'Total Operating Expenditures ($)' ],
+    headings: [ 'Time Period', 'Other Paid Staff', 'Total Staff', 'Total Librarians', 'Total Revenue ($)', 'Total Operating Expenses ($)' ],
     field_names: [ 'OTHPAID', 'TOTSTAFF', 'LIBRARIA', 'TOTINCM', 'TOTOPEXP' ] },
   { name: 'collection',
     display_name: 'Library Collection', 
-    headings: [ 'Time Period', 'Print Materials', 'Electronic Books', 'Audio-Physical Units', 'Audio-Downloadable Units', 'Video-Physical Units', 'Video-Downloadable Units' ],
+    headings: [ 'Time Period', 'Print Materials', 'E-Books', 'Audio-Physical', 'Audio-Downloadable', 'Video-Physical', 'Video-Downloadable' ],
     field_names: [ 'BKVOL', 'EBOOK', 'AUDIO_PH', 'AUDIO_DL', 'VIDEO_PH', 'VIDEO_DL' ] },
   { name: 'services',
     display_name: 'Services', 
-    headings: [ 'Time Period', 'Library Visits', 'Reference Transactions', 'Total Circulation of Materials', 'Circulation of Kid\'s Materials' ],
+    headings: [ 'Time Period', 'Visits', 'Reference Transactions', 'Total Circulation', 'Circulation of Children\'s Materials' ],
     field_names: [ 'VISITS', 'REFERENC', 'TOTCIR', 'KIDCIRCL' ] },
   { name: 'programs',
     display_name: 'Library Programs and Electronic Information', 
-    headings: [ 'Time Period', 'Total Library Programs', 'Total Attendance at Library Programs', 'Computers Used by General Public', 'Computer Uses' ],
+    headings: [ 'Time Period', 'Library Programs', 'Program Attendance', 'Internet Computers', 'Computer Uses' ],
     field_names: [ 'TOTPRO', 'TOTATTEN', 'GPTERMS', 'PITUSR' ] }
 ];
 
 var clusters = [
   { name: "service", fields: [
     {field: "fscs_id", name: "FSCS_ID"},
-    {field: "hours", name: "Hours"},
+    {field: "hours", name: "Hours/Year"},
     {field: "visits", name: "Visits"},
-    {field: "references", name: "References"},
-    {field: "users", name: "Users"},
-    {field: "total_circulation", name: "Circulation"},
-    {field: "loans_to", name: "Interlibrary Loans To"},
-    {field: "total_programs", name: "Programs"},
-    {field: "computers", name: "Computers"}
+    {field: "references", name: "Reference Transactions"},
+    {field: "users", name: "Registered Users"},
+    {field: "total_circulation", name: "Total Circulation"},
+    {field: "loans_to", name: "ILL To"},
+    {field: "total_programs", name: "Library Programs"},
+    {field: "computers", name: "Internet Computers"}
   ]},
   { name: "staff", fields: [
     {field: "fscs_id", name: "FSCS_ID"},
-    {field: "mls_librarian_staff", name: "MLS Librarians"},
-    {field: "librarian_staff", name: "Librarian Staff"},
-    {field: "other_staff", name: "Other Staff"}
+    {field: "mls_librarian_staff", name: "ALA-MLS Librarians"},
+    {field: "librarian_staff", name: "Total Librarians"},
+    {field: "other_staff", name: "Other Paid Staff"}
   ]},
   { name: "finance", fields: [
     {field: "fscs_id", name: "FSCS_ID"},
-    {field: "total_revenue", name: "Revenue"},
-    {field: "total_staff_expenditures", name: "Staff Expenditures"},
-    {field: "total_collection_expenditures", name: "Collection Expenditures"},
-    {field: "capital_expenditures", name: "Capital Expenditures"}
+    {field: "total_revenue", name: "Total Revenue ($)"},
+    {field: "total_staff_expenditures", name: "Total Staff Expenses ($)"},
+    {field: "total_collection_expenditures", name: "Total Collection Expenses ($)"},
+    {field: "capital_expenditures", name: "Capital Expenses ($)"}
   ]},
   { name: "collection", fields: [
     {field: "fscs_id", name: "FSCS_ID"},
-    {field: "print_materials", name: "Printed Materials"},
-    {field: "ebooks", name: "eBooks"},
-    {field: "audio_materials", name: "Audio Materials (Physical)"},
-    {field: "video_materials", name: "Video Materials (Physical)"},
+    {field: "print_materials", name: "Print Materials"},
+    {field: "ebooks", name: "E-Books"},
+    {field: "audio_materials", name: "Audio-Physical"},
+    {field: "video_materials", name: "Video-Physical"},
     {field: "total_databases", name: "Electronic Collections"},
-    {field: "print_serials", name: "Print Serials"}
+    {field: "print_serials", name: "Print Subscriptions"}
   ]}
 ]
 
@@ -417,7 +417,7 @@ function displayOutlets( content ) {
       outletRows.push( outletRow );
     }
 
-    outletData["headings"] = ["Name","FSCS ID Seq","Locale Code","Outlet Type","Square Feet","Hours","Weeks Open"];
+    outletData["headings"] = ["Name","FSCS ID Seq","Locale Code","Branch Type","Square Feet","Hours","Weeks Open"];
     outletData["data"] = outletRows;
 
     outletTable = new DataTable("#outlets-table", {
