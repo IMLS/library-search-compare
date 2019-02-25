@@ -445,12 +445,12 @@ function displayTrendsGrid(content, comparisonSelect) {
     // $('#trends-table th:not(:first)').css( 'text-align', 'right' );
     var comparisonSelect = $('#trends-select').val(); //add the footnote if needed
 
-    if (comparisonSelect === 'revenue' || comparisonSelect === 'expenditures') {
+    if (comparisonSelect === 'staff') {
       //it's a money one; show the footnote
       $('#trends-table-wrapper .dataTable-bottom .dataTable-info').html('The displayed financial values are not adjusted for inflation, they are the values that were reported for that year.');
     } else {
       //it doesn't need the footnote; clear that area out
-      $('#trends-table-wrapper .dataTable-bottom .dataTable-info').html('');
+      $('#trends-table-wrapper .dataTable-bottom .dataTable-info').html('&nbsp;');
     } //end if revenue or expenditures
 
   });
