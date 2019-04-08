@@ -461,9 +461,6 @@ function getSimilarLibraries(el) {
       var field_names = _.map(_.find(clusters, {"name": clusterName}).fields, "field");
       var display_names = _.map(_.find(clusters, {"name": clusterName}).fields, "name");
 
-      if (content.nbPages > 1) {
-         console.log( content.nbPages );
-      }
       var baseLibrary = _.find(content.hits, {"fscs_id": fscs_id_param} );
 
       createCalculationsTable(baseLibrary, content, field_names, display_names);
