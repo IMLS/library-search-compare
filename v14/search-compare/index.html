@@ -1,0 +1,546 @@
+<!DOCTYPE html><html><head>
+  <meta charset="UTF-8">
+  
+  <title>Library Search &amp; Compare</title>
+
+  <script>!function(a){"use strict";function b(a,b,c,e){var f=b&&b.prototype instanceof d?b:d,g=Object.create(f.prototype),h=new m(e||[]);return g._invoke=i(a,c,h),g}function c(a,b,c){try{return{type:"normal",arg:a.call(b,c)}}catch(a){return{type:"throw",arg:a}}}function d(){}function e(){}function f(){}function g(a){["next","throw","return"].forEach(function(b){a[b]=function(a){return this._invoke(b,a)}})}function h(a){function b(d,e,f,g){var h=c(a[d],a,e);if("throw"===h.type)g(h.arg);else{var i=h.arg,j=i.value;return j&&"object"===typeof j&&q.call(j,"__await")?Promise.resolve(j.__await).then(function(a){b("next",a,f,g)},function(a){b("throw",a,f,g)}):Promise.resolve(j).then(function(a){i.value=a,f(i)},g)}}function d(a,c){function d(){return new Promise(function(d,e){b(a,c,d,e)})}return e=e?e.then(d,d):d()}var e;this._invoke=d}function i(a,b,d){var e="suspendedStart";return function(f,g){if(e==="executing")throw new Error("Generator is already running");if("completed"===e){if("throw"===f)throw g;return o()}for(d.method=f,d.arg=g;;){var h=d.delegate;if(h){var i=j(h,d);if(i){if(i===x)continue;return i}}if("next"===d.method)d.sent=d._sent=d.arg;else if("throw"===d.method){if("suspendedStart"===e)throw e="completed",d.arg;d.dispatchException(d.arg)}else"return"===d.method&&d.abrupt("return",d.arg);e="executing";var k=c(a,b,d);if("normal"===k.type){if(e=d.done?"completed":"suspendedYield",k.arg===x)continue;return{value:k.arg,done:d.done}}"throw"===k.type&&(e="completed",d.method="throw",d.arg=k.arg)}}}function j(a,b){var d=a.iterator[b.method];if(void 0===d){if(b.delegate=null,"throw"===b.method){if(a.iterator.return&&(b.method="return",b.arg=void 0,j(a,b),"throw"===b.method))return x;b.method="throw",b.arg=new TypeError("The iterator does not provide a 'throw' method")}return x}var e=c(d,a.iterator,b.arg);if("throw"===e.type)return b.method="throw",b.arg=e.arg,b.delegate=null,x;var f=e.arg;if(!f)return b.method="throw",b.arg=new TypeError("iterator result is not an object"),b.delegate=null,x;if(f.done)b[a.resultName]=f.value,b.next=a.nextLoc,"return"!==b.method&&(b.method="next",b.arg=void 0);else return f;return b.delegate=null,x}function k(a){var b={tryLoc:a[0]};1 in a&&(b.catchLoc=a[1]),2 in a&&(b.finallyLoc=a[2],b.afterLoc=a[3]),this.tryEntries.push(b)}function l(a){var b=a.completion||{};b.type="normal",delete b.arg,a.completion=b}function m(a){this.tryEntries=[{tryLoc:"root"}],a.forEach(k,this),this.reset(!0)}function n(a){if(a){var b=a[s];if(b)return b.call(a);if("function"===typeof a.next)return a;if(!isNaN(a.length)){var c=-1,d=function b(){for(;++c<a.length;)if(q.call(a,c))return b.value=a[c],b.done=!1,b;return b.value=void 0,b.done=!0,b};return d.next=d}}return{next:o}}function o(){return{value:void 0,done:!0}}var p=Object.prototype,q=p.hasOwnProperty,r="function"===typeof Symbol?Symbol:{},s=r.iterator||"@@iterator",t=r.asyncIterator||"@@asyncIterator",u=r.toStringTag||"@@toStringTag",v="object"===typeof module,w=a.regeneratorRuntime;if(w)return void(v&&(module.exports=w));w=a.regeneratorRuntime=v?module.exports:{},w.wrap=b;var x={},y={};y[s]=function(){return this};var z=Object.getPrototypeOf,A=z&&z(z(n([])));A&&A!==p&&q.call(A,s)&&(y=A);var B=f.prototype=d.prototype=Object.create(y);e.prototype=B.constructor=f,f.constructor=e,f[u]=e.displayName="GeneratorFunction",w.isGeneratorFunction=function(a){var b="function"===typeof a&&a.constructor;return!!b&&(b===e||"GeneratorFunction"===(b.displayName||b.name))},w.mark=function(a){return Object.setPrototypeOf?Object.setPrototypeOf(a,f):(a.__proto__=f,!(u in a)&&(a[u]="GeneratorFunction")),a.prototype=Object.create(B),a},w.awrap=function(a){return{__await:a}},g(h.prototype),h.prototype[t]=function(){return this},w.AsyncIterator=h,w.async=function(a,c,d,e){var f=new h(b(a,c,d,e));return w.isGeneratorFunction(c)?f:f.next().then(function(a){return a.done?a.value:f.next()})},g(B),B[u]="Generator",B[s]=function(){return this},B.toString=function(){return"[object Generator]"},w.keys=function(a){var b=[];for(var c in a)b.push(c);return b.reverse(),function c(){for(;b.length;){var d=b.pop();if(d in a)return c.value=d,c.done=!1,c}return c.done=!0,c}},w.values=n,m.prototype={constructor:m,reset:function(a){if(this.prev=0,this.next=0,this.sent=this._sent=void 0,this.done=!1,this.delegate=null,this.method="next",this.arg=void 0,this.tryEntries.forEach(l),!a)for(var b in this)"t"===b.charAt(0)&&q.call(this,b)&&!isNaN(+b.slice(1))&&(this[b]=void 0)},stop:function(){this.done=!0;var a=this.tryEntries[0],b=a.completion;if("throw"===b.type)throw b.arg;return this.rval},dispatchException:function(a){function b(b,d){return f.type="throw",f.arg=a,c.next=b,d&&(c.method="next",c.arg=void 0),!!d}if(this.done)throw a;for(var c=this,d=this.tryEntries.length-1;0<=d;--d){var e=this.tryEntries[d],f=e.completion;if("root"===e.tryLoc)return b("end");if(e.tryLoc<=this.prev){var g=q.call(e,"catchLoc"),h=q.call(e,"finallyLoc");if(g&&h){if(this.prev<e.catchLoc)return b(e.catchLoc,!0);if(this.prev<e.finallyLoc)return b(e.finallyLoc)}else if(g){if(this.prev<e.catchLoc)return b(e.catchLoc,!0);}else if(!h)throw new Error("try statement without catch or finally");else if(this.prev<e.finallyLoc)return b(e.finallyLoc)}}},abrupt:function(a,b){for(var c,d=this.tryEntries.length-1;0<=d;--d)if(c=this.tryEntries[d],c.tryLoc<=this.prev&&q.call(c,"finallyLoc")&&this.prev<c.finallyLoc){var e=c;break}e&&("break"===a||"continue"===a)&&e.tryLoc<=b&&b<=e.finallyLoc&&(e=null);var f=e?e.completion:{};return f.type=a,f.arg=b,e?(this.method="next",this.next=e.finallyLoc,x):this.complete(f)},complete:function(a,b){if("throw"===a.type)throw a.arg;return"break"===a.type||"continue"===a.type?this.next=a.arg:"return"===a.type?(this.rval=this.arg=a.arg,this.method="return",this.next="end"):"normal"===a.type&&b&&(this.next=b),x},finish:function(a){for(var b,c=this.tryEntries.length-1;0<=c;--c)if(b=this.tryEntries[c],b.finallyLoc===a)return this.complete(b.completion,b.afterLoc),l(b),x},catch:function(a){for(var b,c=this.tryEntries.length-1;0<=c;--c)if(b=this.tryEntries[c],b.tryLoc===a){var d=b.completion;if("throw"===d.type){var e=d.arg;l(b)}return e}throw new Error("illegal catch attempt")},delegateYield:function(a,b,c){return this.delegate={iterator:n(a),resultName:b,nextLoc:c},"next"===this.method&&(this.arg=void 0),x}}}(function(){return this}()||Function("return this")());</script>
+<script>(function(a){function b(a){return q.typeof="function"===typeof Symbol&&"symbol"===typeof Symbol.iterator?b=function(a){return typeof a}:b=function(a){return a&&"function"===typeof Symbol&&a.constructor===Symbol&&a!==Symbol.prototype?"symbol":typeof a},b(a)}function c(a){function b(d,e){try{var f=a[d](e),g=f.value,h=g instanceof q.AwaitValue;Promise.resolve(h?g.wrapped:g).then(function(a){return h?void b("next",a):void c(f.done?"return":"normal",a)},function(a){b("throw",a)})}catch(a){c("throw",a)}}function c(a,c){switch(a){case"return":d.resolve({value:c,done:!0});break;case"throw":d.reject(c);break;default:d.resolve({value:c,done:!1});}d=d.next,d?b(d.key,d.arg):e=null}var d,e;this._invoke=function(a,c){return new Promise(function(f,g){var h={key:a,arg:c,resolve:f,reject:g,next:null};e?e=e.next=h:(d=e=h,b(a,c))})},"function"!==typeof a.return&&(this.return=void 0)}function d(a,b){for(var c,d=0;d<b.length;d++)c=b[d],c.enumerable=c.enumerable||!1,c.configurable=!0,"value"in c&&(c.writable=!0),Object.defineProperty(a,c.key,c)}function e(a,b){for(var c in b){var d=b[c];d.configurable=d.enumerable=!0,"value"in d&&(d.writable=!0),Object.defineProperty(a,c,d)}if(Object.getOwnPropertySymbols)for(var e=Object.getOwnPropertySymbols(b),f=0;f<e.length;f++){var g=e[f],d=b[g];d.configurable=d.enumerable=!0,"value"in d&&(d.writable=!0),Object.defineProperty(a,g,d)}return a}function f(a,b,c){return b in a?Object.defineProperty(a,b,{value:c,enumerable:!0,configurable:!0,writable:!0}):a[b]=c,a}function g(){return q.extends=g=Object.assign||function(a){for(var b,c=1;c<arguments.length;c++)for(var d in b=arguments[c],b)Object.prototype.hasOwnProperty.call(b,d)&&(a[d]=b[d]);return a},g.apply(this,arguments)}function h(a){return q.getPrototypeOf=h=Object.setPrototypeOf?Object.getPrototypeOf:function(a){return a.__proto__||Object.getPrototypeOf(a)},h(a)}function i(a,b){return q.setPrototypeOf=i=Object.setPrototypeOf||function(a,b){return a.__proto__=b,a},i(a,b)}function j(){if("undefined"===typeof Reflect||!Reflect.construct)return!1;if(Reflect.construct.sham)return!1;if("function"===typeof Proxy)return!0;try{return Date.prototype.toString.call(Reflect.construct(Date,[],function(){})),!0}catch(a){return!1}}function k(){return q.construct=j()?k=Reflect.construct:k=function(b,c,d){var e=[null];e.push.apply(e,c);var a=Function.bind.apply(b,e),f=new a;return d&&q.setPrototypeOf(f,d.prototype),f},k.apply(null,arguments)}function l(a){var b="function"===typeof Map?new Map:void 0;return q.wrapNativeSuper=l=function(a){function c(){return q.construct(a,arguments,q.getPrototypeOf(this).constructor)}if(null===a)return null;if("function"!==typeof a)throw new TypeError("Super expression must either be null or a function");if("undefined"!==typeof b){if(b.has(a))return b.get(a);b.set(a,c)}return c.prototype=Object.create(a.prototype,{constructor:{value:c,enumerable:!1,writable:!0,configurable:!0}}),q.setPrototypeOf(c,a)},l(a)}function m(a,b,c){return q.get="undefined"!==typeof Reflect&&Reflect.get?m=Reflect.get:m=function(a,b,c){var d=q.superPropBase(a,b);if(d){var e=Object.getOwnPropertyDescriptor(d,b);return e.get?e.get.call(c):e.value}},m(a,b,c||a)}function n(a,b,c,d){return n="undefined"!==typeof Reflect&&Reflect.set?Reflect.set:function(a,b,c,d){var e,f=q.superPropBase(a,b);if(f){if(e=Object.getOwnPropertyDescriptor(f,b),e.set)return e.set.call(d,c),!0;if(!e.writable)return!1}if(e=Object.getOwnPropertyDescriptor(d,b),e){if(!e.writable)return!1;e.value=c,Object.defineProperty(d,b,e)}else q.defineProperty(d,b,c);return!0},n(a,b,c,d)}function o(a,b,c,d,e){var f=n(a,b,c,d||a);if(!f&&e)throw new Error("failed to set property");return c}function p(a){if(Symbol.iterator in Object(a)||"[object Arguments]"===Object.prototype.toString.call(a))return Array.from(a)}var q=a.babelHelpers={};q.typeof=b,q.asyncIterator=function(a){var b;if("function"===typeof Symbol){if(Symbol.asyncIterator&&(b=a[Symbol.asyncIterator],null!=b))return b.call(a);if(Symbol.iterator&&(b=a[Symbol.iterator],null!=b))return b.call(a)}throw new TypeError("Object is not async iterable")},q.AwaitValue=function(a){this.wrapped=a},"function"===typeof Symbol&&Symbol.asyncIterator&&(c.prototype[Symbol.asyncIterator]=function(){return this}),c.prototype.next=function(a){return this._invoke("next",a)},c.prototype.throw=function(a){return this._invoke("throw",a)},c.prototype.return=function(a){return this._invoke("return",a)},q.AsyncGenerator=c,q.wrapAsyncGenerator=function(a){return function(){return new q.AsyncGenerator(a.apply(this,arguments))}},q.awaitAsyncGenerator=function(a){return new q.AwaitValue(a)},q.asyncGeneratorDelegate=function(a,b){function c(c,d){return e=!0,d=new Promise(function(b){b(a[c](d))}),{done:!1,value:b(d)}}var d={},e=!1;return"function"===typeof Symbol&&Symbol.iterator&&(d[Symbol.iterator]=function(){return this}),d.next=function(a){return e?(e=!1,a):c("next",a)},"function"===typeof a.throw&&(d.throw=function(a){if(e)throw e=!1,a;return c("throw",a)}),"function"===typeof a.return&&(d.return=function(a){return c("return",a)}),d},q.asyncToGenerator=function(a){return function(){var b=this,c=arguments;return new Promise(function(d,e){function f(a,b){try{var c=i[a](b),f=c.value}catch(a){return void e(a)}c.done?d(f):Promise.resolve(f).then(g,h)}function g(a){f("next",a)}function h(a){f("throw",a)}var i=a.apply(b,c);g()})}},q.classCallCheck=function(a,b){if(!(a instanceof b))throw new TypeError("Cannot call a class as a function")},q.createClass=function(a,b,c){return b&&d(a.prototype,b),c&&d(a,c),a},q.defineEnumerableProperties=e,q.defaults=function(a,b){for(var c=Object.getOwnPropertyNames(b),d=0;d<c.length;d++){var e=c[d],f=Object.getOwnPropertyDescriptor(b,e);f&&f.configurable&&a[e]===void 0&&Object.defineProperty(a,e,f)}return a},q.defineProperty=f,q.extends=g,q.objectSpread=function(a){for(var b=1;b<arguments.length;b++){var c=null==arguments[b]?{}:arguments[b],d=Object.keys(c);"function"===typeof Object.getOwnPropertySymbols&&(d=d.concat(Object.getOwnPropertySymbols(c).filter(function(a){return Object.getOwnPropertyDescriptor(c,a).enumerable}))),d.forEach(function(b){q.defineProperty(a,b,c[b])})}return a},q.inherits=function(a,b){if("function"!==typeof b&&null!==b)throw new TypeError("Super expression must either be null or a function");a.prototype=Object.create(b&&b.prototype,{constructor:{value:a,writable:!0,configurable:!0}}),b&&q.setPrototypeOf(a,b)},q.getPrototypeOf=h,q.setPrototypeOf=i,q.construct=k,q.wrapNativeSuper=l,q.instanceof=function(a,b){return null!=b&&"undefined"!==typeof Symbol&&b[Symbol.hasInstance]?b[Symbol.hasInstance](a):a instanceof b},q.interopRequireDefault=function(a){return a&&a.__esModule?a:{default:a}},q.interopRequireWildcard=function(a){if(a&&a.__esModule)return a;var b={};if(null!=a)for(var c in a)if(Object.prototype.hasOwnProperty.call(a,c)){var d=Object.defineProperty&&Object.getOwnPropertyDescriptor?Object.getOwnPropertyDescriptor(a,c):{};d.get||d.set?Object.defineProperty(b,c,d):b[c]=a[c]}return b.default=a,b},q.newArrowCheck=function(a,b){if(a!==b)throw new TypeError("Cannot instantiate an arrow function")},q.objectDestructuringEmpty=function(a){if(null==a)throw new TypeError("Cannot destructure undefined")},q.objectWithoutProperties=function(a,b){if(null==a)return{};var c,d,e={},f=Object.keys(a);for(d=0;d<f.length;d++)c=f[d],0<=b.indexOf(c)||(e[c]=a[c]);if(Object.getOwnPropertySymbols){var g=Object.getOwnPropertySymbols(a);for(d=0;d<g.length;d++)c=g[d],!(0<=b.indexOf(c))&&Object.prototype.propertyIsEnumerable.call(a,c)&&(e[c]=a[c])}return e},q.assertThisInitialized=function(a){if(void 0===a)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return a},q.possibleConstructorReturn=function(a,b){return b&&("object"===typeof b||"function"===typeof b)?b:q.assertThisInitialized(a)},q.superPropBase=function(a,b){for(;!Object.prototype.hasOwnProperty.call(a,b)&&(a=q.getPrototypeOf(a),null!==a););return a},q.get=m,q.set=o,q.taggedTemplateLiteral=function(a,b){return b||(b=a.slice(0)),Object.freeze(Object.defineProperties(a,{raw:{value:Object.freeze(b)}}))},q.temporalRef=function(a,b){if(a===q.temporalUndefined)throw new ReferenceError(b+" is not defined - temporal dead zone");else return a},q.readOnlyError=function(a){throw new Error("\""+a+"\" is read-only")},q.temporalUndefined={},q.slicedToArray=function(a,b){return q.arrayWithHoles(a)||q.iterableToArrayLimit(a,b)||q.nonIterableRest()},q.toArray=function(a){return q.arrayWithHoles(a)||q.iterableToArray(a)||q.nonIterableRest()},q.toConsumableArray=function(a){return q.arrayWithoutHoles(a)||q.iterableToArray(a)||q.nonIterableSpread()},q.arrayWithoutHoles=function(a){if(Array.isArray(a)){for(var b=0,c=Array(a.length);b<a.length;b++)c[b]=a[b];return c}},q.arrayWithHoles=function(a){if(Array.isArray(a))return a},q.iterableToArray=p,q.iterableToArrayLimit=function(a,b){var c=[],d=!0,e=!1,f=void 0;try{for(var g,h=a[Symbol.iterator]();!(d=(g=h.next()).done)&&(c.push(g.value),!(b&&c.length===b));d=!0);}catch(a){e=!0,f=a}finally{try{d||null==h["return"]||h["return"]()}finally{if(e)throw f}}return c},q.nonIterableSpread=function(){throw new TypeError("Invalid attempt to spread non-iterable instance")},q.nonIterableRest=function(){throw new TypeError("Invalid attempt to destructure non-iterable instance")},q.toPropertyKey=function(a){return"symbol"===typeof a?a:a+""}})("undefined"===typeof global?self:global);</script>
+<script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=default,Array.prototype.includes"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.5/lodash.min.js"></script>
+  <script src="src/search-compare-app/vanilla-dataTables.js"></script>
+  <script src="https://cdn.jsdelivr.net/algoliasearch/3.25.1/algoliasearch.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/redux/4.0.0/redux.min.js"></script>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/instantsearch.js@2.7.2/dist/instantsearch.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/vanilla-datatables@latest/dist/vanilla-dataTables.min.css" rel="stylesheet" type="text/css">
+  <!-- Always use `2.x` versions in production rather than `2` to mitigate any side effects on your website,
+  Find the latest version on InstantSearch.js website: https://community.algolia.com/instantsearch.js/v2/guides/usage.html -->
+
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="css/icons.css">
+  <link rel="stylesheet" type="text/css" href="css/style.css">
+
+  <script src="//use.typekit.net/dib7hxd.js"></script>
+  <script>try {
+  Typekit.load();
+} catch (e) {}</script>
+
+</head>
+<body>
+  <header>
+    <section id="top-banner" class="container-fluid">
+      <div class="row">
+        <div class="col-sm-12 col-sm-6">
+          <div class="site-logo"><a href="../index.html"><img src="../../sites/default/files/logo.png" alt="Institute of Museum and Library Services"></a></div>
+              <h1 class="header-text">Library Search &amp; Compare</h1>
+        </div>
+        <div class="col-sm-12 col-sm-6 text-right">
+          <small>Send all questions and comments to <a href="mailto:research@imls.gov">research@imls.gov</a>. All data from IMLS FY2016 Public Libraries Survey (<a href="https://www.imls.gov/research-evaluation/data-collection/public-libraries-survey/explore-pls-data/pls-data" target="_blank">details</a>).</small>
+        </div>
+      </div>
+    </section><!--end #top-banner-->
+    <section id="filters" class="container-fluid">
+      <div class="row filter-row">
+        <div class="col-sm-4 col-md-2 text-right">
+          <input id="search-input" placeholder="Search for library data">
+          <div id="clear-all"></div>
+        </div>
+        <div class="col-xs-4 col-md-2 col-lg-1">
+          <div class="filter-dropdown">
+            <button><div>State</div></button>
+            <div>
+              <div id="state-refinement" class="facet"></div>
+            </div>
+            <span id="current-states"></span>
+          </div>
+        </div>
+        <div class="col-xs-4 col-md-2 col-lg-1">
+          <div class="filter-dropdown">
+            <button><div>Locale</div></button>
+            <div>
+              <div id="locale-refinement" class="facet"></div>
+            </div>
+            <span id="current-locales"></span>
+          </div>
+        </div>
+        <div class="col-xs-4 col-md-2 col-lg-1">
+          <div class="filter-dropdown">
+            <button><div>Legal Basis</div></button>
+            <div>
+              <div id="legal-basis-refinement" class="facet"></div>
+            </div>
+            <span id="current-legals"></span>
+          </div>
+        </div>
+        <div class="col-xs-4 col-md-2 col-lg-1">
+          <div class="filter-dropdown">
+            <button><div>Branch Libraries</div></button>
+            <div>
+              <div id="branch-libraries-input"></div>
+            </div>
+            <span id="branch-libraries"></span>
+            <i class="icon-info-circle" tabindex="0" aria-hidden="true" rel="tooltip" title="A branch library is an auxiliary unit of an administrative entity which has at least all of the following: separate quarters; an organized collection of library materials; paid staff; and regularly scheduled hours for being open to the public."><span>A branch library is an auxiliary unit of an administrative entity which has at least all of the following: separate quarters; an organized collection of library materials; paid staff; and regularly scheduled hours for being open to the public.</span></i>
+          </div>
+        </div>
+        <div class="col-xs-4 col-md-2 col-lg-1">
+          <div class="filter-dropdown">
+            <button><div>Circulation</div></button>
+            <div>
+              <div id="circulation-input"></div>
+            </div>
+            <span id="circulation"></span>
+            <i class="icon-info-circle" tabindex="0" aria-hidden="true" rel="tooltip" title="Total annual circulation of all library materials of all types, including renewals."><span>Total annual circulation of all library materials of all types, including renewals.</span></i>
+          </div>
+        </div>
+        <div class="col-xs-4 col-md-2 col-lg-1">
+          <div class="filter-dropdown">
+            <button><div>Revenue</div></button>
+            <div>
+              <div id="revenue-input"></div>
+            </div>
+            <span id="revenue"></span>
+            <i class="icon-info-circle" tabindex="0" aria-hidden="true" rel="tooltip" title="Sum of Local Government Revenue, State Government Revenue, Federal Government Revenue, and Other Operating Revenue."><span>Sum of Local Government Revenue, State Government Revenue, Federal Government Revenue, and Other Operating Revenue.</span></i>
+          </div>
+        </div>
+        <div class="col-xs-4 col-md-2 col-lg-1">
+          <div class="filter-dropdown">
+            <button><div>Staff</div></button>
+            <div>
+              <div id="staff-input"></div>
+            </div>
+            <span id="staff"></span>
+            <i class="icon-info-circle" tabindex="0" aria-hidden="true" rel="tooltip" title="Total paid employees."><span>Total paid employees.</span></i>
+          </div>
+        </div>
+        <div class="col-xs-4 col-md-2 col-lg-1">
+          <div class="filter-dropdown">
+            <button><div>Service Population</div></button>
+            <div>
+              <div id="population-input"></div>
+            </div>
+            <span id="population"></span>
+            <i class="icon-info-circle" tabindex="0" aria-hidden="true" rel="tooltip" title="Number of people in the geographic area for which a public library has been established to offer services and from which (or on behalf of which) the library derives revenue, plus any areas served under contract for which the library is the primary service provider."><span>Number of people in the geographic area for which a public library has been established to offer services and from which (or on behalf of which) the library derives revenue, plus any areas served under contract for which the library is the primary service provider.</span></i>
+          </div>
+        </div>
+        <div class="col-xs-4 col-md-2 col-lg-1">
+          <div class="filter-dropdown">
+            <button><div>Visits</div></button>
+            <div>
+              <div id="visits-input"></div>
+            </div>
+            <span id="visits"></span>
+            <i class="icon-info-circle" tabindex="0" aria-hidden="true" rel="tooltip" title="Total number of persons entering the library for whatever purpose during the year."><span>Total number of persons entering the library for whatever purpose during the year.</span></i>
+          </div>
+        </div>
+        <div class="col-xs-4 col-md-2 col-lg-1">
+          <div class="filter-dropdown">
+            <button><div>Programs</div></button>
+            <div>
+              <div id="total-programs-input"></div>
+            </div>
+            <span id="total-programs"></span>
+            <i class="icon-info-circle" tabindex="0" aria-hidden="true" rel="tooltip" title="Number of planned events which introduce the group attending to any of the broad range of library services or activities or which directly provides information to participants."><span>Number of planned events which introduce the group attending to any of the broad range of library services or activities or which directly provides information to participants.</span></i>
+          </div>
+        </div>
+      </div><!--end facets row -->
+    </section><!--end #filters-->
+  </header>
+  <main>
+    <div id="show-user-table">Show My Libraries</div>
+    <section id="results" class="container-fluid open">
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="page-shadow" id="search-results-wrapper">
+            <p>Enter a keyword in the search box above to search for libraries. From there, you can refine your search based on the other filters above. By clicking on a library name, you can view similar libraries based on Service, Staff, Finance and Collection data.</p>
+            <div class="actions-box pad-0">
+              <div class="row">
+                <div class="col-xs-4 col-sm-2">
+                  <button type="button" class="btn big-btn" id="viewToggle"><i class="icon-grid-view"></i> <span>Compare Libraries</span></button>
+                </div>
+                <div class="col-xs-8 col-sm-10 pad-10">
+                  <div class="col-xs-12 col-sm-5 pad-0">
+                    <span id="count"></span>
+                    <button id="share-btn" class="btn btn-default btn-sm" type="button">Share These Results</button>
+                    <div id="shareDiv" class="away">
+                        <p>This page has been copied to your clipboard. Paste somewhere to share!</p>
+                        <input type="text" id="shareMe">
+                      </div><!--end #shareDiv-->
+                      <button class="btn btn-default btn-sm" id="expBtn" data-cluster="">Definitions</button>
+                      <button id="download-csv" onclick="downloadCsv();" class="btn btn-default btn-sm"><i class="icon-file-excel"></i> Download</button>
+                  </div>
+                  <div class="col-xs-12 col-sm-7 text-right">
+                    <div id="comparison-select-wrapper">
+                      <span id="comparison-select-text">See variables related to: </span>
+                      <select id="comparison-select"></select>
+                    </div>
+                  </div>
+                </div><!--end col-sm-10-->
+              </div>              
+            </div><!--end .actions-box-->
+            <div id="list-results">
+              <div id="hits"></div>
+              <div id="pagination"></div>
+            </div><!--end #list-results-->
+            <div id="grid-results-wrapper">
+            <div class="table-responsive">
+              <table class="table table-striped" id="grid-results"></table>
+            </div>
+          </div><!--end #grid-results-wrapper-->
+          </div><!--end #search-results-wrapper-->
+        </div>
+      </div>
+  </section><!--end #results-->
+  <section id="userTable" class="closed">
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="page-shadow">
+        </div>
+      </div>
+    </div>
+  </section><!--end #userTable--> 
+  </main>
+  <footer class="footer">
+    <div class="container">
+      <div class="row flex-links">
+        <div class="col-lg-3">
+          <div class="block agency-location">
+            <p><strong>Agency Location</strong><br>
+            955 L’Enfant Plaza North, SW, Suite 4000<br>
+            Washington, D.C.  20024-2135</p>
+          </div>
+        </div>
+        <div class="col-lg-3">
+          <div class="block contact-info">
+            <p><strong>Contact Us</strong><br>
+            Phone: 202-653-IMLS (4657)<br>
+            <a href="mailto:imlsinfo@imls.gov">imlsinfo@imls.gov</a><br>
+            <a href="/about-us/contact-us">Contact Us Form</a></p>
+            <p><strong>Library Grants</strong><br>
+            Phone: 202-653-4700</p>
+            <p><strong>Museum Grants</strong><br>
+            Phone: 202-653-4789</p>
+          </div>
+        </div>
+        <div class="col-lg-3">
+          <div class="block email-info">
+            <p><strong>Communications</strong><br>
+            <a href="mailto:imlsnews@imls.gov">imlsnews@imls.gov</a></p>
+            <p><strong>Webmaster</strong><br>
+            <a href="mailto:webmaster@imls.gov">webmaster@imls.gov</a></p>
+          </div>
+        </div>
+        <div class="col-lg-3">
+          <div class="block other-links">
+            <div class="footer-social-container">
+              <div class="footer-social">
+                <a href="https://www.facebook.com/USIMLS" target="_blank" tabindex="72" class="tabstop-processed"><img alt="Facebook" src="/sites/default/files/footer-facebook-icon_0.png" title="Facebook"></a>
+                <a href="https://twitter.com/us_imls" target="_blank" tabindex="73" class="tabstop-processed"><img alt="Twitter" src="/sites/default/files/footer-twitter-icon.png" title="Twitter"></a>
+                <a href="https://www.youtube.com/channel/UC_3YQWDq3Rqvo1y2L9cxKEw" target="_blank" tabindex="74" class="tabstop-processed"><img alt="YouTube" src="/sites/default/files/footer-youtube-icon.png" title="Youtube"></a>
+                <a href="https://www.instagram.com/us_imls/" target="_blank" tabindex="75" class="tabstop-processed"><img alt="Instagram" src="/sites/default/files/footer-instagram-icon_0.png" style="width: 23px; height: 23px;" title="Instagram"></a></div>
+              </div>
+              <ul>
+                <li><a href="/about-us" tabindex="76" class="tabstop-processed">About Us</a></li>
+                <li><a href="/grants" tabindex="77" class="tabstop-processed">Grants</a></li>
+                <li><a href="/issues" tabindex="78" class="tabstop-processed">Issues</a></li>
+                <li><a href="/publications" tabindex="79" class="tabstop-processed">Publications</a></li>
+                <li><a href="/research-evaluation" tabindex="80" class="tabstop-processed">Research &amp; Evaluation</a></li>
+                <li><a href="/news-events" tabindex="81" class="tabstop-processed">News &amp; Events</a></li>
+              </ul>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="block footer-links text-center"> 
+            <p><strong>Institute of Museum and Library Services</strong></p>
+            <p><a href="/about-us/policy-notices/website-accessibility/viewers-players" tabindex="82" class="tabstop-processed">Viewers &amp; Players</a> |&nbsp;<a href="/about-us/agency-reports/freedom-information-act-foia" tabindex="83" class="tabstop-processed">FOIA</a>&nbsp;|&nbsp;<a href="/about-us/agency-reports/no-fear-act" tabindex="84" class="tabstop-processed">No FEAR Act</a>&nbsp;|&nbsp;<a href="/about-us/policy-notices/privacy-terms-use" tabindex="85" class="tabstop-processed">Privacy &amp; Terms of Use</a>&nbsp;|&nbsp;<a href="/about-us/agency-reports/equal-employment-opportunity-data" tabindex="86" class="tabstop-processed">EEO</a> | <a href="/about-us/policy-notices/website-accessibility" tabindex="87" class="tabstop-processed">Accessibility</a> | <a href="/about-us/open-government" tabindex="88" class="tabstop-processed">Open Government</a>&nbsp;| <a href="http://osc.gov/" class="ext tabstop-processed" target="_blank" tabindex="89">Office of Special Counsel</a>&nbsp;| <a href="https://www.usa.gov/" class="ext tabstop-processed" target="_blank" tabindex="90">USA.gov</a></p>
+          </div>
+      </div>
+    </div>
+  </div></footer>
+
+  <div id="modal" aria-hidden="true" aria-labelledby="modalTitle" aria-describedby="modalDescription" role="dialog" class="hidden">
+    <button id="modalCloseBtn" class="btn btn-sm btn-primary modalCloseBtn" title="Close"><i class="icon-x"></i><span>Close</span></button>
+    <div role="document" class="modal-guts">
+      <h1 id="modalTitle">Definitions</h1>
+      <p>For further description, please refer to the <a href="https://www.imls.gov/sites/default/files/pls_defs_fy2016.pdf" target="_blank">Administrative Entity Data Element Definitions</a>.</p>
+      <div class="actions-box"><strong>S</strong> = Suppressed. <strong>M</strong> = Missing. <strong>N</strong> = Not Applicable.</div>
+      <div id="exp-demographic" class="def-list">
+        <dl>
+          <dt>Name</dt>
+          <dd>Legal name of the library system.</dd>
+          <dt>Population of Legal Service Area (LSA)</dt>
+          <dd>The number of people in the geographic area for which a public library has been established to offer services and from which (or on behalf of which) the library derives revenue, plus any areas served under contract for which the library is the primary service provider.</dd>
+          <dt>Total Unduplicated Population of LSA</dt>
+          <dd>Total unduplicated population of those areas in your state that receive library services. The population of unserved areas is not included in this figure.</dd>
+          <dt>Central Libraries</dt>
+          <dd>Synonymous with main library.</dd>
+          <dt>Branch Libraries</dt>
+          <dd>A branch library is an auxiliary unit of an administrative entity which has at least all of the following: separate quarters; an organized collection of library materials; paid staff; and regularly scheduled hours for being open to the public.</dd>
+          <dt>Number of Bookmobiles</dt>
+          <dd>A bookmobile is a traveling branch library that consists of at least all of the following: a truck or van that carries an organized collection of library materials; paid staff; and regularly scheduled hours (bookmobile stops) for being open to the public.</dd>
+          <dt>Interlibrary Relationship Code</dt>
+          <dd>
+            <ul>
+              <li><strong>HQ:</strong> Headquarters of a Federation or Cooperative.</li>
+              <li><strong>ME:</strong> Member of a Federation or Cooperative.</li>
+              <li><strong>NO:</strong> Not a Member of a Federation or Cooperative.</li>
+            </ul>
+          </dd>
+          <dt>Legal Basis Code</dt>
+          <dd>
+            The legal basis is the type of local government structure within which the entity functions. It reflects the state or local law, which authorizes the library.
+            <ul>
+              <li><strong>CC:</strong> City/County.</li>
+              <li><strong>CI:</strong> Municipal Government (city, town or village).</li>
+              <li><strong>CO:</strong> County/Parish.</li>
+              <li><strong>LD:</strong> Library District.</li>
+              <li><strong>MJ:</strong> Multi-jurisdictional.</li>
+              <li><strong>NL:</strong> Native American Tribal Government.</li>
+              <li><strong>NP:</strong> Non-profit Association or Agency.</li>
+              <li><strong>SD:</strong> School District.</li>
+              <li><strong>OT:</strong> Other.</li>
+            </ul>
+          </dd>
+          <dt>Administrative Structure Code</dt>
+          <dd>
+            <ul>
+              <li><strong>MA:</strong> Administrative Entity with Multiple Direct Service Outlets where Administrative Offices are separate.</li>
+              <li><strong>MO:</strong> Administrative Entity with Multiple Direct Service Outlets where Administrative Offices are Not Separate.</li>
+              <li><strong>SO:</strong> Administrative Entity with a Single Direct Service Outlet.
+            </li></ul>
+          </dd>
+          <dt>FSCS Public Library Definition</dt>
+          <dd>
+            Library meets all the criteria of the FSCS public library definition.
+            <ul>
+              <li><strong>Y:</strong> Yes.</li>
+              <li><strong>N:</strong> No.</li>
+            </ul>
+          </dd>
+          <dt>Geographic Code</dt>
+          <dd>
+            Type of Census geography that either exactly or most nearly describes the geographic area for which the public library has been established to offer services and from which (or on behalf of which) the library derives revenue, plus any areas served under contract for which the library is the primary service provider.
+            <ul>
+              <li><strong>CI1:</strong> Municipal Government (city, town or village) (exactly)</li>
+              <li><strong>CI2:</strong> Municipal Government (city, town or village) (most nearly)</li>
+              <li><strong>CO1:</strong> County/Parish (exactly)</li>
+              <li><strong>CO2:</strong> County/Parish (most nearly)</li>
+              <li><strong>MA1:</strong> Metropolitan Area (exactly)</li>
+              <li><strong>MA2:</strong> Metropolitan Area (most nearly)</li>
+              <li><strong>MC1:</strong> Multi-County (exactly)</li>
+              <li><strong>MC2:</strong> Multi-County (most nearly)</li>
+              <li><strong>SD1:</strong> School District (exactly)</li>
+              <li><strong>SD2:</strong> School District (most nearly)</li>
+              <li><strong>OTH:</strong> Other</li>
+            </ul>
+          </dd>
+        </dl>
+      </div><!--end demographic-->
+      <div id="exp-staff" class="def-list">
+        <dl>
+          <dt>Name</dt>
+          <dd>Legal name of the library system.</dd>
+          <dt>ALA-MLS Librarians</dt>
+          <dd>Librarians with master's degrees from programs of library and information studies accredited by the American Library Association.</dd>
+          <dt>Total Librarians</dt>
+          <dd>Persons with the title of librarian who do paid work that usually requires professional training and skill in the theoretical or scientific aspects of library work, or both, as distinct from its mechanical or clerical aspect. Includes ALA-MLS Librarians.</dd>
+          <dt>All Other Paid Staff</dt>
+          <dd>All other FTE employees paid from the reporting unit budget, including plant operations, security, and maintenance staff.</dd>
+          <dt>Total Paid Staff</dt>
+          <dd>Sum of Total Librarians and All Other Paid Staff.</dd>
+        </dl>        
+      </div><!--end staff-->
+      <div id="exp-revenue" class="def-list">
+        <dl>
+          <dt>Name</dt>
+          <dd>Legal name of the library system.</dd>
+          <dt>Local Revenue</dt>
+          <dd>Local government funds designated by the community, district, or region and available for expenditure by the public library.</dd>
+          <dt>State Revenue</dt>
+          <dd>Funds distributed to public libraries by state government for expenditure by the public libraries, except for federal money distributed by the state.</dd>
+          <dt>Federal Revenue</dt>
+          <dd>Federal government funds distributed to public libraries for expenditure by the public libraries, including federal money distributed by the state.</dd>
+          <dt>Other Revenue</dt>
+          <dd>Operating revenue other than that reported under local, state, and federal (above).</dd>
+          <dt>Total Revenue</dt>
+          <dd>Sum of Local, State, Federal, and Other Revenue.</dd>
+        </dl>
+      </div><!--end revenue-->
+      <div id="exp-expenditures" class="def-list">
+        <dl>
+          <dt>Name</dt>
+          <dd>Legal name of the library system.</dd>
+          <dt>Salaries &amp; Wages</dt>
+          <dd>Salaries and wages for all library staff (including plant operations, security, and maintenance staff) for the fiscal year. Includes salaries and wages before deductions but excludes employee benefits.</dd>
+          <dt>Employee Benefits</dt>
+          <dd>Benefits outside of salaries and wages paid and accruing to employees (including plant operations, security, and maintenance staff), regardless of whether the benefits or equivalent cash options are available to all employees. Includes amounts for direct paid employee benefits.</dd>
+          <dt>Total Staff Expenditures</dt>
+          <dd>Sum of Salaries &amp; Wages and Employee Benefits.</dd>
+          <dt>Print Materials Expenditures</dt>
+          <dd>All operating expenditures for the following print materials: books, current serial subscriptions, government documents, and any other print acquisitions.</dd>
+          <dt>Electronic Materials Expenditures</dt>
+          <dd>All operating expenditures for electronic (digital) materials.</dd>
+          <dt>Other Material Expenditures</dt>
+          <dd>All operating expenditures for other materials, such as microform, audio and video physical units, DVD, and materials in new formats.</dd>
+          <dt>Total Collection Expenditures</dt>
+          <dd>Sum of Expenditures on Print, Electronic, and Other Materials.</dd>
+          <dt>Other Operating Expenditures</dt>
+          <dd>All expenditures other than those reported for Total Staff Expenditures and Total Collection Expenditures.</dd>
+          <dt>Total Operating Expenditures</dt>
+          <dd>Sum of Total Staff, Collection, and Other Operating Expenditures.</dd>
+        </dl>        
+      </div><!--end expenditures-->
+      <div id="exp-capital" class="def-list">
+        <dl>
+          <dt>Name</dt>
+          <dd>Legal name of the library system.</dd>
+          <dt>Local Capital Revenue</dt>
+          <dd>All governmental funds designated by the community, district, or region and available to the public library for the purpose of major capital expenditures, except for state and/or federal money distributed by the local government.</dd>
+          <dt>State Capital Revenue</dt>
+          <dd>Funds distributed to public libraries by state government for expenditure by the public libraries for the purpose of major capital expenditures, except for federal money distributed by the state.</dd>
+          <dt>Federal Capital Revenue</dt>
+          <dd>Federal governmental funds, including federal funds distributed by the state or locality, and grants and aid received by the library for the purpose of major capital expenditures.</dd>
+          <dt>Other Capital Revenue</dt>
+          <dd>Private (non-governmental funds), including grants received by the library for the purpose of major capital expenditures.</dd>
+          <dt>Total Capital Revenue</dt>
+          <dd>Sum of Local, State, Federal, and Other Capital Revenue.</dd>
+          <dt>Total Capital Expenditures</dt>
+          <dd>Major capital expenditures (the acquisition of or additions to fixed assets), including federal, state, local, or other revenue used for major capital expenditures.</dd>
+        </dl>
+      </div><!--end capital-->
+      <div id="exp-collection" class="def-list">
+        <dl>
+          <dt>Name</dt>
+          <dd>Legal name of the library system.</dd>
+          <dt>Print Materials</dt>
+          <dd>Physical units, including duplicates, of books in print and non-serial government documents.</dd>
+          <dt>Electronic Books</dt>
+          <dd>E-books that have been purchased, leased or licensed by the library, a consortium, the state library, a donor or other person or entity.</dd>
+          <dt>Audio - Physical Units</dt>
+          <dd>Materials circulated in a fixed, physical format on which sounds (only) are stored (recorded) and that can be reproduced (played back) mechanically, electronically, or both.</dd>
+          <dt>Audio - Downloadable Units</dt>
+          <dd>Downloadable electronic files on which sounds (only) are stored (recorded) and that can be reproduced (played back) electronically. These may be loaned to users on portable devices or by transmitting the contents to the user's personal computer for a limited time. Includes those held locally and remote units for which permanent or temporary access rights have been acquired.</dd>
+          <dt>Video - Physical Units</dt>
+          <dd>Materials circulated in a fixed, physical format on which moving pictures are recorded, with or without sound.</dd>
+          <dt>Video - Downloadable Units</dt>
+          <dd>Downloadable electronic files on which moving pictures are recorded, with or without sound. Electronic playback uses a television receiver, computer monitor, or video-enabled mobile device. These may be loaned to users on portable devices or by transmitting the contents to the user's personal computer for a limited time. Includes those held locally and remove units for which permanent or temporary access rights have been acquired.</dd>
+          <dt>Local Databases</dt>
+          <dd>Collections of electronically stored data or unit records with a common user interface and software for the retrieval and use of data funded by the library, or provided through cooperative agreement with other libraries.</dd>
+          <dt>State Databases</dt>
+          <dd>Collections of electronically stored data or unit records with a common user interface and software for the retrieval and use of data provided through the State Library.</dd>
+          <dt>Total Databases</dt>
+          <dd>Sum of Local/Other cooperative agreement- and State-licensed databases.</dd>
+          <dt>Print Serial Subscriptions</dt>
+          <dd>Number of current print serial subscriptions, including duplicates, for all outlets.</dd>
+        </dl>        
+      </div><!--end collection-->
+      <div id="exp-services" class="def-list">
+        <dl>
+          <dt>Name</dt>
+          <dd>Legal name of the library system.</dd>
+          <dt>Public Service Hours/Year</dt>
+          <dd>Sum of annual public service hours for outlets.</dd>
+          <dt>Library Visits</dt>
+          <dd>Total number of persons entering the library for whatever purpose during the year.</dd>
+          <dt>Reference Transactions</dt>
+          <dd>Number of information consultations in which library staff recommend, interpret, evaluate, and/or use information resources to help others to meet particular information needs.</dd>
+          <dt>Registered Users</dt>
+          <dd>Number of registered library users who have applied for and received an identification number or card from the public library that has established conditions under which the user may borrow library materials or gain access to other library resources.</dd>
+          <dt>Total Circulation of Materials</dt>
+          <dd>Total annual circulation of all library materials of all types, including renewals.</dd>
+          <dt>Circulation of Kid's Materials</dt>
+          <dd>Total annual circulation of all children's materials in all formats to all users, including renewals.</dd>
+          <dt>Use of Electronic Material</dt>
+          <dd>Total annual circulation of all electronic materials</dd>
+          <dt>Physical Item Circulation</dt>
+          <dd>Total annual circulation of all physical library materials of all types, including renewals.</dd>
+          <dt>Electronic Information Retrievals</dt>
+          <dd>Number of full-content units or descriptive records examined, downloaded, or otherwise supplied to user, from online library resources that require user authentication but do not have a circulation period.</dd>
+          <dt>Electronic Content Use</dt>
+          <dd>Total annual count of the circulation of electronic materials and the successful retrieval of electronic information.</dd>
+          <dt>Total Collection Use</dt>
+          <dd>Total annual count of physical item circulation, circulation of electronic material and successful retrieval of electronic information.</dd>
+        </dl>
+      </div><!--end services-->
+      <div id="exp-inter-library" class="def-list">
+        <dl>
+          <dt>Name</dt>
+          <dd>Legal name of the library system.</dd>
+          <dt>Provided To</dt>
+          <dd>Number of library materials, or copies of the materials, provided by one autonomous library to another upon request. The libraries involved in interlibrary loans are not under the same Administrative Entity.</dd>
+          <dt>Received From</dt>
+          <dd>Number of library materials, or copies of the materials, received by one autonomous library from another upon request. The libraries involved in interlibrary loans are not under the same Administrative Entity.</dd>
+        </dl>
+      </div><!--end inter-library-->
+      <div id="exp-programs" class="def-list">
+        <dl>
+          <dt>Name</dt>
+          <dd>Legal name of the library system.</dd>
+          <dt>Total Library Programs</dt>
+          <dd>Number of planned events which introduce the group attending to any of the broad range of library services or activities or which directly provides information to participants. Includes all programs, whether held on- or off-site, that are sponsored or co-sponsored by the library.</dd>
+          <dt>Children's Programs</dt>
+          <dd>Number of planned events for which the primary audience is children and which introduce the group of children attending to any of the broad range of library services or activities for children or which directly provides information to participants. Includes all children's programs, whether held on- or off-site, that are sponsored or co-sponsored by the library.</dd>
+          <dt>Young Adult Programs</dt>
+          <dd>Number of planned events for which the primary audience is young adult and which introduce the group of young adults attending to any of the broad range of library services or activities for young adults or which directly provides information to participants. Includes all young adult programs, whether held on- or off-site, that are sponsored or co-sponsored by the library.</dd>
+          <dt>Total Attendance at Library Programs</dt>
+          <dd>Count of the audience at all library programs during the fiscal year.</dd>
+          <dt>Children's Program Attendance</dt>
+          <dd>Count of the audience at all programs for which the primary audience is children 11 years and under. Includes adults who attend programs intended primarily for children.</dd>
+          <dt>Young Adult Program Attendance</dt>
+          <dd>Count of the audience at all programs for which the primary audience is young adults 12 to 18 years and includes 18 year olds. Include adults who attend programs intended primarily for young adults.</dd>
+        </dl>
+      </div><!--end programs-->
+      <div id="exp-other_electronic" class="def-list">
+        <dl>
+          <dt>Name</dt>
+          <dd>Legal name of the library system.</dd>
+          <dt>Computers Used by General Public</dt>
+          <dd>Number of the library's Internet computers [personal computers (PCs) and laptops], whether purchased, leased, or donated, used by the general public in the library.</dd>
+          <dt>Computer Uses</dt>
+          <dd>Number of uses (sessions) of the library's Internet computers in the library during the last year.</dd>
+          <dt>Wireless Sessions</dt>
+          <dd>Number of wireless sessions provided by the library wireless service annually.</dd>
+        </dl>
+      </div><!--other_electronic-->
+    </div>
+  </div><!--end modal-->
+  <div id="modalOverlay" tabindex="-1" class="hidden"></div>
+  <div id="loading-spinner" class="paused" role="alert" aria-live="assertive"><span>Content has loaded.</span></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/instantsearch.js@2.10.1/dist/instantsearch.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+  <script type="type/html" id="hit-template">
+    <div class="hit">
+      <div class="hit-content">
+        <h3 class="hit-name"><a href="details.html?fscs_id={{fscs_id}}">{{{_highlightResult.library_name.value}}} ({{{fscs_id}}})</a></h3>
+        <div class="hit-address">{{{location_address}}}</div>
+        <div class="hit-city">{{{mailing_city}}}, {{{state}}} {{{mailing_zip}}}</div>
+      </div>
+      <div class="similar-results">
+        <strong>See similar libraries based on:</strong>
+        <div>
+          <a href="details.html?fscs_id={{fscs_id}}&similar=collection#compared-to" class="btn btn-default btn-sm">Collection</a>
+          <a href="details.html?fscs_id={{fscs_id}}&similar=finance#compared-to" class="btn btn-default btn-sm">Finance</a>
+          <a href="details.html?fscs_id={{fscs_id}}&similar=service#compared-to" class="btn btn-default btn-sm">Service</a>
+          <a href="details.html?fscs_id={{fscs_id}}&similar=staff#compared-to" class="btn btn-default btn-sm">Staff</a>
+        </div>
+      </div>
+    </div>
+  </script>
+  <script src="js/app.js"></script>
+  <script src="js/common.js"></script>
+  <script src="js/modal.js"></script>
+  <!-- WEB COMPONENTS -->
+  
+    <script>if (!window.customElements) {
+  document.write('<!--');
+}</script>
+    <script type="text/javascript" src="node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+    <!--! do not remove -->
+<script src="node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+  <script>"use strict";(function(){function a(a,b,c){var d=a;if(d.state=b,d.stateData=c,0<d.onNextStateChange.length){var e=d.onNextStateChange.slice();d.onNextStateChange.length=0;for(var f,g=0,h=e;g<h.length;g++)f=h[g],f()}return d}function b(b){function d(){try{document.head.removeChild(f)}catch(a){}}var e=a(b,"Loading",void 0),f=document.createElement("script");return f.src=b.url,f.onload=function(){var a,b;void 0===r?(a=[],b=void 0):(f=r(),a=f[0],b=f[1]),c(e,a,b),d();var f},f.onerror=function(){g(b,new TypeError("Failed to fetch "+b.url)),d()},document.head.appendChild(f),e}function c(b,c,e){var f=d(b,c),g=f[0],h=f[1];return a(b,"WaitingForTurn",{args:g,deps:h,moduleBody:e})}function d(a,c){for(var e,f=[],g=[],i=0,j=c;i<j.length;i++){if(e=j[i],"exports"===e){f.push(a.exports);continue}if("require"===e){f.push(function(b,c,e){var f=d(a,b),g=f[0],i=f[1];h(i,function(){c&&c.apply(null,g)},e)});continue}if("meta"===e){f.push({url:!0===a.isTopLevel?a.url.substring(0,a.url.lastIndexOf("#")):a.url});continue}var l=k(n(a.urlBase,e));f.push(l.exports),g.push(l),"Initialized"===l.state&&b(l)}return[f,g]}function e(b){var c=a(b,"WaitingOnDeps",b.stateData);return h(b.stateData.deps,function(){return f(c)},function(a){return g(c,a)}),c}function f(b){var c=b.stateData;if(null!=c.moduleBody)try{c.moduleBody.apply(null,c.args)}catch(a){return g(b,a)}return a(b,"Executed",void 0)}function g(b,c){return!0===b.isTopLevel&&setTimeout(function(){throw c}),a(b,"Failed",c)}function h(a,b,c){var d=a.shift();return void 0===d?void(b&&b()):"WaitingOnDeps"===d.state?(!1,void h(a,b,c)):void i(d,function(){h(a,b,c)},c)}function i(a,b,c){switch(a.state){case"WaitingForTurn":return e(a),void i(a,b,c);case"Failed":return void(c&&c(a.stateData));case"Executed":return void b();case"Loading":case"WaitingOnDeps":return void a.onNextStateChange.push(function(){return i(a,b,c)});case"Initialized":throw new Error("All dependencies should be loading already before pressureDependencyToExecute is called.");default:throw new Error("Impossible module state: "+a.state);}}function j(a,b){switch(a.state){case"Executed":case"Failed":return void b();default:a.onNextStateChange.push(function(){return j(a,b)});}}function k(a){var b=q[a];return void 0===b&&(b=q[a]={url:a,urlBase:m(a),exports:Object.create(null),state:"Initialized",stateData:void 0,isTopLevel:!1,onNextStateChange:[]}),b}function l(a){return v.href=a,v.href}function m(a){return a=a.split("?")[0],a=a.split("#")[0],a.substring(0,a.lastIndexOf("/")+1)}function n(a,b){return-1===b.indexOf("://")?l(a+b):b}function o(){return document.baseURI||(document.querySelector("base")||window.location).href}function p(){var b=document.currentScript;if(!b)return u;if(window.HTMLImports){var c=window.HTMLImports.importForElement(b);return c?c.href:u}var d=b.ownerDocument.createElement("a");return d.href="",d.href}if(!window.define){var q=Object.create(null),r=void 0,s=0,t=void 0,u=o();window.define=function(a,b){var d=!1;r=function(){return d=!0,r=void 0,[a,b]};var f=p();setTimeout(function(){if(!1==d){r=void 0;var g=f+"#"+s++,h=k(g);h.isTopLevel=!0;var i=c(h,a,b);void 0===t?e(i):j(k(t),function(){e(i)}),t=g}},0)},window.define._reset=function(){for(var a in q)delete q[a];r=void 0,s=0,t=void 0,u=o()};var v=document.createElement("a")}})();</script>
+<script>define(['src/search-compare-app/search-compare-app.js']);</script>
+
+
+</body></html>
