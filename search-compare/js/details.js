@@ -261,6 +261,7 @@ index.search({
       // Add total staff to Staff Data section
       document.getElementById("total_staff").innerHTML = "<strong>Total Staff:</strong><span>" + res[ 'total_staff' ] + "</span>";
 
+      /*
       var service = document.querySelector('#service-link');
       service.setAttribute("data-cluster",res.cluster_service);
 
@@ -284,6 +285,7 @@ index.search({
         var click_el = document.getElementById( el_id );
         simulateClick( click_el );
       }
+      */
 
     }
   }
@@ -438,6 +440,12 @@ function displayOutlets( content ) {
           }
         }
       ]
+    });
+
+    outletTable.on('datatable.sort', function(column, direction) {
+    });
+
+    outletTable.on('outletTable.init', function() {
     });
   } else {
     console.log( 'empty' );
