@@ -1,0 +1,380 @@
+<!DOCTYPE html><head>
+  <meta charset="UTF-8">
+
+  <title>Library Search &amp; Compare</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.5/lodash.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vanilla-datatables@latest/dist/vanilla-dataTables.min.js" type="text/javascript"></script>
+  <script src="https://cdn.jsdelivr.net/algoliasearch/3.25.1/algoliasearch.min.js"></script>
+  <script src="js/csv.global.js"></script>
+
+  <link href="https://cdn.jsdelivr.net/npm/vanilla-datatables@latest/dist/vanilla-dataTables.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="css/icons.css">
+  <link rel="stylesheet" type="text/css" href="css/style.css">
+
+  <script src="//use.typekit.net/dib7hxd.js"></script>
+  <script>try {
+  Typekit.load();
+} catch (e) {}</script>
+</head>
+<body>
+	<header>
+    <section id="top-banner" class="container-fluid">
+      <div class="row">
+        <div class="col-sm-12 col-sm-6">
+          <div class="site-logo"><a href="../index.html"><img src="../../sites/default/files/logo.png" alt="Institute of Museum and Library Services"></a></div>
+              <h1 class="header-text">Library Search &amp; Compare</h1>
+        </div>
+        <div class="col-sm-12 col-sm-6 text-right">
+          <small>Send all questions and comments to <a href="mailto:research@imls.gov">research@imls.gov</a>. All data from IMLS FY2016 Public Libraries Survey (<a href="https://www.imls.gov/research-evaluation/data-collection/public-libraries-survey/explore-pls-data/pls-data" target="_blank">details</a>).</small>
+        </div>
+      </div>
+    </section><!--end #top-banner-->
+  </header>
+  <main>
+    <section id="details-info" class="container-fluid">
+      <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+          <h2><span id="name"></span> (<span id="fscs-id"></span>)</h2>
+          <div class="row">
+            <div class="col-md-6">
+              <div><span id="address"></span> <span id="city"></span></div>
+              <div><span id="service-area-population"></span></div>
+              <div><span id="locale"></span></div>
+            </div>
+            <div class="col-md-6">
+              <div><span id="central-libraries"></span></div>
+              <div><span id="branch-libraries"></span></div>
+              <div><span id="bookmobiles"></span> <span id="city"></span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12 text-right">
+          <a href="" class="btn btn-primary btn-sm" id="returnTo">Return to Search Results</a>
+          <a href="index.html" class="btn btn-primary btn-sm">New Search</a>
+          <button id="share-btn" class="btn btn-primary btn-sm" type="button">Share This Page</button>
+          <div id="shareDiv" class="away">
+            <p>This page has been copied to your clipboard. Paste somewhere to share!</p>
+            <input type="text" id="shareMe">
+          </div>
+        </div>
+      </div>
+    </section><!--end #details-info-->
+    <section id="lib-details" class="container-fluid">
+      <div class="row">
+        <div class="col-md-10 col-md-offset-1">          
+          <div class="box">
+            <div class="row">
+              <div class="col-md-3">
+                <div class="box">
+                  <h3>Service Data:</h3>
+                  <div id="hours"></div>
+                  <div id="visits"></div>
+                  <div id="references"></div>
+                  <div id="users"></div>
+                  <div id="total_circulation"></div>
+                  <div id="loans_to"></div>
+                  <div id="total_programs"></div>
+                  <div id="computers"></div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="box">
+                  <h3>Staff Data:</h3>
+                  <div id="mls_librarian_staff"></div>
+                  <div id="librarian_staff"></div>
+                  <div id="other_staff"></div>
+                  <div id="total_staff"></div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="box">
+                  <h3>Finance Data:</h3>
+                  <div id="total_revenue"></div>
+                  <div id="total_staff_expenditures"></div>
+                  <div id="total_collection_expenditures"></div>
+                  <div id="capital_expenditures"></div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="box">
+                  <h3>Collection Data:</h3>
+                  <div id="print_materials"></div>
+                  <div id="ebooks"></div>
+                  <div id="audio_materials"></div>
+                  <div id="video_materials"></div>
+                  <div id="total_databases"></div>
+                  <div id="print_serials"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div><!--end details row-->
+      <div class="row">
+        <div class="col-md-10 col-md-offset-1" id="outlets-table-wrapper">
+          <div class="box">
+            <div class="row">
+              <div class="col-xs-12">
+                <h3>Outlets:</h3>
+                <div class="table-responsive">
+                  <table class="table table-striped" id="outlets-table"></table>
+                </div>
+              </div>
+            </div>
+          </div>          
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-10 col-md-offset-1" id="trends-table-wrapper">
+          <div class="box">
+            <div class="row">
+              <div class="col-xs-12">
+                <div class="actions-bx pad-0"> 
+                  <div class="row">  						
+                    <div class="col-sm-2"><h3>Trends:</h3></div>
+                    <div class="col-sm-10">
+                      <div id="trends-select-wrapper">
+                        <button id="download-csv" style="float: right; position: relative; bottom: 5px;" onclick="downloadTrendsCsv();" class="btn btn-default btn-sm"><i class="icon-file-excel"></i> Download</button>
+                        <span id="trends-select-text">See trend data related to: <select id="trends-select"></select></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="table-responsive">
+              <table class="table table-striped" id="trends-table"></table>
+            </div>
+          </div>          
+        </div>
+      </div>
+    </section><!--end #lib-details-->
+    <!-- similar libraries start -->
+    <!--
+    <section id="similar-libraries-wrapper" class="container-fluid">
+      <div class="row">
+          <div class="col-md-10 col-md-offset-1">
+            <h2>See Similar Libraries Based On:</h2>
+            <div class="row" id="similar-links">
+              <div class="col-md-3" id="compared-to">
+                <button class="similar-link" id="service-link" data-type="cluster_service">See Service</button>
+                <div><p>Similarities are based on users, circulation, references and hours data. <i class="icon-info-circle" tabindex="0" aria-hidden="true" rel="tooltip" title="Four sets of groups of similar libraries were constructed based on different sets of variables and using a statistical method that minimizes variation within groups and maximizes variation between groups. The variables used for the Service Cluster are: population served, hours open, annual visits, reference transactions, registered borrowers, circulation, interlibrary loans, and programs and computers."><span>Four sets of groups of similar libraries were constructed based on different sets of variables and using a statistical method that minimizes variation within groups and maximizes variation between groups. The variables used for the Service Cluster are: population served, hours open, annual visits, reference transactions, registered borrowers, circulation, interlibrary loans, and programs and computers.</span></i></p></div>
+              </div> -->
+              <!--end service column-->
+              <!-- <div class="col-md-3">
+                <button class="similar-link" id="staff-link" data-type="cluster_staff">See Staff</button>
+                <div><p>Similarities are based on staffing data.  <i class="icon-info-circle" tabindex="0" aria-hidden="true" rel="tooltip" title="Four sets of groups of similar libraries were constructed based on different sets of variables and using a statistical method that minimizes variation within groups and maximizes variation between groups. The variables used for the Staff Cluster are: MLS librarians, other librarians, and other staff."><span>Four sets of groups of similar libraries were constructed based on different sets of variables and using a statistical method that minimizes variation within groups and maximizes variation between groups. The variables used for the Staff Cluster are: MLS librarians, other librarians, and other staff.</span></i></p></div>
+              </div>
+              <div class="col-md-3">
+                <button class="similar-link" id="finance-link" data-type="cluster_finance">See Finance</button>
+                <div><p>Similarities are based on revenue and expenditures data.  <i class="icon-info-circle" tabindex="0" aria-hidden="true" rel="tooltip" title="Four sets of groups of similar libraries were constructed based on different sets of variables and using a statistical method that minimizes variation within groups and maximizes variation between groups. The variables used for the Finance Cluster are: revenue, staff expenditures, expenditure, capital revenue, and capital expenditure."><span>Four sets of groups of similar libraries were constructed based on different sets of variables and using a statistical method that minimizes variation within groups and maximizes variation between groups. The variables used for the Finance Cluster are: revenue, staff expenditures, expenditure, capital revenue, and capital expenditure.</span></i></p></div>
+              </div>
+              <div class="col-md-3">
+                <button class="similar-link" id="collection-link" data-type="cluster_collection">See Collection</button>
+                <div><p>Similarities are based on printed, audio, video and electronic materials data. <i class="icon-info-circle" tabindex="0" aria-hidden="true" rel="tooltip" title="Four sets of groups of similar libraries were constructed based on different sets of variables and using a statistical method that minimizes variation within groups and maximizes variation between groups. The variables used for the Collection Cluster are: books, e-books, audio materials, video materials, and electronic collections and subscriptions."><span>Four sets of groups of similar libraries were constructed based on different sets of variables and using a statistical method that minimizes variation within groups and maximizes variation between groups. The variables used for the Collection Cluster are: books, e-books, audio materials, video materials, and electronic collections and subscriptions.</span></i></p></div>
+              </div>
+            </div>
+          </div>
+        </div> -->
+        <!--end #similar-links-->
+        <!--
+        <div class="row similar-row">
+          <div class="col-md-12">
+            <div class="page-shadow">
+              <h2><span class="library-name"></span> Compared to Other Libraries in this Group:</h2>
+              <div class="table-responsive">
+                <table class="table table-striped">
+                  <thead>
+                    <tr id="comparison-headers">
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr id="comparison-data">
+                      <th><span class="library-name">Library Name</span></th>
+                    </tr>
+                    <tr id="comparison-mean">
+                      <th>Mean</th>
+                    </tr>
+                    <tr id="comparison-percentile">
+                      <th>Quartile Rank</th>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row similar-row">
+          <div class="col-md-12" id="similar-table-wrapper">
+            <div class="page-shadow">
+              <h2><span class="library-name"></span> is similar to <span id="similar-number"></span> libraries for <span id="similar-name"></span> data</h2>
+              <div class="actions-box text-right">
+                <button class="btn btn-default btn-sm" id="expBtn" data-cluster="">Definitions</button>
+                <button onclick="downloadCsv();" class="btn btn-default btn-sm"><i class="icon-file-excel"></i> Download</button>
+              </div>
+              <div class="table-responsive">
+                <table class="table table-striped" id="similar-table"></table>
+              </div>
+            </div>
+          </div>
+        </div>
+    </section>
+    -->
+    <!--end #similar-libraries-wrapper-->
+
+  </main>
+  <footer class="footer">
+    <div class="container">
+      <div class="row flex-links">
+        <div class="col-lg-3">
+          <div class="block agency-location">
+            <p><strong>Agency Location</strong><br>
+            955 L’Enfant Plaza North, SW, Suite 4000<br>
+            Washington, D.C.  20024-2135</p>
+          </div>
+        </div>
+        <div class="col-lg-3">
+          <div class="block contact-info">
+            <p><strong>Contact Us</strong><br>
+            Phone: 202-653-IMLS (4657)<br>
+            <a href="mailto:imlsinfo@imls.gov">imlsinfo@imls.gov</a><br>
+            <a href="/about-us/contact-us">Contact Us Form</a></p>
+            <p><strong>Library Grants</strong><br>
+            Phone: 202-653-4700</p>
+            <p><strong>Museum Grants</strong><br>
+            Phone: 202-653-4789</p>
+          </div>
+        </div>
+        <div class="col-lg-3">
+          <div class="block email-info">
+            <p><strong>Communications</strong><br>
+            <a href="mailto:imlsnews@imls.gov">imlsnews@imls.gov</a></p>
+            <p><strong>Webmaster</strong><br>
+            <a href="mailto:webmaster@imls.gov">webmaster@imls.gov</a></p>
+          </div>
+        </div>
+        <div class="col-lg-3">
+          <div class="block other-links">
+            <div class="footer-social-container">
+              <div class="footer-social">
+                <a href="https://www.facebook.com/USIMLS" target="_blank" tabindex="72" class="tabstop-processed"><img alt="Facebook" src="/sites/default/files/footer-facebook-icon_0.png" title="Facebook"></a>
+                <a href="https://twitter.com/us_imls" target="_blank" tabindex="73" class="tabstop-processed"><img alt="Twitter" src="/sites/default/files/footer-twitter-icon.png" title="Twitter"></a>
+                <a href="https://www.youtube.com/channel/UC_3YQWDq3Rqvo1y2L9cxKEw" target="_blank" tabindex="74" class="tabstop-processed"><img alt="YouTube" src="/sites/default/files/footer-youtube-icon.png" title="Youtube"></a>
+                <a href="https://www.instagram.com/us_imls/" target="_blank" tabindex="75" class="tabstop-processed"><img alt="Instagram" src="/sites/default/files/footer-instagram-icon_0.png" style="width: 23px; height: 23px;" title="Instagram"></a></div>
+              </div>
+              <ul>
+                <li><a href="/about-us" tabindex="76" class="tabstop-processed">About Us</a></li>
+                <li><a href="/grants" tabindex="77" class="tabstop-processed">Grants</a></li>
+                <li><a href="/issues" tabindex="78" class="tabstop-processed">Issues</a></li>
+                <li><a href="/publications" tabindex="79" class="tabstop-processed">Publications</a></li>
+                <li><a href="/research-evaluation" tabindex="80" class="tabstop-processed">Research &amp; Evaluation</a></li>
+                <li><a href="/news-events" tabindex="81" class="tabstop-processed">News &amp; Events</a></li>
+              </ul>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="block footer-links text-center"> 
+            <p><strong>Institute of Museum and Library Services</strong></p>
+            <p><a href="/about-us/policy-notices/website-accessibility/viewers-players" tabindex="82" class="tabstop-processed">Viewers &amp; Players</a> |&nbsp;<a href="/about-us/agency-reports/freedom-information-act-foia" tabindex="83" class="tabstop-processed">FOIA</a>&nbsp;|&nbsp;<a href="/about-us/agency-reports/no-fear-act" tabindex="84" class="tabstop-processed">No FEAR Act</a>&nbsp;|&nbsp;<a href="/about-us/policy-notices/privacy-terms-use" tabindex="85" class="tabstop-processed">Privacy &amp; Terms of Use</a>&nbsp;|&nbsp;<a href="/about-us/agency-reports/equal-employment-opportunity-data" tabindex="86" class="tabstop-processed">EEO</a> | <a href="/about-us/policy-notices/website-accessibility" tabindex="87" class="tabstop-processed">Accessibility</a> | <a href="/about-us/open-government" tabindex="88" class="tabstop-processed">Open Government</a>&nbsp;| <a href="http://osc.gov/" class="ext tabstop-processed" target="_blank" tabindex="89">Office of Special Counsel</a>&nbsp;| <a href="https://www.usa.gov/" class="ext tabstop-processed" target="_blank" tabindex="90">USA.gov</a></p>
+          </div>
+      </div>
+    </div>
+  </div></footer>
+
+  <div id="modal" aria-hidden="true" aria-labelledby="modalTitle" aria-describedby="modalDescription" role="dialog" class="hidden">
+    <button id="modalCloseBtn" class="btn btn-sm btn-primary modalCloseBtn" title="Close"><i class="icon-x"></i><span>Close</span></button>
+    <div role="document" class="modal-guts">
+      <h1 id="modalTitle">Definitions</h1>
+      <p>For further description, please refer to the <a href="https://www.imls.gov/sites/default/files/pls_defs_fy2016.pdf" target="_blank">Administrative Entity Data Element Definitions</a>.</p>
+      <div class="actions-box"><strong>S</strong> = Suppressed. <strong>M</strong> = Missing. <strong>N</strong> = Not Applicable.</div>
+      <div id="exp-Service" class="def-list">
+        <dl>
+          <dt>Name</dt>
+          <dd>Legal name of the library system.</dd>
+          <dt>FSCS_ID</dt>
+          <dd>Federal-State Cooperative System (FSCS) Identification code assigned by IMLS.</dd>
+          <dt>Hours</dt>
+          <dd>Number of annual public service hours per year for outlets (reported individually by central, branch, bookmobile and Books-by-Mail Only).</dd>
+          <dt>Visits</dt>
+          <dd>Ttal number of persons entering the library for whatever purpose during the year.</dd>
+          <dt>References</dt>
+          <dd>Number of information consultations in which library staff recommend, interpret, evaluate, and/or use information resources to help others to meet particular information needs.</dd>
+          <dt>Users</dt>
+          <dd>Number of registered library users who have applied for and received an identification number or card from the public library.</dd>
+          <dt>Circulation</dt>
+          <dd>Total annual circulation of all library materials of all types, including renewals.</dd>
+          <dt>Interlibrary Loans To</dt>
+          <dd>Number of library materials, or copies of materials, provided by one autonomous library to another upon request. The libraries involved in interlibrary loans are not under the same library administration.</dd>
+          <dt>Programs</dt>
+          <dd>Total number of library programs. A program is any planned event which introduces the group attending to any of the broad range of library services or activities or which directly provides information to participants.</dd>
+          <dt>Computers</dt>
+          <dd>Number of the library's Internet computers [personal computers and laptops], whether purchased, leased, or donated, used by the general public in the library.</dd>
+        </dl>
+      </div><!--end service-->
+      <div id="exp-Staff" class="def-list">
+        <dl>
+          <dt>Name</dt>
+          <dd>Legal name of the library system.</dd>
+          <dt>FSCS_ID</dt>
+          <dd>Federal-State Cooperative System (FSCS) Identification code assigned by IMLS.</dd>
+          <dt>MLS Librarians</dt>
+          <dd>Librarians with master's degrees from programs of library and information studies accredited by the American Library Association.</dd>
+          <dt>Librarian Staff</dt>
+          <dd>Persons with the title of librarian who do paid work that usually requires professional training and skill in the theoretical or scientific aspects of library work, or both, as distinct from its mechanical or clerical aspect. This data element also includes MLS Librarians.</dd>
+          <dt>Other Staff</dt>
+          <dd>All other FTE employees paid from the reporting unit budget, including plant operations, security, and maintenance staff.</dd>
+        </dl>
+      </div><!--end staff-->
+      <div id="exp-Finance" class="def-list">
+        <dl>
+          <dt>Name</dt>
+          <dd>Legal name of the library system.</dd>
+          <dt>FSCS_ID</dt>
+          <dd>Federal-State Cooperative System (FSCS) Identification code assigned by IMLS.</dd>
+          <dt>Revenue</dt>
+          <dd>Total Operating Revenue, including revenue from local, state, and federal government, and other operating revenue.</dd>
+          <dt>Staff Expenditures</dt>
+          <dd>Sum of Salaries &amp; Wages Expenditures and Employee Benefits Expenditures.</dd>
+          <dt>Collection Expenditures</dt>
+          <dd>Sum of Expenditures on Print Materials (e.g., books, current serial subscriptions), Electronic Materials (e.g., e-books, audio and video downloadables, e-serials and databases), and Other Materials (e.g., microform, audio and video physical units, DVDs).</dd>
+          <dt>Capital Expenditures</dt>
+          <dd>Major capital expenditures (the acquisition of or additions to fixed assets). Includes federal, state, local, or other revenue used for major capital expenditures.</dd>
+        </dl>
+      </div><!--end finance-->
+      <div id="exp-Collection" class="def-list">
+        <dl>
+          <dt>Name</dt>
+          <dd>Legal name of the library system.</dd>
+          <dt>FSCS_ID</dt>
+          <dd>Federal-State Cooperative System (FSCS) Identification code assigned by IMLS.</dd>
+          <dt>Printed Materials</dt>
+          <dd>Physical units, including duplicates, of books in print and non-serial government documents.</dd>
+          <dt>eBooks</dt>
+          <dd>E-books that have been purchased, leased or licensed by the library, a consortium, the state library, a donor or other person or entity. Does not include items that are freely available or permanently retained by the patron.</dd>
+          <dt>Audio Materials</dt>
+          <dd>Materials circulated in a fixed, physical format on which sounds (only) are stored (recorded) and that can be reproduced (played back) mechanically, electronically, or both.</dd>
+          <dt>Video Materials</dt>
+          <dd>Materials circulated in a fixed, physical format on which moving pictures are recorded, with or without sound.</dd>
+          <dt>Electronic Collections</dt>
+          <dd>Total electronic collections, such as unit records and databases. An electronic collection may be organized, curated and electronically shared by the library, or rights may be provided by a third party vendor. An electronic collection may be funded by the library, or provided through cooperative agreement with other libraries, or through the State Library.</dd>
+          <dt>Print Serials</dt>
+          <dd>This is the number of current print serial subscriptions, including duplicates, for all outlets.</dd>
+        </dl>
+      </div><!--end collection-->
+    </div>
+  </div><!--end modal-->
+  <div id="modalOverlay" tabindex="-1" class="hidden"></div>
+
+  <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+  <script src="js/details.js"></script>
+  <script src="js/common.js"></script>
+  <script src="js/modal.js"></script>
+
+
+</body>
