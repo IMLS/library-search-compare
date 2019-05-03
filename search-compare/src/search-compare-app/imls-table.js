@@ -194,7 +194,6 @@ class ImlsTable extends PolymerElement {
     })
 
     this.comparisonGrid.on('datatable.sort', _ => {
-      console.log('sort event called')
       this.gridHasRendered()
     });
 
@@ -208,17 +207,49 @@ class ImlsTable extends PolymerElement {
     this.querySelector('#shareDiv').setAttribute('class', 'here')
   }
 
+  prepareUserCsvData() {
+    var csvRows = [];
+
+    for (var h in this.rowData) {
+      var res = this.rowData[h];
+      var csvHeadings = [ 'Name', 'fscs_id', 'City', 'State', 'Locale code' ];
+      var library_name = _.replace( res[ 'library_name' ], /,/g, '' );
+      var csvRow = [ library_name, res[ 'fscs_id' ], res[ 'mailing_city' ], res[ 'state' ], res[ 'locale' ] ];
+
+      _.forEach( comparisonData, function( value, key) {
+        _.forEach( value.field_names, function( value ) {
+          csvHeadings.push( value );
+          csvRow.push(res[ value ]);
+        } );
+      } );
+      csvRows.push(csvRow);
+    }
+
+    csvRows.unshift( csvHeadings );
+
+    csvContent = "";
+    csvRows.forEach(function(rowArray){
+       var row = rowArray.join(",");
+       csvContent += row + "\r\n";
+    }); 
+
+    encodedUri = encodeURI(csvContent);
+  }
+
+  /*
   renderCsv() {
     return CSV.serialize({
-      fields: this.rowData
+      fields: csvContent
         .reduce((acc, row) => [ ...new Set([...acc, ...Object.keys(row)]) ], [])
         .map(key => { return {id: key} }),
       records: this.rowData
     })
   }
+  */
 
   downloadCsv() {
-    const csvContent = this.renderCsv()
+    this.prepareUserCsvData();
+    //const csvContent = this.renderCsv()
     var filename = "imls_data"; 
     var csvData = new Blob([csvContent], {type: 'text/csv;charset=utf-8;'});
     if( msieversion()) {
