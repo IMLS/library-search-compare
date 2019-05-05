@@ -697,36 +697,56 @@ function renderTrendsCsv(trendData) {
   _.forEach(fields, function(field, key) {
     field_names.push(field.id)
   })
-  var trendTableRows = []
+  var trendTableValuesRows = [];
+  // var trendTableRows = []
   var rows = {  '2016 value': '_2016', '2015 value': '_2015', '2011 value': '_2011', '2006 value': '_2006' };
   _.forEach( rows, function ( suffix, label, rows ) {
+    var trendTableValuesRow = [];
+    /*
     var trendTableRow = {
       time_period: label
     }
+    */
     _.forEach(field_names, function ( field_name ) {
-      if (trendData[field_name + suffix]) {
         var cell_value = trendData[ field_name + suffix ];
         // test for undefined value from index  
         cell_value = ( typeof cell_value === 'undefined' ) ? '' :  cell_value;
-        cell_value = ( isNaN( cell_value ) || isNaN( parseInt( cell_value ) ) ) ? cell_value : parseFloat( cell_value ).toLocaleString( 'en-US' );
+        // cell_value = ( isNaN( cell_value ) || isNaN( parseInt( cell_value ) ) ) ? cell_value : parseFloat( cell_value ).toLocaleString( 'en-US' );
         var string_end = ( _.includes( label, 'year' ) && isNaN( cell_value ) === false ) ? '%' : '';
-        trendTableRow[field_name.replace(suffix, '')] = cell_value + string_end
-      }
-    });
-    trendTableRows.push(trendTableRow);
+        trendTableValuesRow.push( cell_value + string_end );
+        // trendTableRow[field_name.replace(suffix, '')] = cell_value + string_end
+      });
+    trendTableValuesRow.shift();
+    trendTableValuesRow.unshift( label );
+    trendTableValuesRows.push( trendTableValuesRow );
+    // trendTableRows.push(trendTableRow);
   } );
+  trendTableValuesRows.unshift( field_names );
 
+
+  var trendCsvContent = '';
+  trendTableValuesRows.forEach(function(rowArray){
+     var row = rowArray.join(",");
+     trendCsvContent += row + "\r\n";
+  }); 
+
+  encodedUri = encodeURI(trendCsvContent);
+
+  return trendCsvContent;
+
+  /*
   return CSV.serialize({
     fields: fields,
       //.reduce((acc, row) => [ ...new Set([...acc, ...Object.keys(row)]) ], [])
       //.map(key => { return {id: key} }),
     records: trendTableRows 
   })
+  */
 }
 
 function downloadTrendsCsv(tableData) {
-  var csvContent = renderTrendsCsv(window.trendData)
-  csvContent = csvContent + '\n\"The financial values are not adjusted for inflation, they are the values that were reported for that year.\",'
+  var csvContent = renderTrendsCsv(window.trendData);
+  csvContent = csvContent + '\n\"The financial values are not adjusted for inflation, they are the values that were reported for that year.\",';
   var filename = "imls_data"; 
   var csvData = new Blob([csvContent], {type: 'text/csv;charset=utf-8;'});
   if( msieversion()) {
