@@ -435,25 +435,20 @@ function displayOutlets( content ) {
         },
         {
           select: 1,
+          sortable: true,
           render: function( data, cell, row) {
             return data;
           }
         }
       ]
     });
-
-    outletTable.on('datatable.sort', function(column, direction) {
-    });
-
-    outletTable.on('outletTable.init', function() {
-    });
   } else {
-    console.log( 'empty' );
     jQuery( '#outlets-table-wrapper h3' ).after( '<div>There are no outlets for this library system</div>' );
   }
 };
 
 // Get and display cluster data
+/*
 function getSimilarLibraries(el) {
   var cluster_type = el.target.getAttribute("data-type");
   var cluster_value = el.target.getAttribute("data-cluster");
@@ -483,6 +478,7 @@ function getSimilarLibraries(el) {
     }
   });
 }
+*/
 
 // create table for mean and quartile rank calculations
 function createCalculationsTable(baseLibrary, content, field_names, display_names) {
@@ -620,6 +616,7 @@ function displayPercentileRank( f, percentile_rank ) {
   document.getElementById("percentile-" + f).innerHTML = quartileRank;
 }
 
+/*
 function displaySimilarLibraries( baseLibrary, content, cluster_type, field_names, display_names ) {
   var similarName = _.capitalize(cluster_type.split("_")[1]);
   var similarNumber = content.hits.length;
@@ -678,6 +675,7 @@ function displaySimilarLibraries( baseLibrary, content, cluster_type, field_name
   similarTable.on('similarTable.init', function() {
   });
 }
+*/
 
 function renderTrendsCsv(trendData) {
   var fields = [{
