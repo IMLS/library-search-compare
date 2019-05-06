@@ -123,7 +123,7 @@ function getFullData() {
     _.forEach(params_obj['refinementList'], function(value, key) {
       var rl_query_string = '(';
       _.forEach(params_obj['refinementList'][key], function(value) {
-        rl_query_string = rl_query_string + key + ':' + value + ' OR ';
+        rl_query_string = rl_query_string + key + ':"' + value + '" OR ';
       });
       rl_query_string = rl_query_string.slice(0, -4);
       rl_query_string = rl_query_string + ')';
@@ -148,7 +148,6 @@ function getFullData() {
     var range_string = range_arr.join( ' AND ');  
 
     filter_string = rl_string.length > 0 && range_string.length > 0 ? rl_string + ' AND ' + range_string : rl_string + range_string;
-
 
     var browser = index.browseAll({ 
       query: query,
