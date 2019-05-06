@@ -376,10 +376,10 @@ function displayTrendsGrid( content, comparisonSelect ) {
   }
 
   trendGrid = new DataTable("#trends-table", {
-    perPage: 50,
+    perPage: 5,
     data: trendTableData,
     searchable: false,
-    sortable: false,
+    sortable: true,
     perPageSelect: false,
     columns: [ { 
       select: 0,
