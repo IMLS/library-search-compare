@@ -1,10 +1,10 @@
 define(["../../node_modules/@polymer/polymer/polymer-element.js", "./csv.js"], function (_polymerElement, _csv) {
   "use strict";
 
-  function _templateObject_5046e0406c4b11e9b421ad1f6b32bdc9() {
+  function _templateObject_cf034ba0701311e98de825e3f1909560() {
     var data = babelHelpers.taggedTemplateLiteral(["\n      <style>\n        :host {\n          display: block;\n        }\n      </style>\n      <slot></slot>\n    "]);
 
-    _templateObject_5046e0406c4b11e9b421ad1f6b32bdc9 = function _templateObject_5046e0406c4b11e9b421ad1f6b32bdc9() {
+    _templateObject_cf034ba0701311e98de825e3f1909560 = function _templateObject_cf034ba0701311e98de825e3f1909560() {
       return data;
     };
 
@@ -152,8 +152,6 @@ define(["../../node_modules/@polymer/polymer/polymer-element.js", "./csv.js"], f
           }
         });
         this.comparisonGrid.on('datatable.sort', function (_) {
-          console.log('sort event called');
-
           _this2.gridHasRendered();
         });
       }
@@ -168,23 +166,52 @@ define(["../../node_modules/@polymer/polymer/polymer-element.js", "./csv.js"], f
         this.querySelector('#shareDiv').setAttribute('class', 'here');
       }
     }, {
-      key: "renderCsv",
-      value: function renderCsv() {
-        return _csv.CSV.serialize({
-          fields: this.rowData.reduce(function (acc, row) {
-            return babelHelpers.toConsumableArray(new Set(babelHelpers.toConsumableArray(acc).concat(babelHelpers.toConsumableArray(Object.keys(row)))));
-          }, []).map(function (key) {
-            return {
-              id: key
-            };
-          }),
-          records: this.rowData
+      key: "prepareUserCsvData",
+      value: function prepareUserCsvData() {
+        var csvRows = [];
+
+        for (var h in this.rowData) {
+          var res = this.rowData[h];
+          var csvHeadings = ['Name', 'fscs_id', 'City', 'State', 'Locale code'];
+
+          var library_name = _.replace(res['library_name'], /,/g, '');
+
+          var csvRow = [library_name, res['fscs_id'], res['mailing_city'], res['state'], res['locale']];
+
+          _.forEach(comparisonData, function (value, key) {
+            _.forEach(value.field_names, function (value) {
+              csvHeadings.push(value);
+              csvRow.push(res[value]);
+            });
+          });
+
+          csvRows.push(csvRow);
+        }
+
+        csvRows.unshift(csvHeadings);
+        csvContent = "";
+        csvRows.forEach(function (rowArray) {
+          var row = rowArray.join(",");
+          csvContent += row + "\r\n";
         });
+        encodedUri = encodeURI(csvContent);
       }
+      /*
+      renderCsv() {
+        return CSV.serialize({
+          fields: csvContent
+            .reduce((acc, row) => [ ...new Set([...acc, ...Object.keys(row)]) ], [])
+            .map(key => { return {id: key} }),
+          records: this.rowData
+        })
+      }
+      */
+
     }, {
       key: "downloadCsv",
       value: function downloadCsv() {
-        var csvContent = this.renderCsv();
+        this.prepareUserCsvData(); //const csvContent = this.renderCsv()
+
         var filename = "imls_data";
         var csvData = new Blob([csvContent], {
           type: 'text/csv;charset=utf-8;'
@@ -278,7 +305,7 @@ define(["../../node_modules/@polymer/polymer/polymer-element.js", "./csv.js"], f
     }], [{
       key: "template",
       get: function get() {
-        return (0, _polymerElement.html)(_templateObject_5046e0406c4b11e9b421ad1f6b32bdc9());
+        return (0, _polymerElement.html)(_templateObject_cf034ba0701311e98de825e3f1909560());
       }
     }, {
       key: "properties",

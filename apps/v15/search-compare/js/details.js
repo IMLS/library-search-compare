@@ -429,10 +429,10 @@ function displayTrendsGrid(content, comparisonSelect) {
   }
 
   trendGrid = new DataTable("#trends-table", {
-    perPage: 50,
+    perPage: 5,
     data: trendTableData,
     searchable: false,
-    sortable: false,
+    sortable: true,
     perPageSelect: false,
     columns: [{
       select: 0,
@@ -482,60 +482,51 @@ function displayOutlets(content) {
         sortable: true
       }, {
         select: 1,
+        sortable: true,
         render: function render(data, cell, row) {
           return data;
         }
       }]
     });
-    outletTable.on('datatable.sort', function (column, direction) {});
-    outletTable.on('outletTable.init', function () {});
   } else {
-    console.log('empty');
     jQuery('#outlets-table-wrapper h3').after('<div>There are no outlets for this library system</div>');
   }
 }
 
 ; // Get and display cluster data
 
+/*
 function getSimilarLibraries(el) {
   var cluster_type = el.target.getAttribute("data-type");
   var cluster_value = el.target.getAttribute("data-cluster");
-  index.search({
-    filters: cluster_type + ' = ' + cluster_value,
-    hitsPerPage: 2000
-  }, function searchDone(err, content) {
+  index.search({ 
+      filters: cluster_type + ' = ' + cluster_value,
+      hitsPerPage: 2000
+    }, function searchDone(err, content) {
     if (err) {
       console.error(err);
       return;
     } else {
       var clusterName = cluster_type.split("_")[1];
+      var field_names = _.map(_.find(clusters, {"name": clusterName}).fields, "field");
+      var display_names = _.map(_.find(clusters, {"name": clusterName}).fields, "name");
 
-      var field_names = _.map(_.find(clusters, {
-        "name": clusterName
-      }).fields, "field");
-
-      var display_names = _.map(_.find(clusters, {
-        "name": clusterName
-      }).fields, "name");
-
-      var baseLibrary = _.find(content.hits, {
-        "fscs_id": fscs_id_param
-      });
+      var baseLibrary = _.find(content.hits, {"fscs_id": fscs_id_param} );
 
       createCalculationsTable(baseLibrary, content, field_names, display_names);
       calculateMean(content, field_names);
-      calculatePercentileRank(content, field_names);
-      displaySimilarLibraries(baseLibrary, content, cluster_type, field_names, display_names);
-      prepareCsvData(content);
+      calculatePercentileRank( content, field_names );
+      displaySimilarLibraries( baseLibrary, content, cluster_type, field_names, display_names );
+      prepareCsvData( content );
       var similarRows = document.querySelectorAll('.similar-row');
-
-      _.forEach(similarRows, function (el) {
+      _.forEach( similarRows, function( el ) {
         el.style.display = 'block';
       });
     }
   });
-} // create table for mean and quartile rank calculations
-
+}
+*/
+// create table for mean and quartile rank calculations
 
 function createCalculationsTable(baseLibrary, content, field_names, display_names) {
   base_values = {};
@@ -686,30 +677,27 @@ function displayPercentileRank(f, percentile_rank) {
 
   document.getElementById("percentile-" + f).innerHTML = quartileRank;
 }
-
-function displaySimilarLibraries(baseLibrary, content, cluster_type, field_names, display_names) {
+/*
+function displaySimilarLibraries( baseLibrary, content, cluster_type, field_names, display_names ) {
   var similarName = _.capitalize(cluster_type.split("_")[1]);
-
   var similarNumber = content.hits.length;
   var tableHeadings = ["Name"];
   var tableRows = [];
   var tableData = {};
-  document.getElementById("similar-name").innerHTML = similarName;
-  document.getElementById("similar-number").innerHTML = similarNumber;
+
+  document.getElementById( "similar-name" ).innerHTML = similarName;
+  document.getElementById( "similar-number" ).innerHTML = similarNumber;
   $('#expBtn').attr('data-cluster', similarName);
 
   for (var h in content.hits) {
     res = content.hits[h];
-    var tableRow = ['<a data-name="' + res['library_name'] + '" href="details.html?fscs_id=' + res["fscs_id"] + '">' + res["library_name"] + '</a>'];
-
-    _.forEach(field_names, function (f) {
+    var tableRow = [ '<a data-name="' + res[ 'library_name' ] + '" href="details.html?fscs_id=' + res["fscs_id"] + '">' + res["library_name"] + '</a>' ];
+    _.forEach( field_names, function(f) {
       tableRow.push(res[f].toLocaleString("en-US"));
     });
-
     tableRows.push(tableRow);
   }
-
-  _.forEach(display_names, function (f) {
+  _.forEach( display_names, function(f) {
     tableHeadings.push(f);
   });
 
@@ -725,23 +713,31 @@ function displaySimilarLibraries(baseLibrary, content, cluster_type, field_names
     data: tableData,
     searchable: false,
     perPageSelect: false,
-    columns: [{
-      select: 0,
-      sortable: true
-    }, {
-      select: 1,
-      render: function render(data, cell, row) {
-        if (data === baseLibrary["fscs_id"]) {
-          row.className = "base-library";
+    columns: [
+      {
+        select: 0,
+        sortable: true
+      },
+      {
+        select: 1,
+        render: function( data, cell, row) {
+          if ( data === baseLibrary["fscs_id"]) {
+            row.className = "base-library";
+          }
+          return data;
         }
-
-        return data;
       }
-    }]
+    ]
   });
-  similarTable.on('datatable.sort', function (column, direction) {});
-  similarTable.on('similarTable.init', function () {});
+
+  similarTable.on('datatable.sort', function(column, direction) {
+  });
+
+  similarTable.on('similarTable.init', function() {
+  });
 }
+*/
+
 
 function renderTrendsCsv(trendData) {
   var fields = [{
@@ -767,7 +763,8 @@ function renderTrendsCsv(trendData) {
     field_names.push(field.id);
   });
 
-  var trendTableRows = [];
+  var trendTableValuesRows = []; // var trendTableRows = []
+
   var rows = {
     '2016 value': '_2016',
     '2015 value': '_2015',
@@ -776,30 +773,43 @@ function renderTrendsCsv(trendData) {
   };
 
   _.forEach(rows, function (suffix, label, rows) {
+    var trendTableValuesRow = [];
+    /*
     var trendTableRow = {
       time_period: label
-    };
+    }
+    */
 
     _.forEach(field_names, function (field_name) {
-      if (trendData[field_name + suffix]) {
-        var cell_value = trendData[field_name + suffix]; // test for undefined value from index  
+      var cell_value = trendData[field_name + suffix]; // test for undefined value from index  
 
-        cell_value = typeof cell_value === 'undefined' ? '' : cell_value;
-        cell_value = isNaN(cell_value) || isNaN(parseInt(cell_value)) ? cell_value : parseFloat(cell_value).toLocaleString('en-US');
-        var string_end = _.includes(label, 'year') && isNaN(cell_value) === false ? '%' : '';
-        trendTableRow[field_name.replace(suffix, '')] = cell_value + string_end;
-      }
+      cell_value = typeof cell_value === 'undefined' ? '' : cell_value; // cell_value = ( isNaN( cell_value ) || isNaN( parseInt( cell_value ) ) ) ? cell_value : parseFloat( cell_value ).toLocaleString( 'en-US' );
+
+      var string_end = _.includes(label, 'year') && isNaN(cell_value) === false ? '%' : '';
+      trendTableValuesRow.push(cell_value + string_end); // trendTableRow[field_name.replace(suffix, '')] = cell_value + string_end
     });
 
-    trendTableRows.push(trendTableRow);
+    trendTableValuesRow.shift();
+    trendTableValuesRow.unshift(label);
+    trendTableValuesRows.push(trendTableValuesRow); // trendTableRows.push(trendTableRow);
   });
 
+  trendTableValuesRows.unshift(field_names);
+  var trendCsvContent = '';
+  trendTableValuesRows.forEach(function (rowArray) {
+    var row = rowArray.join(",");
+    trendCsvContent += row + "\r\n";
+  });
+  encodedUri = encodeURI(trendCsvContent);
+  return trendCsvContent;
+  /*
   return CSV.serialize({
     fields: fields,
-    //.reduce((acc, row) => [ ...new Set([...acc, ...Object.keys(row)]) ], [])
-    //.map(key => { return {id: key} }),
-    records: trendTableRows
-  });
+      //.reduce((acc, row) => [ ...new Set([...acc, ...Object.keys(row)]) ], [])
+      //.map(key => { return {id: key} }),
+    records: trendTableRows 
+  })
+  */
 }
 
 function downloadTrendsCsv(tableData) {
