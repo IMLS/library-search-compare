@@ -353,8 +353,6 @@ function displayTrendsGrid( content, comparisonSelect ) {
   var hit = searchCompare.longitudinalContent.hits;
 
   var rows = { '2017 value': '_0', '2016 value': '_1', '2012 value': '_5', '2007 value': '_10' };
-  // var rows = { [current_year + ' value']: '_0', [current_year - 1 + ' value']: '_1', [current_year - 5 + ' value']: '_5', [current_year - 10 + ' value']: '_10' };
-  // var rows = _.zipObject([current_year + ' value', current_year - 1 + ' value', current_year - 5 + ' value', current_year - 10 + ' value'],[ '_0', '_1', '_5', '_10'] );
 
   _.forEach( rows, function ( suffix, label, rows ) {
     var trendTableRow = [ label ];
@@ -703,7 +701,8 @@ function renderTrendsCsv(trendData) {
   })
   var trendTableValuesRows = [];
   // var trendTableRows = []
-  var rows = {  [current_year + ' value']: '_0', [current_year - 1 + ' value']: '_1', [current_year - 5 + ' value']: '_5', [current_year - 10 + ' value']: '_10' };
+  var rows = { '2017 value': '_0', '2016 value': '_1', '2012 value': '_5', '2007 value': '_10' };
+  // var rows = {  [current_year + ' value']: '_0', [current_year - 1 + ' value']: '_1', [current_year - 5 + ' value']: '_5', [current_year - 10 + ' value']: '_10' };
   _.forEach( rows, function ( suffix, label, rows ) {
     var trendTableValuesRow = [];
     /*
