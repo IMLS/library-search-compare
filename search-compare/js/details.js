@@ -1,7 +1,7 @@
 var client = algoliasearch('CDUMM9WVUG', '3cc392a5d139bd9131e42a5abb75d4ee');
-var index = client.initIndex('imls_v04');
-var outletsIndex = client.initIndex('imls_v08_outlets');
-var longitudinalIndex = client.initIndex('longitudinal');
+var index = client.initIndex('libraries');
+var outletsIndex = client.initIndex('outlets');
+var trendsIndex = client.initIndex('trends');
 
 // comparison data grid labels and field names  
 var searchCompare = {};
@@ -79,19 +79,19 @@ longitudinalData = [
   { name: 'staff',
     display_name: 'Staff, Revenue and Expenditures', 
     headings: [ 'Time Period', 'Other Paid Staff', 'Total Staff', 'Total Librarians', 'Total Revenue ($)', 'Total Operating Expenses ($)' ],
-    field_names: [ 'OTHPAID', 'TOTSTAFF', 'LIBRARIA', 'TOTINCM', 'TOTOPEXP' ] },
+    field_names: [ 'other_staff', 'total_staff', 'librarian_staff', 'total_revenue', 'total_expenditures' ] },
   { name: 'collection',
     display_name: 'Library Collection', 
     headings: [ 'Time Period', 'Print Materials', 'E-Books', 'Audio-Physical', 'Audio-Downloadable', 'Video-Physical', 'Video-Downloadable' ],
-    field_names: [ 'BKVOL', 'EBOOK', 'AUDIO_PH', 'AUDIO_DL', 'VIDEO_PH', 'VIDEO_DL' ] },
+    field_names: [ 'print_materials', 'ebooks', 'audio_materials', 'audio_downloads', 'video_materials', 'video_downloads' ] },
   { name: 'services',
     display_name: 'Services', 
     headings: [ 'Time Period', 'Visits', 'Reference Transactions', 'Total Circulation', 'Circulation of Children\'s Materials' ],
-    field_names: [ 'VISITS', 'REFERENC', 'TOTCIR', 'KIDCIRCL' ] },
+    field_names: [ 'visits', 'references', 'total_circulation', 'kids_circulation' ] },
   { name: 'programs',
     display_name: 'Library Programs and Electronic Information', 
     headings: [ 'Time Period', 'Library Programs', 'Program Attendance', 'Internet Computers', 'Computer Uses' ],
-    field_names: [ 'TOTPRO', 'TOTATTEN', 'GPTERMS', 'PITUSR' ] }
+    field_names: [ 'total_programs', 'program_audience', 'computers', 'computer_uses' ] }
 ];
 
 var clusters = [
@@ -222,6 +222,7 @@ index.search({
     // display details  
     for ( var h in content.hits ) {
       res = content.hits[h];
+      console.log(res.library_name);
       document.getElementById("name").innerHTML = res.library_name;
       document.getElementById("address").innerHTML = res.mailing_address;
       var city = res.mailing_city + ', ' + res.state
@@ -307,7 +308,7 @@ outletsIndex.search({
 });
 
 var longitudinalQuery = 'FSCSKEY ' + fscs_id_param;
-longitudinalIndex.search({ 
+trendsIndex.search({ 
     query: longitudinalQuery,
     exactOnSingleWordQuery: 'attribute', 
     hitsPerPage: 1000,
@@ -351,7 +352,7 @@ function displayTrendsGrid( content, comparisonSelect ) {
 
   var hit = searchCompare.longitudinalContent.hits;
 
-  var rows = { '2016 value': '_2016', '2015 value': '_2015', '2011 value': '_2011', '2006 value': '_2006' };
+  var rows = { [current_year + ' value']: '_0', [current_year - 1 + ' value']: '_1', [current_year - 5 + ' value']: '_5', [current_year - 10 + ' value']: '_10' };
   _.forEach( rows, function ( suffix, label, rows ) {
     var trendTableRow = [ label ];
 
@@ -699,7 +700,7 @@ function renderTrendsCsv(trendData) {
   })
   var trendTableValuesRows = [];
   // var trendTableRows = []
-  var rows = {  '2016 value': '_2016', '2015 value': '_2015', '2011 value': '_2011', '2006 value': '_2006' };
+  var rows = {  [current_year + ' value']: '_0', [current_year - 1 + ' value']: '_1', [current_year - 5 + ' value']: '_5', [current_year - 10 + ' value']: '_10' };
   _.forEach( rows, function ( suffix, label, rows ) {
     var trendTableValuesRow = [];
     /*
@@ -768,6 +769,9 @@ function downloadTrendsCsv(tableData) {
 //add to URL on button click
     jQuery(function($){
       $(document).ready(function(){
+        // swap in current year text and link to data elements definition document
+        $('.current_year').html(current_year);
+        $('.data-def-link').attr('href','https://www.imls.gov/sites/default/files/fy2017_pls_data_file_documentation.pdf#page=82');
 
         // Call display of trends data prototype table  
         // displayTrendsGrid( 'demographic' );

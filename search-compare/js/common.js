@@ -1,3 +1,7 @@
+// Year for IMLS data value
+var current_year = '2017';
+var data_def_url = 'https://www.imls.gov/sites/default/files/fy2017_pls_data_file_documentation.pdf#page=82';
+
 /* Make space for fixed header on resize */
 $(window).on('resize', function(){
 	headRoom();

@@ -1,5 +1,5 @@
 var client = algoliasearch('CDUMM9WVUG', '4ed0ae66adc167ec909a431c46a7897c');
-var index = client.initIndex('imls_v04');
+var index = client.initIndex('libraries');
 
 // comparison data grid labels and field names  
 var searchCompare = {};
@@ -382,7 +382,7 @@ function startAppJs() {
     // Replace with your own values
     appId: 'CDUMM9WVUG',
     apiKey: '3cc392a5d139bd9131e42a5abb75d4ee', // search only API key, no ADMIN key
-    indexName: 'imls_v04',
+    indexName: 'libraries',
     numberLocale: 'en-US',
     stalledSearchDelay: 5000,
     routing: true,
@@ -703,6 +703,10 @@ function startAppJs() {
 }
 
 $(document).ready(function() {
+  // swap in current year text and link to data elements definition document
+  $('.current_year').html(current_year);
+  $('.data-def-link').attr('href','https://www.imls.gov/sites/default/files/fy2017_pls_data_file_documentation.pdf#page=82');
+
   window.app = document.createElement('search-compare-app')
   document.body.appendChild(window.app)
   $( '#csvBtnWrapper' ).html('<button id="download-csv" onclick="downloadCsv();" class="btn btn-deault btn-sm"><i class="icon-file-excel"></i> Download</button>');
