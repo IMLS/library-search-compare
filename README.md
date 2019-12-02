@@ -19,8 +19,7 @@ OLD_VERSION="v08"
 NEW_VERSION="v09"
 git clone git@github.com:IMLS/library-search-compare
 cd libary-search-compare
-cp -r apps/$OLD_VERSION apps/$NEW_VERSION
-rm -r apps/$NEW_VERSION/search-compare
+mkdir apps/$NEW_VERSION
 cd search-compare
 npm install
 npm run build 
@@ -160,9 +159,9 @@ index.html - Labs landing page
 search-compare directory:
   - index.html - S&C main page
 
-### Canton-Dev branch 
+### canton/deployment branch 
 
-Place where Canton can push deployment issues
+Branch Canton uses to deploy code
 
 ## Helpful Docs
 - [Javascript Template Literals](https://gist.github.com/rjsteinert/795fcc4f6899a337bcc5a9967557dcf2)
