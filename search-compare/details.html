@@ -66,50 +66,102 @@
       <div class="row">
         <div class="col-md-10 col-md-offset-1">          
           <div class="box">
-            <div class="row">
-              <div class="col-md-3">
+            <div class="no-border row">
+              <div class="col-md-4">
                 <div class="box">
-                  <h3>Service Data:</h3>
-                  <div id="hours"></div>
-                  <div id="visits"></div>
-                  <div id="references"></div>
-                  <div id="users"></div>
-                  <div id="total_circulation"></div>
-                  <div id="loans_to"></div>
-                  <div id="total_programs"></div>
-                  <div id="computers"></div>
-                </div>
-              </div>
-              <div class="col-md-3">
-                <div class="box">
-                  <h3>Staff Data:</h3>
-                  <div id="mls_librarian_staff"></div>
-                  <div id="librarian_staff"></div>
-                  <div id="other_staff"></div>
+                  <h4>Paid Staff (FTE):</h4>
                   <div id="total_staff"></div>
+                  <div class="data-indent" id="librarian_staff"></div>
+                  <div class="data-indent-2x" id="mls_librarian_staff"></div>
+                  <div class="data-indent" id="other_staff"></div>
                 </div>
               </div>
-              <div class="col-md-3">
+              <div class="col-md-4">
                 <div class="box">
-                  <h3>Finance Data:</h3>
+                  <h4>Operating Revenue ($):</h4>
                   <div id="total_revenue"></div>
-                  <div id="total_staff_expenditures"></div>
-                  <div id="total_collection_expenditures"></div>
+                  <div class="data-indent" id="local_revenue"></div>
+                  <div class="data-indent" id="state_revenue"></div>
+                  <div class="data-indent" id="federal_revenue"></div>
+                  <!-- <h4 style="padding-top: 15px;">Capital Revenue ($):</h4> -->
+                  <div style="padding-top: 15px;" id="total_capital_revenue"></div>
+                  <!-- <h4 style="padding-top: 15px;">Capital Expenditures ($):</h4> -->
                   <div id="capital_expenditures"></div>
                 </div>
               </div>
-              <div class="col-md-3">
+              <div class="col-md-4">
                 <div class="box">
-                  <h3>Collection Data:</h3>
+                  <h4>Operating Expenditures ($):</h4>
+                  <div id="total_expenditures"></div>
+                  <div class="data-indent" id="total_staff_expenditures"></div>
+                  <div class="data-indent" id="total_collection_expenditures"></div>
+                  <div class="data-indent-2x" id="print_expenditures"></div>
+                  <div class="data-indent-2x" id="electronic_expenditures"></div>
+                  <div class="data-indent-2x" id="other_collection_expenditures"></div>
+                  <div class="data-indent" id="other_expenditures"></div>
+                </div>
+              </div>
+            </div><!-- end library data row 1 -->
+            <div class="no-border row">
+              <div class="col-md-4">
+                <div class="box">
+                  <h4>Library Services:</h4>
+                  <div id="visits"></div>
+                  <div id="users"></div>
+                  <div id="references"></div>
+                  <div id="loans_to"></div>
+                  <div id="loans_from"></div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="box">
+                  <h4>Collections:</h4>
                   <div id="print_materials"></div>
                   <div id="ebooks"></div>
+                  <div id="audio_downloads"></div>
                   <div id="audio_materials"></div>
+                  <div id="video_downloads"></div>
                   <div id="video_materials"></div>
                   <div id="total_databases"></div>
                   <div id="print_serials"></div>
                 </div>
               </div>
-            </div>
+              <div class="col-md-4">
+                <div class="box">
+                  <h4>Circulation:</h4>
+                  <div id="total_circulation_retrievals"></div>
+                  <div class="data-indent" id="physical_item_circulation"></div>
+                  <div class="data-indent" id="electronic_content_uses"></div>
+                  <div id="kids_circulation_percentage"></div>
+                </div>
+              </div>
+            </div><!-- end library data row 2 -->
+            <div class="row">
+              <div class="col-md-4">
+                <div class="box">
+                  <h4>Electronic Technology:</h4>
+                  <div id="computers"></div>
+                  <div id="computer_uses"></div>
+                  <div id="wifi_sessions"></div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="box">
+                  <h4>Library Programs:</h4>
+                  <div id="total_programs"></div>
+                  <div class="data-indent" id="kids_programs"></div>
+                  <div class="data-indent" id="ya_programs"></div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="box">
+                  <h4>Library Program Attendance:</h4>
+                  <div id="program_audience"></div>
+                  <div class="data-indent" id="kids_program_audience"></div>
+                  <div class="data-indent" id="ya_program_audience"></div>
+                </div>
+              </div>
+            </div><!-- end library data row 3 -->
           </div>
         </div>
       </div><!--end details row-->

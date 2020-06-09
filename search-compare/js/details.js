@@ -78,7 +78,7 @@ longitudinalData = [
     */
   { name: 'staff',
     display_name: 'Staff, Revenue and Expenditures', 
-    headings: [ 'Time Period', 'Other Paid Staff', 'Total Staff', 'Total Librarians', 'Total Revenue ($)', 'Total Operating Expenses ($)' ],
+    headings: [ 'Time Period', 'Other Paid Staff (FTE)', 'Total Staff (FTE)', 'Total Librarians (FTE)', 'Total Revenue ($)', 'Total Operating Expenses ($)' ],
     field_names: [ 'other_staff', 'total_staff', 'librarian_staff', 'total_revenue', 'total_expenditures' ] },
   { name: 'collection',
     display_name: 'Library Collection', 
@@ -97,36 +97,58 @@ longitudinalData = [
 var clusters = [
   { name: "service", fields: [
     {field: "fscs_id", name: "FSCS_ID"},
-    {field: "hours", name: "Hours/Year"},
-    {field: "visits", name: "Visits"},
+    {field: "visits", name: "Physical Visits"},
     {field: "references", name: "Reference Transactions"},
     {field: "users", name: "Registered Users"},
-    {field: "total_circulation", name: "Total Circulation"},
-    {field: "loans_to", name: "ILL To"},
-    {field: "total_programs", name: "Library Programs"},
-    {field: "computers", name: "Internet Computers"}
+    {field: "total_circulation_retrievals", name: "Total circulation transactions"},
+    {field: "kids_circulation_percentage", name: "Percentage of circulation as Children’s Material"},
+    {field: "physical_item_circulation", name: "Physical circulation"},
+    {field: "electronic_content_uses", name: "Use of Electronic Material"},
+    {field: "loans_to", name: "IL Loans to other libraries"},
+    {field: "loans_from", name: "IL Loans from other libraries"},
+    {field: "total_programs", name: "Total Library Programs"},
+    {field: "kids_programs", name: "Children’s programs"},
+    {field: "ya_programs", name: "Young Adult programs"},
+    {field: "program_audience", name: "Total program attendance"},
+    {field: "kids_program_audience", name: "Children's program attendance"},
+    {field: "ya_program_audience", name: "Young Adult program attendance"},
+    {field: "computers", name: "Internet Computers"},
+    {field: "computer_uses", name: "Uses of Internet computers per year"},
+    {field: "wifi_sessions", name: "Wireless sessions"}
   ]},
   { name: "staff", fields: [
     {field: "fscs_id", name: "FSCS_ID"},
-    {field: "mls_librarian_staff", name: "ALA-MLS Librarians"},
+    {field: "total_staff", name: "Total Paid Staff"},
     {field: "librarian_staff", name: "Total Librarians"},
-    {field: "other_staff", name: "Other Paid Staff"}
+    {field: "mls_librarian_staff", name: "ALA MLS Librarians"},
+    {field: "other_staff", name: "All Other Paid Staff"}
   ]},
   { name: "finance", fields: [
     {field: "fscs_id", name: "FSCS_ID"},
-    {field: "total_revenue", name: "Total Revenue ($)"},
-    {field: "total_staff_expenditures", name: "Total Staff Expenses ($)"},
-    {field: "total_collection_expenditures", name: "Total Collection Expenses ($)"},
-    {field: "capital_expenditures", name: "Capital Expenses ($)"}
+    {field: "total_revenue", name: "Total Operating Revenue"},
+    {field: "local_revenue", name: "From local gov't"},
+    {field: "state_revenue", name: "From state gov't"},
+    {field: "federal_revenue", name: "From federal gov't"},
+    {field: "total_staff_expenditures", name: "Staff Expenditures"},
+    {field: "total_collection_expenditures", name: "Collection Expenditures"},
+    {field: "print_expenditures", name: "Print"},
+    {field: "electronic_expenditures", name: "Electronic"},
+    {field: "other_collection_expenditures", name: "Other"},
+    {field: "other_expenditures", name: "Other Operating Expenditures"},
+    {field: "total_capital_revenue", name: "Capital Revenue ($)"},
+    {field: "capital_expenditures", name: "Capital Expenditures ($)"},
+    {field: "total_expenditures", name: "Total Operating Expenditures"}
   ]},
   { name: "collection", fields: [
     {field: "fscs_id", name: "FSCS_ID"},
     {field: "print_materials", name: "Print Materials"},
-    {field: "ebooks", name: "E-Books"},
-    {field: "audio_materials", name: "Audio-Physical"},
-    {field: "video_materials", name: "Video-Physical"},
-    {field: "total_databases", name: "Electronic Collections"},
-    {field: "print_serials", name: "Print Subscriptions"}
+    {field: "ebooks", name: "E-books"},
+    {field: "audio_materials", name: "Audio-physical"},
+    {field: "video_materials", name: "Video-physical"},
+    {field: "audio_downloads", name: "Audio-downloadable"},
+    {field: "video_downloads", name: "Video-downloadable"},
+    {field: "total_databases", name: "Electronic Collection (Databases)"},
+    {field: "print_serials", name: "Print Serial Collections"}
   ]}
 ]
 
@@ -222,7 +244,6 @@ index.search({
     // display details  
     for ( var h in content.hits ) {
       res = content.hits[h];
-      console.log(res.library_name);
       document.getElementById("name").innerHTML = res.library_name;
       document.getElementById("address").innerHTML = res.mailing_address;
       var city = res.mailing_city + ', ' + res.state
@@ -247,20 +268,21 @@ index.search({
         el.innerHTML = res.library_name;
       });
 
+      res.kids_circulation_percentage = (( res.kids_circulation / res.total_circulation_retrievals) * 100).toLocaleFixed(1) + '%';
       _.forEach ( clusters, function( cluster ) {
         _.forEach( cluster.fields, function ( field ) {
           if ( field.field !== "fscs_id" ) {
             if ( cluster.name !== "staff" ) {
-              document.getElementById( field.field ).innerHTML = "<strong>" + field.name + ":</strong> <span>" + (typeof res[ field.field ] == "number" ? res[ field.field ].toLocaleFixed(0) : res[ field.field ]) + "</span>";
+              document.getElementById( field.field ).innerHTML = field.name + ": <span>" + (typeof res[ field.field ] == "number" ? res[ field.field ].toLocaleFixed(0) : res[ field.field ]) + "</span>";
             } else {
-              document.getElementById( field.field ).innerHTML = "<strong>" + field.name + ":</strong> <span>" + res[ field.field ] + "</span>";
+              document.getElementById( field.field ).innerHTML = field.name + ": <span>" + res[ field.field ] + "</span>";
             }
           }
         });
       });
 
       // Add total staff to Staff Data section
-      document.getElementById("total_staff").innerHTML = "<strong>Total Staff:</strong><span>" + res[ 'total_staff' ] + "</span>";
+      // document.getElementById("total_staff").innerHTML = "Total Paid Staff:<span>" + res[ 'total_staff' ] + "</span>";
 
       /*
       var service = document.querySelector('#service-link');
@@ -417,7 +439,7 @@ function displayOutlets( content ) {
 
     for ( var h in content.hits) {
       res = content.hits[h];
-      var outletRow = [ res['library_name'], pad( res['fscs_id_seq'], 3 ), res['locale'], res['outlet_type'], res['sq_feet'].toLocaleString("en-US"), res['hours'].toLocaleString("en-US"), res['weeks_open'].toLocaleString("en-US") ];
+      var outletRow = [ res['library_name'], res['fscs_id'] + "-" + pad( res['fscs_id_seq'], 3 ), res['locale'], res['outlet_type'], res['sq_feet'].toLocaleString("en-US"), res['hours'].toLocaleString("en-US"), res['weeks_open'].toLocaleString("en-US") ];
       outletRows.push( outletRow );
     }
 

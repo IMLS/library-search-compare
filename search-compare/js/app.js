@@ -516,6 +516,19 @@ function startAppJs() {
   );
 
   // total population input  
+  /*
+  search.addWidget(
+    instantsearch.widgets.numericMenu({
+      container: '#population-input',
+      attributeName: 'service_area_population',
+      items: [
+        { label: 'Less than 1,000', end: 1000 },
+        { label: '1,000 to 2,499', start: 1000, end: 2499 },
+        { label: '2,500 to 4,999', start: 2500, end: 4999 }
+      ]
+    })
+  );
+  */
   search.addWidget(
     instantsearch.widgets.rangeInput({
       container: '#population-input',

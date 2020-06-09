@@ -1044,3 +1044,16 @@ p.more {
 	height: 1px;
 	overflow: hidden;
 }
+
+.data-indent {
+  padding-left: 12px;
+}
+
+.data-indent-2x {
+  padding-left: 24px;
+}
+
+div.no-border {
+  border: 0;
+}
+

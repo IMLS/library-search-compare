@@ -73,7 +73,7 @@ Details page:
   - search-compare/js/details.js
 
 Repo: 
-  - library-search-compare [https://github.com/IMLS/library-search-compare](https://github.com/IMLS/library-search-compare)  
+  - library-search-compare https://github.com/IMLS/library-search-compare](https://github.com/IMLS/library-search-compare)
 
 
 Project Schedule:
@@ -98,7 +98,7 @@ Workflow:
   git subtree push --prefix apps origin gh-pages
   ```
   - View at 
-    [https://imls.github.io/library-search-compare/v06](https://imls.github.io/library-search-compare/v06/)
+    https://imls.github.io/library-search-compare/v06](https://imls.github.io/library-search-compare/v06/
 
   - Deployment branch push
   ```
