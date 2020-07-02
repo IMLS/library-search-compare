@@ -100,21 +100,22 @@ var clusters = [
     {field: "visits", name: "Physical Visits"},
     {field: "references", name: "Reference Transactions"},
     {field: "users", name: "Registered Users"},
-    {field: "total_circulation_retrievals", name: "Total circulation transactions"},
-    {field: "kids_circulation_percentage", name: "Percentage of circulation as Children’s Material"},
-    {field: "physical_item_circulation", name: "Physical circulation"},
+    {field: "total_circulation_retrievals", name: "Total Circulation Transactions"},
+    {field: "kids_circulation", name: "Circulation of Children’s Material (raw number)"},
+    {field: "kids_circulation_percentage", name: "Percentage of Total Circulation (%)"},
+    {field: "physical_item_circulation", name: "Physical Circulation"},
     {field: "electronic_content_uses", name: "Use of Electronic Material"},
-    {field: "loans_to", name: "IL Loans to other libraries"},
-    {field: "loans_from", name: "IL Loans from other libraries"},
+    {field: "loans_to", name: "IL Loans to Other Libraries"},
+    {field: "loans_from", name: "IL Loans from Other Libraries"},
     {field: "total_programs", name: "Total Library Programs"},
-    {field: "kids_programs", name: "Children’s programs"},
-    {field: "ya_programs", name: "Young Adult programs"},
-    {field: "program_audience", name: "Total program attendance"},
-    {field: "kids_program_audience", name: "Children's program attendance"},
-    {field: "ya_program_audience", name: "Young Adult program attendance"},
+    {field: "kids_programs", name: "Children’s Programs"},
+    {field: "ya_programs", name: "Young Adult Programs"},
+    {field: "program_audience", name: "Total Program Attendance"},
+    {field: "kids_program_audience", name: "Children's Program Attendance"},
+    {field: "ya_program_audience", name: "Young Adult Program Attendance"},
     {field: "computers", name: "Internet Computers"},
-    {field: "computer_uses", name: "Uses of Internet computers per year"},
-    {field: "wifi_sessions", name: "Wireless sessions"}
+    {field: "computer_uses", name: "Computer Uses Per Year"},
+    {field: "wifi_sessions", name: "Wireless Sessions"}
   ]},
   { name: "staff", fields: [
     {field: "fscs_id", name: "FSCS_ID"},
@@ -126,9 +127,9 @@ var clusters = [
   { name: "finance", fields: [
     {field: "fscs_id", name: "FSCS_ID"},
     {field: "total_revenue", name: "Total Operating Revenue"},
-    {field: "local_revenue", name: "From local gov't"},
-    {field: "state_revenue", name: "From state gov't"},
-    {field: "federal_revenue", name: "From federal gov't"},
+    {field: "local_revenue", name: "From Local Government"},
+    {field: "state_revenue", name: "From State Government"},
+    {field: "federal_revenue", name: "From Federal Government"},
     {field: "total_staff_expenditures", name: "Staff Expenditures"},
     {field: "total_collection_expenditures", name: "Collection Expenditures"},
     {field: "print_expenditures", name: "Print"},
@@ -142,11 +143,11 @@ var clusters = [
   { name: "collection", fields: [
     {field: "fscs_id", name: "FSCS_ID"},
     {field: "print_materials", name: "Print Materials"},
-    {field: "ebooks", name: "E-books"},
-    {field: "audio_materials", name: "Audio-physical"},
-    {field: "video_materials", name: "Video-physical"},
-    {field: "audio_downloads", name: "Audio-downloadable"},
-    {field: "video_downloads", name: "Video-downloadable"},
+    {field: "ebooks", name: "E-Books"},
+    {field: "audio_materials", name: "Audio-Physical"},
+    {field: "video_materials", name: "Video-Physical"},
+    {field: "audio_downloads", name: "Audio-Downloadable"},
+    {field: "video_downloads", name: "Video-Downloadable"},
     {field: "total_databases", name: "Electronic Collection (Databases)"},
     {field: "print_serials", name: "Print Serial Collections"}
   ]}
@@ -273,9 +274,9 @@ index.search({
         _.forEach( cluster.fields, function ( field ) {
           if ( field.field !== "fscs_id" ) {
             if ( cluster.name !== "staff" ) {
-              document.getElementById( field.field ).innerHTML = field.name + ": <span>" + (typeof res[ field.field ] == "number" ? res[ field.field ].toLocaleFixed(0) : res[ field.field ]) + "</span>";
+              document.getElementById( field.field ).innerHTML = field.name + " <span>" + (typeof res[ field.field ] == "number" ? res[ field.field ].toLocaleFixed(0) : res[ field.field ]) + "</span>";
             } else {
-              document.getElementById( field.field ).innerHTML = field.name + ": <span>" + res[ field.field ] + "</span>";
+              document.getElementById( field.field ).innerHTML = field.name + " <span>" + res[ field.field ] + "</span>";
             }
           }
         });
@@ -432,6 +433,48 @@ function displayTrendsGrid( content, comparisonSelect ) {
   });
 }
 
+function convertLocale(locale) {
+  const expr = Math.floor(locale/10);
+  switch (expr) {
+    case 4:
+      return 'Rural (' + locale + ')';
+      break;
+    case 3:
+      return 'Town (' + locale + ')';
+      break;
+    case 2:
+      return 'Suburban (' + locale + ')';
+      break;
+    case 1:
+      return 'City (' + locale + ')';
+      break;
+    default:
+      return '';
+      break;
+  }
+}
+
+function convertOutletType ( outlet_type ) {
+  switch ( outlet_type ) {
+    case 'CE':
+      return 'Central';
+      break;
+    case 'BR':
+      return 'Branch';
+      break;
+    case 'BS':
+      return 'Bookmobile(s)';
+      break;
+    case 'MO':
+    case 'BM':
+      return 'Books-by-Mail Only';
+      break;
+    default:
+      return '';
+      break;
+  }
+}
+
 function displayOutlets( content ) {
   if ( content.hits.length > 0 ) {
     var outletRows = [];
@@ -439,7 +482,7 @@ function displayOutlets( content ) {
 
     for ( var h in content.hits) {
       res = content.hits[h];
-      var outletRow = [ res['library_name'], res['fscs_id'] + "-" + pad( res['fscs_id_seq'], 3 ), res['locale'], res['outlet_type'], res['sq_feet'].toLocaleString("en-US"), res['hours'].toLocaleString("en-US"), res['weeks_open'].toLocaleString("en-US") ];
+      var outletRow = [ res['library_name'], res['fscs_id'] + "-" + pad( res['fscs_id_seq'], 3 ), convertLocale(res['locale']), convertOutletType(res['outlet_type']), res['sq_feet'].toLocaleString("en-US"), res['hours'].toLocaleString("en-US"), res['weeks_open'].toLocaleString("en-US") ];
       outletRows.push( outletRow );
     }
 
