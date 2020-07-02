@@ -2,7 +2,7 @@ require 'csv'
 require 'json'
 require 'charlock_holmes'
 
-@csv_file = 'pls_outlet_pud18i.csv'
+@csv_file = 'PLS_FY17_Outlet_pud17i.csv'
 @csv_out = @csv_file.split(/\./).first + '_working.csv'
 @json = 'outlets.json'
 @json_pretty = 'outlets_pretty.json'

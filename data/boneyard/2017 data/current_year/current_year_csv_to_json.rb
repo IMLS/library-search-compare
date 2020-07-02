@@ -2,7 +2,7 @@ require 'csv'
 require 'json'
 require 'charlock_holmes'
 
-@csv_file = 'pls_ae_pud18i.csv'
+@csv_file = 'PLS_FY17_AE_pud17i.csv'
 @csv_out = @csv_file.split(/\./).first + '_working.csv'
 @json = 'current_year.json'
 @json_pretty = 'current_year_pretty.json'
@@ -90,7 +90,6 @@ require 'charlock_holmes'
   "GPTERMS" => "computers",
   "PITUSR" => "computer_uses",
   "WIFISESS" => "wifi_sessions",
-  "WEBVISIT" => "web_visits",
   "YR_SUB" => "year",
   "OBEREG" => "bea_region",
   "RSTATUS" => "reporting_status",

@@ -3,11 +3,11 @@ require 'json'
 require 'charlock_holmes'
 require 'fileutils'
 
-@current_year = 2018
-@current_csv = "pls_ae_pud18i.csv"
-@one_year_csv = "PLS_FY17_AE_pud17i.csv"
-@five_year_csv = "Pupld13a.csv"
-@ten_year_csv = "pupld08a.csv"
+@current_year = 2017
+@current_csv = "PLS_FY17_AE_pud17i.csv"
+@one_year_csv = "PLS_FY2016_AE_pupld16a_updated.csv"
+@five_year_csv = "Pupld12a.csv"
+@ten_year_csv = "pupld07.csv"
 @combined_csv = "combined.csv"
 @json = 'trends.json'
 @json_pretty = 'trends_pretty.json'
