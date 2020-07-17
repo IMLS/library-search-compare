@@ -1,7 +1,7 @@
 var client = algoliasearch('CDUMM9WVUG', '3cc392a5d139bd9131e42a5abb75d4ee');
-var index = client.initIndex('libraries');
-var outletsIndex = client.initIndex('outlets');
-var trendsIndex = client.initIndex('trends'); // comparison data grid labels and field names  
+var index = client.initIndex('libraries_fy18');
+var outletsIndex = client.initIndex('outlets_fy18');
+var trendsIndex = client.initIndex('trends_fy18'); // comparison data grid labels and field names  
 
 var searchCompare = {}; // comparison data grid labels and field names  
 
@@ -165,6 +165,9 @@ var clusters = [{
   }, {
     field: "wifi_sessions",
     name: "Wireless Sessions"
+  }, {
+    field: "web_visits",
+    name: "Website Visits (new in FY2018 data)"
   }]
 }, {
   name: "staff",
@@ -472,10 +475,10 @@ function displayTrendsGrid(content, comparisonSelect) {
   }).headings);
   var hit = searchCompare.longitudinalContent.hits;
   var rows = {
-    '2017 value': '_0',
-    '2016 value': '_1',
-    '2012 value': '_5',
-    '2007 value': '_10'
+    '2018 value': '_0',
+    '2017 value': '_1',
+    '2013 value': '_5',
+    '2008 value': '_10'
   };
 
   _.forEach(rows, function (suffix, label, rows) {

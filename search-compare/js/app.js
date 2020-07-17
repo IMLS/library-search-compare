@@ -1,5 +1,6 @@
 var client = algoliasearch('CDUMM9WVUG', '4ed0ae66adc167ec909a431c46a7897c');
-var index = client.initIndex('libraries');
+var index = client.initIndex('libraries_fy18');
+var index_name = 'libraries_fy18';
 
 // comparison data grid labels and field names  
 var searchCompare = {};
@@ -382,7 +383,7 @@ function startAppJs() {
     // Replace with your own values
     appId: 'CDUMM9WVUG',
     apiKey: '3cc392a5d139bd9131e42a5abb75d4ee', // search only API key, no ADMIN key
-    indexName: 'libraries',
+    indexName: index_name,
     numberLocale: 'en-US',
     stalledSearchDelay: 5000,
     routing: true,
@@ -492,8 +493,6 @@ function startAppJs() {
     instantsearch.widgets.rangeInput({
       container: '#revenue-input',
       attributeName: 'total_revenue',
-      min: 0,
-      max: 312078526,
       labels: {
         separator: 'to',
         submit: 'Go'
@@ -506,8 +505,6 @@ function startAppJs() {
     instantsearch.widgets.rangeInput({
       container: '#staff-input',
       attributeName: 'total_staff',
-      min: 0,
-      max: 2209,
       labels: {
         separator: 'to',
         submit: 'Go'
@@ -533,8 +530,6 @@ function startAppJs() {
     instantsearch.widgets.rangeInput({
       container: '#population-input',
       attributeName: 'service_area_population',
-      min: 0,
-      max: 4137076,
       labels: {
         separator: 'to',
         submit: 'Go'
@@ -558,8 +553,6 @@ function startAppJs() {
     instantsearch.widgets.rangeInput({
       container: '#branch-libraries-input',
       attributeName: 'branch_libraries',
-      min: 0,
-      max: 92,
       labels: {
         separator: 'to',
         submit: 'Go'
@@ -572,8 +565,6 @@ function startAppJs() {
     instantsearch.widgets.rangeInput({
       container: '#visits-input',
       attributeName: 'visits',
-      min: 0,
-      max: 17420607,
       labels: {
         separator: 'to',
         submit: 'Go'
@@ -586,8 +577,6 @@ function startAppJs() {
     instantsearch.widgets.rangeInput({
       container: '#total-programs-input',
       attributeName: 'total_programs',
-      min: 0,
-      max: 104226,
       labels: {
         separator: 'to',
         submit: 'Go'
@@ -718,7 +707,7 @@ function startAppJs() {
 $(document).ready(function() {
   // swap in current year text and link to data elements definition document
   $('.current_year').html(current_year);
-  $('.data-def-link').attr('href','https://www.imls.gov/sites/default/files/fy2017_pls_data_file_documentation.pdf#page=82');
+  $('.data-def-link').attr('href',data_def_url);
 
   window.app = document.createElement('search-compare-app')
   document.body.appendChild(window.app)
