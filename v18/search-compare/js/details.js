@@ -122,7 +122,7 @@ var clusters = [{
     name: "Total Circulation Transactions"
   }, {
     field: "kids_circulation",
-    name: "Circulation of Children’s Material (raw number)"
+    name: "Circulation of Children's Material (raw number)"
   }, {
     field: "kids_circulation_percentage",
     name: "Percentage of Total Circulation (%)"
@@ -143,7 +143,7 @@ var clusters = [{
     name: "Total Library Programs"
   }, {
     field: "kids_programs",
-    name: "Children’s Programs"
+    name: "Children's Programs"
   }, {
     field: "ya_programs",
     name: "Young Adult Programs"
@@ -385,7 +385,7 @@ index.search({
             if (cluster.name !== "staff") {
               document.getElementById(field.field).innerHTML = field.name + " <span>" + (typeof res[field.field] == "number" ? res[field.field].toLocaleFixed(0) : res[field.field]) + "</span>";
             } else {
-              document.getElementById(field.field).innerHTML = field.name + " <span>" + res[field.field] + "</span>";
+              document.getElementById(field.field).innerHTML = field.name + " <span>" + (res[field.field] >= 1000 ? res[field.field].toLocaleFixed(2) : res[field.field]) + "</span>";
             }
           }
         });
