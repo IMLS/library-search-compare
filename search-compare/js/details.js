@@ -101,14 +101,14 @@ var clusters = [
     {field: "references", name: "Reference Transactions"},
     {field: "users", name: "Registered Users"},
     {field: "total_circulation_retrievals", name: "Total Circulation Transactions"},
-    {field: "kids_circulation", name: "Circulation of Children’s Material (raw number)"},
+    {field: "kids_circulation", name: "Circulation of Children's Material (raw number)"},
     {field: "kids_circulation_percentage", name: "Percentage of Total Circulation (%)"},
     {field: "physical_item_circulation", name: "Physical Circulation"},
     {field: "electronic_content_uses", name: "Use of Electronic Material"},
     {field: "loans_to", name: "IL Loans to Other Libraries"},
     {field: "loans_from", name: "IL Loans from Other Libraries"},
     {field: "total_programs", name: "Total Library Programs"},
-    {field: "kids_programs", name: "Children’s Programs"},
+    {field: "kids_programs", name: "Children's Programs"},
     {field: "ya_programs", name: "Young Adult Programs"},
     {field: "program_audience", name: "Total Program Attendance"},
     {field: "kids_program_audience", name: "Children's Program Attendance"},
@@ -277,7 +277,7 @@ index.search({
             if ( cluster.name !== "staff" ) {
               document.getElementById( field.field ).innerHTML = field.name + " <span>" + (typeof res[ field.field ] == "number" ? res[ field.field ].toLocaleFixed(0) : res[ field.field ]) + "</span>";
             } else {
-              document.getElementById( field.field ).innerHTML = field.name + " <span>" + res[ field.field ] + "</span>";
+              document.getElementById( field.field ).innerHTML = field.name + " <span>" + (res[ field.field ] >= 1000 ? res[ field.field ].toLocaleFixed(2) : res[ field.field ]) + "</span>";
             }
           }
         });
