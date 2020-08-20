@@ -1,6 +1,6 @@
 var client = algoliasearch('CDUMM9WVUG', '4ed0ae66adc167ec909a431c46a7897c');
-var index = client.initIndex('libraries_fy18');
-var index_name = 'libraries_fy18';
+var index = client.initIndex('libraries_fy18_total_branches');
+var index_name = 'libraries_fy18_total_branches';
 
 // comparison data grid labels and field names  
 var searchCompare = {};
@@ -552,7 +552,7 @@ function startAppJs() {
   search.addWidget(
     instantsearch.widgets.rangeInput({
       container: '#branch-libraries-input',
-      attributeName: 'branch_libraries',
+      attributeName: 'total_branches',
       labels: {
         separator: 'to',
         submit: 'Go'
@@ -655,7 +655,7 @@ function startAppJs() {
       $('#comparison-select-wrapper').hide();
       $('#expBtn').hide();
       $('#viewToggle i').toggleClass('icon-list-view icon-grid-view');
-      $('#viewToggle span').text('Compare Libraries');
+      $('#viewToggle span').text('Compare and Select Libraries');
     }//end if list is shown
   });//end on viewToggle click
 
@@ -666,7 +666,7 @@ function startAppJs() {
     document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
     if($('#userTable').hasClass('open')){
       getUserComparisonData();
-      $('#show-user-table').text('Show Search Results');
+      $('#show-user-table').text('Show My Libraries');
     }else{
       $('#show-user-table').text('Show My Libraries');
     }

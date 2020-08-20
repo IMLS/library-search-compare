@@ -1,5 +1,5 @@
 var client = algoliasearch('CDUMM9WVUG', '3cc392a5d139bd9131e42a5abb75d4ee');
-var index = client.initIndex('libraries_fy18');
+var index = client.initIndex('libraries_fy18_total_branches');
 var outletsIndex = client.initIndex('outlets_fy18');
 var trendsIndex = client.initIndex('trends_fy18');
 
@@ -767,7 +767,7 @@ function renderTrendsCsv(trendData) {
   })
   var trendTableValuesRows = [];
   // var trendTableRows = []
-  var rows = { '2017 value': '_0', '2016 value': '_1', '2012 value': '_5', '2007 value': '_10' };
+  var rows = { '2018 value': '_0', '2017 value': '_1', '2013 value': '_5', '2008 value': '_10' };
   // var rows = {  [current_year + ' value']: '_0', [current_year - 1 + ' value']: '_1', [current_year - 5 + ' value']: '_5', [current_year - 10 + ' value']: '_10' };
   _.forEach( rows, function ( suffix, label, rows ) {
     var trendTableValuesRow = [];

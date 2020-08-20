@@ -86,16 +86,17 @@ class ImlsTable extends PolymerElement {
         <div class="actions-box"> 
           <div class="row">
             <div class="col-sm-4">
-              <span id="userCount"></span>
-              ${this.shareUrl !== '' ? `<button id="user-share-btn" class="btn btn-default btn-sm" type="button">Share These Results</button>` : ``}
-              <div id="shareDiv" class="closed">
-                <p>This page has been copied to your clipboard. Paste somewhere to share!</p>
-                <input type="text" value="${this.shareUrl}" id="userShareMe">
-              </div>
+              <button class="btn big-btn" id="return-to-search"><span>Return to Compare and Select Libraries</span></button>
               <button class="btn btn-default btn-sm" id="userExpBtn" data-cluster="">Definitions</button>
               <button id="download-user-csv" class="btn btn-default btn-sm"><i class="icon-file-excel"></i> Download</button>
             </div>
             <div class="col-sm-8 text-right">
+              <span id="userCount"></span>
+              ${this.shareUrl !== '' ? `<button id="user-share-btn" class="btn btn-default btn-sm" type="button">Share These Results</button>` : ``}
+              <span id="shareDiv" class="closed">
+                <span>This page has been copied to your clipboard. Paste somewhere to share!</span>
+                <input type="text" value="${this.shareUrl}" id="userShareMe">
+              </span>
               <div id="user-comparison-select-wrapper">
                 <span id="user-comparison-select-text">See variables related to: </span>
                 <select id="user-comparison-select">
@@ -120,6 +121,7 @@ class ImlsTable extends PolymerElement {
       if (this.shareUrl !== '') this.querySelector('#user-share-btn').addEventListener('click', this.showShareUrl.bind(this))
       this.querySelector('#download-user-csv').addEventListener('click', this.downloadCsv.bind(this))
       this.querySelector('#userExpBtn').addEventListener('click', this.onDefinitionsClick.bind(this))
+      this.querySelector('#return-to-search').addEventListener('click', this.onReturnToSearchClick.bind(this))
       this.querySelector('#user-comparison-select').addEventListener('change', event => {
         this.compareOn = event.target.value
         this.render()
@@ -268,6 +270,15 @@ class ImlsTable extends PolymerElement {
   onDefinitionsClick() {
     var content = this.compareOn;
     this.dispatchEvent(new CustomEvent('show-modal', {detail:content}));
+  }
+
+  onReturnToSearchClick() {
+    document.querySelector('#userTable').setAttribute('class', 'closed');
+    document.querySelector('#results').setAttribute('class', 'open');
+    var wrapper = document.getElementById('list-results');
+    if (window.getComputedStyle(wrapper, null).display !== 'none') {
+      document.getElementById('viewToggle').click();
+    } 
   }
 
 

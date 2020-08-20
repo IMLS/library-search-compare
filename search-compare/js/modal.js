@@ -17,6 +17,12 @@ $(document).ready(function() {
         trapEscapeKey($(this), event);
     })
 
+    jQuery('#defBtn').click(function(e) {
+        showFilterModal($('#filterModal'));
+    });
+    jQuery('#filterModalCloseBtn').click(function(e) {
+        hideFilterModal();
+    });
 });
 
 function trapEscapeKey(obj, evt) {
@@ -138,4 +144,47 @@ function hideModal() {
 
     //re-hide definition list
     $('.def-list').hide();
+}
+
+function showFilterModal(obj) {
+    jQuery('header, main, footer').attr('aria-hidden', 'true'); // mark the main page as hidden
+    jQuery('#filterModalOverlay').toggleClass('hidden'); // insert an overlay to prevent clicking and make a visual change to indicate the main apge is not available
+    jQuery('#filterModal').toggleClass('hidden'); // make the filterModal window visible
+    jQuery('#filterModal').attr('aria-hidden', 'false'); // mark the filterModal window as visible
+
+    // attach a listener to redirect the tab to the filterModal window if the user somehow gets out of the filterModal window
+    jQuery('body').on('focusin','header, main, footer',function() {
+        setFocusToFirstItemInModal(jQuery('#filterModal'));
+    })
+
+    // save current focus
+    focusedElementBeforeModal = jQuery(':focus');
+
+    setFocusToFirstItemInModal(obj);
+
+    $('#filterDefs').show();
+
+    //show appropriate definition list
+    /*
+    if($('#results').hasClass('open')){
+        var whichCluster = $('#defBtn').attr('data-cluster');
+        $('#exp-'+whichCluster).show();
+    }//end check if it's the compare table
+    */
+}
+
+function hideFilterModal() {
+    jQuery('#filterModalOverlay').toggleClass('hidden'); // remove the overlay in order to make the main screen available again
+    jQuery('#filterModal').toggleClass('hidden'); // hide the modal window
+    jQuery('#filterModal').attr('aria-hidden', 'true'); // mark the modal window as hidden
+    jQuery('header, main, footer').attr('aria-hidden', 'false'); // mark the main page as visible
+
+    // remove the listener which redirects tab keys in the main content area to the modal
+    jQuery('body').off('focusin','header, main, footer');
+
+    // set focus back to element that had it before the modal was opened
+    focusedElementBeforeModal.focus();
+
+    //re-hide definition list
+    $('.filter-def-list').hide();
 }
