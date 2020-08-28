@@ -24,7 +24,7 @@ cd search-compare
 npm install
 npm run build 
 cd ..
-cp -r search-compare/build/es5-unbundled apps/$NEW_VERSION/search-compare 
+cp -r search-compare/build/es5-unbundled/ apps/$NEW_VERSION/search-compare 
 git add apps/$NEW_VERSION
 git commit -m "build $NEW_VERSION"
 git tag $NEW_VERSION
