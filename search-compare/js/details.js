@@ -1,5 +1,5 @@
 var client = algoliasearch('CDUMM9WVUG', '3cc392a5d139bd9131e42a5abb75d4ee');
-var index = client.initIndex('libraries_fy18_total_branches');
+var index = client.initIndex('libraries_fy18_statstru');
 var outletsIndex = client.initIndex('outlets_fy18');
 var trendsIndex = client.initIndex('trends_fy18');
 
@@ -250,17 +250,21 @@ index.search({
       document.getElementById("address").innerHTML = res.mailing_address;
       var city = res.mailing_city + ', ' + res.state
       document.getElementById("city").innerHTML = city;
-      var serviceAreaPopulation = 'Service Area Population: ' + res.service_area_population.toLocaleFixed(0);
+      var serviceAreaPopulation = res.structure_change === '23' ?
+        'Temporarily Closed' :
+        'Service Area Population: ' + res.service_area_population.toLocaleFixed(0);
       document.getElementById("service-area-population").innerHTML = serviceAreaPopulation;
-      var locale = 'Locale: ' + res.locale_string;
-      document.getElementById("locale").innerHTML = locale + ' (' + res.locale + ')';
+    if( res.structure_change !== '23' ) {
+        var locale = 'Locale: ' + res.locale_string;
+        document.getElementById("locale").innerHTML = locale + ' (' + res.locale + ')';
 
-      var centralLibraries = 'Central Libraries: ' + res.central_libraries;
-      document.getElementById("central-libraries").innerHTML = centralLibraries;
-      var branchLibraries = 'Branch Libraries: ' + res.branch_libraries;
-      document.getElementById("branch-libraries").innerHTML = branchLibraries;
-      var bookmobiles = 'Bookmobiles: ' + res.bookmobiles;
-      document.getElementById("bookmobiles").innerHTML = bookmobiles;
+        var centralLibraries = 'Central Libraries: ' + res.central_libraries;
+        document.getElementById("central-libraries").innerHTML = centralLibraries;
+        var branchLibraries = 'Branch Libraries: ' + res.branch_libraries;
+        document.getElementById("branch-libraries").innerHTML = branchLibraries;
+        var bookmobiles = 'Bookmobiles: ' + res.bookmobiles;
+        document.getElementById("bookmobiles").innerHTML = bookmobiles;
+      }
       var fscs_id = res.fscs_id;
       document.getElementById("fscs-id").innerHTML = fscs_id;
 
@@ -270,18 +274,23 @@ index.search({
         el.innerHTML = res.library_name;
       });
 
-      res.kids_circulation_percentage = (( res.kids_circulation / res.total_circulation_retrievals) * 100).toLocaleFixed(1) + '%';
-      _.forEach ( clusters, function( cluster ) {
-        _.forEach( cluster.fields, function ( field ) {
-          if ( field.field !== "fscs_id" ) {
-            if ( cluster.name !== "staff" ) {
-              document.getElementById( field.field ).innerHTML = field.name + " <span>" + (typeof res[ field.field ] == "number" ? res[ field.field ].toLocaleFixed(0) : res[ field.field ]) + "</span>";
-            } else {
-              document.getElementById( field.field ).innerHTML = field.name + " <span>" + (res[ field.field ] >= 1000 ? res[ field.field ].toLocaleFixed(2) : res[ field.field ]) + "</span>";
+      if( res.structure_change === '23' ) {
+        $('#lib-details').hide();
+      } else {
+        $('#lib-details').show();
+        res.kids_circulation_percentage = (( res.kids_circulation / res.total_circulation_retrievals) * 100).toLocaleFixed(1) + '%';
+        _.forEach ( clusters, function( cluster ) {
+          _.forEach( cluster.fields, function ( field ) {
+            if ( field.field !== "fscs_id" ) {
+              if ( cluster.name !== "staff" ) {
+                document.getElementById( field.field ).innerHTML = field.name + " <span>" + (typeof res[ field.field ] == "number" ? res[ field.field ].toLocaleFixed(0) : res[ field.field ]) + "</span>";
+              } else {
+                document.getElementById( field.field ).innerHTML = field.name + " <span>" + (res[ field.field ] >= 1000 ? res[ field.field ].toLocaleFixed(2) : res[ field.field ]) + "</span>";
+              }
             }
-          }
+          });
         });
-      });
+      }
 
       // Add total staff to Staff Data section
       // document.getElementById("total_staff").innerHTML = "Total Paid Staff:<span>" + res[ 'total_staff' ] + "</span>";
@@ -483,7 +492,11 @@ function displayOutlets( content ) {
 
     for ( var h in content.hits) {
       res = content.hits[h];
-      var outletRow = [ res['library_name'], res['fscs_id'] + "-" + pad( res['fscs_id_seq'], 3 ), convertLocale(res['locale']), convertOutletType(res['outlet_type']), res['sq_feet'].toLocaleString("en-US"), res['hours'].toLocaleString("en-US"), res['weeks_open'].toLocaleString("en-US") ];
+      if( res['structure_change'] === '23' ) {
+        var outletRow = [ res['library_name'], res['fscs_id'] + "-" + pad( res['fscs_id_seq'], 3 ), convertLocale(res['locale']), convertOutletType(res['outlet_type']), 'NA', 'NA', 'Temporarily Closed' ];
+      } else {
+        var outletRow = [ res['library_name'], res['fscs_id'] + "-" + pad( res['fscs_id_seq'], 3 ), convertLocale(res['locale']), convertOutletType(res['outlet_type']), res['sq_feet'].toLocaleString("en-US"), res['hours'].toLocaleString("en-US"), res['weeks_open'].toLocaleString("en-US") ];
+      }
       outletRows.push( outletRow );
     }
 

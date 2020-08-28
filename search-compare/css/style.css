@@ -616,6 +616,7 @@ input[type=number]::-webkit-outer-spin-button {
 
 #lib-details {
 	margin-top: 20px;
+  display: none;
 }
 
 .box {
