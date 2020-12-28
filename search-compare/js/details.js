@@ -276,8 +276,11 @@ index.search({
       });
 
       if( res.structure_change === '23' ) {
+        $('#viz-selection').hide();
         $('#lib-details').hide();
       } else {
+        $('input[name="viz-fscs-id"]').val(res.fscs_id);
+        $('#viz-selection').show();
         $('#lib-details').show();
         res.kids_circulation_percentage = (( res.kids_circulation / res.total_circulation_retrievals) * 100).toLocaleFixed(1) + '%';
         _.forEach ( clusters, function( cluster ) {

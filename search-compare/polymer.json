@@ -35,6 +35,7 @@
 
 "sources": [
   "details.html",
+  "compare.html",
   "img/**/*",
   "js/**/*",
   "src/**/*",
