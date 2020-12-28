@@ -293,7 +293,7 @@ header {
 	max-height: 300px;
 	z-index: 151;
 }
-#legal-basis-refinement .ais-body.ais-refinement-list--body {
+#legal-basis-refinement .ais-body.ais-refinement-list--body, #population-input .ais-body.ais-refinement-list--body  {
 	min-width: 200px;
 }
 .ais-refinement-list--label {
@@ -1062,3 +1062,20 @@ div.no-border {
   border: 0;
 }
 
+#viz-selection {
+  display: none;
+}
+
+/* Sticky compare and select data table header */
+/*
+#data_table > thead {
+  color: red;
+  top: 202;
+}
+*/
+
+.sticky {
+  position: fixed;
+  top: 200px;
+  color: red;
+}

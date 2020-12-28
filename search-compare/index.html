@@ -50,7 +50,7 @@
     <section id="filters" class="container-fluid">
       <div class="row filter-row">
         <div class="col-sm-4 col-md-2 text-right">
-          <input id="search-input" placeholder="Search for library data">
+          <input id="search-input" placeholder="Search for libraries">
           <div id="clear-all"></div>
         </div>
         <div class="col-xs-4 col-md-2 col-lg-1">
@@ -69,7 +69,7 @@
               <div id="locale-refinement" class="facet"></div>
             </div>
             <span id="current-locales"></span>
-            <i class="icon-info-circle" tabindex="0" aria-hidden="true" rel="tooltip" title="Identify whether AEs and library outlets are in cities, suburbs, towns, or rural areas. Locale codes were assigned to AEs and outlets using the 2019 NCES locale framework."><span>Identify whether AEs and library outlets are in cities, suburbs, towns, or rural areas. Locale codes were assigned to AEs and outlets using the 2019 NCES locale framework.</span></i>
+            <i class="icon-info-circle" tabindex="0" aria-hidden="true" rel="tooltip" title="Locale identifies whether branches are in cities, suburbs, towns, or rural areas. Locale codes were assigned to AEs and outlets using the 2019 NCES locale framework."><span>Locale identifies whether branches are in cities, suburbs, towns, or rural areas. Locale codes were assigned to AEs and outlets using the 2019 NCES locale framework.</span></i>
           </div>
         </div>
         <div class="col-xs-4 col-md-2 col-lg-1">
@@ -84,12 +84,12 @@
         </div>
         <div class="col-xs-4 col-md-2 col-lg-1">
           <div class="filter-dropdown">
-            <button><div>Service Outlets</div></button>
+            <button><div>Branch Libraries</div></button>
             <div>
               <div id="branch-libraries-input"></div>
             </div>
             <span id="branch-libraries"></span>
-            <i class="icon-info-circle" tabindex="0" aria-hidden="true" rel="tooltip" title="Service outlets are the total number of Central Libraries, Branch Libraries and Bookmobiles"><span>Service outlets are the total number of Central Libraries, Branch Libraries and Bookmobiles.</span></i>
+            <i class="icon-info-circle" tabindex="0" aria-hidden="true" rel="tooltip" title="Branches (Service outlets) are the total number of Central Libraries, Branch Libraries, and Bookmobiles"><span>Branches (Service outlets) are the total number of Central Libraries, Branch Libraries, and Bookmobiles.</span></i>
           </div>
         </div>
         <div class="col-xs-4 col-md-2 col-lg-1">
@@ -119,7 +119,7 @@
               <div id="staff-input"></div>
             </div>
             <span id="staff"></span>
-            <i class="icon-info-circle" tabindex="0" aria-hidden="true" rel="tooltip" title="Total paid employees."><span>Total paid employees.</span></i>
+            <i class="icon-info-circle" tabindex="0" aria-hidden="true" rel="tooltip" title="Total paid employees (full time equivalent)."><span>Total paid employees (full time equivalent).</span></i>
           </div>
         </div>
         <div class="col-xs-4 col-md-2 col-lg-1">
@@ -161,7 +161,7 @@
         <div class="col-xs-12">
           <div class="page-shadow" id="search-results-wrapper">
             <p>Enter a keyword in the search box above to search for libraries. From there, you can refine your search based on the other filters above.</p>
-            <p>Click on the Compare and Select Libraries button and then click on the <i class="user-compare-btn user-compare-add"></i> or <i class="user-compare-btn user-compare-remove"></i> button to add or remove a library in the My Libraries collection</p>
+            <p>Click on the Compare and Select Libraries button and then click on the <i class="user-compare-btn user-compare-add"></i> or <i class="user-compare-btn user-compare-remove"></i> button to add or remove a library in the My Libraries collection.</p>
             <div class="actions-box pad-0">
               <div class="row">
                 <div class="col-xs-5 col-sm-4">
@@ -169,7 +169,7 @@
                   <button class="btn big-btn" id="show-user-table"><span>Show My Libraries</span></button>
                 </div>
                 <div class="col-xs-7 col-sm-8 pad-10">
-                  <div class="col-xs-12 col-sm-5 pad-0">
+                  <div class="col-xs-12 col-sm-6 pad-0">
                     <span id="count"></span>
                     <button id="share-btn" class="btn btn-default btn-sm" type="button">Share These Results</button>
                     <div id="shareDiv" class="away">
@@ -179,7 +179,7 @@
                       <button class="btn btn-default btn-sm" id="expBtn" data-cluster="">Definitions</button>
                       <button id="download-csv" onclick="downloadCsv();" class="btn btn-default btn-sm"><i class="icon-file-excel"></i> Download</button>
                   </div>
-                  <div class="col-xs-12 col-sm-7 text-right">
+                  <div class="col-xs-12 col-sm-6 text-right">
                     <div id="comparison-select-wrapper">
                       <span id="comparison-select-text">See variables related to: </span>
                       <select id="comparison-select"></select>
@@ -284,8 +284,8 @@
           <dd>The type of local government structure within which the entity functions. It reflects the state or local law, which authorizes the library.</dd>
         </dl>
         <dl>
-          <dt>Service Outlets</dt>
-          <dd>Service outlets are the total number of Central Libraries, Branch Libraries and Bookmobiles</dd>
+          <dt>Branch Libraries</dt>
+          <dd>Branches (Service outlets) are the total number of Central Libraries, Branch Libraries and Bookmobiles.</dd>
         </dl>
         <dl>
           <dt>Circulation</dt>
@@ -297,7 +297,7 @@
         </dl>
         <dl>
           <dt>Staff</dt>
-          <dd>Total paid employees.</dd>
+          <dd>Total paid employees (full-time equivalent).</dd>
         </dl>
         <dl>
           <dt>Population of Legal Service Area</dt>

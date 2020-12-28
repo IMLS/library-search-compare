@@ -1,4 +1,4 @@
-var client = algoliasearch('CDUMM9WVUG', '3cc392a5d139bd9131e42a5abb75d4ee');
+var client = algoliasearch('CDUMM9WVUG', '4ed0ae66adc167ec909a431c46a7897c');
 var index = client.initIndex('libraries_fy18_statstru');
 var outletsIndex = client.initIndex('outlets_fy18');
 var trendsIndex = client.initIndex('trends_fy18');
@@ -131,6 +131,7 @@ var clusters = [
     {field: "local_revenue", name: "From Local Government"},
     {field: "state_revenue", name: "From State Government"},
     {field: "federal_revenue", name: "From Federal Government"},
+    {field: "other_revenue", name: "Other Operating Revenue"},
     {field: "total_staff_expenditures", name: "Staff Expenditures"},
     {field: "total_collection_expenditures", name: "Collection Expenditures"},
     {field: "print_expenditures", name: "Print"},

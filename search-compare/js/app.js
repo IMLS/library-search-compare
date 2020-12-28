@@ -382,7 +382,7 @@ function startAppJs() {
   var search = instantsearch({
     // Replace with your own values
     appId: 'CDUMM9WVUG',
-    apiKey: '3cc392a5d139bd9131e42a5abb75d4ee', // search only API key, no ADMIN key
+    apiKey: '4ed0ae66adc167ec909a431c46a7897c', // search only API key, no ADMIN key
     indexName: index_name,
     numberLocale: 'en-US',
     stalledSearchDelay: 5000,
@@ -406,7 +406,8 @@ function startAppJs() {
       templates: {
         body: function(data) {
           var result = data.hasOneResult ? "result" : "results";
-          return data.nbHits + ' ' + result;
+          var hits_commas = data.nbHits.toLocaleString();
+          return hits_commas + ' ' + result;
         }
       }
     })
@@ -424,19 +425,20 @@ function startAppJs() {
   );
 
   // search.on( 'render', getFullData );
+  /*
   (function() {
       var origOpen = XMLHttpRequest.prototype.open;
       XMLHttpRequest.prototype.open = function() {
           this.addEventListener('load', function() {
-            var res = JSON.parse(this.responseText);
-            if ( typeof res.results !== "undefined" ) {
-               // getFullData( res.results );
+            if(this.responseURL.indexOf('algolia') !== -1) {
+              console.log('in if statement');
+              var res = JSON.parse(this.responseText);
             }
           });
           origOpen.apply(this, arguments);
       };
   })();
-
+  */
 
   // pagination
   search.addWidget(
@@ -525,7 +527,6 @@ function startAppJs() {
       ]
     })
   );
-  */
   search.addWidget(
     instantsearch.widgets.rangeInput({
       container: '#population-input',
@@ -533,6 +534,25 @@ function startAppJs() {
       labels: {
         separator: 'to',
         submit: 'Go'
+      }
+    })
+  );
+  */
+
+  // legal basis facet
+  search.addWidget(
+    instantsearch.widgets.refinementList({
+      container: '#population-input',
+      attributeName: 'population_category',
+      limit: 65,
+      showMore: false,
+      sortBy: ['count:asc'],
+      transformItems: function(items) {
+        var order_array = ["Less than 1,000", "1,000 to 2,499", "2,500 to 4,999", "5,000 to 9,999", "10,000 to 24,999", "25,000 to 49,999", "50,000 to 99,999", "100,000 to 249,000", "250,000 to 499,999", "500,000 to 999,999", "1,000,000 or more" ];
+        var ordered_items = _.sortBy(items, function(item){
+          return order_array.indexOf(item['label']);
+        });
+        return ordered_items;
       }
     })
   );

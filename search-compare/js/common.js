@@ -139,6 +139,10 @@ function currentFilters(){
     return this.value;
   }).get();//end map checked legal basis checkboxes
 
+  //assemble checked population categories
+  var selectedPopulationCategories = $('#population-input input:checked').map(function(){
+    return this.value;
+  }).get();//end map checked legal basis checkboxes
 
 	/* Code to get values from sliders:
   $('.min-max').each(function(){
@@ -168,13 +172,14 @@ function currentFilters(){
 
     //if the input is empty or if it's out of bounds, use its min/max value
     if(!lowerPos){
-      lowerPos = $('#'+whichRange+'-input .ais-range-input--inputMin').attr('placeholder');
+      lowerPos = parseInt($('#'+whichRange+'-input .ais-range-input--inputMin').attr('placeholder').replace(/,/g, ''));
     }
     if(!upperPos){
-      upperPos = $('#'+whichRange+'-input .ais-range-input--inputMax').attr('placeholder');
+      upperPos = parseInt($('#'+whichRange+'-input .ais-range-input--inputMax').attr('placeholder').replace(/,/g, ''));
     }
 
-    //console.log('summary to update: #'+whichRange+'; its min is '+lowerPos+' and its max is '+upperPos);
+    $('#'+whichRange+'-input .ais-range-input--inputMin').attr('placeholder', parseInt(lowerPos).toLocaleString());
+    $('#'+whichRange+'-input .ais-range-input--inputMax').attr('placeholder', parseInt(upperPos).toLocaleString());
 
     //shorten 'em up
     upperPos = shortenLargeNumber(upperPos,2);
@@ -203,6 +208,12 @@ function currentFilters(){
     $('#current-legals').text('All');
   }else{
     $('#current-legals').text(selectedLegals.join(', '));
+  }//end check if any legals are selected
+
+  if(jQuery.isEmptyObject(selectedPopulationCategories)){
+    $('#population').text('All');
+  }else{
+    $('#population').text(selectedPopulationCategories.join(', '));
   }//end check if any legals are selected
 
 	headRoom();
