@@ -53,7 +53,15 @@ class ImlsTable extends PolymerElement {
       },
       perPage: {
         type: Number,
-        value: 50
+        value: 25
+      },
+      sortCol: {
+        type: Number,
+        value: 2
+      },
+      sortOrd: {
+        type: String,
+        value: 'desc'
       },
       showModal: {
         type: Boolean,
@@ -85,12 +93,12 @@ class ImlsTable extends PolymerElement {
       ${this.hideActions ? '' : `
         <div class="actions-box"> 
           <div class="row">
-            <div class="col-sm-4">
+            <div class="col-sm-5">
               <button class="btn big-btn" id="return-to-search"><span>Return to Compare and Select Libraries</span></button>
               <button class="btn btn-default btn-sm" id="userExpBtn" data-cluster="">Definitions</button>
               <button id="download-user-csv" class="btn btn-default btn-sm"><i class="icon-file-excel"></i> Download</button>
             </div>
-            <div class="col-sm-8 text-right">
+            <div class="col-sm-7 text-right">
               <span id="userCount"></span>
               ${this.shareUrl !== '' ? `<button id="user-share-btn" class="btn btn-default btn-sm" type="button">Share These Results</button>` : ``}
               <span id="shareDiv" class="closed">
@@ -148,7 +156,10 @@ class ImlsTable extends PolymerElement {
         var tableRow = [  '<a data-name="' + res[ 'library_name' ] + '" href="details.html?fscs_id=' + res["fscs_id"] + '">' + res["library_name"] + ' (' + res[ "fscs_id" ] + ')' + '</a>' ];
       }
       _.forEach( field_names, function(f) {
-        tableRow.push(res[f].toLocaleString("en-US"));
+        if( f === 'locale' ) {
+          res[f] = isNaN(res[f]) ? res[f] : res['locale_string'] + ' (' + res[f] + ')';
+        } 
+          tableRow.push(res[f].toLocaleString("en-US"));
       });
       tableRows.push(tableRow);
     }
@@ -165,22 +176,25 @@ class ImlsTable extends PolymerElement {
       searchable: false,
       perPageSelect: false,
       columns: [
-      {
-        select: 1,
-        sortable: true
-      },
-      {
-        select: 2,
-        render: function( data, cell, row) {
-          return data;
+        /*
+        {
+          select: 1,
+          render: function( data, cell, row) {
+            return data;
+          },
+        },
+        */
+        {
+          //select: this.sortCol, sort: this.sortOrd
+          //select: 6, sort: 'asc'
         }
-      }
       ]
     });
 
     this.comparisonGrid.on('datatable.init', _ => {
 
       this.comparisonGrid.page(this.currentPage)
+      this.comparisonGrid.sortColumn(this.sortCol, this.sortOrd);
       this.gridHasRendered()
       $('#loading-spinner').addClass('paused');
       $('#loading-spinner span').html('Content has loaded.');
@@ -195,8 +209,30 @@ class ImlsTable extends PolymerElement {
       }
     })
 
-    this.comparisonGrid.on('datatable.sort', _ => {
-      this.gridHasRendered()
+    this.comparisonGrid.on('datatable.sort', (column, direction) => {
+      var callHasRendered = 1;
+      if(this.sortCol !== column) {
+        console.log('in col');
+        //console.log(column);
+        //console.log(this.sortCol);
+        this.sortCol = column + 1;
+        //console.log(this.sortCol);
+        var callHasRendered = 0;
+      } 
+      if(this.sortOrd !== direction) {
+        //console.log('in ord');
+        //console.log(this.sortOrd);
+        //console.log(direction);
+        //console.log(this.sortOrd);
+        this.sortOrd = direction === 'ascending' ? 'desc' : 'asc';
+        //this.sortOrd = direction;
+        var callHasRendered = 0;
+      } 
+
+      if(callHasRendered === 1) {
+        console.log('gridHasRendered from sort');
+        this.gridHasRendered()
+      }
     });
 
   }
@@ -286,8 +322,8 @@ class ImlsTable extends PolymerElement {
     return [
       { name: 'demographic',
           display_name: 'Demographic', 
-          headings: [ 'Name', 'Service Area Population', 'Central Libraries', 'Branch Libraries', 'Bookmobiles', 'Legal Basis', 'FSCS Public Library?' ],
-          field_names: [ 'service_area_population', 'central_libraries', 'branch_libraries', 'bookmobiles', 'legal_basis', 'fscs_definition' ],
+          headings: [ 'Name', 'Locale', 'Service Area Population', 'Central Libraries', 'Branch Libraries', 'Bookmobiles', 'Legal Basis', 'FSCS Public Library?' ],
+          field_names: [ 'locale', 'service_area_population', 'central_libraries', 'branch_libraries', 'bookmobiles', 'legal_basis', 'fscs_definition' ],
           field_types: [ 'number', 'number', 'number', 'number', 'number', 'string', 'string', 'string', 'string', 'string' ] },
       { name: 'staff',
           display_name: 'Paid Staff (FTE)', 
