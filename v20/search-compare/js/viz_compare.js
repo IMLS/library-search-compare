@@ -391,7 +391,7 @@ function setFooter(res) {
   doc.setFontSize(fontSize);
   doc.text('All data from IMLS FY2018 Public Libraries Survey', leftMargin, baseY + 40);
   var imls_logo = new Image();
-  imls_logo.src = '../img/viz/imls_logo_2c.jpg';
+  imls_logo.src = './img/viz/imls_logo_2c.jpg';
   doc.addImage(imls_logo, 'JPEG', leftMargin + 370, baseY + 5, 150, 68);
 }
 
