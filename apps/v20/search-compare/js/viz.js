@@ -465,7 +465,7 @@ $(document).ready(function () {
       base_res = res;
       base_fscs_id = $('#viz-fscs-id').val();
       viz_type = $('#viz-type').val();
-      var url = window.location.origin + './compare.html?fscs_id=' + base_fscs_id + '&viz_type=' + viz_type;
+      var url = window.location.origin + 'compare.html?fscs_id=' + base_fscs_id + '&viz_type=' + viz_type;
       var compare_window = window.open(url);
       compare_window.base_res = base_res;
     }
