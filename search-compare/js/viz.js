@@ -290,6 +290,10 @@ function setTitle(title) {
 };
 
 function setLibraryBlock(res) {
+  // Handle Law Library "S" value
+  var serviceAreaPopulation = typeof(res.service_area_population) === 'string' ?
+    'N/A' :
+    res.service_area_population.toLocaleFixed(0);
   var baseY = 76;
   doc.setFontSize(15);
   doc.setTextColor(0, 0, 0);
@@ -298,7 +302,7 @@ function setLibraryBlock(res) {
   var fontSize = 10;
   doc.setFontSize(fontSize);
   doc.text(res.mailing_address + ' ' + res.mailing_city + ', ' + res.state, leftMargin, baseY + fontSize*2);
-  doc.text('Service Area Population: ' + res.service_area_population.toLocaleFixed(0), leftMargin, baseY + fontSize*3);
+  doc.text('Service Area Population: ' + serviceAreaPopulation, leftMargin, baseY + fontSize*3);
   doc.text('Locale: ' + res.locale_string.toString() + ' (' + res.locale + ')', leftMargin, baseY + fontSize*4);
   if( res.structure_change !== '23' ) {
     doc.text('Central Libraries: ' + res.central_libraries.toLocaleFixed(0), centerX, baseY + fontSize*2);

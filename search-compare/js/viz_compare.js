@@ -238,10 +238,15 @@ function setData(base, compare, viz_type) {
   currentY = currentY + lineHeight;
   */
   //doc.rect(col1X - 3, currentY, col3X - col1X + 6, lineHeight + 3, 'F');
+
+  // Handle Law Library "S" value
+  var baseServiceAreaPopulation = typeof(base['service_area_population']) === 'string' ?  'N/A' : base['service_area_population'].toLocaleFixed(0);
+  var compareServiceAreaPopulation = typeof(compare['service_area_population']) === 'string' ?  'N/A' : compare['service_area_population'].toLocaleFixed(0);
+
   addStripe(col1X - 3, currentY, lineHeight);
   doc.text("Service Area Population ", col1X, currentY + lineHeight);
-  doc.text(base['service_area_population'].toLocaleFixed(0), col2X, currentY + lineHeight, 'right');
-  doc.text(compare['service_area_population'].toLocaleFixed(0), col3X, currentY + lineHeight, 'right');
+  doc.text(baseServiceAreaPopulation, col2X, currentY + lineHeight, 'right');
+  doc.text(compareServiceAreaPopulation, col3X, currentY + lineHeight, 'right');
   currentY = currentY + lineHeight;
   doc.text("Locale ", col1X, currentY + lineHeight);
   doc.text(base['locale_string'].toString() +  ' (' + base['locale'] + ')', col2X, currentY + lineHeight, 'right');

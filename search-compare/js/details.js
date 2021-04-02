@@ -251,9 +251,22 @@ index.search({
       document.getElementById("address").innerHTML = res.mailing_address;
       var city = res.mailing_city + ', ' + res.state
       document.getElementById("city").innerHTML = city;
+      /*
       var serviceAreaPopulation = res.structure_change === '23' ?
         'Temporarily Closed' :
         'Service Area Population: ' + res.service_area_population.toLocaleFixed(0);
+      */
+      // Handle Law Library "S" value
+      if ( res.structure_change === '23' ) {
+        var serviceAreaPopulation = 'Temporarily Closed';
+      } else if ( typeof(res.service_area_population) === 'string' ) {
+        var serviceAreaPopulation = 'Service Area Population: N/A';
+      } else if ( typeof(res.service_area_population) === 'number' ) {
+        var serviceAreaPopulation = 'Service Area Population: ' + res.service_area_population.toLocaleFixed(0);
+      } else {
+        var serviceAreaPopulation = 'Service Area Population: N/A';
+      }
+
       document.getElementById("service-area-population").innerHTML = serviceAreaPopulation;
     if( res.structure_change !== '23' ) {
         var locale = 'Locale: ' + res.locale_string;
