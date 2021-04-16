@@ -1,6 +1,6 @@
 var client = algoliasearch('CDUMM9WVUG', '4ed0ae66adc167ec909a431c46a7897c');
-var index = client.initIndex('libraries_fy18_statstru');
-var index_name = 'libraries_fy18_statstru';
+var index = client.initIndex('libraries_fy19');
+var index_name = 'libraries_fy19';
 
 var topMargin = 20;
 var rightMargin = 587;
