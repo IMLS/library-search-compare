@@ -1,5 +1,5 @@
 // Year for IMLS data value
-var current_year = '2018';
+var current_year = '2019';
 var data_def_url = 'https://www.imls.gov/sites/default/files/2018_pls_data_file_documentation.pdf#page=85';
 
 /* Make space for fixed header on resize */
