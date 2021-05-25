@@ -167,7 +167,7 @@ var clusters = [{
     name: "Wireless Sessions"
   }, {
     field: "web_visits",
-    name: "Website Visits (new in FY2018 data)"
+    name: "Website Visits"
   }]
 }, {
   name: "staff",
@@ -928,10 +928,10 @@ function renderTrendsCsv(trendData) {
   var trendTableValuesRows = []; // var trendTableRows = []
 
   var rows = {
-    '2018 value': '_0',
-    '2017 value': '_1',
-    '2013 value': '_5',
-    '2008 value': '_10'
+    '2019 value': '_0',
+    '2018 value': '_1',
+    '2014 value': '_5',
+    '2009 value': '_10'
   }; // var rows = {  [current_year + ' value']: '_0', [current_year - 1 + ' value']: '_1', [current_year - 5 + ' value']: '_5', [current_year - 10 + ' value']: '_10' };
 
   _.forEach(rows, function (suffix, label, rows) {

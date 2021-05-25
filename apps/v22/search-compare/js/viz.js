@@ -153,7 +153,7 @@ var fields = [{
       'Library Services': [{
         "Physical Visits": "visits"
       }, {
-        "Website Visits (new in FY2018 data)": "web_visits"
+        "Website Visits": "web_visits"
       }, {
         "Library Card Holders": "users"
       }, {
@@ -310,7 +310,7 @@ function programService(res, viz_type) {
 
 function collectionCirculation(res, viz_type) {
   doc = new jsPDF('p', 'pt', 'letter');
-  var labelX = doc.getTextWidth('Website Visits (new in FY2018 data) ' + res.kids_circulation);
+  var labelX = doc.getTextWidth('Young Adult Program Attendance ' + res.kids_circulation);
   var baseY = chartY;
   pdf_fields = _.find(fields, viz_type);
 
@@ -439,7 +439,7 @@ function setFooter(res) {
   doc.line(leftMargin, baseY, rightMargin, baseY);
   var fontSize = 10;
   doc.setFontSize(fontSize);
-  doc.text('All data from IMLS FY2018 Public Libraries Survey', leftMargin, baseY + 40);
+  doc.text('All data from IMLS FY2019 Public Libraries Survey', leftMargin, baseY + 40);
   var imls_logo = new Image();
   imls_logo.src = './img/viz/imls_logo_2c.jpg';
   doc.addImage(imls_logo, 'JPEG', leftMargin + 370, baseY + 5, 150, 68);
