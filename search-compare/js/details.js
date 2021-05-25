@@ -116,7 +116,7 @@ var clusters = [
     {field: "computers", name: "Internet Computers"},
     {field: "computer_uses", name: "Computer Uses Per Year"},
     {field: "wifi_sessions", name: "Wireless Sessions"},
-    {field: "web_visits", name: "Website Visits (new in FY2018 data)"}
+    {field: "web_visits", name: "Website Visits"}
   ]},
   { name: "staff", fields: [
     {field: "fscs_id", name: "FSCS_ID"},

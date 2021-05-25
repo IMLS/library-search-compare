@@ -80,7 +80,7 @@ var fields = [
           {'Library Services': 
             [
               {"Physical Visits": "visits"},
-              {"Website Visits (new in FY2018 data)": "web_visits"},
+              {"Website Visits": "web_visits"},
               {"Library Card Holders": "users"},
               {"Questions Answered": "references"},
               {"Interlibrary Loans (ILL)": "ill"},

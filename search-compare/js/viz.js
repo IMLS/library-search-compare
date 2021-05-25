@@ -118,7 +118,7 @@ var fields = [
           {'Library Services': 
             [
               {"Physical Visits": "visits"},
-              {"Website Visits (new in FY2018 data)": "web_visits"},
+              {"Website Visits": "web_visits"},
               {"Library Card Holders": "users"},
               {"Questions Answered": "references"},
               {"Interlibrary Loans (ILL)": "ill"},
@@ -233,7 +233,7 @@ function programService(res, viz_type) {
 
 function collectionCirculation(res, viz_type) {
   doc = new jsPDF('p', 'pt', 'letter');
-  var labelX = doc.getTextWidth('Website Visits (new in FY2018 data) ' + res.kids_circulation);
+  var labelX = doc.getTextWidth('Young Adult Program Attendance ' + res.kids_circulation);
   var baseY = chartY;
   pdf_fields = _.find(fields, viz_type);
   var title = _.find(pdf_fields[viz_type], 'title').title;
